@@ -1,0 +1,16 @@
+{
+  "components": {
+    "home": {
+      "welcome-message": "Chào mừng bạn đến với ngaythobet!!!",
+      "rules": "Luật cá độ:",
+      "rule1": "Bạn có thể thay đổi bên thoải mái trước giờ hết hạn cá của mỗi trận đấu.",
+      "rule2": "Bạn chỉ có thể không thua, thua ít hay thua nhiều, chứ không thắng tiền. Tiền thua của tất cả các thành viên sẽ được gom lại cho 1 hoặc nhiều cuộc ăn chơi.",
+      "rule3": "Tỉ lệ chấp được dùng để cân bằng cá cược. Tỉ số của mỗi bên sẽ được cộng với tỉ lệ chấp của bên đó.",
+      "rule4": "Nếu bạn không cá trong một trận nào đó, bạn sẽ thua số tiền của trận đó.",
+      "loss-amount-rules": "Cách tính tiền thua:",
+      "loss-amount-rule1": "Kết quả hòa, cá bên nào cũng thua 1/2 số tiền.",
+      "loss-amount-rule2": "Chấp 0.25 trái, kết quả hòa, bắt bên được chấp (0.25) thì không mất tiền, bắt bên chấp (0) thì mất 1/2 số tiền.",
+      "loss-amount-rule3": "Chấp 0.5 trái, kết quả hòa, bắt bên được chấp (0.5) thì không mất tiền, bắt bên chấp (0) thì mất trọn số tiền."
+    }
+  }
+}

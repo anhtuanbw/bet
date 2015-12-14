@@ -1,0 +1,8 @@
+{
+  "common": {
+      "account": {
+          "change-password": "Đổi Mật khẩu",
+          "logout": "Đăng xuất"
+      }
+  }
+}

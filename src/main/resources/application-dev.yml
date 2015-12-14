@@ -1,0 +1,6 @@
+spring:
+    jpa:
+        show_sql: true
+        generate-ddl: false
+        properties:
+            hibernate.format_sql: true

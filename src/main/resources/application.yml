@@ -1,0 +1,49 @@
+ngaythobet:
+    api-info:
+        title: Ngaythobet API
+        description: AngularJS + Spring framework project for KMS Launch Program 3
+        version: ${version}
+        license: Copyright (c) 2015 KMS Technology, Inc.
+        contact: trungnguyen@kms-technology.com
+    paging-size: 20
+    webapp-baseurl: http://localhost:8080/
+    mail-sender: Ngaythobet<trungnguyen@kms-technology.com>
+    async:
+        core-pool-size: 4
+        max-pool-size: 64
+        queue-capacity: 100000
+    xauth:
+        secret-key: 4b95309b6df87248328e1c3791e47793
+        token-validity: 1800 # 30 mins
+
+logging:
+  file: logs/ngaythobet.log
+  level:
+    vn.kms.ngaythobet: DEBUG
+    root: INFO
+
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/ngaythobet
+        username: ngaythobet
+        password: ngaythobet@123
+
+    jpa:
+        hibernate.ddl-auto: validate
+
+    data:
+        mongodb:
+            uri: mongodb://localhost:27017/ngaythobet
+
+    mail:
+        host: mail-vn.kms.com.vn
+        post: 465
+        username: trungnguyen
+        password:
+        properties:
+            mail.transport.protocol: smtp
+            mail.smtp.auth: true
+            mail.smtp.starttls.enable: true
+
+    thymeleaf:
+        enabled: false
