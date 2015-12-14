@@ -1,0 +1,88 @@
+@import 'var';
+
+.navbar-default .navbar-brand, .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+  color: $color-blue;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover  {
+  color: $color-blue;
+}
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+  background-color: $color-gray;
+}
+.btn, .btn:hover, .btn:active, .btn:focus, .btn:active:focus {
+  outline: none;
+  box-shadow: none;
+}
+.btn-info, .btn-info:hover, .btn-info:active, .btn-info:focus, .btn-info:active:focus {
+  border-color: $color-gray;
+  background-color: $color-white;
+  color: $color-black;
+}
+.btn-default, .btn-default:hover, .btn-default:active, .btn-default:focus, .btn-default:active:focus {
+  border-color: $color-blue;
+  background-color: $color-white;
+  color: $color-blue;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary:active:focus {
+  border-color: $color-blue;
+  background-color: $color-blue;
+  color: $color-white !important;
+}
+.btn-danger, .btn-danger:hover, .btn-danger:active, .btn-danger:focus, .btn-danger:active:focus {
+  border-color: $color-red;
+  background-color: $color-red;
+  color: $color-white;
+}
+.btn-action {
+  margin-left: 10px;
+  font-weight: bold;
+}
+.btn-action:first-child {
+  margin-left: 0;
+}
+a, a:hover, a:active, a:focus, a:visited, .text-primary {
+  text-decoration: none;
+  color: $color-blue;
+}
+.text-danger {
+  color: $color-red;
+}
+.panel {
+  margin-bottom: 0;
+}
+.col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
+  padding: 15px;
+}
+td, th {
+  vertical-align: middle;
+}
+.glyphicon {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.modal-footer {
+  padding: 0;
+}
+.modal-footer.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.modal-footer.row .col-sm-12, .modal-footer.row .col-sm-6 {
+  padding: 0;
+}
+.modal-footer.row .col-sm-6 {
+  border-right: 1px solid $color-gray;
+}
+.modal-footer.row .col-sm-6:last-child {
+  border-right: none;
+}
+.modal-footer.row .btn {
+  border: none;
+  width: 100%;
+  font-weight: bold;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}

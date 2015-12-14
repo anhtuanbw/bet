@@ -1,0 +1,8 @@
+{
+  "common": {
+      "account": {
+          "change-password": "Change Password",
+          "logout": "Logout"
+      }
+  }
+}
