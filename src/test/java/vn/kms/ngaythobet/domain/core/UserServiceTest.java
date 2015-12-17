@@ -151,10 +151,11 @@ public class UserServiceTest extends BaseTest {
     @Test
     public void testChangePassword() {
         User defaultUser = getDefaultUser();
+        defaultUser.setPassword(passwordEncoder.encode("Test123@"));
         String username = defaultUser.getUsername();
         mockLoginUser(username);
         ChangePasswordInfo changePasswordInfo = new ChangePasswordInfo();
-        changePasswordInfo.setCurrentPassword("Test123@456");
+        changePasswordInfo.setCurrentPassword("Test123@");
         changePasswordInfo.setPassword("Abc@015");
         changePasswordInfo.setConfirmPassword("Abc@015");
         userService.changePassword(changePasswordInfo);

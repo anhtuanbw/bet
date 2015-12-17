@@ -131,16 +131,17 @@ public class UserService {
     @Transactional
     public void changePassword(ChangePasswordInfo changePasswordInfo) {
         String username = SecurityUtil.getCurrentLogin();
-        String encodedNewPassword = passwordEncoder.encode(changePasswordInfo.getPassword());
+        String encodeNewPassword = passwordEncoder.encode(changePasswordInfo.getPassword());
+        String encodeCurrentPassword = passwordEncoder.encode(changePasswordInfo.getCurrentPassword());
         Optional<User> userOptional = userRepo.findOneByUsername(username);
         if (userOptional.isPresent()) {
             User currentUser = userOptional.get();
-            if (encodedNewPassword.equals(currentUser.getPassword())
+            if (encodeCurrentPassword.equals(currentUser.getPassword())
                     && (!changePasswordInfo.getCurrentPassword().equals(changePasswordInfo.getPassword()))) {
-                userRepo.findOneByUsername(username)
+                userOptional
                 .filter(user -> user.isActivated())
                 .ifPresent(user -> {
-                    user.setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
+                    user.setPassword(encodeNewPassword);
                     userRepo.save(user);
                 });
             }
