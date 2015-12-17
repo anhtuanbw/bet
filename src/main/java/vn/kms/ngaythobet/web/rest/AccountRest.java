@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,8 @@ import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 import vn.kms.ngaythobet.web.dto.UpdateUserInfo;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
@@ -106,5 +109,11 @@ public class AccountRest {
     @RequestMapping(value = "/account/change-password", method = POST)
     public void changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
         userService.changePassword(passwordInfo.getPassword());
+    }
+
+    @RequestMapping(value = "/logout", method = POST)
+    public void logout(HttpServletRequest request,HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, response, authentication);
     }
 }
