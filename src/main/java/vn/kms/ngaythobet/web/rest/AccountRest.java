@@ -110,10 +110,10 @@ public class AccountRest {
     public void changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
         userService.changePassword(passwordInfo.getPassword());
     }
-    
+
     @RequestMapping(value = "/logout", method = POST)
-    public void logout(HttpServletRequest request,HttpServletResponse response) {       
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();       
-        new SecurityContextLogoutHandler().logout(request, response, authentication);                          
+    public void logout(HttpServletRequest request,HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, response, authentication);
     }
 }
