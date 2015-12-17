@@ -29,16 +29,11 @@ public class CommonConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public Validator validator() {
+    public Validator getValidator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
 
         return bean;
-    }
-
-    @Override
-    public Validator getValidator() {
-        return validator();
     }
 
     @Bean
