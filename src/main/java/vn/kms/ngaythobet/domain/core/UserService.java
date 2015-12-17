@@ -8,10 +8,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 @Service
@@ -99,9 +101,13 @@ public class UserService {
             throw new DataInvalidException("exception.userService.reset-key-invalid");
         }
 
+        if(newPassword.indexOf(" ") > 0){
+            throw new DataInvalidException("exception.userService.password-invalid");
+        }
+        
         // Not allow to complete reset password after sending resetKey 1 days
-        LocalDateTime oneDayAgo = currentTime.minusDays(1);
-        if (user.getCreatedAt().isAfter(oneDayAgo)) {
+        LocalDateTime resetDay = user.getResetTime();
+        if (resetDay.isAfter(currentTime)){
             throw new DataInvalidException("exception.userService.reset-key-expired");
         }
 
