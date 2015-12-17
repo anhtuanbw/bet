@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import vn.kms.ngaythobet.BaseTest;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 
 import java.time.LocalDateTime;
 
@@ -152,10 +153,13 @@ public class UserServiceTest extends BaseTest {
         User defaultUser = getDefaultUser();
         String username = defaultUser.getUsername();
         mockLoginUser(username);
-
-        userService.changePassword("Test123@456");
+        ChangePasswordInfo changePasswordInfo = new ChangePasswordInfo();
+        changePasswordInfo.setCurrentPassword("Test123@456");
+        changePasswordInfo.setPassword("Abc@015");
+        changePasswordInfo.setConfirmPassword("Abc@015");
+        userService.changePassword(changePasswordInfo);
         User user = userRepo.findOne(defaultUser.getId());
-        assertThat(passwordEncoder.matches("Test123@456", user.getPassword()), is(true));
+        assertThat(passwordEncoder.matches("Abc@015", user.getPassword()), is(true));
     }
 
     @Test

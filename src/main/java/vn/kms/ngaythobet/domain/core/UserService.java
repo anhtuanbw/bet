@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
+import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -127,15 +129,22 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(String password) {
+    public void changePassword(ChangePasswordInfo changePasswordInfo) {
         String username = SecurityUtil.getCurrentLogin();
-
-        userRepo.findOneByUsername(username)
-            .filter(user -> user.isActivated())
-            .ifPresent(user -> {
-                user.setPassword(passwordEncoder.encode(password));
-                userRepo.save(user);
-            });
+        String encodedNewPassword = passwordEncoder.encode(changePasswordInfo.getPassword());
+        Optional<User> userOptional = userRepo.findOneByUsername(username);
+        if (userOptional.isPresent()) {
+            User currentUser = userOptional.get();
+            if (encodedNewPassword.equals(currentUser.getPassword())
+                    && (!changePasswordInfo.getCurrentPassword().equals(changePasswordInfo.getPassword()))) {
+                userRepo.findOneByUsername(username)
+                .filter(user -> user.isActivated())
+                .ifPresent(user -> {
+                    user.setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
+                    userRepo.save(user);
+                });
+            }
+        }
     }
 
     public User getUserInfo() {
