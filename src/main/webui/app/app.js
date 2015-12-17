@@ -4,6 +4,7 @@
 import {service} from './services/services'; // jshint ignore:line
 import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
+import components from './components/components';
 
 export default class AppController {
   /* @ngInject */
@@ -21,10 +22,22 @@ angular.module('ngaythobet', [
   'ngCookies',
   'pascalprecht.translate',
   'ngaythobet.services',
-  'ngaythobet.common'
+  'ngaythobet.common',
+  'ngaythobet.components'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
+.controller('loginCtrl', function($scope, $http){
+  $scope.login=function(user){
+    console.log(user.name);
+    console.log(user.pass);
+    $http.post('/api/login', { username: user.name, password: user.pass })
+       .success(function (response) {
+            console.log(response);
+        });
+
+  };
+})
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);
