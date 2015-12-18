@@ -1,4 +1,5 @@
 'use strict';
+/* global angular */ 
 
 export default class RegisterController {
   /* @ngInject */
@@ -13,20 +14,18 @@ export default class RegisterController {
   }
   
   registerUser() {
+    var self = this;
     this.registerService.registerUser(this.userInfo)
       .then(response => {
+        if (!response.data) {
         this.errorMessage = {};
         this.userInfo = {};
         this.status = 'Register Successfully!!!';
-        this.statusClass = 'alert alert-success';       
+        this.statusClass = 'alert alert-success';   }    
       }, function(response) {
-         this.errorMessage = response.data.fieldErrors;
-          this.userInfo = {};
-          this.status = '';
-      })
-      .catch(error => {
-        this.status = error.message;
-        this.statusClass = 'alert alert-danger';
+         self.errorMessage = response.data.fieldErrors;
+         self.userInfo = {};
+         self.status = '';
       });
   }
 }
