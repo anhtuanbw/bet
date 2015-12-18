@@ -19,6 +19,6 @@ export default class AccountService {
   }
 
   resetPassword(email) {
-    return this.$http.post('api/reset-password/init',{"email":email});
+    return this.$http.post('api/reset-password/init', {'email': email});
   }
 }

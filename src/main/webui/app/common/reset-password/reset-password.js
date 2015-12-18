@@ -2,20 +2,23 @@
 
 export default class ResetPasswordController {
   /* @ngInject */
-  constructor(AccountService, $location, $rootScope) {
+  constructor(AccountService, $rootScope) {
     this.accountService = AccountService;
-    this.location = $location;
     this.rootScope = $rootScope;
-    this.emailError = 'Email is not valid';
+    this.errorMessage = '';
   }
 
   reset(email) {
+    var vm = this;
     this.accountService.resetPassword(email)
     .then(response => {
+      // Success
       if (response.data) {
-        this.emailError = response.data.message;
-      } else {
+        $('#reset-password').modal('hide');
       }
+    }, function(response) {
+      // Failed
+      vm.errorMessage = response.data.message;
     });
   }
 }
