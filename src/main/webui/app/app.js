@@ -3,7 +3,6 @@
 
 import {service} from './services/services'; // jshint ignore:line
 import {common} from './common/common'; // jshint ignore:line
-import {components} from './components/components'; // jshint ignore:line
 import HomeController from './components/home/home';
 
 export default class AppController {
@@ -22,8 +21,7 @@ angular.module('ngaythobet', [
   'ngCookies',
   'pascalprecht.translate',
   'ngaythobet.services',
-  'ngaythobet.common',
-  'ngaythobet.components'
+  'ngaythobet.common'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)

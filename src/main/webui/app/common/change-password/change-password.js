@@ -7,15 +7,19 @@ export default class ChangePasswordController {
     this.location = $location;
     this.rootScope = $rootScope;
     this.passwordModel = {};
+    this.errorMessage = {};
+    this.success = "";
   }
 
-  changePass(passwordModel) {
-    this.accountService.changepassword(passwordModel)
+  changePass() {
+    this.accountService.changepassword(this.passwordModel)
       .then(response => {
         if (response.data) {
-          location.path('/app/components/home/home.html');
+          // get error message from server for 3 field password
+          this.errorMessage = response.data.fieldErrors;
         } else {
-          this.passwordModel = {};
+          //change password success
+          this.success = "Your password has been changed.";
         }
       });
   }
@@ -28,7 +32,7 @@ export default class ChangePassword {
       scope: true,
       controller: ChangePasswordController,
       controllerAs: 'changePassword',
-      templateUrl: 'app/components/change-password/change-password.html'
+      templateUrl: 'app/common/change-password/change-password.html'
     };
   }
 }

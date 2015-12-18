@@ -19,6 +19,6 @@ export default class AccountService {
   }
   
   changepassword(passwordModel) {
-    return this.$http.post('api/changePassword', passwordModel);
+    return this.$http.post('api/account/change-password', passwordModel);
   }
 }
