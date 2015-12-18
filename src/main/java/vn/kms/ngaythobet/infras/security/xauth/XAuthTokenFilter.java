@@ -1,18 +1,17 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.infras.security.xauth;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import vn.kms.ngaythobet.domain.util.NgaythobetException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 public class XAuthTokenFilter extends GenericFilterBean {
 

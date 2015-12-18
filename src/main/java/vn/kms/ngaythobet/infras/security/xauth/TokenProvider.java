@@ -5,22 +5,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.StringUtils;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeUnit;
 
 public class TokenProvider {
 
     private final String secretKey;
     private final int tokenValidity;
-
+    private final  Cache<String, Object> tokenCache;
     public TokenProvider(String secretKey, int tokenValidity) {
         this.secretKey = secretKey;
         this.tokenValidity = tokenValidity;
+        tokenCache = CacheBuilder.newBuilder().expireAfterWrite(tokenValidity, TimeUnit.MINUTES).maximumSize(1000).build();
     }
 
     public Token createToken(UserDetails userDetails) {
         long expires = System.currentTimeMillis() + tokenValidity * 1000L;
         String token = userDetails.getUsername() + ":" + expires + ":" + computeSignature(userDetails, expires);
+        tokenCache.put(userDetails.getUsername(), token);
         return new Token(token, expires);
     }
 
@@ -35,6 +41,9 @@ public class TokenProvider {
 
     public boolean validateToken(String authToken, UserDetails userDetails) {
         String[] parts = authToken.split(":");
+        if(tokenCache.getIfPresent(userDetails.getUsername()) == null) {
+            return false;
+        }
         if (parts.length != 3) {
             return false;
         }
@@ -67,5 +76,9 @@ public class TokenProvider {
             throw new IllegalStateException("No MD5 algorithm available!");
         }
         return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes())));
+    }
+
+    public void invalidToken(String username) {
+        tokenCache.invalidate(username);
     }
 }
