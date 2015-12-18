@@ -10,10 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
-import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
+import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -38,13 +37,13 @@ public class UserService {
     }
 
     @Transactional
-    public void registerUser(String username, String password, String email, String name, String languageTag) {
+    public void registerUser(RegisterUserInfo registerUserInfo) {
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        user.setName(name);
-        user.setLanguageTag(languageTag);
+        user.setUsername(registerUserInfo.getUsername());
+        user.setPassword(passwordEncoder.encode(registerUserInfo.getPassword()));
+        user.setEmail(registerUserInfo.getEmail());
+        user.setName(registerUserInfo.getName());
+        user.setLanguageTag(registerUserInfo.getLanguageTag());
         user.setRole(User.Role.USER);
         user.setActivated(false);
         user.setActivationKey(generateRandomKey());
@@ -129,22 +128,15 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(ChangePasswordInfo changePasswordInfo) {
+    public void changePassword(String password) {
         String username = SecurityUtil.getCurrentLogin();
-        String encodedNewPassword = passwordEncoder.encode(changePasswordInfo.getPassword());
-        Optional<User> userOptional = userRepo.findOneByUsername(username);
-        if (userOptional.isPresent()) {
-            User currentUser = userOptional.get();
-            if (encodedNewPassword.equals(currentUser.getPassword())
-                    && (!changePasswordInfo.getCurrentPassword().equals(changePasswordInfo.getPassword()))) {
-                userRepo.findOneByUsername(username)
-                .filter(user -> user.isActivated())
-                .ifPresent(user -> {
-                    user.setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
-                    userRepo.save(user);
-                });
-            }
-        }
+
+        userRepo.findOneByUsername(username)
+            .filter(user -> user.isActivated())
+            .ifPresent(user -> {
+                user.setPassword(passwordEncoder.encode(password));
+                userRepo.save(user);
+            });
     }
 
     public User getUserInfo() {
