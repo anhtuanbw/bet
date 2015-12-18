@@ -11,6 +11,7 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static vn.kms.ngaythobet.domain.core.User.Role.USER;
 
 import java.time.LocalDateTime;
 
@@ -195,16 +196,24 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testChangePassword() {
-        User defaultUser = getDefaultUserWithEncodePassword();
-        String username = defaultUser.getUsername();
+        String username = "hieu";
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode("Tester@123"));
+        user.setEmail(username + "@test.local");
+        user.setName(username + " User");
+        user.setLanguageTag("en");
+        user.setActivated(true);
+        user.setRole(USER);
+        userRepo.save(user);
         mockLoginUser(username);
         ChangePasswordInfo changePasswordInfo = new ChangePasswordInfo();
         changePasswordInfo.setCurrentPassword("Tester@123");
         changePasswordInfo.setPassword("Abc@015");
         changePasswordInfo.setConfirmPassword("Abc@015");
         userService.changePassword(changePasswordInfo);
-        User user = userRepo.findOne(defaultUser.getId());
-        assertThat(passwordEncoder.matches("Abc@015", user.getPassword()), is(true));
+        User userWithNewPassword = userRepo.findOneByUsername(username).get();
+        assertThat(passwordEncoder.matches("Abc@015", userWithNewPassword.getPassword()), is(true));
     }
 
     @Test
