@@ -2,10 +2,11 @@
 
 export default class ResetPasswordController {
   /* @ngInject */
-  constructor(AccountService, $rootScope) {
+  constructor(AccountService, $rootScope, $modalInstance) {
     this.accountService = AccountService;
     this.rootScope = $rootScope;
     this.errorMessage = '';
+    this.modalInstance = $modalInstance;
   }
 
   reset(email) {
@@ -14,22 +15,15 @@ export default class ResetPasswordController {
     .then(response => {
       // Success
       if (response.data) {
+        vm.closeModal();
       }
     }, function(response) {
       // Failed
       vm.errorMessage = response.data.message;
     });
   }
-}
 
-export default class ResetPassword {
-  constructor() {
-    return {
-      replace: false,
-      scope: true,
-      controller: ResetPasswordController,
-      controllerAs: 'resetPassword',
-      templateUrl: 'app/common/reset-password/reset-password.html',
-    };
+  closeModal() {
+    this.modalInstance.dismiss();
   }
 }

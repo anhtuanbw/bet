@@ -4,6 +4,7 @@
 import {service} from './services/services'; // jshint ignore:line
 import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
+import ResetPasswordController from './common/reset-password/reset-password';
 
 export default class AppController {
   /* @ngInject */
@@ -25,6 +26,7 @@ angular.module('ngaythobet', [
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
+.controller('ResetPasswordController', ResetPasswordController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);
