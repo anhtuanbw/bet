@@ -1,17 +1,6 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import vn.kms.ngaythobet.BaseTest;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
-
-import java.time.LocalDateTime;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +11,20 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
+import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 public class UserServiceTest extends BaseTest {
     @Rule
@@ -39,7 +42,7 @@ public class UserServiceTest extends BaseTest {
     protected void doStartUp() {
         MailService mailService = mock(MailService.class);
         when(mailService.sendEmailAsync(anyString(), anyString(), anyString(), anyBoolean(), anyBoolean()))
-            .thenReturn(new AsyncResult<>(true));
+                .thenReturn(new AsyncResult<>(true));
 
         userService = new UserService(userRepo, passwordEncoder, mailService);
     }
@@ -47,8 +50,14 @@ public class UserServiceTest extends BaseTest {
     @Test
     public void testRegisterUser() {
         String username = "test123";
+        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
+        registerUserInfo.setUsername(username);
+        registerUserInfo.setEmail("test123@test.local");
+        registerUserInfo.setLanguageTag("en");
+        registerUserInfo.setName("Test User");
+        registerUserInfo.setPassword("Test@123");
 
-        userService.registerUser(username, "Test@123", "test123@test.local", "Test User", "en");
+        userService.registerUser(registerUserInfo);
 
         // verify activationKey was generated
         User user = userRepo.findOneByUsername(username).get();
@@ -69,7 +78,8 @@ public class UserServiceTest extends BaseTest {
         exception.expectMessage("{exception.userService.activation-key-expired}");
         userService.activateRegistration(activationKey, now);
 
-        // do activation with correct key and time, it must be passed (no exception)
+        // do activation with correct key and time, it must be passed (no
+        // exception)
         now = LocalDateTime.now();
         userService.activateRegistration(activationKey, now);
         user = userRepo.findOneByUsername(username).get();
@@ -87,8 +97,13 @@ public class UserServiceTest extends BaseTest {
     public void testResetPassword() {
         String username = "test456";
         String email = "test456@test.local";
-
-        userService.registerUser(username, "Test@456", email, "Test User", "en");
+        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
+        registerUserInfo.setUsername(username);
+        registerUserInfo.setEmail(email);
+        registerUserInfo.setLanguageTag("en");
+        registerUserInfo.setName("Test User");
+        registerUserInfo.setPassword("Test@456");
+        userService.registerUser(registerUserInfo);
 
         // request reset password with wrong email
         exception.expectMessage("{exception.userService.email-invalid}");
@@ -120,17 +135,48 @@ public class UserServiceTest extends BaseTest {
         exception.expectMessage("{exception.userService.reset-key-expired}");
         userService.completePasswordReset("Test@456789", resetKey, now);
 
-        // complete reset password with correct key and time, it must be passed (no exception)
+        // complete reset password with correct key and time, it must be passed
+        // (no exception)
         now = LocalDateTime.now();
         userService.completePasswordReset("Test@456789", resetKey, now);
         user = userRepo.findOneByUsername(username).get();
-        assertThat(user.getResetKey(), nullValue());
-        assertThat(user.getResetTime(), nullValue());
+        assertThat(user.getResetKey(), notNullValue());
+        assertThat(user.getResetTime(), notNullValue());
 
         // complete reset password again, it must be failed
         now = LocalDateTime.now();
         exception.expectMessage("{exception.userService.reset-key-invalid}");
         userService.completePasswordReset("Test@456789", resetKey, now);
+    }
+    
+    @Test
+    public void testResetPasswordWithSuccess() {
+        User defaultUser = getDefaultUser();
+        String username = defaultUser.getUsername();
+        mockLoginUser(username);
+        
+        assertThat(defaultUser.getEmail(), notNullValue());
+        assertThat(defaultUser.getEmail().isEmpty(),is(false));
+        
+        userService.requestPasswordReset(defaultUser.getEmail());
+        User user = userRepo.findOne(defaultUser.getId());
+        
+        assertThat(user, notNullValue());
+        
+        String resetKey = user.getResetKey();
+        
+        LocalDateTime now = LocalDateTime.now();
+        
+        // complete reset password with correct key and time, it must be passed (no exception)
+        userService.completePasswordReset("Abc@123", resetKey, now);
+        
+        assertThat(user.getResetTime(), greaterThan(user.getCreatedAt()));
+        assertThat(user.getResetKey(), notNullValue());
+        assertThat(user.getResetTime(), notNullValue());
+        // the reset key invalid & not expired
+        LocalDateTime oneDayAgo = now.minusDays(1);
+        assertThat(user.getResetTime().isAfter(oneDayAgo), is(true));
+        
     }
 
     @Test
@@ -152,10 +198,13 @@ public class UserServiceTest extends BaseTest {
         User defaultUser = getDefaultUser();
         String username = defaultUser.getUsername();
         mockLoginUser(username);
-
-        userService.changePassword("Test123@456");
+        ChangePasswordInfo changePasswordInfo = new ChangePasswordInfo();
+        changePasswordInfo.setCurrentPassword("Tester@123");
+        changePasswordInfo.setPassword("Abc@015");
+        changePasswordInfo.setConfirmPassword("Abc@015");
+        userService.changePassword(changePasswordInfo);
         User user = userRepo.findOne(defaultUser.getId());
-        assertThat(passwordEncoder.matches("Test123@456", user.getPassword()), is(true));
+        assertThat(passwordEncoder.matches("Abc@015", user.getPassword()), is(true));
     }
 
     @Test
