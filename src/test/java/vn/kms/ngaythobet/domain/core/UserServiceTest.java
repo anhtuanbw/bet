@@ -134,7 +134,7 @@ public class UserServiceTest extends BaseTest {
     }
     
     @Test
-    public void testResetPasswordWith() {
+    public void testResetPasswordWithSuccess() {
         User defaultUser = getDefaultUser();
         String username = defaultUser.getUsername();
         mockLoginUser(username);
@@ -146,16 +146,20 @@ public class UserServiceTest extends BaseTest {
         User user = userRepo.findOne(defaultUser.getId());
         
         assertThat(user, notNullValue());
-        assertThat(user.getResetKey().isEmpty(), is(false));
         
         String resetKey = user.getResetKey();
         
         LocalDateTime now = LocalDateTime.now();
         
+        // complete reset password with correct key and time, it must be passed (no exception)
         userService.completePasswordReset("Abc@123", resetKey, now);
         
         assertThat(user.getResetTime(), greaterThan(user.getCreatedAt()));
-        assertThat(now.minusDays(1).isBefore(user.getResetTime()), is(true));
+        assertThat(user.getResetKey(), notNullValue());
+        assertThat(user.getResetTime(), notNullValue());
+        // the reset key invalid & not expired
+        LocalDateTime oneDayAgo = now.minusDays(1);
+        assertThat(user.getResetTime().isAfter(oneDayAgo), is(true));
         
     }
 
