@@ -10,15 +10,15 @@ export default class AccountService {
     return this.$http.get('api/auth/user');
   }
 
-  login(username, password) {
-    return this.$http.get('api/login', {'username': username, 'password': password});
+  login() {
+    return this.$http.get('api/login');
   }
 
   logout() {
     return this.$http.post('api/logout');
   }
-
-  resetPassword(email) {
-    return this.$http.post('api/reset-password/init', {'email': email});
+  
+  changepassword(passwordModel) {
+    return this.$http.post('api/account/change-password', passwordModel);
   }
 }
