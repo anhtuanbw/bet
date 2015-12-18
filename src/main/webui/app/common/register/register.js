@@ -1,5 +1,4 @@
 'use strict';
-/* global angular */
 
 export default class RegisterController {
   /* @ngInject */
@@ -8,22 +7,26 @@ export default class RegisterController {
     this.errorMessage = {};
     this.userInfo = {};
     this.userInfo.languageTag = 'en_US';
-    this.success = '';
+    this.status = '';
+    this.statusClass = '';
     $rootScope.$on('changeLang', (event, language) => this.userInfo.languageTag = language);
   }
   
   registerUser() {
     this.registerService.registerUser(this.userInfo)
       .then(response => {
-        if (response.data) {
-          this.errorMessage = response.data.fieldErrors;
+        this.errorMessage = {};
+        this.userInfo = {};
+        this.status = 'Register Successfully!!!';
+        this.statusClass = 'alert alert-success';       
+      }, function(response) {
+         this.errorMessage = response.data.fieldErrors;
           this.userInfo = {};
-          this.success = '';
-        } else {
-          this.errorMessage = {};
-          this.userInfo = {};
-          this.success = 'Register Successfully!!!';
-        }
+          this.status = '';
+      })
+      .catch(error => {
+        this.status = error.message;
+        this.statusClass = 'alert alert-danger';
       });
   }
 }

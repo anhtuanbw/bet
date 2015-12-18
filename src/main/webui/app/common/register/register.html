@@ -1,32 +1,39 @@
-<h1>Sign Up</h1>
-<form name="registerForm" class="register-form" novalidate>
-	<div ng-class="(register.errorMessage.username) ? 'form-group has-error' : 'form-group'">
-		<label class="control-label">Username</label>
-		<input type="text" class="form-control" ng-pattern="/^[a-z0-9_]*$/" ng-model="register.userInfo.username" name="username" required/>
-		<div class="error" ng-show="register.errorMessage" ng-bind="register.errorMessage.username"></div>
-	</div>
-	<div ng-class="(register.errorMessage.name) ? 'form-group has-error' : 'form-group'">
-		<label class="control-label">Display name</label>
-		<input type="text" ng-model="register.userInfo.name" name="name" class="form-control" required/>
-
-		<div class="error" ng-show="register.errorMessage" ng-bind="register.errorMessage.name"></div>
-	</div>
-	<div ng-class="(register.errorMessage.email) ? 'form-group has-error' : 'form-group'">
-		<label class="control-label">Email</label>
-		<input name="email" ng-model="register.userInfo.email" class="form-control" required/>
-		<div class="error" ng-show="register.errorMessage" ng-bind="register.errorMessage.email"></div>
-	</div>
-	<div ng-class="(register.errorMessage.password) ? 'form-group has-error' : 'form-group'">
-		<label class="control-label">Password</label>
-		<input type="password" class="form-control" ng-model="register.userInfo.password" name="password" required/>
-		<div class="error" ng-show="register.errorMessage" ng-bind="register.errorMessage.password"></div>
-	</div>
-	<div ng-class="(register.errorMessage.confirmPassword) ? 'form-group has-error' : 'form-group'">
-		<label class="control-label">Confirm password</label>
-		<input type="password" class="form-control" ng-model="register.userInfo.confirmPassword" name="confirmPassword"
-		required/>
-		<div class="error" ng-show="register.errorMessage" ng-bind="register.errorMessage.confirmPassword"></div>
-	</div>
-	<button class="btn btn-default" ng-click="register.registerUser()">Sign Up</button>
-	<div  class="success" ng-bind="register.success"></div>
-</form>
+<div class="row">
+	<h2>Sign Up</h2>
+	<form name="registerForm" class="well" novalidate>
+		<div ng-class="(register.errorMessage.username) ? 'form-group has-error' : 'form-group'">
+			<label class="control-label">Username <span class="text-danger">*</span></label>
+			<input type="text" class="form-control" ng-pattern="/^[a-z0-9_]*$/" ng-model="register.userInfo.username" name="username"
+			required/>
+			<div class="text-danger" ng-show="register.errorMessage" ng-bind="register.errorMessage.username"></div>
+		</div>
+		<div ng-class="(register.errorMessage.name) ? 'form-group has-error' : 'form-group'">
+			<label class="control-label">Display name <span class="text-danger">*</span></label>
+			<input type="text" ng-model="register.userInfo.name" name="name" class="form-control" required/>
+			<div class="text-danger" ng-show="register.errorMessage" ng-bind="register.errorMessage.name"></div>
+		</div>
+		<div ng-class="(register.errorMessage.email) ? 'form-group has-error' : 'form-group'">
+			<label class="control-label">Email <span class="text-danger">*</span></label>
+			<input name="email" ng-model="register.userInfo.email" class="form-control" required/>
+			<div class="text-danger" ng-show="register.errorMessage" ng-bind="register.errorMessage.email"></div>
+		</div>
+		<div ng-class="(register.errorMessage.password) ? 'form-group has-error' : 'form-group'">
+			<label class="control-label">Password <span class="text-danger">*</span></label>
+			<input type="password" ng-copy="$event.preventDefault()" ng-paste="$event.preventDefault()"
+			 class="form-control" ng-model="register.userInfo.password" name="password" required/>
+			<div class="text-danger" ng-show="register.errorMessage" ng-bind="register.errorMessage.password"></div>
+		</div>
+		<div ng-class="(register.errorMessage.confirmPassword) ? 'form-group has-error' : 'form-group'">
+			<label class="control-label">Confirm password <span class="text-danger">*</span></label>
+			<input ng-copy="$event.preventDefault()" ng-paste="$event.preventDefault()" type="password" 
+			class="form-control" ng-model="register.userInfo.confirmPassword" name="confirmPassword" required/>
+			<div class="text-danger" ng-show="register.errorMessage" ng-bind="register.errorMessage.confirmPassword"></div>
+		</div>
+		<div class="form-group clearfix">
+			<button class="btn btn-primary pull-right" ng-click="register.registerUser()">Sign Up</button>
+		</div>
+		<div ng-class="register.statusClass">
+  			<strong ng-bind="register.status"></strong>
+		</div>
+	</form>
+</div>
