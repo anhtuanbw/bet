@@ -7,24 +7,32 @@ Spring framework with AngularJS implementation version for famous [ngaythobet](h
 ### Development mode
 
     $ mvn spring-boot:run
-    
+
     $ cd src/main/webui
-    
+
     $ npm install
-    
+
     $ bower install
-    
-    $ gulp run-dev
+
+    $ gulp
+
+    # Sonar analyze for Java code (required sonar profile in mvn conf)
+    $ mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean package -Dmaven.test.failure.ignore=true sonar:sonar
+
+    # Sonar analyze for Javascript (required build.xml and sonar-ant-task in src\main\webui)
+    $ ant
 
 Visit [http://localhost:8888](http://localhost:8888) and enjoy!
 
 ### Production mode
-    
-    $ mvn clean package -Pprod
-    
-    $ java -jar target/ngaythobet-[VERSION].jar
-    
-Visit [http://localhost:8080](http://localhost:8080) and enjoy!
+    # Checkout a release tag
+    $ git fetch --tags
+    $ git checkout tag/ngaythobet-[VERSION]
 
-### Sonar analysis:
-    $mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package -Dmaven.test.failure.ignore=true sonar:sonar -Plaunch
+    # Build source code
+    $ mvn clean package -Pprod
+
+    # Run application
+    $ nohup java -jar target/ngaythobet-[VERSION].jar &
+
+Visit [http://localhost:8080](http://localhost:8080) and enjoy!

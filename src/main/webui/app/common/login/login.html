@@ -1,0 +1,20 @@
+<div class="row">
+	<h2>Log In</h2>
+	<div class="well">
+		<form name="loginForm" role="form">
+			<div class="form-group">
+				<label for="username" class="control-label">Username</label><span class="text-danger"> *</span>
+				<input type="text" class="form-control" ng-model="login.loginModel.username" id="username" name="username" required>
+			</div>
+			<div class="form-group">
+				<label for="password" class="control-label">Password</label><span class="text-danger"> *</span>
+				<input type="password" class="form-control"  ng-model="login.loginModel.password" id="password" name="password" required>
+			</div>
+			<p class="pull-left">
+				<div resetpassword></div>
+			</p>
+			<button ng-disabled="loginForm.username.$invalid && loginForm.password.$invalid" ng-click="login.signIn(login.loginModel)" class="btn btn-primary pull-right">Log In</button>
+			<p>&nbsp</p>
+		</form>
+	</div>
+</div>
