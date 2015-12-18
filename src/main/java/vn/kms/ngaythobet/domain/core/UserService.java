@@ -15,6 +15,7 @@ import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 @Service
@@ -103,7 +104,7 @@ public class UserService {
 
         // Not allow to complete reset password after sending resetKey 1 days
         LocalDateTime oneDayAgo = currentTime.minusDays(1);
-        if (user.getCreatedAt().isAfter(oneDayAgo)) {
+        if (user.getResetTime().isBefore(oneDayAgo)){
             throw new DataInvalidException("exception.userService.reset-key-expired");
         }
 
