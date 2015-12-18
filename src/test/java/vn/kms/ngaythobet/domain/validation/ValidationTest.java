@@ -70,7 +70,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testMutipleFieldsValidation() {
-        UserData data = new UserData(getDefaultUser().getUsername(), "abc.com", "123", "456", -1);
+        UserData data = new UserData(getDefaultUser().getUsername(), "abc.com", "Test@ 123", "456", -1);
         Set<ConstraintViolation<UserData>> violations = validator.validate(data);
         assertThat(violations.size(), equalTo(5));
         violations.forEach(violation -> {
@@ -103,7 +103,7 @@ public class ValidationTest extends BaseTest {
         @Email
         String email;
 
-        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,20}$",
+        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#$%&'()*+,-./:!<=>?@\\^_`\\[\\]{|}~;])\\S{6,50}$",
                 message = "{validation.password.message}")
         String password;
 
