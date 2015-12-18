@@ -1,19 +1,6 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
-import org.junit.Test;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import vn.kms.ngaythobet.BaseTest;
-import vn.kms.ngaythobet.domain.core.ChangeLog.Action;
-import vn.kms.ngaythobet.domain.core.ChangeLog.Change;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.lessThan;
@@ -22,6 +9,18 @@ import static vn.kms.ngaythobet.domain.core.ChangeLog.Action.DELETE;
 import static vn.kms.ngaythobet.domain.core.ChangeLog.Action.INSERT;
 import static vn.kms.ngaythobet.domain.core.ChangeLog.Action.UPDATE;
 import static vn.kms.ngaythobet.domain.core.User.Role.ADMIN;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
+import org.springframework.data.domain.Sort;
+
+import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.domain.core.ChangeLog.Action;
+import vn.kms.ngaythobet.domain.core.ChangeLog.Change;
 
 public class ChangeLogTest extends BaseTest {
     @Override
@@ -36,9 +35,10 @@ public class ChangeLogTest extends BaseTest {
     }
 
     @Test
-    public void testAuditFieldsCorrect() {
+    public void testAuditFieldsCorrect() throws InterruptedException {
         User user = makeUser("tester");
         user = userRepo.save(user);
+        Thread.sleep(1);
         assertThat(user.getCreatedAt(), lessThan(LocalDateTime.now()));
         assertThat(user.getCreatedBy(), equalTo("admin"));
         assertThat(user.getModifiedAt(), nullValue());
@@ -46,6 +46,7 @@ public class ChangeLogTest extends BaseTest {
 
         user.setName("tester2");
         user = userRepo.save(user);
+        Thread.sleep(1);
         assertThat(user.getCreatedAt(), lessThan(user.getModifiedAt()));
         assertThat(user.getCreatedBy(), equalTo("admin"));
         assertThat(user.getModifiedAt(), lessThan(LocalDateTime.now()));
@@ -53,26 +54,30 @@ public class ChangeLogTest extends BaseTest {
     }
 
     @Test
-    public void testCUDChangeLogs() {
+    public void testCUDChangeLogs() throws InterruptedException {
         // scenario: create, update twice and then delete user
         User user = makeUser("tester");
 
         mockLoginUser("user1");
         userRepo.save(user);
+        Thread.sleep(1);
 
         mockLoginUser("user2");
         user.setName("Tester2 User");
         user.setRole(ADMIN);
         user.setActivationKey("abcdef");
         userRepo.save(user);
+        Thread.sleep(1);
 
         mockLoginUser("user3");
         user.setActivationKey("1234567890");
         user.setPassword("tester2@123");
         userRepo.save(user);
+        Thread.sleep(1);
 
         mockLoginUser("user4");
         userRepo.delete(user);
+        Thread.sleep(1);
 
         // verify the change logs
         List<ChangeLog> logs = changeLogRepo.findAll(new Sort("timestamp"));
