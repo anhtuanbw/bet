@@ -103,7 +103,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/account/change-password", method = POST)
     public void changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
-        userService.changePassword(passwordInfo);
+        userService.changePassword(passwordInfo.getPassword());
     }
 
     @RequestMapping(value = "/logout", method = POST)

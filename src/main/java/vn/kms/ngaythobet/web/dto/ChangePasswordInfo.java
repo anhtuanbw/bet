@@ -8,14 +8,10 @@ import javax.validation.constraints.Pattern;
 
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
 public class ChangePasswordInfo {
-    @NotEmpty
-    private String currentPassword;
     
-    @NotEmpty
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,20}$", message = "{validation.password.message}")
     private String password;
 
-    @NotEmpty
     private String confirmPassword;
 
     public String getPassword() {
@@ -33,13 +29,4 @@ public class ChangePasswordInfo {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-
-    public String getCurrentPassword() {
-        return currentPassword;
-    }
-
-    public void setCurrentPassword(String currentPassword) {
-        this.currentPassword = currentPassword;
-    }
-    
 }
