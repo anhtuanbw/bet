@@ -101,13 +101,9 @@ public class UserService {
             throw new DataInvalidException("exception.userService.reset-key-invalid");
         }
 
-        if(newPassword.indexOf(" ") > 0){
-            throw new DataInvalidException("exception.userService.password-invalid");
-        }
-        
         // Not allow to complete reset password after sending resetKey 1 days
-        LocalDateTime resetDay = user.getResetTime();
-        if (resetDay.isAfter(currentTime)){
+        LocalDateTime oneDayAgo = currentTime.minusDays(1);
+        if (user.getResetTime().isBefore(oneDayAgo)){
             throw new DataInvalidException("exception.userService.reset-key-expired");
         }
 
