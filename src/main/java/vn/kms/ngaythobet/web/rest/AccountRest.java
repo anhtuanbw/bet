@@ -43,7 +43,7 @@ public class AccountRest {
 
     @Autowired
     public AccountRest(UserService userService, TokenProvider tokenProvider,
-                       AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+            AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
@@ -87,7 +87,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/reset-password/finish", method = POST)
     public void finishPasswordReset(@RequestParam(value = "key") String key,
-                                    @Valid @RequestBody ChangePasswordInfo passwordInfo) {
+            @Valid @RequestBody ChangePasswordInfo passwordInfo) {
         userService.completePasswordReset(passwordInfo.getPassword(), key, LocalDateTime.now());
     }
 
@@ -107,7 +107,7 @@ public class AccountRest {
     }
 
     @RequestMapping(value = "/logout", method = POST)
-    public void logout(HttpServletRequest request,HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         new SecurityContextLogoutHandler().logout(request, response, authentication);
     }

@@ -29,15 +29,16 @@ public abstract class BaseTest {
     protected ChangeLogRepository changeLogRepo;
 
     private User defaultUser;
-    
+    private User defaultUserWithEncodePassword;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Before
     public void startUp() {
         defaultUser = makeUser("tester");
+        defaultUserWithEncodePassword = makeUserWithEncodePassword("testerWithEncodePassword");
         userRepo.save(defaultUser);
-
+        userRepo.save(defaultUserWithEncodePassword);
         mockLoginUser("admin");
 
         doStartUp();
@@ -46,13 +47,17 @@ public abstract class BaseTest {
     @After
     public void tearDown() {
         userRepo.delete(defaultUser);
+        userRepo.delete(defaultUserWithEncodePassword);
         changeLogRepo.deleteByEntityId(defaultUser.getId());
-
+        changeLogRepo.deleteByEntityId(defaultUserWithEncodePassword.getId());
         doTearDown();
     }
 
     public User getDefaultUser() {
         return defaultUser;
+    }
+    public User getDefaultUserWithEncodePassword() {
+        return defaultUserWithEncodePassword;
     }
 
     protected void mockLoginUser(String username) {
@@ -68,6 +73,19 @@ public abstract class BaseTest {
     }
 
     protected User makeUser(String username) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword("Tester@123");
+        user.setEmail(username + "@test.local");
+        user.setName(username + " User");
+        user.setLanguageTag("en");
+        user.setActivated(true);
+        user.setRole(USER);
+
+        return user;
+    }
+    
+    protected User makeUserWithEncodePassword(String username) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode("Tester@123"));
