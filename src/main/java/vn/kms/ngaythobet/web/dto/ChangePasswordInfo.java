@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
 public class ChangePasswordInfo {
     
+    @NotEmpty
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,20}$", message = "{validation.password.message}")
     private String password;
 
