@@ -8,7 +8,7 @@ export default class ChangePasswordController {
     this.rootScope = $rootScope;
     this.passwordModel = {};
     this.errorMessage = {};
-    this.success = "";
+    this.success = '';
   }
 
   changePass() {
@@ -19,7 +19,7 @@ export default class ChangePasswordController {
           this.errorMessage = response.data.fieldErrors;
         } else {
           //change password success
-          this.success = "Your password has been changed.";
+          this.success = 'Your password has been changed.';
         }
       });
   }

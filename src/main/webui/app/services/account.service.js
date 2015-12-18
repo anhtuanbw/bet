@@ -21,4 +21,9 @@ export default class AccountService {
   changepassword(passwordModel) {
     return this.$http.post('api/account/change-password', passwordModel);
   }
+
+  resetPassword(email) {
+    return this.$http.post('api/reset-password/init', {'email': email});
+  }
+  
 }
