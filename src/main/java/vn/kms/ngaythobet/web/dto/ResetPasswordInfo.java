@@ -5,11 +5,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import vn.kms.ngaythobet.domain.validation.FieldMatch;
 
 import javax.validation.constraints.Pattern;
+import static vn.kms.ngaythobet.domain.util.Constants.*;
 
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
 public class ResetPasswordInfo {
     @NotEmpty
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#$%&'()*+,-./:!<=>?@\\^_`\\[\\]{|}~;])\\S{6,50}$", message = "{validation.password.message}")
+    @Pattern(regexp = PASSWORD_REGEX, message = "{validation.password.message}")
     private String password;
 
     @NotEmpty
