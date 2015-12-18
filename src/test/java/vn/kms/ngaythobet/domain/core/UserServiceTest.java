@@ -40,7 +40,7 @@ public class UserServiceTest extends BaseTest {
     protected void doStartUp() {
         MailService mailService = mock(MailService.class);
         when(mailService.sendEmailAsync(anyString(), anyString(), anyString(), anyBoolean(), anyBoolean()))
-            .thenReturn(new AsyncResult<>(true));
+                .thenReturn(new AsyncResult<>(true));
 
         userService = new UserService(userRepo, passwordEncoder, mailService);
     }
@@ -70,7 +70,8 @@ public class UserServiceTest extends BaseTest {
         exception.expectMessage("{exception.userService.activation-key-expired}");
         userService.activateRegistration(activationKey, now);
 
-        // do activation with correct key and time, it must be passed (no exception)
+        // do activation with correct key and time, it must be passed (no
+        // exception)
         now = LocalDateTime.now();
         userService.activateRegistration(activationKey, now);
         user = userRepo.findOneByUsername(username).get();
@@ -121,7 +122,8 @@ public class UserServiceTest extends BaseTest {
         exception.expectMessage("{exception.userService.reset-key-expired}");
         userService.completePasswordReset("Test@456789", resetKey, now);
 
-        // complete reset password with correct key and time, it must be passed (no exception)
+        // complete reset password with correct key and time, it must be passed
+        // (no exception)
         now = LocalDateTime.now();
         userService.completePasswordReset("Test@456789", resetKey, now);
         user = userRepo.findOneByUsername(username).get();
@@ -151,11 +153,10 @@ public class UserServiceTest extends BaseTest {
     @Test
     public void testChangePassword() {
         User defaultUser = getDefaultUser();
-        defaultUser.setPassword(passwordEncoder.encode("Test123@"));
         String username = defaultUser.getUsername();
         mockLoginUser(username);
         ChangePasswordInfo changePasswordInfo = new ChangePasswordInfo();
-        changePasswordInfo.setCurrentPassword("Test123@");
+        changePasswordInfo.setCurrentPassword("Tester@123");
         changePasswordInfo.setPassword("Abc@015");
         changePasswordInfo.setConfirmPassword("Abc@015");
         userService.changePassword(changePasswordInfo);

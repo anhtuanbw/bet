@@ -12,7 +12,7 @@ public class ChangePasswordInfo {
     private String currentPassword;
     
     @NotEmpty
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,20}$", message = "{validation.password.message}")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,50}$", message = "{validation.password.message}")
     private String password;
 
     @NotEmpty
