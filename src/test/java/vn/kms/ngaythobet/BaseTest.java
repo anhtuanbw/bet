@@ -1,9 +1,10 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet;
 
+import static vn.kms.ngaythobet.domain.core.User.Role.USER;
+
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -11,15 +12,15 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import vn.kms.ngaythobet.domain.core.ChangeLogRepository;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
-
-import static vn.kms.ngaythobet.domain.core.User.Role.USER;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("utest")
-@SpringApplicationConfiguration(classes = {TestConfiguration.class})
+@SpringApplicationConfiguration(classes = { TestConfiguration.class })
 public abstract class BaseTest {
     @Autowired
     protected UserRepository userRepo;
@@ -28,6 +29,9 @@ public abstract class BaseTest {
     protected ChangeLogRepository changeLogRepo;
 
     private User defaultUser;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Before
     public void startUp() {
@@ -66,7 +70,7 @@ public abstract class BaseTest {
     protected User makeUser(String username) {
         User user = new User();
         user.setUsername(username);
-        user.setPassword("Tester@123");
+        user.setPassword(passwordEncoder.encode("Tester@123"));
         user.setEmail(username + "@test.local");
         user.setName(username + " User");
         user.setLanguageTag("en");
