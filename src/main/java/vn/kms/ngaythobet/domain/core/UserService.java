@@ -8,8 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
+import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 import java.time.LocalDateTime;
@@ -29,8 +31,7 @@ public class UserService {
     private final Random random = new Random();
 
     @Autowired
-    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder,
-                       MailService mailService) {
+    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder, MailService mailService) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
@@ -116,35 +117,33 @@ public class UserService {
     public void updateUserInfo(String name, String email, String languageTag) {
         String username = SecurityUtil.getCurrentLogin();
 
-        userRepo.findOneByUsername(username)
-            .filter(user -> user.isActivated())
-            .ifPresent(user -> {
-                user.setName(name);
-                user.setEmail(email);
-                user.setLanguageTag(languageTag);
+        userRepo.findOneByUsername(username).filter(user -> user.isActivated()).ifPresent(user -> {
+            user.setName(name);
+            user.setEmail(email);
+            user.setLanguageTag(languageTag);
 
-                userRepo.save(user);
-            });
+            userRepo.save(user);
+        });
     }
 
     @Transactional
-    public void changePassword(String password) {
+    public void changePassword(ChangePasswordInfo changePasswordInfo) {
         String username = SecurityUtil.getCurrentLogin();
-
-        userRepo.findOneByUsername(username)
+        if (!changePasswordInfo.getCurrentPassword().equals(changePasswordInfo.getPassword())) {
+            userRepo.findOneByUsername(username)
             .filter(user -> user.isActivated())
+            .filter(user -> passwordEncoder.matches(changePasswordInfo.getCurrentPassword(), user.getPassword()))
             .ifPresent(user -> {
-                user.setPassword(passwordEncoder.encode(password));
+                user.setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
                 userRepo.save(user);
             });
+        }
     }
 
     public User getUserInfo() {
         String username = SecurityUtil.getCurrentLogin();
 
-        return userRepo.findOneByUsername(username)
-            .filter(user -> user.isActivated())
-            .orElse(null);
+        return userRepo.findOneByUsername(username).filter(user -> user.isActivated()).orElse(null);
     }
 
     private String generateRandomKey() {
