@@ -10,8 +10,8 @@ export default class AccountService {
     return this.$http.get('api/auth/user');
   }
 
-  login() {
-    return this.$http.get('api/login');
+  login(username, password) {
+    return this.$http.get('api/login', {'username': username, 'password': password});
   }
 
   logout() {
