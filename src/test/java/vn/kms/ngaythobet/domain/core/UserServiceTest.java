@@ -1,17 +1,6 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import vn.kms.ngaythobet.BaseTest;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
-
-import java.time.LocalDateTime;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +11,19 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 public class UserServiceTest extends BaseTest {
     @Rule
@@ -47,8 +49,14 @@ public class UserServiceTest extends BaseTest {
     @Test
     public void testRegisterUser() {
         String username = "test123";
+        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
+        registerUserInfo.setUsername(username);
+        registerUserInfo.setEmail("test123@test.local");
+        registerUserInfo.setLanguageTag("en");
+        registerUserInfo.setName("Test User");
+        registerUserInfo.setPassword("Test@123");
 
-        userService.registerUser(username, "Test@123", "test123@test.local", "Test User", "en");
+        userService.registerUser(registerUserInfo);
 
         // verify activationKey was generated
         User user = userRepo.findOneByUsername(username).get();
@@ -87,8 +95,13 @@ public class UserServiceTest extends BaseTest {
     public void testResetPassword() {
         String username = "test456";
         String email = "test456@test.local";
-
-        userService.registerUser(username, "Test@456", email, "Test User", "en");
+        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
+        registerUserInfo.setUsername(username);
+        registerUserInfo.setEmail(email);
+        registerUserInfo.setLanguageTag("en");
+        registerUserInfo.setName("Test User");
+        registerUserInfo.setPassword("Test@456");
+        userService.registerUser(registerUserInfo);
 
         // request reset password with wrong email
         exception.expectMessage("{exception.userService.email-invalid}");

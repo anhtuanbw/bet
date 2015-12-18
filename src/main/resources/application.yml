@@ -7,7 +7,7 @@ ngaythobet:
         contact: trungnguyen@kms-technology.com
     paging-size: 20
     webapp-baseurl: http://localhost:8080/
-    mail-sender: Ngaythobet<trungnguyen@kms-technology.com>
+    mail-sender: Ngaythobet<kmslaunch-smtpuser-01@kms-technology.com>
     async:
         core-pool-size: 4
         max-pool-size: 64
@@ -36,10 +36,10 @@ spring:
             uri: mongodb://localhost:27017/ngaythobet
 
     mail:
-        host: mail-vn.kms.com.vn
-        post: 465
-        username: trungnguyen
-        password:
+        host: 192.168.15.29
+        post: 25
+        username: kmslaunch-smtpuser-01
+        password: BJBg3O3zwguMG2pw6dN0
         properties:
             mail.transport.protocol: smtp
             mail.smtp.auth: true
