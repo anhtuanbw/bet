@@ -37,7 +37,7 @@ public class ChangePasswordInfo {
 
     public String getCurrentPassword() {
         return currentPassword;
-    }
+}
 
     public void setCurrentPassword(String currentPassword) {
         this.currentPassword = currentPassword;
