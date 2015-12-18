@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserService;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
@@ -20,11 +21,13 @@ import vn.kms.ngaythobet.infras.security.xauth.Token;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
 import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
+import vn.kms.ngaythobet.web.dto.ResetPasswordInfo;
 import vn.kms.ngaythobet.web.dto.UpdateUserInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import java.time.LocalDateTime;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -87,8 +90,8 @@ public class AccountRest {
 
     @RequestMapping(value = "/reset-password/finish", method = POST)
     public void finishPasswordReset(@RequestParam(value = "key") String key,
-            @Valid @RequestBody ChangePasswordInfo passwordInfo) {
-        userService.completePasswordReset(passwordInfo.getPassword(), key, LocalDateTime.now());
+                                    @Valid @RequestBody ResetPasswordInfo resetPasswordInfo) {
+        userService.completePasswordReset(resetPasswordInfo.getPassword(), key, LocalDateTime.now());
     }
 
     @RequestMapping(value = "/account", method = GET)
