@@ -12,6 +12,7 @@ import org.springframework.util.DigestUtils;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
+import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -37,13 +38,13 @@ public class UserService {
     }
 
     @Transactional
-    public void registerUser(String username, String password, String email, String name, String languageTag) {
+    public void registerUser(RegisterUserInfo registerUserInfo) {
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        user.setName(name);
-        user.setLanguageTag(languageTag);
+        user.setUsername(registerUserInfo.getUsername());
+        user.setPassword(passwordEncoder.encode(registerUserInfo.getPassword()));
+        user.setEmail(registerUserInfo.getEmail());
+        user.setName(registerUserInfo.getName());
+        user.setLanguageTag(registerUserInfo.getLanguageTag());
         user.setRole(User.Role.USER);
         user.setActivated(false);
         user.setActivationKey(generateRandomKey());
