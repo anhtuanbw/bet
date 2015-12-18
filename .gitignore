@@ -127,4 +127,3 @@ Desktop.ini
 !gradle/wrapper/gradle-wrapper.jar
 /src/main/webui/i18n/en_US.json
 /src/main/webui/i18n/vi_VN.json
-/target/
