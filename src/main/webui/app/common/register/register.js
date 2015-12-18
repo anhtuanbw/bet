@@ -1,5 +1,4 @@
 'use strict';
-/* global angular */
 
 export default class RegisterController {
   /* @ngInject */

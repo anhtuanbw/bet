@@ -14,7 +14,6 @@ export default class ResetPasswordController {
     .then(response => {
       // Success
       if (response.data) {
-        $('#reset-password').modal('hide');
       }
     }, function(response) {
       // Failed

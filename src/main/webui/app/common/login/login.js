@@ -17,8 +17,6 @@ export default class LoginController {
       if (response.data) {
         vm.location.path('/home');
       }
-    }, function(response) {
-      // Failed
     });
   }
 }
