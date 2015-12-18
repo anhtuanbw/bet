@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+
 @Component("authenticationProvider")
 public class AuthenticationProviderImpl implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
@@ -34,7 +36,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         String password = user.getPassword();
         String tokenPassword = (String) token.getCredentials();
         if (!passwordEncoder.matches(tokenPassword, password)) {
-            throw new BadCredentialsException("Authentication failed!");
+            throw new DataInvalidException("exception.user-or-password-incorrect");
         }
 
         return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());

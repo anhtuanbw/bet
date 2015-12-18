@@ -17,4 +17,8 @@ export default class AccountService {
   logout() {
     return this.$http.post('api/logout');
   }
+  
+  changepassword(passwordModel) {
+    return this.$http.post('api/account/change-password', passwordModel);
+  }
 }

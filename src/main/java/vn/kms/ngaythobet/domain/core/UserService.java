@@ -11,6 +11,8 @@ import org.springframework.util.DigestUtils;
 
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
+import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
+import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,21 +32,20 @@ public class UserService {
     private final Random random = new Random();
 
     @Autowired
-    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder,
-                       MailService mailService) {
+    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder, MailService mailService) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
     }
 
     @Transactional
-    public void registerUser(String username, String password, String email, String name, String languageTag) {
+    public void registerUser(RegisterUserInfo registerUserInfo) {
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        user.setName(name);
-        user.setLanguageTag(languageTag);
+        user.setUsername(registerUserInfo.getUsername());
+        user.setPassword(passwordEncoder.encode(registerUserInfo.getPassword()));
+        user.setEmail(registerUserInfo.getEmail());
+        user.setName(registerUserInfo.getName());
+        user.setLanguageTag(registerUserInfo.getLanguageTag());
         user.setRole(User.Role.USER);
         user.setActivated(false);
         user.setActivationKey(generateRandomKey());
@@ -117,35 +118,33 @@ public class UserService {
     public void updateUserInfo(String name, String email, String languageTag) {
         String username = SecurityUtil.getCurrentLogin();
 
-        userRepo.findOneByUsername(username)
-            .filter(user -> user.isActivated())
-            .ifPresent(user -> {
-                user.setName(name);
-                user.setEmail(email);
-                user.setLanguageTag(languageTag);
+        userRepo.findOneByUsername(username).filter(user -> user.isActivated()).ifPresent(user -> {
+            user.setName(name);
+            user.setEmail(email);
+            user.setLanguageTag(languageTag);
 
-                userRepo.save(user);
-            });
+            userRepo.save(user);
+        });
     }
 
     @Transactional
-    public void changePassword(String password) {
+    public void changePassword(ChangePasswordInfo changePasswordInfo) {
         String username = SecurityUtil.getCurrentLogin();
-
-        userRepo.findOneByUsername(username)
+        if (!changePasswordInfo.getCurrentPassword().equals(changePasswordInfo.getPassword())) {
+            userRepo.findOneByUsername(username)
             .filter(user -> user.isActivated())
+            .filter(user -> passwordEncoder.matches(changePasswordInfo.getCurrentPassword(), user.getPassword()))
             .ifPresent(user -> {
-                user.setPassword(passwordEncoder.encode(password));
+                user.setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
                 userRepo.save(user);
             });
+        }
     }
 
     public User getUserInfo() {
         String username = SecurityUtil.getCurrentLogin();
 
-        return userRepo.findOneByUsername(username)
-            .filter(user -> user.isActivated())
-            .orElse(null);
+        return userRepo.findOneByUsername(username).filter(user -> user.isActivated()).orElse(null);
     }
 
     private String generateRandomKey() {

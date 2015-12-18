@@ -52,12 +52,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/register", method = POST)
     public void registerAccount(@Valid @RequestBody RegisterUserInfo user) {
-        userService.registerUser(
-            user.getUsername(),
-            user.getPassword(),
-            user.getEmail(),
-            user.getName(),
-            user.getLanguageTag());
+        userService.registerUser(user);
     }
 
     @RequestMapping(value = "/activate", method = GET)
@@ -108,7 +103,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/account/change-password", method = POST)
     public void changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
-        userService.changePassword(passwordInfo.getPassword());
+        userService.changePassword(passwordInfo);
     }
 
     @RequestMapping(value = "/logout", method = POST)
