@@ -8,10 +8,7 @@ import javax.validation.constraints.Pattern;
 import static vn.kms.ngaythobet.domain.util.Constants.*;
 
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
-public class ChangePasswordInfo {
-    @NotEmpty
-    private String currentPassword;
-    
+public class ResetPasswordInfo {
     @NotEmpty
     @Pattern(regexp = PASSWORD_REGEX, message = "{validation.password.message}")
     private String password;
@@ -33,14 +30,6 @@ public class ChangePasswordInfo {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
-    }
-
-    public String getCurrentPassword() {
-        return currentPassword;
-}
-
-    public void setCurrentPassword(String currentPassword) {
-        this.currentPassword = currentPassword;
     }
     
 }
