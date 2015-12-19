@@ -32,8 +32,8 @@
 		<div class="form-group clearfix">
 			<button class="btn btn-primary pull-right" ng-click="register.registerUser()">Sign Up</button>
 		</div>
-		<div ng-class="register.statusClass">
-  			<strong ng-bind="register.status"></strong>
+		<div class="alert alert-success" ng-if="register.success">
+  			<strong translate="common.register.success"></strong>
 		</div>
 	</form>
 </div>
