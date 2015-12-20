@@ -14,7 +14,7 @@
 		</div>
 		<div ng-class="(register.errorMessage.email) ? 'form-group has-error' : 'form-group'">
 			<label class="control-label">Email <span class="text-danger">*</span></label>
-			<input name="email" ng-model="register.userInfo.email" class="form-control" required/>
+			<input type="text" name="email" ng-model="register.userInfo.email" class="form-control" required/>
 			<div class="text-danger" ng-show="register.errorMessage" ng-bind="register.errorMessage.email"></div>
 		</div>
 		<div ng-class="(register.errorMessage.password) ? 'form-group has-error' : 'form-group'">

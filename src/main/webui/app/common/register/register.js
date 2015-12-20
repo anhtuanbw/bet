@@ -10,18 +10,23 @@ export default class RegisterController {
     this.success = false;
     $rootScope.$on('changeLang', (event, language) => this.userInfo.languageTag = language);
   }
-
+  
   registerUser() {
     var self = this;
+    if (!this.userInfo.email)
+      this.userInfo.email = '';
     this.accountService.register(this.userInfo)
-      .then(() => {
-        this.errorMessage = {};
-        this.userInfo = {};
-        this.success = true;
-      },
-    error => {
-      self.errorMessage = error.data.fieldErrors;
-      self.success = false;
+    .then(() => {
+      this.errorMessage = {};
+      this.userInfo = {};
+      this.success = true;
+    })
+    .catch(error => {
+      if (error.status === 400) {
+        console.log(error);
+        self.errorMessage = error.data.fieldErrors;
+        self.success = false;
+      }
     });
   }
 }
