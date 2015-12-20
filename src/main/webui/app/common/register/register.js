@@ -2,8 +2,8 @@
 
 export default class RegisterController {
   /* @ngInject */
-  constructor(RegisterService, $rootScope) {
-    this.registerService = RegisterService;
+  constructor(AccountService, $rootScope) {
+    this.accountService = AccountService;
     this.errorMessage = {};
     this.userInfo = {};
     this.userInfo.languageTag = 'en_US';
@@ -13,7 +13,7 @@ export default class RegisterController {
 
   registerUser() {
     var self = this;
-    this.registerService.registerUser(this.userInfo)
+    this.accountService.register(this.userInfo)
       .then(() => {
         this.errorMessage = {};
         this.userInfo = {};

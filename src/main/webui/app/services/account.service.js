@@ -21,4 +21,8 @@ export default class AccountService {
   changepassword(passwordModel) {
     return this.$http.post('api/account/change-password', passwordModel);
   }
+  
+  register(userInfo) {
+	  return this.$http.post('api/register', userInfo);
+  }
 }
