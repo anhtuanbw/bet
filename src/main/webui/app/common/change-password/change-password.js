@@ -8,32 +8,19 @@ export default class ChangePasswordController {
     this.rootScope = $rootScope;
     this.passwordModel = {};
     this.errorMessage = {};
-    this.success = '';
+    this.status = '';
   }
 
   changePass() {
+    var self = this;
     this.accountService.changepassword(this.passwordModel)
       .then(response => {
-        if (response.data) {
-          // get error message from server for 3 field password
-          this.errorMessage = response.data.fieldErrors;
-        } else {
-          //change password success
-          this.success = 'Your password has been changed.';
-        }
+        this.status = 'Your password have been saved!';
+        this.passwordModel = {};
+        this.location.path('/home');
+      }, function (response) {
+        self.errorMessage = response.data.fieldErrors;
+        self.status = '';
       });
   }
 }
-
-export default class ChangePassword {
-  constructor() {
-    return {
-      replace: false,
-      scope: true,
-      controller: ChangePasswordController,
-      controllerAs: 'changePassword',
-      templateUrl: 'app/common/change-password/change-password.html'
-    };
-  }
-}
-
