@@ -22,7 +22,9 @@ angular.module('ngaythobet', [
   'ngCookies',
   'pascalprecht.translate',
   'ngaythobet.services',
-  'ngaythobet.common'
+  'ngaythobet.common',
+  'toaster',
+  'ngAnimate'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
