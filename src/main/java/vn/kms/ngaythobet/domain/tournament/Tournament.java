@@ -1,22 +1,37 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
-import vn.kms.ngaythobet.domain.core.AuditableEntity;
-
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import vn.kms.ngaythobet.domain.core.AuditableEntity;
+
+@Entity
+@Table(name = "tournaments")
 public class Tournament extends AuditableEntity {
+    @Column
     private String name;
-    private boolean active;
 
-    public Tournament() {
+    @Column
+    private boolean activated;
 
-    }
+    @Column(name = "number_of_competitors")
+    private Long numOfCompetitor;
 
-    public Tournament(String name) {
-        this.name = name;
-        this.active = false;
-    }
+    @OneToMany(mappedBy = "tournament")
+    private List<Competitor> competitors;
+
+    @ManyToMany
+    @JoinTable(name = "group_tournament", joinColumns = { @JoinColumn(name = "tournament_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "group_id") })
+    private List<Group> groups;
 
     public String getName() {
         return name;
@@ -26,11 +41,35 @@ public class Tournament extends AuditableEntity {
         this.name = name;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isActivated() {
+        return activated;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public Long getNumOfCompetitor() {
+        return numOfCompetitor;
+    }
+
+    public void setNumOfCompetitor(Long numOfCompetitor) {
+        this.numOfCompetitor = numOfCompetitor;
+    }
+
+    public List<Competitor> getCompetitors() {
+        return competitors;
+    }
+
+    public void setCompetitors(List<Competitor> competitors) {
+        this.competitors = competitors;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 }
