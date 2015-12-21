@@ -36,6 +36,10 @@ export default class AccountService {
   resetPassword(email) {
     return this.$http.post('api/reset-password/init', email);
   }
+
+  resetPasswordFinish(key, resetPasswordInfo) {
+    return this.$http.post('api/reset-password/finish?key='+key, resetPasswordInfo);
+  }
   
   
   register(userInfo) {
