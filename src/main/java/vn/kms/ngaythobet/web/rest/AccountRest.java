@@ -123,7 +123,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/logout", method = POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        String token = (String)request.getAttribute("token");
+        String token = request.getHeader("x-auth-token");
         tokenProvider.invalidToken(token);
     }
 }

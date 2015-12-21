@@ -41,7 +41,7 @@ public class TokenProvider {
 
     public boolean validateToken(String authToken, UserDetails userDetails) {
         String[] parts = authToken.split(":");
-        if(tokenCache.getIfPresent(authToken) == null) {
+        if (tokenCache.getIfPresent(authToken) == null) {
             return false;
         }
         if (parts.length != 3) {
