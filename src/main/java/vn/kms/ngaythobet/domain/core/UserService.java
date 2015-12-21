@@ -16,6 +16,7 @@ import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -128,17 +129,22 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(ChangePasswordInfo changePasswordInfo) {
+    public boolean changePassword(ChangePasswordInfo changePasswordInfo) {
         String username = SecurityUtil.getCurrentLogin();
         if (!changePasswordInfo.getCurrentPassword().equals(changePasswordInfo.getPassword())) {
-            userRepo.findOneByUsername(username)
-            .filter(user -> user.isActivated())
+            Optional<User> currentUser = userRepo.findOneByUsername(username)
             .filter(user -> passwordEncoder.matches(changePasswordInfo.getCurrentPassword(), user.getPassword()))
-            .ifPresent(user -> {
-                user.setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
-                userRepo.save(user);
-            });
+            .filter(user -> user.isActivated());
+            if(currentUser.isPresent()){
+                currentUser.get().setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
+                userRepo.save(currentUser.get());
+                return true;
+            }
         }
+        else {
+            throw new DataInvalidException("exception.userService.currentpassword.similar.to.newpassword");
+        }
+        return false;
     }
 
     public User getUserInfo() {
