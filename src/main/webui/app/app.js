@@ -4,7 +4,8 @@
 import {service} from './services/services'; // jshint ignore:line
 import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
-import components from './components/components';
+import ResetPasswordController from './common/reset-password/reset-password';
+import ChangePasswordController from './common/change-password/change-password';
 
 export default class AppController {
   /* @ngInject */
@@ -23,21 +24,13 @@ angular.module('ngaythobet', [
   'pascalprecht.translate',
   'ngaythobet.services',
   'ngaythobet.common',
-  'ngaythobet.components'
+  'toaster',
+  'ngAnimate'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
-.controller('loginCtrl', function($scope, $http){
-  $scope.login=function(user){
-    console.log(user.name);
-    console.log(user.pass);
-    $http.post('/api/login', { username: user.name, password: user.pass })
-       .success(function (response) {
-            console.log(response);
-        });
-
-  };
-})
+.controller('ResetPasswordController', ResetPasswordController)
+.controller('ChangePasswordController', ChangePasswordController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

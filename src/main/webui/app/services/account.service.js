@@ -2,19 +2,40 @@
 
 export default class AccountService {
   /* @ngInject */
-  constructor($http) {
+  constructor($http, CacheService) {
     this.$http = $http;
+    this.cacheService = CacheService;
   }
 
   authen() {
-    return this.$http.get('api/auth/user');
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: 'api/authenticate',
+      headers: {'Accept': '*/*', 'x-auth-token': token}
+    });
   }
 
-  login() {
-    return this.$http.get('api/login');
+
+  login(userpass) {
+    return this.$http.post(`api/login?username=${userpass.username}&password=${userpass.password}`);
   }
 
   logout() {
-    return this.$http.post('api/logout');
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'POST',
+      url: 'api/logout',
+      headers: {'Accept': '*/*', 'x-auth-token': token}
+    });
   }
+
+  changepassword(passwordModel) {
+    return this.$http.post('api/account/change-password', passwordModel);
+  }
+
+  resetPassword(email) {
+    return this.$http.post('api/reset-password/init', email);
+  }
+
 }
