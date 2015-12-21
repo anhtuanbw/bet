@@ -23,7 +23,6 @@ export default class RegisterController {
     })
     .catch(error => {
       if (error.status === 400) {
-        console.log(error);
         self.errorMessage = error.data.fieldErrors;
         self.success = false;
       }
