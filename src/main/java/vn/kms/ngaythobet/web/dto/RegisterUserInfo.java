@@ -9,23 +9,25 @@ import vn.kms.ngaythobet.domain.validation.FieldUnique;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import static vn.kms.ngaythobet.domain.util.Constants.*;
 
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
 public class RegisterUserInfo {
-    @Pattern(regexp = "^[a-z0-9]*$")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$")
     @NotEmpty
-    @Size(min = 1, max = 50)
+    @Size(min = 6, max = 50)
     @FieldUnique(field = "username", entity = User.class)
     private String username;
 
     @NotEmpty
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,20}$", message = "{validation.password.message}")
+    @Pattern(regexp = PASSWORD_REGEX, message = "{validation.password.message}")
     private String password;
 
     @NotEmpty
     private String confirmPassword;
 
     @Size(max = 50)
+    @NotEmpty
     private String name;
 
     @Email

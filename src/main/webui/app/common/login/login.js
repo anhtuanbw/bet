@@ -21,8 +21,6 @@ export default class LoginController {
         self.rootScope.$broadcast('login', data);
         self.location.path('/home');
       }
-    }, function (response) {
-      data.error = response.data.message;
     });
   }
 

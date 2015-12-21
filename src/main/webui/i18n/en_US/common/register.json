@@ -1,0 +1,7 @@
+{
+  "common": {
+      "register": {
+          "success": "Register Successfully!!! Please check email."
+      }
+  }
+}

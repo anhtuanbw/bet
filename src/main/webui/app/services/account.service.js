@@ -12,10 +12,9 @@ export default class AccountService {
     return this.$http({
       method: 'GET',
       url: 'api/authenticate',
-      headers: {'Accept': '*/*', 'x-auth-token': token}
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
     });
   }
-
 
   login(userpass) {
     return this.$http.post(`api/login?username=${userpass.username}&password=${userpass.password}`);
@@ -30,12 +29,22 @@ export default class AccountService {
     });
   }
 
-  changepassword(passwordModel) {
-    return this.$http.post('api/account/change-password', passwordModel);
+  changePassword(data) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'POST',
+      url: 'api/account/change-password',
+      headers: { 'x-auth-token': token },
+      data: data
+    });
   }
 
   resetPassword(email) {
     return this.$http.post('api/reset-password/init', email);
   }
 
+  
+  register(userInfo) {
+	  return this.$http.post('api/register', userInfo);
+  }
 }
