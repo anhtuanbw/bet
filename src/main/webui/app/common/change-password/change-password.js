@@ -1,11 +1,11 @@
 'use strict';
 
 export default class ChangePasswordController {
-  constructor(AccountService, CacheService, $location, $rootScope, $modalInstance, toaster) {
+  /* @ngInject */
+  constructor(AccountService, CacheService, $location, $modalInstance, toaster) {
     this.accountService = AccountService;
     this.cacheService = CacheService;
     this.location = $location;
-    this.rootScope = $rootScope;
     this.data = {};
     this.errorMessage = {};
     this.modalInstance = $modalInstance;
