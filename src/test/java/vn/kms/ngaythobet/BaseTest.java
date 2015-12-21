@@ -29,7 +29,6 @@ public abstract class BaseTest {
     protected ChangeLogRepository changeLogRepo;
 
     private User defaultUser;
-    
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -37,7 +36,6 @@ public abstract class BaseTest {
     public void startUp() {
         defaultUser = makeUser("tester");
         userRepo.save(defaultUser);
-
         mockLoginUser("admin");
 
         doStartUp();
@@ -47,7 +45,6 @@ public abstract class BaseTest {
     public void tearDown() {
         userRepo.delete(defaultUser);
         changeLogRepo.deleteByEntityId(defaultUser.getId());
-
         doTearDown();
     }
 
@@ -70,7 +67,7 @@ public abstract class BaseTest {
     protected User makeUser(String username) {
         User user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode("Tester@123"));
+        user.setPassword("Tester@123");
         user.setEmail(username + "@test.local");
         user.setName(username + " User");
         user.setLanguageTag("en");

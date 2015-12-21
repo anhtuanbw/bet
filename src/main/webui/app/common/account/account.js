@@ -1,14 +1,14 @@
 'use strict';
-/* global angular */
 
 export default class AccountController {
   /* @ngInject */
-  constructor(AccountService, CacheService, $location, $rootScope) {
+  constructor(AccountService, CacheService, $location, $rootScope, $modal) {
     this.accountService = AccountService;
     this.cacheService = CacheService;
     this.location = $location;
     this.rootScope = $rootScope;
     this.loginUser = {};
+    this.modal = $modal;
     this.authen();
     $rootScope.$on('login', (event, cb) => this.login(cb));
   }
@@ -17,8 +17,7 @@ export default class AccountController {
     this.accountService.authen()
     .then(response => {
       if (response.data) {
-        this.cacheService.set('loginUser', angular.toJson(response.data));
-        this.loginUser = response.data;
+        this.loginUser.username = response.data;
       } else {
         this.cacheService.remove('loginUser');
         this.loginUser = {};
@@ -27,7 +26,7 @@ export default class AccountController {
   }
 
   login(cb) {
-    this.accountService.login()
+    this.accountService.login(cb)
     .then(() => {
       this.authen();
       this.rootScope.$broadcast('updateCart');
@@ -43,6 +42,14 @@ export default class AccountController {
       this.cacheService.remove('cartId');
       this.rootScope.$broadcast('updateCart');
       this.location.path('/');
+    });
+  }
+
+  openChangePassword() {
+    this.modal.open({
+      templateUrl: 'app/common/change-password/change-password.html',
+      controller: 'ChangePasswordController',
+      controllerAs: 'changePassword'
     });
   }
 }
