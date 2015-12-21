@@ -1,26 +1,54 @@
 'use strict';
 
 export default class ChangePasswordController {
-  constructor(AccountService, CacheService, $location, $rootScope) {
+  constructor(AccountService, CacheService, $location, $rootScope, $modalInstance, toaster) {
     this.accountService = AccountService;
     this.cacheService = CacheService;
     this.location = $location;
     this.rootScope = $rootScope;
-    this.passwordModel = {};
+    this.data = {};
     this.errorMessage = {};
-    this.status = '';
+    this.modalInstance = $modalInstance;
+    this.toaster = toaster;
   }
 
   changePass() {
     var self = this;
-    this.accountService.changepassword(this.passwordModel)
+    self.popTitle = 'Change password';
+
+    // Show alert message
+    self.pop = function (type, title, content) {
+      this.toaster.pop(type, title, content);
+    };
+
+    this.accountService.changePassword(this.data)
       .then(response => {
-        this.status = 'Your password have been saved!';
-        this.passwordModel = {};
-        this.location.path('/home');
-      }, function (response) {
+        
+        // Success
+        self.closeModal();
+        self.pop('success', self.popTitle, 'Your password have been changed!');
+        self.data = {};
+        self.location.path('/home');
+        const token = response.data.token;
+        if (token) {
+          
+          // reset new token
+          self.cacheService.set('loginUser', token);
+          self.location.path('/home');
+        }
+      })
+      .catch(response => {
+        
+        // return error
+        if (response.data.message) {
+          self.pop('error', self.popTitle, response.data.message);
+        }
         self.errorMessage = response.data.fieldErrors;
-        self.status = '';
       });
+  }
+
+  closeModal() {
+    this.modalInstance.dismiss();
+    this.data = {};
   }
 }
