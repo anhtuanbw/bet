@@ -17,7 +17,6 @@ export default class ActivateController {
      var key = this.location.search().key;
      var self = this;
      if (key) {
-       console.log(key);
        this.accountService.activate(key)
        .then(() => {
          this.success = true;
