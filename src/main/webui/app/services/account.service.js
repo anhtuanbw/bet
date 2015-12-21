@@ -16,7 +16,6 @@ export default class AccountService {
     });
   }
 
-
   login(userpass) {
     return this.$http.post(`api/login?username=${userpass.username}&password=${userpass.password}`);
   }
@@ -26,7 +25,7 @@ export default class AccountService {
     return this.$http({
       method: 'POST',
       url: 'api/logout',
-      headers: { 'Accept': '*/*', 'x-auth-token': token }
+      headers: {'Accept': '*/*', 'x-auth-token': token}
     });
   }
 
@@ -44,4 +43,8 @@ export default class AccountService {
     return this.$http.post('api/reset-password/init', email);
   }
 
+  
+  register(userInfo) {
+	  return this.$http.post('api/register', userInfo);
+  }
 }
