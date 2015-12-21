@@ -20,7 +20,6 @@ export default class LoginController {
         self.cacheService.set('loginUser', token);
         self.rootScope.$broadcast('login', data);
         self.location.path('/home');
-        this.data = {};
       }
     }, function (response) {
       data.error = response.data.message;
