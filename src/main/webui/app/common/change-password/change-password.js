@@ -1,39 +1,54 @@
 'use strict';
 
 export default class ChangePasswordController {
-  constructor(AccountService, CacheService, $location, $rootScope) {
+  /* @ngInject */
+  constructor(AccountService, CacheService, $location, $modalInstance, toaster) {
     this.accountService = AccountService;
     this.cacheService = CacheService;
     this.location = $location;
-    this.rootScope = $rootScope;
-    this.passwordModel = {};
+    this.data = {};
     this.errorMessage = {};
-    this.success = '';
+    this.modalInstance = $modalInstance;
+    this.toaster = toaster;
   }
 
   changePass() {
-    this.accountService.changepassword(this.passwordModel)
+    var self = this;
+    self.popTitle = 'Change password';
+
+    // Show alert message
+    self.pop = function (type, title, content) {
+      this.toaster.pop(type, title, content);
+    };
+
+    this.accountService.changePassword(this.data)
       .then(response => {
-        if (response.data) {
-          // get error message from server for 3 field password
-          this.errorMessage = response.data.fieldErrors;
-        } else {
-          //change password success
-          this.success = 'Your password has been changed.';
+        
+        // Success
+        self.closeModal();
+        self.pop('success', self.popTitle, 'Your password have been changed!');
+        self.data = {};
+        self.location.path('/home');
+        const token = response.data.token;
+        if (token) {
+          
+          // reset new token
+          self.cacheService.set('loginUser', token);
+          self.location.path('/home');
         }
+      })
+      .catch(response => {
+        
+        // return error
+        if (response.data.message) {
+          self.pop('error', self.popTitle, response.data.message);
+        }
+        self.errorMessage = response.data.fieldErrors;
       });
   }
-}
 
-export default class ChangePassword {
-  constructor() {
-    return {
-      replace: false,
-      scope: true,
-      controller: ChangePasswordController,
-      controllerAs: 'changePassword',
-      templateUrl: 'app/common/change-password/change-password.html'
-    };
+  closeModal() {
+    this.modalInstance.dismiss();
+    this.data = {};
   }
 }
-

@@ -2,22 +2,27 @@
 
 export default class LoginController {
   /* @ngInject */
-  constructor(AccountService, $location, $rootScope, $modal) {
+  constructor(AccountService, CacheService, $location, $rootScope, $modal) {
     this.accountService = AccountService;
+    this.cacheService = CacheService;
     this.rootScope = $rootScope;
     this.location = $location;
-    this.loginModel = {};
+    this.data = {};
     this.modal = $modal;
   }
 
-  signIn(loginModel) {
-    var vm = this;
-    this.accountService.login(loginModel.username, loginModel.password)
+  login(data) {
+    var self = this;
+    this.accountService.login(data)
     .then(response => {
-      // Success
-      if (response.data) {
-        vm.location.path('/home');
+      const token = response.data.token;
+      if (token) {
+        self.cacheService.set('loginUser', token);
+        self.rootScope.$broadcast('login', data);
+        self.location.path('/home');
       }
+    }, function (response) {
+      data.error = response.data.message;
     });
   }
 

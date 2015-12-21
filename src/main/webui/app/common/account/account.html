@@ -1,13 +1,14 @@
 <li dropdown>
-  <a ng-if="!account.loginUser.username" href="javascript:void(0)" ng-click="account.login()">
-    <span class='glyphicon glyphicon-log-in' aria-hidden="true"></span><span ng-bind="account.loginUser.username"></span>
+  <a ng-if="!account.loginUser.username" href="javascript:void(0)">
+    <span class='glyphicon glyphicon-log-in' aria-hidden="true"></span>
   </a>
   <a ng-if="account.loginUser.username" dropdown-toggle>
     <span class='glyphicon glyphicon-user' aria-hidden="true"></span>
+    <span ng-bind="account.loginUser.username"></span>
   </a>
   <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
     <li>
-      <a ng-link="change-password" translate="common.account.change-password">Change Password</a>
+      <a ng-link="change-password" translate="common.account.change-password" ng-click="account.openChangePassword()">Change Password</a>
     </li>
     <li role="separator" className="divider"></li>
     <li>
