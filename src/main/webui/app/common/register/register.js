@@ -2,28 +2,32 @@
 
 export default class RegisterController {
   /* @ngInject */
-  constructor(RegisterService, $rootScope) {
-    this.registerService = RegisterService;
+  constructor(AccountService, $rootScope) {
+    this.accountService = AccountService;
     this.errorMessage = {};
     this.userInfo = {};
     this.userInfo.languageTag = 'en_US';
-    this.success = '';
+    this.success = false;
     $rootScope.$on('changeLang', (event, language) => this.userInfo.languageTag = language);
   }
   
   registerUser() {
-    this.registerService.registerUser(this.userInfo)
-      .then(response => {
-        if (response.data) {
-          this.errorMessage = response.data.fieldErrors;
-          this.userInfo = {};
-          this.success = '';
-        } else {
-          this.errorMessage = {};
-          this.userInfo = {};
-          this.success = 'Register Successfully!!!';
-        }
-      });
+    var self = this;
+    if (!this.userInfo.email)
+      this.userInfo.email = '';
+    this.accountService.register(this.userInfo)
+    .then(() => {
+      this.errorMessage = {};
+      this.userInfo = {};
+      this.success = true;
+    })
+    .catch(error => {
+      if (error.status === 400) {
+        console.log(error);
+        self.errorMessage = error.data.fieldErrors;
+        self.success = false;
+      }
+    });
   }
 }
 
