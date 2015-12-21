@@ -28,7 +28,7 @@ export default class LoginController {
 
   openForgotPassword() {
     this.modal.open({
-      templateUrl: 'app/common/forget-password/forget-password.html',
+      templateUrl: 'app/common/reset-password/reset-password.html',
       controller: 'ResetPasswordController',
       controllerAs: 'resetPassword'
     });
