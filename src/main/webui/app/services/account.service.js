@@ -33,4 +33,8 @@ export default class AccountService {
     return this.$http.post('api/reset-password/init', email);
   }
   
+  
+  register(userInfo) {
+	  return this.$http.post('api/register', userInfo);
+  }
 }
