@@ -107,10 +107,9 @@ public class AccountRest {
 
     @RequestMapping(value = "/account/change-password", method = POST)
     public Token changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
-        if(userService.changePassword(passwordInfo)){
+        if (userService.changePassword(passwordInfo)) {
             return login(SecurityUtil.getCurrentLogin(), passwordInfo.getPassword());
-        }
-        else {
+        } else {
             throw new DataInvalidException("exception.userService.password-invalid");
         }
     }

@@ -2,12 +2,15 @@
 package vn.kms.ngaythobet.web.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import vn.kms.ngaythobet.domain.validation.FieldDifferent;
 import vn.kms.ngaythobet.domain.validation.FieldMatch;
 
 import javax.validation.constraints.Pattern;
 import static vn.kms.ngaythobet.domain.util.Constants.*;
 
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
+@FieldDifferent(firstField = "password", secondField = "currentPassword")
 public class ChangePasswordInfo {
     @NotEmpty
     private String currentPassword;

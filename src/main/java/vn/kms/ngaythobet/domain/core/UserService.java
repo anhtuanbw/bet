@@ -1,6 +1,10 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +17,6 @@ import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.Random;
 
 @Service
 @Transactional(readOnly = true)
@@ -131,18 +130,13 @@ public class UserService {
     @Transactional
     public boolean changePassword(ChangePasswordInfo changePasswordInfo) {
         String username = SecurityUtil.getCurrentLogin();
-        if (!changePasswordInfo.getCurrentPassword().equals(changePasswordInfo.getPassword())) {
-            Optional<User> currentUser = userRepo.findOneByUsername(username)
-            .filter(user -> passwordEncoder.matches(changePasswordInfo.getCurrentPassword(), user.getPassword()))
-            .filter(user -> user.isActivated());
-            if(currentUser.isPresent()){
-                currentUser.get().setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
-                userRepo.save(currentUser.get());
-                return true;
-            }
-        }
-        else {
-            throw new DataInvalidException("exception.userService.currentpassword.similar.to.newpassword");
+        Optional<User> currentUser = userRepo.findOneByUsername(username)
+                .filter(user -> passwordEncoder.matches(changePasswordInfo.getCurrentPassword(), user.getPassword()))
+                .filter(user -> user.isActivated());
+        if (currentUser.isPresent()) {
+            currentUser.get().setPassword(passwordEncoder.encode(changePasswordInfo.getPassword()));
+            userRepo.save(currentUser.get());
+            return true;
         }
         return false;
     }
