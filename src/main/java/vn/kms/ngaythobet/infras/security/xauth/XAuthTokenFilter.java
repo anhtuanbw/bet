@@ -42,6 +42,7 @@ public class XAuthTokenFilter extends GenericFilterBean {
                         details.getAuthorities());
 
                     SecurityContextHolder.getContext().setAuthentication(token);
+                    httpServletRequest.setAttribute("token", authToken);
                 }
             }
             filterChain.doFilter(servletRequest, servletResponse);

@@ -20,13 +20,13 @@ public class TokenProvider {
     public TokenProvider(String secretKey, int tokenValidity) {
         this.secretKey = secretKey;
         this.tokenValidity = tokenValidity;
-        tokenCache = CacheBuilder.newBuilder().expireAfterWrite(tokenValidity, TimeUnit.MINUTES).maximumSize(1000).build();
+        tokenCache = CacheBuilder.newBuilder().expireAfterWrite(tokenValidity, TimeUnit.SECONDS).maximumSize(1000).build();
     }
 
     public Token createToken(UserDetails userDetails) {
         long expires = System.currentTimeMillis() + tokenValidity * 1000L;
         String token = userDetails.getUsername() + ":" + expires + ":" + computeSignature(userDetails, expires);
-        tokenCache.put(userDetails.getUsername(), token);
+        tokenCache.put(token, userDetails.getUsername());
         return new Token(token, expires);
     }
 
@@ -41,7 +41,7 @@ public class TokenProvider {
 
     public boolean validateToken(String authToken, UserDetails userDetails) {
         String[] parts = authToken.split(":");
-        if(tokenCache.getIfPresent(userDetails.getUsername()) == null) {
+        if(tokenCache.getIfPresent(authToken) == null) {
             return false;
         }
         if (parts.length != 3) {
@@ -78,7 +78,7 @@ public class TokenProvider {
         return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes())));
     }
 
-    public void invalidToken(String username) {
-        tokenCache.invalidate(username);
+    public void invalidToken(String token) {
+        tokenCache.invalidate(token);
     }
 }

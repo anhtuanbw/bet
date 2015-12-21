@@ -123,7 +123,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/logout", method = POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        tokenProvider.invalidToken(authentication.getName());
+        String token = (String)request.getAttribute("token");
+        tokenProvider.invalidToken(token);
     }
 }
