@@ -47,4 +47,8 @@ export default class AccountService {
   register(userInfo) {
 	  return this.$http.post('api/register', userInfo);
   }
+  
+  activate(key) {
+	  return this.$http.get('api/activate?key=' + key);
+  }
 }

@@ -6,6 +6,7 @@ import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ChangePasswordController from './common/change-password/change-password';
+import RegisterController from './common/register/register';
 import ActivateController from './components/activate/activate';
 
 export default class AppController {
@@ -13,8 +14,8 @@ export default class AppController {
   constructor($router) {
     $router.config([
       { path: '/home', component: 'home' },
-      { path: '/', redirectTo: '/home' },
-      { path: '/activate', component: 'activate' }
+      { path: '/api/activate', component: 'activate' },      
+      { path: '/', redirectTo: '/home' }
     ]);
   }
 }

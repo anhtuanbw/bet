@@ -1,7 +1,8 @@
 {
   "common": {
       "register": {
-          "success": "Đăng ký thành công!!! Vui lòng kiểm tra email."
+          "success": "Đăng ký thành công!!! Vui lòng kiểm tra email.",
+          "activate": "Kích hoạt tài khoản thành công!!!"
       }
   }
 }
