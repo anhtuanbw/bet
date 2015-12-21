@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +32,12 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
 
         String login = token.getName();
-        UserDetails user = userDetailsService.loadUserByUsername(login);
+        UserDetails user = null;
+        try {
+            user = userDetailsService.loadUserByUsername(login);
+        } catch (UsernameNotFoundException e) {
+            throw new DataInvalidException("exception.user-or-password-incorrect");
+        }
 
         String password = user.getPassword();
         String tokenPassword = (String) token.getCredentials();
