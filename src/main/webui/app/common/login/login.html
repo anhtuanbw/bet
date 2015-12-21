@@ -9,6 +9,7 @@
 			<div class="form-group">
 				<label for="password" class="control-label">Password</label><span class="text-danger"> *</span>
 				<input type="password" class="form-control"  ng-model="login.data.password" id="password" name="password" required>
+				<span class="text-danger" ng-bind="login.data.error"></span>
 			</div>
 			<p class="pull-left">
 				<a ng-click="login.openForgotPassword()" href="javascript:void(0)">
