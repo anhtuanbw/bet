@@ -11,6 +11,7 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static vn.kms.ngaythobet.domain.core.User.Role.USER;
 
 import java.time.LocalDateTime;
 
@@ -148,35 +149,36 @@ public class UserServiceTest extends BaseTest {
         exception.expectMessage("{exception.userService.reset-key-invalid}");
         userService.completePasswordReset("Test@456789", resetKey, now);
     }
-    
+
     @Test
     public void testResetPasswordWithSuccess() {
         User defaultUser = getDefaultUser();
         String username = defaultUser.getUsername();
         mockLoginUser(username);
-        
+
         assertThat(defaultUser.getEmail(), notNullValue());
-        assertThat(defaultUser.getEmail().isEmpty(),is(false));
-        
+        assertThat(defaultUser.getEmail().isEmpty(), is(false));
+
         userService.requestPasswordReset(defaultUser.getEmail());
         User user = userRepo.findOne(defaultUser.getId());
-        
+
         assertThat(user, notNullValue());
-        
+
         String resetKey = user.getResetKey();
-        
+
         LocalDateTime now = LocalDateTime.now();
-        
-        // complete reset password with correct key and time, it must be passed (no exception)
+
+        // complete reset password with correct key and time, it must be passed
+        // (no exception)
         userService.completePasswordReset("Abc@123", resetKey, now);
-        
+
         assertThat(user.getResetTime(), greaterThan(user.getCreatedAt()));
         assertThat(user.getResetKey(), notNullValue());
         assertThat(user.getResetTime(), notNullValue());
         // the reset key invalid & not expired
         LocalDateTime oneDayAgo = now.minusDays(1);
         assertThat(user.getResetTime().isAfter(oneDayAgo), is(true));
-        
+
     }
 
     @Test
@@ -195,16 +197,25 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testChangePassword() {
-        User defaultUser = getDefaultUser();
-        String username = defaultUser.getUsername();
+        String username = "hieu";
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode("Tester@123"));
+        user.setEmail(username + "@test.local");
+        user.setName(username + " User");
+        user.setLanguageTag("en");
+        user.setActivated(true);
+        user.setRole(USER);
+        userRepo.save(user);
         mockLoginUser(username);
         ChangePasswordInfo changePasswordInfo = new ChangePasswordInfo();
         changePasswordInfo.setCurrentPassword("Tester@123");
         changePasswordInfo.setPassword("Abc@015");
         changePasswordInfo.setConfirmPassword("Abc@015");
         userService.changePassword(changePasswordInfo);
-        User user = userRepo.findOne(defaultUser.getId());
-        assertThat(passwordEncoder.matches("Abc@015", user.getPassword()), is(true));
+        User userWithNewPassword = userRepo.findOneByUsername(username).get();
+        assertThat(passwordEncoder.matches("Abc@015", userWithNewPassword.getPassword()), is(true));
+        userRepo.delete(user);
     }
 
     @Test

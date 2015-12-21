@@ -46,7 +46,7 @@ public class AccountRest {
 
     @Autowired
     public AccountRest(UserService userService, TokenProvider tokenProvider,
-                       AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+            AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
@@ -105,12 +105,13 @@ public class AccountRest {
     }
 
     @RequestMapping(value = "/account/change-password", method = POST)
-    public void changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
+    public Token changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
         userService.changePassword(passwordInfo);
+        return login(SecurityUtil.getCurrentLogin(), passwordInfo.getPassword());
     }
 
     @RequestMapping(value = "/logout", method = POST)
-    public void logout(HttpServletRequest request,HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         new SecurityContextLogoutHandler().logout(request, response, authentication);
     }
