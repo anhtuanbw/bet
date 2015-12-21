@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserService;
+import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.infras.security.xauth.Token;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
@@ -123,7 +124,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/logout", method = POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("x-auth-token");
+        String token = request.getHeader(Constants.XAUTH_TOKEN_HEADER_NAME);
         tokenProvider.invalidToken(token);
     }
 }
