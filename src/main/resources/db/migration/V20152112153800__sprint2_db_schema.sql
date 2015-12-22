@@ -78,6 +78,7 @@ create table matches(
     score_2 BIGINT,
     match_time timestamp,
     location varchar(128),
+    comment varchar(512),
     CONSTRAINT FK_MATCH_ROUND FOREIGN KEY (round_id) REFERENCES rounds (id),
     CONSTRAINT FK_MATCH_COMPETITOR1 FOREIGN KEY (competitor_id_1) REFERENCES competitors (id),
     CONSTRAINT FK_MATCH_COMPETITOR2 FOREIGN KEY (competitor_id_2) REFERENCES competitors (id)

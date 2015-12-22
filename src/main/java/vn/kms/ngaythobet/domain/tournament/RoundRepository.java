@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoundRepository extends JpaRepository<Round, Long> {
     Round findByName(String name);
+    Round findById(long roundId);
 }
