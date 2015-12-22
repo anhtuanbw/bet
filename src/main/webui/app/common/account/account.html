@@ -1,9 +1,10 @@
 <li dropdown>
-  <a ng-if="!account.loginUser.username" href="javascript:void(0)" ng-click="account.login()">
-    <span class='glyphicon glyphicon-log-in' aria-hidden="true"></span><span ng-bind="account.loginUser.username"></span>
+  <a ng-if="!account.loginUser.username" href="javascript:void(0)">
+    <span class='glyphicon glyphicon-log-in' aria-hidden="true"></span>
   </a>
   <a ng-if="account.loginUser.username" dropdown-toggle>
     <span class='glyphicon glyphicon-user' aria-hidden="true"></span>
+    <span ng-bind="account.loginUser.username"></span>
   </a>
   <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
     <li>
