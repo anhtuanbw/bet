@@ -40,6 +40,5 @@ public class TournamentRest {
     @RequestMapping(value = "/active", method = GET)
     public void activeTournament(@RequestParam Long tournamentId) {
         tournamentService.activateTournament(tournamentId);
-        ;
     }
 }
