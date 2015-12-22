@@ -36,7 +36,7 @@ public class RoundRest {
     }
 
     @RequestMapping(value = "/getRoundsInTournament/{tournament_id}", method = GET)
-    public List<Round> getRoundnTournament(@PathVariable("tournament_id") Long id) {
+    public List<Round> getRoundInTournament(@PathVariable("tournament_id") Long id) {
         Tournament tournament = tournamentService.findById(id);        
         List<Round> rounds = tournament.getRounds();
         return rounds;
