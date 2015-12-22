@@ -7,6 +7,15 @@ ngaythobet - v0.0.1 / 2015-12-18
 * [#3, #5] Reset password.
 * [#6, #7] Change password.
 
+**Improvement**
+
+**Bug**
+* [API Register] System should not be response error message with coding language when register with invalid username or email
+* [API-Register] User can register successfully when length of username < minimum length (Ex: length = 1)
+* [API Register] System allows register user successfully with name is empty
+* [API Register] User should be able to register username with uppercase letters
+* [API Reset Password] System does not send email when user reset password
+* [API Login] Error message is not clear when user login with invalid username or password
 
 ngaythobet - v0.0.2 / 2015-12-22
 ================================
@@ -18,9 +27,6 @@ ngaythobet - v0.0.2 / 2015-12-22
 **Improvement**
 
 **Bug**
-* [API Register] System should not be response error message with coding language when register with invalid username or email
-* [API-Register] User can register successfully when length of username < minimum length (Ex: length = 1)
-* [API Register] System allows register user successfully with name is empty
-* [API Register] User should be able to register username with uppercase letters
-* [API Reset Password] System does not send email when user reset password
-* [API Login] Error message is not clear when user login with invalid username or password
+* [API Tournament Management] Not validdation when input data competitorId doesn't exist in database.
+* [API Group Management] Not validdation when input data tournamentId & username doesn't exist in database.
+* [API Match Management] Not validdation when input data competitorId doesn't exist in database.
