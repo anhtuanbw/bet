@@ -3,7 +3,8 @@ package vn.kms.ngaythobet.domain.tournament;
 
 import java.util.List;
 
-public interface TournamentRepository {
-    List<Tournament> findAllOrderByCreatedAtDesc();
-    Tournament getOne(long tournamentId);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TournamentRepository extends JpaRepository<Tournament, Long> {
+    List<Tournament> findAllByOrderByCreatedAtDesc();
 }
