@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading panel-title">
+      <h4>Round Management</h4>
+    </div>
+    <div class="panel-body">
+        <form name="roundform">
+          <!-- Begin Tournament -->
+          <div class="form-group">
+            <label for="tournamentname" class="control-label">Tournament Name</label><span class="text-danger"> *</span>
+            <div class="input-group" ng-init="round.data.tourlist = []">
+              <select class="form-control">
+                <option ng-repeat="tour in round.data.tourlist">{{tour}}</option>
+              </select>
+                  <div class="input-group-addon" ng-click="round.loadtour(round.data)">Load Tour</div>
+            </div>
+          </div>
+          <!-- End Tournament -->
+
+          <!-- Begin Round -->
+          <div class="form-group">
+            <label for="roundname" class="control-label">Round Name</label><span class="text-danger"> *</span>
+            <input type="text" class="form-control" ng-model="round.data.name" name="roundname" required>
+          </div>
+          <!-- End Round -->
+
+          <!-- Begin Competitor -->
+          <div class="form-group" ng-init="round.data.complist = []">
+            <label for="roundcompet" class="control-label">Round Competitor</label><span class="text-danger"> *</span>
+            <ol>
+              <li ng-repeat="item in round.data.complist">{{item}}</li>
+            </ol>
+            <span class="text-danger" ng-bind="round.data.error"></span>
+          </div>
+
+          <!-- Combobox Competitor -->
+          <div class="input-group" ng-init="round.data.listcompet = []">
+            <select class="form-control" ng-model="round.data.compet">
+              <option ng-repeat="comp in round.data.listcompet">{{comp}}</option>
+            </select>
+                <div class="input-group-addon" ng-click="round.addmore(round.data)">Add Comp</div>
+          </div>
+          <br>
+          <!-- End Combobox Competitor -->
+
+          <button type="button" class="btn btn-warning" ng-click="round.loadcomp(round.data)">Load competitor</button>
+          <!-- End Competitor -->
+
+          <button type="button" class="btn btn-primary pull-right">Save</button>
+        </form>
+    </div>
+  </div>
+</div>
