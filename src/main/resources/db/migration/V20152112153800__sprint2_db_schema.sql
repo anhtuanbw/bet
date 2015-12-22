@@ -50,8 +50,10 @@ create table groups(
     modified_by varchar(32),
     
     name varchar(64),
-    moderator bigserial not null,
-    CONSTRAINT FK_GROUP_MODDERATOR FOREIGN KEY (moderator) REFERENCES users (id)
+    moderator BIGINT not null,
+    tournament_id BIGINT not null,
+    CONSTRAINT FK_GROUP_MODDERATOR FOREIGN KEY (moderator) REFERENCES users (id),
+    CONSTRAINT FK_GROUP_TOURNAMENT FOREIGN KEY (tournament_id) REFERENCES tournaments (id)
 );
 
 create table group_user(
@@ -60,14 +62,6 @@ create table group_user(
     PRIMARY KEY (group_id, user_id),
     CONSTRAINT FK_GROUP_USER_GROUP FOREIGN KEY (group_id) REFERENCES groups (id),
     CONSTRAINT FK_GROUP_USER_USER FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
-create table group_tournament(
-    group_id BIGINT not null,
-    tournament_id BIGINT not null,
-    PRIMARY KEY (group_id, tournament_id),
-    CONSTRAINT FK_GROUP_TOURNAMENT_GROUP FOREIGN KEY (group_id) REFERENCES groups (id),
-    CONSTRAINT FK_GROUP_TOURNAMENT_TOURNAMENT FOREIGN KEY (tournament_id) REFERENCES tournaments (id)
 );
 
 create table matches(
