@@ -43,11 +43,4 @@ public class TournamentRest {
     public void activeTournament(@RequestParam Long tournamentId) {
         tournamentService.activateTournament(tournamentId);
     }
-    
-    @RequestMapping(value = "/getRoundsInTournament/{tournament_id}", method = GET)
-    public List<Round> getRoundnTournament(@PathVariable("tournament_id") Long id) {
-        Tournament tournament = tournamentService.findById(id);
-        List<Round> rounds = tournament.getRounds();
-        return rounds;
-    }
 }
