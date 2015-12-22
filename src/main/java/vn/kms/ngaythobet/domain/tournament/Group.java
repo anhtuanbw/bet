@@ -18,13 +18,16 @@ import vn.kms.ngaythobet.domain.core.User;
 public class Group extends AuditableEntity {
     @Column
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "moderator")
     private User moderator;
+
     @ManyToMany(targetEntity = vn.kms.ngaythobet.domain.core.User.class)
     @JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id") })
     private List<User> members;
+
     @ManyToMany(mappedBy = "groups")
     private List<Tournament> tournament;
 
