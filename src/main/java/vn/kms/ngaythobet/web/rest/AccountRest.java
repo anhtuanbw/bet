@@ -1,6 +1,15 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.web.rest;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+import java.time.LocalDateTime;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserService;
+import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.infras.security.xauth.Token;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
@@ -44,6 +53,8 @@ public class AccountRest {
 
     private final UserDetailsService userDetailsService;
 
+
+
     @Autowired
     public AccountRest(UserService userService, TokenProvider tokenProvider,
             AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
@@ -51,6 +62,7 @@ public class AccountRest {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
+
     }
 
     @RequestMapping(value = "/register", method = POST)
@@ -112,7 +124,7 @@ public class AccountRest {
 
     @RequestMapping(value = "/logout", method = POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        new SecurityContextLogoutHandler().logout(request, response, authentication);
+        String token = request.getHeader(Constants.XAUTH_TOKEN_HEADER_NAME);
+        tokenProvider.invalidToken(token);
     }
 }
