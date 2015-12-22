@@ -41,7 +41,6 @@ public class GroupService {
         Group group = new Group();
         group.setName(createGroupInfo.getName());
         group.setModerator(moderator);
-        //TODO: Waiting for Tournament Repository Implementation
         group.setTournament(tournamentRepo.findOneById(createGroupInfo.getTournamentId()));
         groupRepo.save(group);
         mailService.sendMailToGroupModeratorAsync(moderator, group);
