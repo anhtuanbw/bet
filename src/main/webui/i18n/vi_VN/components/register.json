@@ -1,5 +1,5 @@
 {
-  "common": {
+  "components": {
       "register": {
           "success": "Đăng ký thành công!!! Vui lòng kiểm tra email.",
           "activate": "Kích hoạt tài khoản thành công!!!"

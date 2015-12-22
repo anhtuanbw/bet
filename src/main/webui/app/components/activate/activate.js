@@ -10,7 +10,6 @@ export default class ActivateController {
     this.timeout = $timeout;
      this.location = $location;
     this.activate();
-     
   }
    
    activate() {

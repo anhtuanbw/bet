@@ -6,15 +6,17 @@ import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ChangePasswordController from './common/change-password/change-password';
-import RegisterController from './common/register/register';
 import ActivateController from './components/activate/activate';
+import TournamentController from './components/tournament/tournament';
+import RegisterController from './components/register/register';
 
 export default class AppController {
   /* @ngInject */
   constructor($router) {
     $router.config([
       { path: '/home', component: 'home' },
-      { path: '/api/activate', component: 'activate' },      
+      { path: '/api/activate', component: 'activate' },
+      { path: '/tournament', component: 'tournament' },      
       { path: '/', redirectTo: '/home' }
     ]);
   }
@@ -24,6 +26,7 @@ angular.module('ngaythobet', [
   'ngNewRouter',
   'ngSanitize',
   'ngCookies',
+  'ngTagsInput',
   'pascalprecht.translate',
   'ngaythobet.services',
   'ngaythobet.common',
@@ -35,6 +38,8 @@ angular.module('ngaythobet', [
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ChangePasswordController', ChangePasswordController)
 .controller('ActivateController', ActivateController)
+.controller('TournamentController', TournamentController)
+.controller('RegisterController', RegisterController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

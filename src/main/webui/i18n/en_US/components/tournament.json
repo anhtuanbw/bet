@@ -1,0 +1,7 @@
+{
+  "components": {
+    "tournament": {
+      "createTournament-success": "Creat tournament successfully!!!"
+    }
+  }
+}

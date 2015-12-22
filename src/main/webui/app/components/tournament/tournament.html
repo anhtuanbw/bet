@@ -1,0 +1,25 @@
+<div class="row" ng-controller="TournamentController as tournament">
+	<div class="col-sm-6">
+		<h2>Create Tournament</h2>
+		<form class="well" novalidate>
+			<div ng-class="(tournament.errorMessage.name) ? 'form-group has-error' : 'form-group'">
+				<label class="control-label">Tournament name <span class="text-danger">(*)</span></label>
+				<input type="text" class="form-control" ng-model="tournament.name" />
+				<span class="text-danger" ng-show="tournament.errorMessage" ng-bind="tournament.errorMessage.name"></span>
+			</div>
+			<div ng-class="(tournament.errorMessage.competitors) ? 'form-group has-error' : 'form-group'">
+				<label class="control-label">Competitors<span class="text-danger">(>1)</span><span>: {{tournament.numOfCompetitors()}}</span></label>
+				<tags-input placeholder="Add a competitor" ng-model="tournament.competitors"></tags-input>
+				<span class="text-danger" ng-show="tournament.errorMessage" ng-bind="tournament.errorMessage.competitors"></span>
+			</div>
+			<div class="form-group">
+				<input type="checkbox" ng-model="tournament.isActive" />
+				<label>Active</label>
+			</div>
+			<div class="form-group clearfix ">
+				<button class="btn btn-primary pull-right" ng-click="tournament.createTournament()">Add</button>
+			</div>
+		</form>
+	</div>
+</div>
+<toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'position-class': 'toast-center'}"></toaster-container>
