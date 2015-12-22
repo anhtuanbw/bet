@@ -18,9 +18,9 @@ public class CompetitorService {
         this.tournamentRepo = tournamentRepo;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Competitor> findByTournamentId(Long tournamentId) {
         Tournament tournament = tournamentRepo.findOne(tournamentId);
-        return competitorRepo.findAllByTournament(tournament);
+        return competitorRepo.findByTournament(tournament);
     }
 }

@@ -29,19 +29,18 @@ public class TournamentService {
         tournament.setNumOfCompetitor((long) tournamentInfo.getCompetitors().size());
         tournament.setActivated(tournamentInfo.isActive());
         tournamentRepo.save(tournament);
-
         tournamentInfo.getCompetitors().forEach(competitorName -> {
             Competitor competitor = new Competitor(tournament, competitorName);
             competitorRepo.save(competitor);
         });
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Tournament> findAllTournament() {
         return tournamentRepo.findAllByOrderByCreatedAtDesc();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Tournament findById(Long id) {
         return tournamentRepo.findOne(id);
     }
