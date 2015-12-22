@@ -1,12 +1,10 @@
 package vn.kms.ngaythobet.domain.core;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import org.junit.Rule;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import vn.kms.ngaythobet.BaseTest;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
@@ -21,17 +19,12 @@ import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
  *
  */
 public class GroupServiceTest extends BaseTest {
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Autowired
     private TournamentRepository tournamentRepo;
     @Autowired
     private GroupRepository groupRepo;
     @Autowired
     private GroupService groupService;
-    @Autowired
-    private UserRepository userRepo;
 
     @Test
     public void testCreateGroup() {
@@ -45,7 +38,7 @@ public class GroupServiceTest extends BaseTest {
         CreateGroupInfo createGroupInfo = new CreateGroupInfo();
         createGroupInfo.setName("Launch 4");
         createGroupInfo.setTournamentId(temp.getId());
-        createGroupInfo.setUsername(user.getUsername());
+        createGroupInfo.setModerator(user.getUsername());
         groupService.createGroup(createGroupInfo);
 
         Group group = groupRepo.findOne((long) 1);

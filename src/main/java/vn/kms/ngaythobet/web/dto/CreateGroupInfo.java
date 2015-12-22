@@ -14,7 +14,7 @@ public class CreateGroupInfo {
     private Long tournamentId;
 
     @NotEmpty
-    private String username;
+    private String moderator;
 
     public String getName() {
         return name;
@@ -32,12 +32,12 @@ public class CreateGroupInfo {
         this.tournamentId = tournamentId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getModerator() {
+        return moderator;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setModerator(String username) {
+        this.moderator = username;
     }
 
 }

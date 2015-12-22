@@ -17,7 +17,6 @@ import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
  *
  */
 @Service
-@Transactional(readOnly = true)
 public class GroupService {
     private static final Logger logger = LoggerFactory.getLogger(GroupService.class);
 
@@ -35,9 +34,9 @@ public class GroupService {
         this.mailService = mailService;
     }
 
-    @Transactional
+    @Transactional  
     public void createGroup(CreateGroupInfo createGroupInfo) {
-        User moderator = userRepo.findOneByUsername(createGroupInfo.getUsername()).get();
+        User moderator = userRepo.findOneByUsername(createGroupInfo.getModerator()).get();
         Group group = new Group();
         group.setName(createGroupInfo.getName());
         group.setModerator(moderator);
