@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface TournamentRepository {
     List<Tournament> findAllOrderByCreatedAtDesc();
+    Tournament getOne(long tournamentId);
 }

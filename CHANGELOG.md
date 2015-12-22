@@ -7,6 +7,10 @@ ngaythobet - v0.0.1 / 2015-12-18
 * [#3, #5] Reset password.
 * [#6, #7] Change password.
 
+* [#8] Create Tournaments.
+* [#9] Create Matches.
+* [#10] Create Group.
+
 **Improvement**
 
 **Bug**

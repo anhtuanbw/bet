@@ -23,6 +23,9 @@ public class Match extends AuditableEntity {
 
     @Column(name = "match_time")
     private LocalDateTime matchTime;
+    
+    @Column
+    private String comment;
 
     @Column
     private String location;
@@ -69,6 +72,14 @@ public class Match extends AuditableEntity {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+    
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Competitor getCompetitor1() {
