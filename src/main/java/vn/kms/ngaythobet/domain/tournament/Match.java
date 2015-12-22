@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 
 @Entity
@@ -36,6 +38,7 @@ public class Match extends AuditableEntity {
     private Competitor competitor2;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "round_id")
     private Round round;
 
