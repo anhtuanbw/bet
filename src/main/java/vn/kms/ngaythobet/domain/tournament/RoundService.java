@@ -27,7 +27,7 @@ public class RoundService {
     public void createRound(CreateRoundInfo createRoundInfo) {
         Round round = new Round();
         round.setName(createRoundInfo.getName());
-        round.setTournament(tournamentRepo.findOneById(createRoundInfo.getTournamentId()));
+        round.setTournament(tournamentRepo.getOne(createRoundInfo.getTournamentId()));
         List<Competitor> competitors = new ArrayList<>();
         createRoundInfo.getCompetitorId().forEach(Long -> {
             competitors.add(competitorRepo.getOne(Long));
