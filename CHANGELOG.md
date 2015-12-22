@@ -1,3 +1,18 @@
+ngaythobet - v0.0.2 / 2015-12-22
+================================
+
+* [#8] Create Tournaments.
+* [#9] Create Matches.
+* [#10] Create Group.
+
+**Improvement**
+
+**Bug**
+* [API Tournament Management] Not validdation when input data competitorId doesn't exist in database.
+* [API Group Management] Not validdation when input data tournamentId & username doesn't exist in database.
+* [API Match Management] Not validdation when input data competitorId doesn't exist in database.
+
+
 ngaythobet - v0.0.1 / 2015-12-18
 ================================
 
@@ -16,17 +31,3 @@ ngaythobet - v0.0.1 / 2015-12-18
 * [API Register] User should be able to register username with uppercase letters
 * [API Reset Password] System does not send email when user reset password
 * [API Login] Error message is not clear when user login with invalid username or password
-
-ngaythobet - v0.0.2 / 2015-12-22
-================================
-
-* [#8] Create Tournaments.
-* [#9] Create Matches.
-* [#10] Create Group.
-
-**Improvement**
-
-**Bug**
-* [API Tournament Management] Not validdation when input data competitorId doesn't exist in database.
-* [API Group Management] Not validdation when input data tournamentId & username doesn't exist in database.
-* [API Match Management] Not validdation when input data competitorId doesn't exist in database.
