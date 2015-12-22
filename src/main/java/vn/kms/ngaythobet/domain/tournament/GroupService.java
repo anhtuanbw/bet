@@ -40,7 +40,7 @@ public class GroupService {
         Group group = new Group();
         group.setName(createGroupInfo.getName());
         group.setModerator(moderator);
-        group.setTournament(tournamentRepo.findOneById(createGroupInfo.getTournamentId()));
+        group.setTournament(tournamentRepo.findOne(createGroupInfo.getTournamentId()));
         groupRepo.save(group);
         mailService.sendMailToGroupModeratorAsync(moderator, group);
     }
