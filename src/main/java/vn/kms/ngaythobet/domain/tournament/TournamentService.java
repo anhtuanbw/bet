@@ -3,6 +3,7 @@ package vn.kms.ngaythobet.domain.tournament;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TournamentService {
@@ -13,7 +14,8 @@ public class TournamentService {
         this.tournamentRepo = tournamentRepo;
     }
 
+    @Transactional(readOnly = true)
     public Tournament findTournamentById(Long id) {
-        return tournamentRepo.findTournamentById(id);
+        return tournamentRepo.findOne(id);
     }
 }

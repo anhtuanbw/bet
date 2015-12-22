@@ -4,5 +4,4 @@ package vn.kms.ngaythobet.domain.tournament;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {
-    Tournament findTournamentById(Long id);
 }
