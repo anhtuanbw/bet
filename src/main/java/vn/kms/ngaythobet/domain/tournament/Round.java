@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 
 @Entity
@@ -23,6 +25,7 @@ public class Round extends AuditableEntity {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
