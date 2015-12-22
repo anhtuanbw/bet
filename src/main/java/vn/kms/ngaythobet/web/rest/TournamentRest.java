@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.tournament.Tournament;
@@ -34,5 +35,10 @@ public class TournamentRest {
     @RequestMapping(value = "/findAll", method = GET)
     public List<Tournament> getAllTournament() {
         return tournamentService.findAllTournament();
+    }
+
+    @RequestMapping(value = "/active", method = GET)
+    public void activeTournament(@RequestParam Long tournamentId) {
+        tournamentService.activateTournament(tournamentId);
     }
 }
