@@ -8,11 +8,11 @@
           <!-- Begin Tournament -->
           <div class="form-group">
             <label for="tournamentname" class="control-label">Tournament Name</label><span class="text-danger"> *</span>
-            <div class="input-group" ng-init="round.data.tourlist = []">
-              <select class="form-control">
+            <div ng-init="round.data.tourlist = []">
+              <select class="form-control" ng-change="round.selecttour(round.data)" ng-model="round.data.tour" ng-init="round.loadtour(round.data)">
                 <option ng-repeat="tour in round.data.tourlist">{{tour}}</option>
               </select>
-                  <div class="input-group-addon" ng-click="round.loadtour(round.data)">Load Tour</div>
+
             </div>
           </div>
           <!-- End Tournament -->
@@ -35,15 +35,13 @@
 
           <!-- Combobox Competitor -->
           <div class="input-group" ng-init="round.data.listcompet = []">
-            <select class="form-control" ng-model="round.data.compet">
+            <select class="form-control" ng-model="round.data.compet" ng-init="round.loadcomp(round.data)">
               <option ng-repeat="comp in round.data.listcompet">{{comp}}</option>
             </select>
-                <div class="input-group-addon" ng-click="round.addmore(round.data)">Add Comp</div>
+                <div class="input-group-addon" ng-click="round.addmore(round.data)">Add</div>
           </div>
           <br>
           <!-- End Combobox Competitor -->
-
-          <button type="button" class="btn btn-warning" ng-click="round.loadcomp(round.data)">Load competitor</button>
           <!-- End Competitor -->
 
           <button type="button" class="btn btn-primary pull-right">Save</button>
