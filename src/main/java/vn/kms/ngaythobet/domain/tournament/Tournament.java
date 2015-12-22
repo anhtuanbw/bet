@@ -20,7 +20,7 @@ public class Tournament extends AuditableEntity {
     private boolean activated;
 
     @Column(name = "number_of_competitors")
-    private Long numOfCompetitor;
+    private Long numOfCompetitors;
 
     @OneToMany(mappedBy = "tournament")
     private List<Competitor> competitors;
@@ -47,12 +47,12 @@ public class Tournament extends AuditableEntity {
         this.activated = activated;
     }
 
-    public Long getNumOfCompetitor() {
-        return numOfCompetitor;
+    public Long getNumOfCompetitors() {
+        return numOfCompetitors;
     }
 
-    public void setNumOfCompetitor(Long numOfCompetitor) {
-        this.numOfCompetitor = numOfCompetitor;
+    public void setNumOfCompetitor(Long numOfCompetitors) {
+        this.numOfCompetitors = numOfCompetitors;
     }
 
     public List<Competitor> getCompetitors() {

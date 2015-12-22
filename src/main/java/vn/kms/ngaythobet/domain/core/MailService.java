@@ -1,6 +1,11 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
+import java.util.Locale;
+import java.util.concurrent.Future;
+
+import javax.mail.internet.MimeMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import javax.mail.internet.MimeMessage;
-import java.util.Locale;
-import java.util.concurrent.Future;
+import vn.kms.ngaythobet.domain.tournament.Group;
 
 @Service
 public class MailService {
@@ -90,6 +93,19 @@ public class MailService {
         context.setVariable("baseUrl", baseUrl);
         String content = templateEngine.process("password-reset", context);
         String subject = messageSource.getMessage("email.reset.title", null, locale);
+
+        return sendEmailAsync(user.getEmail(), subject, content, false, true);
+    }
+    
+    @Async
+    public Future<Boolean> sendMailToGroupModeratorAsync(User user, Group group) {
+        Locale locale = Locale.forLanguageTag(user.getLanguageTag());
+        Context context = new Context(locale);
+        context.setVariable("user", user);
+        context.setVariable("group", group);
+        context.setVariable("baseUrl", baseUrl);
+        String content = templateEngine.process("notify-group-moderator", context);
+        String subject = messageSource.getMessage("email.notify.group.moderator.title", null, locale);
 
         return sendEmailAsync(user.getEmail(), subject, content, false, true);
     }
