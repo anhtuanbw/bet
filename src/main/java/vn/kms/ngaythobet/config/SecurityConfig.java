@@ -18,6 +18,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.User.Role;
 import vn.kms.ngaythobet.infras.security.Http401UnauthorizedEntryPoint;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
 import vn.kms.ngaythobet.infras.security.xauth.XAuthTokenConfigurer;
@@ -90,6 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/login").permitAll()
             .antMatchers("/api/reset-password/*").permitAll()
             .antMatchers("/api/**").authenticated()
+            .antMatchers("/api/createRound").hasRole(Role.ADMIN.toString())
             .and()
             .apply(securityConfigurerAdapter());
 

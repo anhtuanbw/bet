@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.kms.ngaythobet.web.dto.CreateRoundInfo;
 
 @Service
-@Transactional(readOnly = true)
 public class RoundService {
     private final RoundRepository roundRepo;
     private final TournamentRepository tournamentRepo;
@@ -31,7 +30,7 @@ public class RoundService {
         round.setTournament(tournamentRepo.findOneById(createRoundInfo.getTournamentId()));
         List<Competitor> competitors = new ArrayList<>();
         createRoundInfo.getCompetitorId().forEach(Long -> {
-            competitors.add(competitorRepo.findOneById(Long));
+            competitors.add(competitorRepo.getOne(Long));
         });
         round.setCompetitors(competitors);
         roundRepo.save(round);
