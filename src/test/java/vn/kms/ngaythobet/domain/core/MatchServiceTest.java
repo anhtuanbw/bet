@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -17,6 +18,7 @@ import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
 import vn.kms.ngaythobet.domain.tournament.MatchRepository;
 import vn.kms.ngaythobet.domain.tournament.MatchService;
 import vn.kms.ngaythobet.domain.tournament.RoundRepository;
+import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.tournament.TournamentRepository;
 
 public class MatchServiceTest extends BaseTest {
@@ -47,5 +49,10 @@ public class MatchServiceTest extends BaseTest {
                 .thenReturn(new AsyncResult<>(true));
 
         matchService = new MatchService(competitorRepo, roundRepo, matchRepo);
+    }
+    
+    @Test
+    public void testCreateMatch(){
+        //TODO
     }
 }

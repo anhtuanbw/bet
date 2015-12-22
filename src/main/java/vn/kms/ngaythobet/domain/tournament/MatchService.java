@@ -5,7 +5,6 @@ import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class MatchService {
 
     private final CompetitorRepository competitorRepo;
@@ -33,20 +32,8 @@ public class MatchService {
     }
     @Transactional
     public void createMatch(CreateMatchInfo createMatchInfo) {
-        long roundId = Long.parseLong(createMatchInfo.getRound().trim());
         
-        Long competitor1Id = Long.valueOf(createMatchInfo.getCompetitor1().trim());
-        Long competitor2Id = Long.valueOf(createMatchInfo.getCompetitor2().trim());
-        
-        String location = createMatchInfo.getLocation().trim();
-        String comment = createMatchInfo.getComment().trim();
-        
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-        LocalDateTime time = LocalDateTime.parse(createMatchInfo.getTime().trim(),
-                formatter);
-        
-        Round round = roundRepo.findById(roundId); 
+        Round round = roundRepo.getOne(createMatchInfo.getRound());
         if(round == null){
             throw new DataInvalidException("exception.data-not-found");
         }
@@ -55,22 +42,29 @@ public class MatchService {
             throw new DataInvalidException("exception.data-not-found");
         }
         
-        if(competitor1Id == null || competitor2Id == null){
+        if(createMatchInfo.getCompetitor1() == null || createMatchInfo.getCompetitor2() == null){
             throw new DataInvalidException("exception.data-not-found");
         }
         
+        Competitor competitor1 = competitorRepo.getOne(createMatchInfo.getCompetitor1());
+        Competitor competitor2 = competitorRepo.getOne(createMatchInfo.getCompetitor2());
         
-        Match match = new Match();
-        match.setCompetitor1(competitorRepo.findById(competitor1Id));
-        match.setCompetitor2(competitorRepo.findById(competitor2Id));
-        match.setScore1(0);
-        match.setScore2(0);
-        match.setMatchTime(time);
-        match.setLocation(location);
-        match.setComment(comment);
-        match.setRound(round);
+        if(competitor1 == null || competitor2 == null){
+            throw new DataInvalidException("exception.data-not-found");
+        }
         
-        matchRepo.save(match);
+        if(competitor1.getTournament().getId() == tournament.getId() && competitor2.getTournament().getId() == tournament.getId()){
+            Match match = new Match();
+            match.setCompetitor1(competitor1);
+            match.setCompetitor2(competitor2);
+            match.setMatchTime(createMatchInfo.getTime());
+            match.setLocation(createMatchInfo.getLocation());
+            match.setComment(createMatchInfo.getComment());
+            match.setRound(round);
+            matchRepo.save(match);
+        }else{
+            throw new DataInvalidException("exception.data-not-found");
+        }
     }
     
     @Transactional
@@ -80,10 +74,10 @@ public class MatchService {
     
     @Transactional
     public void updateScore(long matchId, int competitor1Score, int competitor2Score) {
-
+        //TODO
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Map<String, List<Match>> getFixtures(long tournamentId) {
         Map<String, List<Match>> fixtures = new LinkedHashMap<>();
 

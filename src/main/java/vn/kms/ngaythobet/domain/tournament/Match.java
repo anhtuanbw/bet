@@ -16,10 +16,10 @@ import vn.kms.ngaythobet.domain.core.AuditableEntity;
 public class Match extends AuditableEntity {
 
     @Column(name = "score_1")
-    private long score1;
+    private Long score1;
 
     @Column(name = "score_2")
-    private long score2;
+    private Long score2;
 
     @Column(name = "match_time")
     private LocalDateTime matchTime;
@@ -42,19 +42,19 @@ public class Match extends AuditableEntity {
     @JoinColumn(name = "round_id")
     private Round round;
 
-    public long getScore1() {
+    public Long getScore1() {
         return score1;
     }
 
-    public void setScore1(long score1) {
+    public void setScore1(Long score1) {
         this.score1 = score1;
     }
 
-    public long getScore2() {
+    public Long getScore2() {
         return score2;
     }
 
-    public void setScore2(long score2) {
+    public void setScore2(Long score2) {
         this.score2 = score2;
     }
 
@@ -66,20 +66,20 @@ public class Match extends AuditableEntity {
         this.matchTime = matchTime;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-    
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Competitor getCompetitor1() {

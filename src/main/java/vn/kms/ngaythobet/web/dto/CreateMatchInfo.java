@@ -2,21 +2,24 @@
 package vn.kms.ngaythobet.web.dto;
 
 
+import java.time.LocalDateTime;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.validation.constraints.Size;
 
 public class CreateMatchInfo {
     @NotEmpty
-    private String round;
+    private long round;
 
     @NotEmpty
-    private String competitor1;
+    private Long competitor1;
     
     @NotEmpty
-    private String competitor2;
+    private Long competitor2;
     
     @NotEmpty
-    private String time;
+    private LocalDateTime time;
     
     @NotEmpty
     private String location;
@@ -25,35 +28,35 @@ public class CreateMatchInfo {
     @Size(max=512)
     private String comment;
 
-    public String getRound() {
+    public long getRound() {
         return round;
     }
 
-    public void setRound(String round) {
+    public void setRound(long round) {
         this.round = round;
     }
 
-    public String getCompetitor1() {
+    public Long getCompetitor1() {
         return competitor1;
     }
 
-    public void setCompetitor1(String competitor1) {
+    public void setCompetitor1(Long competitor1) {
         this.competitor1 = competitor1;
     }
 
-    public String getCompetitor2() {
+    public Long getCompetitor2() {
         return competitor2;
     }
 
-    public void setCompetitor2(String competitor2) {
+    public void setCompetitor2(Long competitor2) {
         this.competitor2 = competitor2;
     }
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
