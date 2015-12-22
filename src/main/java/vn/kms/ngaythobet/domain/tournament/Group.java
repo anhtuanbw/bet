@@ -28,8 +28,9 @@ public class Group extends AuditableEntity {
             @JoinColumn(name = "user_id") })
     private List<User> members;
 
-    @ManyToMany(mappedBy = "groups")
-    private List<Tournament> tournament;
+    @ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
 
     public String getName() {
         return name;
@@ -55,11 +56,11 @@ public class Group extends AuditableEntity {
         this.members = members;
     }
 
-    public List<Tournament> getTournament() {
+    public Tournament getTournament() {
         return tournament;
     }
 
-    public void setTournament(List<Tournament> tournament) {
+    public void setTournament(Tournament tournament) {
         this.tournament = tournament;
     }
 
