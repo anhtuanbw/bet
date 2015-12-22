@@ -45,12 +45,10 @@ public class GroupServiceTest extends BaseTest {
         CreateGroupInfo createGroupInfo = new CreateGroupInfo();
         createGroupInfo.setName("Launch 4");
         createGroupInfo.setTournamentId(temp.getId());
-        System.out.println(userRepo.findOneByUsername(user.getUsername()).get().getId());
         createGroupInfo.setUsername(user.getUsername());
         groupService.createGroup(createGroupInfo);
 
         Group group = groupRepo.findOne((long) 1);
-        System.out.println(group.getName());
         assertThat(group.getName(), is(equalTo("Launch 4")));
         assertThat(group.getModerator().getUsername(), is(equalTo(user.getUsername())));
         assertThat(group.getTournament().getName(), is(equalTo(tournament.getName())));

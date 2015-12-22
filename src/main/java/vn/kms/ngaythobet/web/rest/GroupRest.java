@@ -18,12 +18,12 @@ import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
  *
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/group")
 public class GroupRest {
     @Autowired
     private GroupService groupService;
 
-    @RequestMapping(value = "/group/create", method = POST)
+    @RequestMapping(value = "/create", method = POST)
     public void createGroup(@Valid @RequestBody CreateGroupInfo createGroupInfo) {
         groupService.createGroup(createGroupInfo);
     }
