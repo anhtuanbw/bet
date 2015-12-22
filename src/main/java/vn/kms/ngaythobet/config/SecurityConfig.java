@@ -18,13 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-<<<<<<< .mine
 import vn.kms.ngaythobet.domain.core.User;
-
-=======
-
-import vn.kms.ngaythobet.domain.core.User;
->>>>>>> .theirs
 import vn.kms.ngaythobet.infras.security.Http401UnauthorizedEntryPoint;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
 import vn.kms.ngaythobet.infras.security.xauth.XAuthTokenConfigurer;
