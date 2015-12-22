@@ -1,8 +1,8 @@
-<div ng-controller="ActivateController as activate" ng-show="activate.show" class="row">
+<div ng-controller="ActivatorController as activator" ng-show="activator.show" class="row">
     <div class="col-sm-4 col-sm-offset-4">
-        <div ng-class="activate.statusCSS">
-            <h2 translate="common.register.activate" ng-if="activate.success"></h2>
-            <h2 ng-if="!activate.success" ng-bind="activate.message"></h2>
+        <div ng-class="activator.statusCSS">
+            <h2 translate="components.register.activate" ng-if="activator.success"></h2>
+            <h2 ng-if="!activator.success" ng-bind="activator.message"></h2>
             <p>Automatically redirect to Homepage or click <a href="/home">here</a></p>
         </div>
     </div>

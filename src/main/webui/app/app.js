@@ -6,7 +6,7 @@ import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ChangePasswordController from './common/change-password/change-password';
-import ActivateController from './components/activate/activate';
+import ActivatorController from './components/activate/activate';
 import TournamentController from './components/tournament/tournament';
 import RegisterController from './components/register/register';
 
@@ -37,7 +37,7 @@ angular.module('ngaythobet', [
 .controller('HomeController', HomeController)
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ChangePasswordController', ChangePasswordController)
-.controller('ActivateController', ActivateController)
+.controller('ActivatorController', ActivatorController)
 .controller('TournamentController', TournamentController)
 .controller('RegisterController', RegisterController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
