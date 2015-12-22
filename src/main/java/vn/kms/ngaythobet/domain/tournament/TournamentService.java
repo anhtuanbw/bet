@@ -43,12 +43,12 @@ public class TournamentService {
 
     @Transactional
     public Tournament findById(Long id) {
-        return tournamentRepo.findOneById(id);
+        return tournamentRepo.findOne(id);
     }
 
     @Transactional
     public void activateTournament(long tournamentId) {
-        Tournament tournament = tournamentRepo.findOneById(tournamentId);
+        Tournament tournament = tournamentRepo.findOne(tournamentId);
         tournament.setActivated(true);
         tournamentRepo.save(tournament);
     }

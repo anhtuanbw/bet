@@ -20,7 +20,7 @@ public class CompetitorService {
 
     @Transactional
     public List<Competitor> findByTournamentId(Long tournamentId) {
-        Tournament tournament = tournamentRepo.findOneById(tournamentId);
+        Tournament tournament = tournamentRepo.findOne(tournamentId);
         return competitorRepo.findAllByTournament(tournament);
     }
 }
