@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserService;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.infras.security.xauth.Token;
@@ -118,8 +119,11 @@ public class AccountRest {
 
     @RequestMapping(value = "/account/change-password", method = POST)
     public Token changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
-        userService.changePassword(passwordInfo);
-        return login(SecurityUtil.getCurrentLogin(), passwordInfo.getPassword());
+        if (userService.changePassword(passwordInfo)) {
+            return login(SecurityUtil.getCurrentLogin(), passwordInfo.getPassword());
+        } else {
+            throw new DataInvalidException("exception.userService.password-invalid");
+        }
     }
 
     @RequestMapping(value = "/logout", method = POST)
