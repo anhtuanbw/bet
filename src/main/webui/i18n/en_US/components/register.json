@@ -2,7 +2,12 @@
   "components": {
       "register": {
           "success": "Register Successfully!!! Please check email.",
-          "activate": "Activate Successfully!!!"
+          "activate": "Activate Successfully!!!",
+          "username": "Username",
+          "displayname": "Display name",
+          "password": "Password",
+          "confirmPassword": "Confirm password",
+          "signup": "Sign up"
       }
   }
 }

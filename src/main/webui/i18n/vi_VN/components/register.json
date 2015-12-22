@@ -2,7 +2,12 @@
   "components": {
       "register": {
           "success": "Đăng ký thành công!!! Vui lòng kiểm tra email.",
-          "activate": "Kích hoạt tài khoản thành công!!!"
+          "activate": "Kích hoạt tài khoản thành công!!!",
+           "username": "Tên đăng nhập",
+          "displayname": "Tên hiển thị",
+          "password": "Mật khẩu",
+          "confirmPassword": "Nhập lại mật khẩu",
+          "signup": "Đăng ký"
       }
   }
 }
