@@ -89,6 +89,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/login").permitAll()
             .antMatchers("/api/reset-password/*").permitAll()
+            .antMatchers("/api/tournaments/create").permitAll()
+            .antMatchers("/api/tournaments/findAll").permitAll()
+            .antMatchers("/api/competitors/findByTournamentId").permitAll()
             .antMatchers("/api/**").authenticated()
             .and()
             .apply(securityConfigurerAdapter());
