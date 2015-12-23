@@ -1,0 +1,7 @@
+{
+  "components": {
+    "tournament": {
+      "createTournament-success": "Thêm giải đấu thành công!!!"
+    }
+  }
+}
