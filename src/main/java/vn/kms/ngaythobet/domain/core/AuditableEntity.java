@@ -22,6 +22,7 @@ public abstract class AuditableEntity {
     private Long id;
 
     @Column
+    @JsonIgnore
     @AuditIgnore
     private LocalDateTime createdAt;
 
@@ -31,6 +32,7 @@ public abstract class AuditableEntity {
     private String createdBy;
 
     @Column
+    @JsonIgnore
     @AuditIgnore
     private LocalDateTime modifiedAt;
 

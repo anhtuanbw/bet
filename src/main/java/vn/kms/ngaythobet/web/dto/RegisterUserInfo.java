@@ -30,8 +30,9 @@ public class RegisterUserInfo {
     @NotEmpty
     private String name;
 
+    @NotEmpty
     @Email
-    @Size(min = 5, max = 100)
+    @Size(min = 6, max = 100)
     @FieldUnique(field = "email", entity = User.class)
     private String email;
 
