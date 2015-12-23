@@ -9,7 +9,7 @@
           <div class="form-group">
             <label for="tournamentname" class="control-label">Tournament Name</label><span class="text-danger"> *</span>
             <div ng-init="round.data.tourlist = []">
-              <select class="form-control" ng-change="round.selecttour(round.data)" ng-model="round.data.tour" ng-init="round.loadTour(round.data)">
+              <select class="form-control" ng-change="round.selectTour(round.data)" ng-model="round.data.tour" ng-init="round.loadTour(round.data)">
                 <option ng-repeat="tour in round.data.tourlist">{{tour}}</option>
               </select>
 

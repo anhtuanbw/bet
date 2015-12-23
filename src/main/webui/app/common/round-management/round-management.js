@@ -28,8 +28,8 @@ export default class roundManController {
     console.log('You select: '+round.tour);
     this.RoundService.getAllTournament()
     .then(response => {
-      // var ind = response.data.indexOf(round.tour);
-      // console.log('ind: '+ind);
+      var ind = response.data[0].indexOf(round.tour);
+      console.log('ind: '+ind);
       // var j;
       // for (var i = 0; i < response.data.length; i++) {
       //   console.log(response.data[0].competitors.length);
