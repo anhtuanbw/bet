@@ -49,8 +49,25 @@ export default class GroupController {
   }
 
   getTournament() {
-    var allStates = this.tournamentService.findAll();
-    console.log(allStates);
+    this.tournamentService.findAll()
+    .then(response => {
+      if (response.status === 200) {
+        var tournaments = response.data;
+
+        var a = tournaments.map(function(tournament) {
+          return {
+            value: tournament.id,
+            display: tournament.name
+          }
+        });
+
+        console.log(a);
+        return a;
+      } else {
+      }
+    })
+    .catch(response => {
+    });
     // return allStates.split(/, +/g).map( function (state) {
     //   return {
     //     value: state.toLowerCase(),
