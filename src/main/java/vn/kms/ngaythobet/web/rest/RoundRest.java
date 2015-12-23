@@ -2,7 +2,6 @@ package vn.kms.ngaythobet.web.rest;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;

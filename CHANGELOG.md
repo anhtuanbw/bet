@@ -1,3 +1,20 @@
+ngaythobet - v0.0.3 / 2015-12-23
+================================
+
+* [#8] Create Tournaments.
+* [#9] Create Matches.
+* [#10] Create Group.
+* [#29] Create Round.
+
+**Improvement**
+
+**Bug**
+* [API Tournament Management] Fixed not validation input data
+* [API Group Management] Fixed not validation input data
+* [API Match Management] Fixed not validation input data
+* [API Round Management] Fixed not validation input data
+
+
 ngaythobet - v0.0.2 / 2015-12-22
 ================================
 
