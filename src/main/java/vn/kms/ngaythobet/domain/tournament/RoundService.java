@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateRoundInfo;
 
 @Service
@@ -34,5 +35,13 @@ public class RoundService {
         });
         round.setCompetitors(competitors);
         roundRepo.save(round);
+    }
+
+    @Transactional
+    public List<Round> getRoundByTournamentId(Long tournamentId) {        
+        if(tournamentRepo.exists(tournamentId)) {
+            return roundRepo.findByTournamentId(tournamentId);
+        }
+        throw new DataInvalidException("exception.tournament-is-not-exist");
     }
 }
