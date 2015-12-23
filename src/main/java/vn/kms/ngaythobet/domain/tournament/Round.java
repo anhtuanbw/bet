@@ -1,20 +1,48 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 
+@Entity
+@Table(name = "rounds")
 public class Round extends AuditableEntity {
-    private Tournament tournament;
-    private String name;
-    private int index;
 
-    public Round() {
+    @Column
+    private String name;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
+
+    @OneToMany(mappedBy = "round")
+    List<Match> matches;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "round_competitor", joinColumns = { @JoinColumn(name = "round_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "competitor_id") })
+    List<Competitor> competitors;
+
+    public String getName() {
+        return name;
     }
 
-    public Round(Tournament tournament, String name, int index) {
-        this.tournament = tournament;
+    public void setName(String name) {
         this.name = name;
-        this.index = index;
     }
 
     public Tournament getTournament() {
@@ -25,19 +53,19 @@ public class Round extends AuditableEntity {
         this.tournament = tournament;
     }
 
-    public String getName() {
-        return name;
+    public List<Match> getMatches() {
+        return matches;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
     }
 
-    public int getIndex() {
-        return index;
+    public List<Competitor> getCompetitors() {
+        return competitors;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setCompetitors(List<Competitor> competitors) {
+        this.competitors = competitors;
     }
 }

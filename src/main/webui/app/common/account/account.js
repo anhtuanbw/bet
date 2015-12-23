@@ -16,7 +16,7 @@ export default class AccountController {
   authen() {
     this.accountService.authen()
     .then(response => {
-      if (response.data) {
+      if (response.data != 'anonymousUser') {
         this.loginUser.username = response.data;
       } else {
         this.cacheService.remove('loginUser');
