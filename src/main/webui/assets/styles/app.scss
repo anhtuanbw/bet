@@ -90,3 +90,6 @@ body {
     text-decoration: none;
   }
 }
+.md-autocomplete-suggestions-container {
+  z-index: 9999 !important;
+}
