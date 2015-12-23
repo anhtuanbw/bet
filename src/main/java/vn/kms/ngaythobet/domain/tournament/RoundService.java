@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateRoundInfo;
 
 @Service
@@ -38,7 +37,7 @@ public class RoundService {
     }
 
     @Transactional
-    public List<Round> getRoundByTournamentId(Long tournamentId) {        
+    public List<Round> getRoundByTournamentId(Long tournamentId) {
             return roundRepo.findByTournamentId(tournamentId);
     }
 }
