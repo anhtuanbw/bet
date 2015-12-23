@@ -9,22 +9,22 @@ export default class GroupController {
     this.modalInstance = $modalInstance;
     this.toaster = toaster;
 
+    // This function just add to test, will remove in next commit
     this.states = this.tournamentService.findAll()
-    .then(response => {
-      if (response.status === 200) {
-        var tournaments = response.data;
-        console.log(tournaments);
-       return tournaments.map( function (repo) {
-        console.log("--map--");
-        repo.value = repo.name.toLowerCase();
-        return repo;
-      });
-      } else {
-      }
-    })
-    .catch(response => {
+      .then(response => {
+        if (response.status === 200) {
+          var tournaments = response.data;
+          console.log(tournaments);
+         return tournaments.map( function (repo) {
+          repo.value = repo.name.toLowerCase();
+          return repo;
+        });
+        } else {
+        }
+      })
+      .catch(response => {
     });
-//this.states = [{ name : 'euro', id : 1},{ name : 'world cup' , id : 2}];
+
     this.querySearch = this.querySearch;
     this.selectedItemChange = this.selectedItemChange;
     this.groupData = {};
@@ -35,7 +35,6 @@ export default class GroupController {
     var self = this;
     self.popTitle = 'Title';
 
-    // Show alert message
     self.pop = function(type, title, content) {
       this.toaster.pop(type, title, content);
     };
@@ -66,24 +65,23 @@ export default class GroupController {
     }
   }
 
-//   getTournament() {
-// //return  [{ name : 'euro', id : 1},{ name : 'world cup' , id : 2}];
-//     this.tournamentService.findAll()
-//     .then(response => {
-//       if (response.status === 200) {
-//         var tournaments = response.data;
-//         console.log(tournaments);
-//        return tournaments.map( function (repo) {
-//         console.log("--map--");
-//         repo.value = repo.name.toLowerCase();
-//         return repo;
-//       });
-//       } else {
-//       }
-//     })
-//     .catch(response => {
-//     });
-//   }
+  getTournament() {
+    this.tournamentService.findAll()
+    .then(response => {
+      if (response.status === 200) {
+        var tournaments = response.data;
+        console.log(tournaments);
+       return tournaments.map( function (repo) {
+        console.log("--map--");
+        repo.value = repo.name.toLowerCase();
+        return repo;
+      });
+      } else {
+      }
+    })
+    .catch(response => {
+    });
+  }
 
   createFilterFor(query) {
     

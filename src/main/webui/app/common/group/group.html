@@ -27,11 +27,11 @@
           md-search-text="group.searchText"
           md-selected-item-change="group.selectedItemChange(item)"
           md-items="item in group.querySearch(group.searchText)"
-          md-item-text="item.display"
+          md-item-text="item.name"
           md-min-length="0"
           placeholder="Please select moderator">
         <md-item-template>
-          <span md-highlight-text="group.searchText" md-highlight-flags="^i">{{item.display}}</span>
+          <span md-highlight-text="group.searchText" md-highlight-flags="^i">{{item.name}}</span>
         </md-item-template>
       </md-autocomplete>
         <span class="text-danger" ng-show="group.error.moderator">{{ ::group.error.moderator }}</span>
