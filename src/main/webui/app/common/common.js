@@ -6,7 +6,7 @@ import NavBar from './navbar/navbar';
 import LanguageSelect from './language-select/language-select';
 import Login from './login/login';
 import Register from './register/register';
-import DateTimePicker from './createMatch/date-time-picker';
+import DateTimePicker from './match/createMatch/date-time-picker';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
