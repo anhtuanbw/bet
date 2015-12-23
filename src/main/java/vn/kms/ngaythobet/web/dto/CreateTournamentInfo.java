@@ -8,18 +8,20 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.validation.FieldUnique;
+import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 public class CreateTournamentInfo {
     @NotEmpty
     @Size(min = 6, max = 50)
-    @FieldUnique(entity = Tournament.class, field = "name", message = "{validation.tournament.name.unique}")
+    @FieldUnique(entity = Tournament.class, field = "name", message = "{validation.tournament.name.unique.message}")
     private String name;
 
     @NotEmpty
-    @Size(min = 2, message = "{validation.min.message}")
+    @Size(min = 2, message = "{validation.competitors.min.message}")
+    @ListUnique(message = "{validation.competitors.unique.message}")
     private List<String> competitors;
 
-    private boolean isActive;
+    private boolean active;
 
     public String getName() {
         return name;
@@ -38,11 +40,11 @@ public class CreateTournamentInfo {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }
