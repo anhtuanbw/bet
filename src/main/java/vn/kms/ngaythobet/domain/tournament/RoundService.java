@@ -38,6 +38,6 @@ public class RoundService {
 
     @Transactional
     public List<Round> getRoundByTournamentId(Long tournamentId) {
-            return roundRepo.findByTournamentId(tournamentId);
+        return roundRepo.findByTournamentId(tournamentId);
     }
 }
