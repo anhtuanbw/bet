@@ -38,7 +38,7 @@ public class GroupServiceTest extends BaseTest {
         CreateGroupInfo createGroupInfo = new CreateGroupInfo();
         createGroupInfo.setName("Launch 4");
         createGroupInfo.setTournamentId(temp.getId());
-        createGroupInfo.setModerator(user.getUsername());
+        createGroupInfo.setModerator(user.getId());
         groupService.createGroup(createGroupInfo);
 
         Group group = groupRepo.findOne((long) 1);

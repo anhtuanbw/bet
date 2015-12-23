@@ -36,7 +36,7 @@ public class GroupService {
 
     @Transactional  
     public void createGroup(CreateGroupInfo createGroupInfo) {
-        User moderator = userRepo.findOneByUsername(createGroupInfo.getModerator()).get();
+        User moderator = userRepo.findOne(createGroupInfo.getModerator());
         Group group = new Group();
         group.setName(createGroupInfo.getName());
         group.setModerator(moderator);

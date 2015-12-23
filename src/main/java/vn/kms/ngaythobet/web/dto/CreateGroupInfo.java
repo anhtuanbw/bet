@@ -5,16 +5,22 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.tournament.Tournament;
+import vn.kms.ngaythobet.domain.validation.EntityExist;
+
 public class CreateGroupInfo {
     @Size(min = 6, max = 50)
     @NotEmpty
     private String name;
 
     @NotNull
+    @EntityExist(type = Tournament.class)
     private Long tournamentId;
 
-    @NotEmpty
-    private String moderator;
+    @NotNull
+    @EntityExist(type = User.class)
+    private Long moderator;
 
     public String getName() {
         return name;
@@ -32,12 +38,12 @@ public class CreateGroupInfo {
         this.tournamentId = tournamentId;
     }
 
-    public String getModerator() {
+    public Long getModerator() {
         return moderator;
     }
 
-    public void setModerator(String username) {
-        this.moderator = username;
+    public void setModerator(Long moderator) {
+        this.moderator = moderator;
     }
 
 }

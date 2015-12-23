@@ -5,14 +5,18 @@ import {service} from './services/services'; // jshint ignore:line
 import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
+import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
 import roundManController from './common/round-management/round-management';
+import GroupController from './common/group/group';
+import CreateMatchController from './common/createMatch/createMatch';
 
 export default class AppController {
   /* @ngInject */
   constructor($router) {
     $router.config([
       { path: '/home', component: 'home' },
+      { path: '/api/reset-password/finish', component: 'reset-passwordFinish' },
       { path: '/', redirectTo: '/home' }
     ]);
   }
@@ -26,13 +30,17 @@ angular.module('ngaythobet', [
   'ngaythobet.services',
   'ngaythobet.common',
   'toaster',
-  'ngAnimate'
+  'ngAnimate',
+  'ngMaterial'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
 .controller('ResetPasswordController', ResetPasswordController)
+.controller('ResetPasswordFinishController', ResetPasswordFinishController)
 .controller('ChangePasswordController', ChangePasswordController)
 .controller('roundManController', roundManController)
+.controller('GroupController', GroupController)
+.controller('CreateMatchController', CreateMatchController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

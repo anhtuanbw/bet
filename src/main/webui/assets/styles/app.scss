@@ -30,3 +30,7 @@ body {
 .nav-tabs {
   border-bottom: none;
 }
+
+.md-autocomplete-suggestions-container {
+  z-index: 9999 !important;
+}
