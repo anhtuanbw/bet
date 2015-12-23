@@ -6,6 +6,8 @@ import NavBar from './navbar/navbar';
 import LanguageSelect from './language-select/language-select';
 import Login from './login/login';
 import Register from './register/register';
+import Round from './round-management/round-management';
+import DateTimePicker from './createMatch/date-time-picker';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -16,4 +18,6 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('navbar', () => new NavBar())
 .directive('languageSelect', () => new LanguageSelect())
 .directive('login', () => new Login())
-.directive('register', () => new Register());
+.directive('register', () => new Register())
+.directive('round', () => new Round())
+.directive('dateTimePicker', DateTimePicker);

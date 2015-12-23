@@ -1,0 +1,24 @@
+<div ng-controller="CreateTournamentController as creator">
+	<h2>Create Tournament</h2>
+	<form class="well" novalidate>
+		<div ng-class="(creator.errorMessage.name) ? 'form-group has-error' : 'form-group'">
+			<label class="control-label">Tournament name <span class="text-danger">(*)</span></label>
+			<input type="text" class="form-control" ng-model="creator.name" />
+			<span class="text-danger" ng-show="creator.errorMessage" ng-bind="creator.errorMessage.name"></span>
+		</div>
+		<div ng-class="(creator.errorMessage.competitors) ? 'form-group has-error' : 'form-group'">
+			<label class="control-label">Competitors<span class="text-danger">(>1)</span><span>: {{creator.getNumOfCompetitors()}}</span></label>
+			<tags-input placeholder="Add a competitor" ng-model="creator.competitors"></tags-input>
+			<span class="text-danger" ng-show="creator.errorMessage" ng-bind="creator.errorMessage.competitors"></span>
+		</div>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="creator.isActive"/>
+				<span>Active</span>
+			</label>
+		</div>
+		<div class="form-group clearfix ">
+			<button class="btn btn-primary pull-right" ng-click="creator.createTournament()">Create Tournament</button>
+		</div>
+	</form>
+</div>

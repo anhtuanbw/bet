@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.kms.ngaythobet.web.dto.CreateTournamentInfo;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class TournamentService {
     private final TournamentRepository tournamentRepo;
 
@@ -22,7 +22,6 @@ public class TournamentService {
         this.competitorRepo = competitorRepo;
     }
 
-    @Transactional
     public void createTournament(CreateTournamentInfo tournamentInfo) {
         Tournament tournament = new Tournament();
         tournament.setName(tournamentInfo.getName());
@@ -45,7 +44,6 @@ public class TournamentService {
         return tournamentRepo.findOne(id);
     }
 
-    @Transactional
     public void activateTournament(long tournamentId) {
         Tournament tournament = tournamentRepo.findOne(tournamentId);
         tournament.setActivated(true);
