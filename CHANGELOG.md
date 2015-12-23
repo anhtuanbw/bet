@@ -5,6 +5,8 @@ ngaythobet - v0.0.3 / 2015-12-23
 * [#9] Create Matches.
 * [#10] Create Group.
 * [#29] Create Round.
+* [#12] Fixture list.
+
 
 **Improvement**
 
