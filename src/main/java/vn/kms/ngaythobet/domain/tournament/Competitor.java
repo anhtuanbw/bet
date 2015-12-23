@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 
 @Entity
@@ -19,9 +21,11 @@ public class Competitor extends AuditableEntity {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "competitors")
     private List<Round> rounds;
 

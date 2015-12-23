@@ -12,6 +12,7 @@ import vn.kms.ngaythobet.domain.tournament.Round;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 import vn.kms.ngaythobet.domain.validation.FieldUnique;
+import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 public class CreateRoundInfo {
     @NotEmpty
@@ -23,6 +24,7 @@ public class CreateRoundInfo {
     @EntityExist(type = Tournament.class, message = "{validation.existTournament.message}")
     private long tournamentId;
 
+    @ListUnique(message = "{validation.competitors.unique.message}")
     private List<Long> competitorId;
 
     public String getName() {

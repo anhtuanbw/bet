@@ -1,7 +1,7 @@
 package vn.kms.ngaythobet.web.rest;
 
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 
@@ -40,5 +40,10 @@ public class TournamentRest {
     @RequestMapping(value = "/active", method = GET)
     public void activeTournament(@RequestParam Long tournamentId) {
         tournamentService.activateTournament(tournamentId);
+    }
+
+    @RequestMapping(value = "/getById", method = GET)
+    public Tournament getById(@RequestParam Long tournamentId) {
+        return tournamentService.findById(tournamentId);
     }
 }
