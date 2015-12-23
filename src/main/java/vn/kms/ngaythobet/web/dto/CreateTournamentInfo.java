@@ -2,13 +2,21 @@ package vn.kms.ngaythobet.web.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
+import vn.kms.ngaythobet.domain.tournament.Tournament;
+import vn.kms.ngaythobet.domain.validation.FieldUnique;
 
 public class CreateTournamentInfo {
     @NotEmpty
+    @Size(min = 6, max = 50)
+    @FieldUnique(entity = Tournament.class, field = "name", message = "{validation.tournament.name.unique}")
     private String name;
 
     @NotEmpty
+    @Size(min = 2, message = "{validation.min.message}")
     private List<String> competitors;
 
     private boolean isActive;
