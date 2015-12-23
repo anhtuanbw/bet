@@ -3,7 +3,6 @@
 export default class GroupController {
   /* @ngInject */
   constructor(GroupService, TournamentService, $modalInstance, toaster) {
-    var self = this;
     this.groupService = GroupService;
     this.tournamentService = TournamentService;
     this.modalInstance = $modalInstance;
@@ -21,9 +20,7 @@ export default class GroupController {
         });
         } else {
         }
-      })
-      .catch(response => {
-    });
+      });
 
     this.querySearch = this.querySearch;
     this.selectedItemChange = this.selectedItemChange;
@@ -54,8 +51,7 @@ export default class GroupController {
   }
 
   querySearch(query) {
-    console.log(typeof this.states);
-    var results = query ? this.states.filter( this.createFilterFor(query) ) : this.states, deferred;
+    var results = query ? this.states.filter( this.createFilterFor(query) ) : this.states;
     return results;
   }
 
@@ -72,14 +68,11 @@ export default class GroupController {
         var tournaments = response.data;
         console.log(tournaments);
        return tournaments.map( function (repo) {
-        console.log("--map--");
         repo.value = repo.name.toLowerCase();
         return repo;
       });
       } else {
       }
-    })
-    .catch(response => {
     });
   }
 
