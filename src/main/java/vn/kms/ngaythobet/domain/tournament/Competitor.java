@@ -21,7 +21,7 @@ public class Competitor extends AuditableEntity {
     @Column
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
