@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title th:text="#{email.reset.title}">Ngaythobet Password Reset</title>
+        <title th:text="#{email.notify.group.moderator.title}">Ngaythobet New Group Created</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
         <p th:text="#{email.greeting(${user.name})}">Dear [User],</p>
-        <p th:text="#{email.reset.message}">
-            For your Ngaythobet account, a password reset was requested, please click on the URL below to reset it:
+        <p th:text="#{email.notify.group.moderator.message}">
+            You are now become Moderator of a group, please click on the URL below to view the group information:
         </p>
         <p>
-            <a th:href="@{|${baseUrl}#/reset-passwordFinish/key=${user.resetKey}|}" th:text="|${user.name}|">|[User]|</a>
+            <!-- TODO: Link href to Group page info which allow moderator adds new Member -->
+            <a href="#" th:text="|${group.name}|">Group name</a>
         </p>
         <p>
             <span th:text="#{email.greeting-end}">Regards,</span>
