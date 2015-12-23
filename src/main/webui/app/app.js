@@ -7,6 +7,7 @@ import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
+import roundManController from './common/round-management/round-management';
 import GroupController from './common/group/group';
 import CreateMatchController from './common/createMatch/createMatch';
 
@@ -37,6 +38,7 @@ angular.module('ngaythobet', [
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ResetPasswordFinishController', ResetPasswordFinishController)
 .controller('ChangePasswordController', ChangePasswordController)
+.controller('roundManController', roundManController)
 .controller('GroupController', GroupController)
 .controller('CreateMatchController', CreateMatchController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
