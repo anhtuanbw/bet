@@ -13,4 +13,5 @@ export default class TournamentService {
   getAll() {
 	  return this.$http.get('api/tournaments/findAll');
   }
+  
 }

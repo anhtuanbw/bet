@@ -7,7 +7,8 @@ import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ChangePasswordController from './common/change-password/change-password';
 import ActivatorController from './components/activate/activate';
-import TournamentController from './components/tournament/tournament';
+import CreateTournamentController from './components/tournament/create-tournament/create-tournament';
+import EditTournamentController from './components/tournament/edit-tournament/edit-tournament';
 import ManagementController from './components/management/management';
 import CreateMatchController from './common/createMatch/createMatch';
 
@@ -39,7 +40,8 @@ angular.module('ngaythobet', [
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ChangePasswordController', ChangePasswordController)
 .controller('ActivatorController', ActivatorController)
-.controller('TournamentController', TournamentController)
+.controller('CreateTournamentController', CreateTournamentController)
+.controller('EditTournamentController', EditTournamentController)
 .controller('ManagementController', ManagementController)
 .controller('CreateMatchController', CreateMatchController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {

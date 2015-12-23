@@ -1,6 +1,6 @@
 'use strict';
 
-export default class TournamentController {
+export default class CreateTournamentController {
   constructor(TournamentService, toaster) {
     this.tournamentService = TournamentService;
     this.competitors = [];
@@ -17,7 +17,6 @@ export default class TournamentController {
     var data = {};
     data.name = this.name;
     data.competitors = [];
-    data.numOfCompetitors = this.getNumOfCompetitors();
     data.isActive = this.isActive;
     for( var i in this.competitors) {
       data.competitors.push(this.competitors[i].text);
@@ -29,8 +28,9 @@ export default class TournamentController {
     var tournamentInfo = this.getData();
     this.tournamentService.createTournament(tournamentInfo)
     .then(() => {
-      this.toaster.pop('success', null, "app/components/tournament/success.html", null, 'template');
+      this.toaster.pop('success', null, "app/components/tournament/create-tournament/success.html", null, 'template');
       this.competitors = [];
+      this.name = '';
       this.errorMessage = {};
     })
     .catch(error => {

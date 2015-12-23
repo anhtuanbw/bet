@@ -9,7 +9,7 @@
 					</label>
 					<ul class="sub_menu" ng-hide="hide" ng-repeat="tournament in management.tournaments track by $index">
 						<li class="sub-menu-item">
-							<a href="#" ng-bind="tournament.name" class="sub-menu-link sub_menu--link__active"></a>
+							<a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)" ng-bind="tournament.name" class="sub-menu-link sub_menu--link__active"></a>
 						</li>
 					</ul>
 				</li>
@@ -20,4 +20,4 @@
 		<div ng-include src="management.templateURL"></div>
 	</div>
 </div>
-<toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'position-class': 'toast-center'}"></toaster-container>
+<toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
