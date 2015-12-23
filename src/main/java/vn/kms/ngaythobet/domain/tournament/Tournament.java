@@ -28,6 +28,9 @@ public class Tournament extends AuditableEntity {
     @OneToMany(mappedBy = "tournament")
     private List<Group> groups;
 
+    @OneToMany(mappedBy = "tournament")
+    private List<Round> rounds;
+
     public String getName() {
         return name;
     }
@@ -66,5 +69,13 @@ public class Tournament extends AuditableEntity {
 
     public void setGroups(List<Group> groups) {
         this.groups = groups;
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(List<Round> rounds) {
+        this.rounds = rounds;
     }
 }
