@@ -33,6 +33,14 @@ export default class LoginController {
       controllerAs: 'resetPassword'
     });
   }
+
+  openGroup() {
+    this.modal.open({
+      templateUrl: 'app/common/group/group.html',
+      controller: 'GroupController',
+      controllerAs: 'group'
+    });
+  }
 }
 
 export default class Login {

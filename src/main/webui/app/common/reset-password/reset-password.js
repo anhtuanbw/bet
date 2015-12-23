@@ -7,7 +7,6 @@ export default class ResetPasswordController {
     this.location = $location;
     this.modalInstance = $modalInstance;
     this.toaster = toaster;
-    this.name = 'tran nhu long';
   }
 
   reset(email) {

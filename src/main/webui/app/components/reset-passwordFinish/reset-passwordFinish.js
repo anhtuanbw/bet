@@ -21,7 +21,7 @@ export default class ResetPasswordFinishController {
     }, function(response) {
       // Failed
       if(response.data.message) {
-        vm.errorMessage.message = response.data.message
+        vm.errorMessage.message = response.data.message;
       } else {
        vm.errorMessage = response.data.fieldErrors;
      }

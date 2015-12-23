@@ -7,6 +7,7 @@ import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
+import GroupController from './common/group/group';
 
 export default class AppController {
   /* @ngInject */
@@ -27,13 +28,15 @@ angular.module('ngaythobet', [
   'ngaythobet.services',
   'ngaythobet.common',
   'toaster',
-  'ngAnimate'
+  'ngAnimate',
+  'ngMaterial'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ResetPasswordFinishController', ResetPasswordFinishController)
 .controller('ChangePasswordController', ChangePasswordController)
+.controller('GroupController', GroupController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);
