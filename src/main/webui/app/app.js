@@ -6,7 +6,7 @@ import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ChangePasswordController from './common/change-password/change-password';
-import roundmanController from './common/round-management/round-management';
+import roundManController from './common/round-management/round-management';
 
 export default class AppController {
   /* @ngInject */
@@ -32,7 +32,7 @@ angular.module('ngaythobet', [
 .controller('HomeController', HomeController)
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ChangePasswordController', ChangePasswordController)
-.controller('roundmanController', roundmanController)
+.controller('roundManController', roundManController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);
