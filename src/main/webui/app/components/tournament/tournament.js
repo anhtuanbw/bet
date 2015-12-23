@@ -9,7 +9,7 @@ export default class TournamentController {
     this.isActive = false;
     this.toaster = toaster;
   }
-  numOfCompetitors() {
+  getNumOfCompetitors() {
     return this.competitors.length;
   }
   
@@ -17,11 +17,11 @@ export default class TournamentController {
     var data = {};
     data.name = this.name;
     data.competitors = [];
+    data.numOfCompetitors = this.getNumOfCompetitors();
     data.isActive = this.isActive;
     for( var i in this.competitors) {
       data.competitors.push(this.competitors[i].text);
     }
-    
     return data;
   }
   

@@ -8,7 +8,7 @@ import ResetPasswordController from './common/reset-password/reset-password';
 import ChangePasswordController from './common/change-password/change-password';
 import ActivatorController from './components/activate/activate';
 import TournamentController from './components/tournament/tournament';
-import RegisterController from './components/register/register';
+import ManagementController from './components/management/management';
 
 export default class AppController {
   /* @ngInject */
@@ -16,7 +16,7 @@ export default class AppController {
     $router.config([
       { path: '/home', component: 'home' },
       { path: '/api/activate', component: 'activate' },
-      { path: '/tournament', component: 'tournament' },      
+      { path: '/management', component: 'management' },      
       { path: '/', redirectTo: '/home' }
     ]);
   }
@@ -39,7 +39,7 @@ angular.module('ngaythobet', [
 .controller('ChangePasswordController', ChangePasswordController)
 .controller('ActivatorController', ActivatorController)
 .controller('TournamentController', TournamentController)
-.controller('RegisterController', RegisterController)
+.controller('ManagementController', ManagementController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

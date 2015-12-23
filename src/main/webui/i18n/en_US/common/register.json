@@ -1,5 +1,5 @@
 {
-  "components": {
+  "common": {
       "register": {
           "success": "Register Successfully!!! Please check email.",
           "activate": "Activate Successfully!!!",

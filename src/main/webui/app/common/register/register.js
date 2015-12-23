@@ -16,7 +16,7 @@ export default class RegisterController {
     .then(() => {
       this.errorMessage = {};
       this.userInfo = {};
-      this.toaster.pop('success', null, "app/components/register/success.html", null, 'template');
+      this.toaster.pop('success', null, "app/common/register/success.html", null, 'template');
     })
     .catch(error => {
       if (error.status === 400) {
@@ -26,3 +26,14 @@ export default class RegisterController {
   }
 }
 
+export default class Register {
+  /* @ngInject */
+  constructor() {
+    return {
+      replace: false,
+      controller: RegisterController,
+      controllerAs: 'register',
+      templateUrl: 'app/common/register/register.html'
+    };
+  }
+}
