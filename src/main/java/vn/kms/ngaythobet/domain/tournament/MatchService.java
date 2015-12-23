@@ -5,7 +5,6 @@ import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class MatchService {
 
-    private TournamentRepository tournamentRepo;
+    private final TournamentRepository tournamentRepo;
 
-    private CompetitorRepository competitorRepo;
+    private final CompetitorRepository competitorRepo;
 
-    private RoundRepository roundRepo;
+    private final RoundRepository roundRepo;
 
-    private MatchRepository matchRepo;
+    private final MatchRepository matchRepo;
     
     @Autowired
     public MatchService(TournamentRepository tournamentRepo,CompetitorRepository competitorRepo,
