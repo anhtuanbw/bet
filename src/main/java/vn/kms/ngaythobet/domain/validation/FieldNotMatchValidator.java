@@ -6,19 +6,19 @@ import org.springframework.security.util.FieldUtils;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
+public class FieldNotMatchValidator implements ConstraintValidator<FieldNotMatch, Object> {
 
     private String firstField;
     private String secondField;
     private String message;
 
     @Override
-    public void initialize(final FieldMatch constraintAnnotation) {
+    public void initialize(FieldNotMatch constraintAnnotation) {
         firstField = constraintAnnotation.firstField();
         secondField = constraintAnnotation.secondField();
         message = constraintAnnotation.message();
     }
-
+    
     @Override
     public boolean isValid(final Object value, final ConstraintValidatorContext context) {
         try {
@@ -26,20 +26,22 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
             final Object secondValue = FieldUtils.getFieldValue(value, secondField);
 
             if (firstValue == null && secondValue == null) {
-                return true;
+                return false;
             }
 
-            boolean matched = (firstValue != null && firstValue.equals(secondValue));
-            if (!matched) {
+            boolean matched = firstValue.equals(secondValue);
+            if (matched) {
                 context.disableDefaultConstraintViolation();
                 context.buildConstraintViolationWithTemplate(message)
                     .addPropertyNode(secondField)
                     .addConstraintViolation();
             }
 
-            return matched;
+            return !matched;
         } catch (Exception ex) {
             throw new RuntimeException("Could not compare field value of " + firstField + " and " + secondField, ex);
         }
     }
+
+   
 }
