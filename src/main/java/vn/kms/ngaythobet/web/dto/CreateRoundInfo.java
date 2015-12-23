@@ -8,15 +8,21 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import vn.kms.ngaythobet.domain.tournament.Round;
+import vn.kms.ngaythobet.domain.tournament.Tournament;
+import vn.kms.ngaythobet.domain.validation.EntityExist;
+import vn.kms.ngaythobet.domain.validation.FieldUnique;
+
 public class CreateRoundInfo {
     @NotEmpty
     @Size(min=6, max=50)
+    @FieldUnique(entity = Round.class, field = "name")
     private String name;
     
     @NotNull
+    @EntityExist(type = Tournament.class, message = "{validation.existTournament.message}")
     private long tournamentId;
 
-    @NotEmpty
     private List<Long> competitorId;
 
     public String getName() {

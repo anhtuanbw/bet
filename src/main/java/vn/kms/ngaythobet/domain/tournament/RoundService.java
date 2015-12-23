@@ -2,11 +2,10 @@ package vn.kms.ngaythobet.domain.tournament;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateRoundInfo;
 
 @Service
@@ -27,12 +26,25 @@ public class RoundService {
     public void createRound(CreateRoundInfo createRoundInfo) {
         Round round = new Round();
         round.setName(createRoundInfo.getName());
-        round.setTournament(tournamentRepo.getOne(createRoundInfo.getTournamentId()));
+        Tournament tournament = tournamentRepo.findOne(createRoundInfo.getTournamentId());
+        round.setTournament(tournament);
         List<Competitor> competitors = new ArrayList<>();
-        createRoundInfo.getCompetitorId().forEach(Long -> {
-            competitors.add(competitorRepo.getOne(Long));
-        });
-        round.setCompetitors(competitors);
-        roundRepo.save(round);
+        if (createRoundInfo.getCompetitorId() != null) {
+            createRoundInfo.getCompetitorId().forEach(competitorIds -> {
+                competitors.add(competitorRepo.getOne(competitorIds));
+            });
+            round.setCompetitors(competitors);
+            if (competitors.stream()
+                    .filter(competitor -> competitor.getTournament().getId().equals(tournament.getId()))
+                    .count() == competitors.size()) {
+                roundRepo.save(round);
+            } else {
+                throw new DataInvalidException(
+                        "exception.RoundService.this.competitors.isnot.belong.to.yourTournament");
+            }
+        } else {
+            roundRepo.save(round);
+        }
     }
+
 }
