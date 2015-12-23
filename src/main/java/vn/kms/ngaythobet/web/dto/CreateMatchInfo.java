@@ -6,25 +6,30 @@ import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import vn.kms.ngaythobet.domain.tournament.Competitor;
+import vn.kms.ngaythobet.domain.validation.EntityExist;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class CreateMatchInfo {
-    @NotEmpty
-    private long round;
+    @NotNull
+    private Long round;
 
-    @NotEmpty
+    @NotNull
+    @EntityExist(type = Competitor.class)
     private Long competitor1;
     
-    @NotEmpty
+    @NotNull
+    @EntityExist(type = Competitor.class)
     private Long competitor2;
     
-    @NotEmpty
+    @NotNull
     private LocalDateTime time;
     
     @NotEmpty
     private String location;
     
-    @NotEmpty
     @Size(max=512)
     private String comment;
 

@@ -90,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/login").permitAll()
-            .antMatchers("/api/create-match").hasRole(User.Role.ADMIN.toString())
+            .antMatchers("/api/create-match").permitAll()
             .antMatchers("/api/reset-password/*").permitAll()
             .antMatchers("/api/group/create").hasRole(User.Role.ADMIN.toString())
             .antMatchers("/api/tournaments/create").hasRole(User.Role.ADMIN.toString())
