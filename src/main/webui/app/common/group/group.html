@@ -3,7 +3,7 @@
     <h2 class="modal-title"><small>Create Betting Group</small></h2>
   </div>
   <div class="modal-body">
-    <form enctype="application/json" ng-submit="group.createGroup()">
+    <form enctype="application/json" ng-submit="group.create()">
       <div class="form-group" ng-class="{'has-error': group.error.name.length > 0}">
         <label for="name" class="control-label">Please enter name of new group <span class="text-danger">*</span></label>
         <input type="text" class="form-control" id="name" name="name" ng-model="group.groupData.name" required>

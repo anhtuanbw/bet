@@ -7,6 +7,7 @@ export default class GroupService {
   }
 
   create(data) {
+  	console.log(data);
     return this.$http.post('api/group/create', data);
   }
 

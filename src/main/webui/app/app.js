@@ -8,6 +8,7 @@ import ResetPasswordController from './common/reset-password/reset-password';
 import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
 import GroupController from './common/group/group';
+import CreateMatchController from './common/createMatch/createMatch';
 
 export default class AppController {
   /* @ngInject */
@@ -37,6 +38,7 @@ angular.module('ngaythobet', [
 .controller('ResetPasswordFinishController', ResetPasswordFinishController)
 .controller('ChangePasswordController', ChangePasswordController)
 .controller('GroupController', GroupController)
+.controller('CreateMatchController', CreateMatchController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

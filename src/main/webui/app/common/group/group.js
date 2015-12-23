@@ -2,18 +2,19 @@
 
 export default class GroupController {
   /* @ngInject */
-  constructor(GroupService, $modalInstance, toaster) {
+  constructor(GroupService, TournamentService, $modalInstance, toaster) {
     this.groupService = GroupService;
+    this.tournamentService = TournamentService;
     this.modalInstance = $modalInstance;
     this.toaster = toaster;
-    this.states = this.loadAll();
+    this.states = this.getTournament();
     this.querySearch = this.querySearch;
     this.selectedItemChange = this.selectedItemChange;
     this.groupData = {};
     this.error = {};
   }
 
-  createGroup() {
+  create() {
     var self = this;
     self.popTitle = 'Title';
 
@@ -47,14 +48,15 @@ export default class GroupController {
     }
   }
 
-  loadAll() {
-    var allStates = 'Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
-    return allStates.split(/, +/g).map( function (state) {
-      return {
-        value: state.toLowerCase(),
-        display: state
-      };
-    });
+  getTournament() {
+    var allStates = this.tournamentService.findAll();
+    console.log(allStates);
+    // return allStates.split(/, +/g).map( function (state) {
+    //   return {
+    //     value: state.toLowerCase(),
+    //     display: state
+    //   };
+    // });
   }
 
   createFilterFor(query) {
