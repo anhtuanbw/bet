@@ -3,8 +3,6 @@ package vn.kms.ngaythobet.infras.security.xauth;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,11 +22,6 @@ public class TokenProviderTest extends BaseTest {
     protected void doStartUp() {
         tokenProvider = new TokenProvider(Contants.SECRET_KEY,
                 Contants.TOKEN_VALIDITY);
-
-    }
-
-    @Before
-    public void creatToken() {
         User defaultUser = getDefaultUser();
         user = new org.springframework.security.core.userdetails.User(
                 defaultUser.getUsername(), defaultUser.getPassword(),
@@ -68,9 +61,4 @@ public class TokenProviderTest extends BaseTest {
 
     }
 
-    @After
-    public void deleteToken() {
-        tokenProvider.removeToken(token.getToken());
-        user = null;
-    }
 }

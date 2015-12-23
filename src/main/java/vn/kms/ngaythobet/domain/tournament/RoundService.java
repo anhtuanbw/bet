@@ -39,9 +39,6 @@ public class RoundService {
 
     @Transactional
     public List<Round> getRoundByTournamentId(Long tournamentId) {        
-        if(tournamentRepo.exists(tournamentId)) {
             return roundRepo.findByTournamentId(tournamentId);
-        }
-        throw new DataInvalidException("exception.tournament-is-not-exist");
     }
 }
