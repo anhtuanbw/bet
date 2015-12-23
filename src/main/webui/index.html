@@ -17,27 +17,18 @@
     <!-- endbuild -->
 </head>
 <body ng-app="ngaythobet">
-
-<div ng-strict-di ng-controller="AppController">
-
-<div id="wrapper">
-        <div sidebar></div>
-        <div navbar></div>
-        <div id="page-content-wrapper">
-           <div ng-viewport class="container-fluid"></div>
-            <div class="container">
+    <div ng-strict-di ng-controller="AppController">
+        <div id="wrapper">
+            <div sidebar></div>
+            <div navbar></div>
+            <div id="page-content-wrapper">
+             <div ng-viewport class="container-fluid"></div>
+             <div class="container">
                 <p class="text-muted" translate="global.copyright">&copy;2015 KMS Technology, Inc.</p>
             </div> 
         </div>
-</div>
-</div>
-<!-- <div ng-strict-di ng-controller="AppController">
-    <div navbar></div>
-    <div ng-viewport class="container-fluid"></div>
-    <div class="container">
-        <p class="text-muted" translate="global.copyright">&copy;2015 KMS Technology, Inc.</p>
     </div>
-</div> -->
+</div>
 <!-- build:js1 app/vendor.min.js -->
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="bower_components/angular-new-router/dist/router.es5.js"></script>
