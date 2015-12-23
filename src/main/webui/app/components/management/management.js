@@ -11,8 +11,7 @@ export default class ManagementController {
   getAllTournament() {
     this.tournamentService.getAll()
     .then(response => {
-      console.log(response);
-      this.tournaments = response;
+      this.tournaments = response.data;
     })
     .catch();
   }
