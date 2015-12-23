@@ -7,6 +7,7 @@ import LanguageSelect from './language-select/language-select';
 import Login from './login/login';
 import Register from './register/register';
 import DateTimePicker from './createMatch/date-time-picker';
+import SideBar from './sidebar/sidebar';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -18,4 +19,5 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('languageSelect', () => new LanguageSelect())
 .directive('login', () => new Login())
 .directive('register', () => new Register())
+.directive('sidebar', () => new SideBar())
 .directive('dateTimePicker', DateTimePicker);
