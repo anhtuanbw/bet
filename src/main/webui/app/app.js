@@ -9,6 +9,10 @@ import ResetPasswordFinishController from './components/reset-passwordFinish/res
 import ChangePasswordController from './common/change-password/change-password';
 import roundManController from './common/round-management/round-management';
 import GroupController from './common/group/group';
+import ActivatorController from './components/activate/activate';
+import CreateTournamentController from './components/tournament/create-tournament/create-tournament';
+import EditTournamentController from './components/tournament/edit-tournament/edit-tournament';
+import ManagementController from './components/management/management';
 import CreateMatchController from './common/createMatch/createMatch';
 
 export default class AppController {
@@ -17,6 +21,8 @@ export default class AppController {
     $router.config([
       { path: '/home', component: 'home' },
       { path: '/api/reset-password/finish', component: 'reset-passwordFinish' },
+      { path: '/api/activate', component: 'activate' },
+      { path: '/management', component: 'management' },      
       { path: '/', redirectTo: '/home' }
     ]);
   }
@@ -26,6 +32,7 @@ angular.module('ngaythobet', [
   'ngNewRouter',
   'ngSanitize',
   'ngCookies',
+  'ngTagsInput',
   'pascalprecht.translate',
   'ngaythobet.services',
   'ngaythobet.common',
@@ -38,6 +45,10 @@ angular.module('ngaythobet', [
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ResetPasswordFinishController', ResetPasswordFinishController)
 .controller('ChangePasswordController', ChangePasswordController)
+.controller('ActivatorController', ActivatorController)
+.controller('CreateTournamentController', CreateTournamentController)
+.controller('EditTournamentController', EditTournamentController)
+.controller('ManagementController', ManagementController)
 .controller('roundManController', roundManController)
 .controller('GroupController', GroupController)
 .controller('CreateMatchController', CreateMatchController)
