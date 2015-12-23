@@ -3,11 +3,28 @@
 export default class GroupController {
   /* @ngInject */
   constructor(GroupService, TournamentService, $modalInstance, toaster) {
+    var self = this;
     this.groupService = GroupService;
     this.tournamentService = TournamentService;
     this.modalInstance = $modalInstance;
     this.toaster = toaster;
-    this.states = this.getTournament();
+
+    this.states = this.tournamentService.findAll()
+    .then(response => {
+      if (response.status === 200) {
+        var tournaments = response.data;
+        console.log(tournaments);
+       return tournaments.map( function (repo) {
+        console.log("--map--");
+        repo.value = repo.name.toLowerCase();
+        return repo;
+      });
+      } else {
+      }
+    })
+    .catch(response => {
+    });
+//this.states = [{ name : 'euro', id : 1},{ name : 'world cup' , id : 2}];
     this.querySearch = this.querySearch;
     this.selectedItemChange = this.selectedItemChange;
     this.groupData = {};
@@ -38,48 +55,41 @@ export default class GroupController {
   }
 
   querySearch(query) {
+    console.log(typeof this.states);
     var results = query ? this.states.filter( this.createFilterFor(query) ) : this.states, deferred;
     return results;
   }
 
   selectedItemChange(item) {
     if(item) {
-      this.groupData.moderator = item.value;
+      this.groupData.moderator = item.id;
     }
   }
 
-  getTournament() {
-    this.tournamentService.findAll()
-    .then(response => {
-      if (response.status === 200) {
-        var tournaments = response.data;
-
-        var a = tournaments.map(function(tournament) {
-          return {
-            value: tournament.id,
-            display: tournament.name
-          }
-        });
-
-        console.log(a);
-        return a;
-      } else {
-      }
-    })
-    .catch(response => {
-    });
-    // return allStates.split(/, +/g).map( function (state) {
-    //   return {
-    //     value: state.toLowerCase(),
-    //     display: state
-    //   };
-    // });
-  }
+//   getTournament() {
+// //return  [{ name : 'euro', id : 1},{ name : 'world cup' , id : 2}];
+//     this.tournamentService.findAll()
+//     .then(response => {
+//       if (response.status === 200) {
+//         var tournaments = response.data;
+//         console.log(tournaments);
+//        return tournaments.map( function (repo) {
+//         console.log("--map--");
+//         repo.value = repo.name.toLowerCase();
+//         return repo;
+//       });
+//       } else {
+//       }
+//     })
+//     .catch(response => {
+//     });
+//   }
 
   createFilterFor(query) {
+    
     var lowercaseQuery = angular.lowercase(query);
     return function filterFn(state) {
-      return (state.value.indexOf(lowercaseQuery) === 0);
+      return (state.name.indexOf(lowercaseQuery) === 0);
     };
   }
 
