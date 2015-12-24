@@ -1,3 +1,19 @@
+ngaythobet - v0.0.4 / 2015-12-24
+================================
+
+* [#8 API, UI] Create Tournaments.
+* [#9 API, UI] Create Matches.
+* [#10 API, UI] Create Group.
+* [#12 API, UI] Fixture list.
+* [#29 API, UI] Create Round.
+
+
+Improvement
+
+Bug
+* [API Tournament/Round/Group] System allows create name of Tournament/Round/Group when ALL character of name is blank SPACEs
+* [API Match Management] System allows to create multi-matches with the same competitor in the same time
+
 ngaythobet - v0.0.3 / 2015-12-23
 ================================
 
