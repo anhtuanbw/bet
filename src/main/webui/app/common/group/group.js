@@ -23,7 +23,7 @@ export default class GroupController {
 
   getTournaments() {
     var self = this;
-    this.tournamentService.findAll()
+    this.tournamentService.getAll()
       .then(response => {
         if (response.status === 200) {
           self.groupData.tournaments = response.data;
@@ -61,7 +61,7 @@ export default class GroupController {
     var data = {
       name: this.groupData.name,
       tournamentId: this.groupData.tournament,
-      moderator: this.selectedItem.id
+      moderator: this.selectedItem.id ? this.selectedItem.id : null
     };
 
     this.groupService.create(data)

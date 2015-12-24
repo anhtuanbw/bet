@@ -2,6 +2,8 @@ package vn.kms.ngaythobet.domain.tournament;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GroupRepository extends JpaRepository<Group, Long> {
+import vn.kms.ngaythobet.domain.core.User;
 
+public interface GroupRepository extends JpaRepository<Group, Long> {
+    Group findByModerator(User user);
 }

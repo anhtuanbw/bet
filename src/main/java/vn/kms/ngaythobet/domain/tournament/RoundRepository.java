@@ -9,5 +9,4 @@ public interface RoundRepository extends JpaRepository<Round, Long> {
     Round findByName(String name);
     List<Round> findAllByOrderByCreatedAtDesc();
     List<Round> findByTournamentId(Long tournament_id);
-    List<Round> findByTournament(Tournament tournamentId);
 }

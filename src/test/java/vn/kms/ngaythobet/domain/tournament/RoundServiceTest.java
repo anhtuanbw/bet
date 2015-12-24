@@ -2,6 +2,9 @@ package vn.kms.ngaythobet.domain.tournament;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +47,17 @@ public class RoundServiceTest extends BaseTest {
         createRoundInfo.setTournamentId(tournamentTemp.getId());
         roundService.createRound(createRoundInfo);
         assertThat(roundRepo.findAllByOrderByCreatedAtDesc().size(), equalTo(1));
+    }
+
+    @Test
+    public void testGetRoundByTournamentId() {
+        Round round = new Round();
+        round.setName("World Cup");
+        round.setTournament(tournamentTemp);
+        roundRepo.save(round);
+        Long tournamentId = tournamentTemp.getId();
+        List<Round> rounds = roundService.getRoundByTournamentId(tournamentId);
+        assertThat(rounds.size(), equalTo(1));
     }
 
     @After

@@ -31,15 +31,11 @@ public class TournamentServiceTest extends BaseTest {
         Tournament tournament = new Tournament();
         tournament.setActivated(false);
         tournament.setName("Euro");
-        Competitor competitor1 = new Competitor();
-        Competitor competitor2 = new Competitor();
-        competitor1.setName("England");
-        competitor2.setName("France");
-        List<Competitor> competitors = new ArrayList<>();
-        competitors.add(competitor1);
-        competitors.add(competitor2);
-        tournament.setCompetitors(competitors);
         temp = tournamentRepo.save(tournament);
+        Competitor competitor1 = new Competitor(temp, "England");
+        Competitor competitor2 = new Competitor(temp, "France");
+        competitorRepo.save(competitor1);
+        competitorRepo.save(competitor2);
     }
 
     @Test

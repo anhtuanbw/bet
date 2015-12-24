@@ -3,12 +3,20 @@ package vn.kms.ngaythobet.domain.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import vn.kms.ngaythobet.domain.tournament.Group;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +30,7 @@ public class User extends AuditableEntity {
             return "ROLE_" + name();
         }
     }
-
+    
     @Column
     private String username;
 

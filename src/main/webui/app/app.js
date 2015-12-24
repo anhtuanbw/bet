@@ -13,7 +13,7 @@ import ActivatorController from './components/activate/activate';
 import CreateTournamentController from './components/tournament/create-tournament/create-tournament';
 import EditTournamentController from './components/tournament/edit-tournament/edit-tournament';
 import ManagementController from './components/management/management';
-import CreateMatchController from './common/createMatch/createMatch';
+import CreateMatchController from './common/match/create-match/create-match';
 
 export default class AppController {
   /* @ngInject */
