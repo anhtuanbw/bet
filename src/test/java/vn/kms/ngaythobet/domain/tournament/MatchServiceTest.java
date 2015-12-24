@@ -48,8 +48,7 @@ public class MatchServiceTest extends BaseTest {
         MailService mailService = mock(MailService.class);
         when(mailService.sendEmailAsync(anyString(), anyString(), anyString(), anyBoolean(), anyBoolean()))
                 .thenReturn(new AsyncResult<>(true));
-
-//        matchService = new MatchService(tournamentRepo, competitorRepo, roundRepo, matchRepo);
+        //TODO
     }
     
     @Test
