@@ -7,7 +7,8 @@ export default class GroupController {
     this.tournamentService = TournamentService;
     this.mdDialog = $mdDialog;
 
-    this.states = this.getTournament();
+    this.moderators = this.getModerators();
+    this.getTournaments();
     this.selectedItem = null;
     this.searchText = null;
     this.querySearch = this.querySearch;
@@ -15,7 +16,17 @@ export default class GroupController {
     this.error = {};
   }
 
-  getTournament() {
+  getTournaments() {
+    var self = this;
+    return this.tournamentService.findAll()
+      .then(response => {
+        if (response.status === 200) {
+          self.groupData.tournament = response.data
+        }
+      });
+  }
+
+  getModerators() {
    return this.tournamentService.findAll()
       .then(response => {
         if (response.status === 200) {
@@ -29,7 +40,7 @@ export default class GroupController {
 
   querySearch(query) {
     var self = this;
-    return query ? self.states.filter(self.createFilterFor(query) ) : self.states;
+    return query ? self.moderators.filter(self.createFilterFor(query) ) : self.moderators;
   }
 
   createFilterFor(query) {

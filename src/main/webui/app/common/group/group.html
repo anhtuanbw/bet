@@ -16,7 +16,7 @@
     <div class="form-group" ng-class="{'has-error': groupCtrl.error.tournament.length > 0}">
       <label for="tournament" class="control-label">Select one tournament <span class="text-danger">*</span></label>
       <select id="tournament" class="form-control" name="tournament" ng-model="groupCtrl.groupData.tournament" required>
-        <option value="1" selected>Tour 1</option>
+        <option value="1" selected ng-repeat="tournament in groupCtrl.groupData.tournaments">Tour 1</option>
         <option value="2">Tour 2</option>
         <option value="3">Tour 3</option>
         <option value="4">Tour 4</option>
