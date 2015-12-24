@@ -22,15 +22,6 @@ public class Tournament extends AuditableEntity {
     @Column(name = "number_of_competitors")
     private Long numOfCompetitors;
 
-    @OneToMany(mappedBy = "tournament")
-    private List<Competitor> competitors;
-
-    @OneToMany(mappedBy = "tournament")
-    private List<Group> groups;
-
-    @OneToMany(mappedBy = "tournament")
-    private List<Round> rounds;
-
     public String getName() {
         return name;
     }
@@ -55,27 +46,4 @@ public class Tournament extends AuditableEntity {
         this.numOfCompetitors = numOfCompetitors;
     }
 
-    public List<Competitor> getCompetitors() {
-        return competitors;
-    }
-
-    public void setCompetitors(List<Competitor> competitors) {
-        this.competitors = competitors;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-
-    public List<Round> getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(List<Round> rounds) {
-        this.rounds = rounds;
-    }
 }
