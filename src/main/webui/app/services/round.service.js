@@ -1,6 +1,7 @@
 'use strict';
 
 export default class RoundService {
+  /* @ngInject */
   constructor($http, CacheService) {
     this.$http = $http;
     this.cacheService = CacheService;
