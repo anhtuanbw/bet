@@ -57,6 +57,6 @@ public class UserRest {
 
     @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
     public List<User> searchUser(@PathVariable String name) {
-        return userRepo.findByNameContainingIgnoreCase(name);
+        return userRepo.findTop10ByNameContainingIgnoreCase(name);
     }
 }

@@ -102,7 +102,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/competitors/findByTournamentId").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/createRound").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/updateRound").hasRole(User.Role.ADMIN.name())
-            .antMatchers("/api/users/search").authenticated()
             .antMatchers("/api/**").authenticated()
             .and()
             .apply(securityConfigurerAdapter());
