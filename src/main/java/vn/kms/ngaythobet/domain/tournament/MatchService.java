@@ -17,15 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class MatchService {
 
+    private final TournamentRepository tournamentRepo;
+
     private final CompetitorRepository competitorRepo;
 
     private final RoundRepository roundRepo;
 
     private final MatchRepository matchRepo;
-
+    
     @Autowired
-    public MatchService(CompetitorRepository competitorRepo,
-            RoundRepository roundRepo, MatchRepository matchRepo) {
+    public MatchService(TournamentRepository tournamentRepo,CompetitorRepository competitorRepo,
+            RoundRepository roundRepo, MatchRepository matchRepo ) {
+        this.tournamentRepo = tournamentRepo;
         this.competitorRepo = competitorRepo;
         this.roundRepo = roundRepo;
         this.matchRepo = matchRepo;
@@ -34,31 +37,17 @@ public class MatchService {
     @Transactional
     public void createMatch(CreateMatchInfo createMatchInfo) {
 
-        Round round = roundRepo.getOne(createMatchInfo.getRound());
-        if (round == null) {
-            throw new DataInvalidException("exception.data-not-found");
-        }
+        Round round = roundRepo.findOne(createMatchInfo.getRound());
         Tournament tournament = round.getTournament();
-        if (tournament == null) {
-            throw new DataInvalidException("exception.data-not-found");
-        }
-
-        if (createMatchInfo.getCompetitor1() == null
-                || createMatchInfo.getCompetitor2() == null) {
-            throw new DataInvalidException("exception.data-not-found");
-        }
 
         Competitor competitor1 = competitorRepo.getOne(createMatchInfo
                 .getCompetitor1());
         Competitor competitor2 = competitorRepo.getOne(createMatchInfo
                 .getCompetitor2());
 
-        if (competitor1 == null || competitor2 == null) {
-            throw new DataInvalidException("exception.data-not-found");
-        }
-
-        if (competitor1.getTournament().getId() == tournament.getId()
-                && competitor2.getTournament().getId() == tournament.getId()) {
+        if (competitor1.getTournament().getId().equals(tournament.getId())
+                && competitor2.getTournament().getId()
+                        .equals(tournament.getId())) {
             Match match = new Match();
             match.setCompetitor1(competitor1);
             match.setCompetitor2(competitor2);
@@ -68,8 +57,20 @@ public class MatchService {
             match.setRound(round);
             matchRepo.save(match);
         } else {
-            throw new DataInvalidException("exception.data-not-found");
+            throw new DataInvalidException(
+                    "exception.matchService.not-exist-tournament");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Competitor> getCompetitors(Long roundId) {
+        Round round = roundRepo.findOne(roundId);
+        return round.getCompetitors();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Round> getRounds(Long tournamentId) {
+        return roundRepo.findByTournament(tournamentRepo.findOne(tournamentId));
     }
 
     @Transactional
