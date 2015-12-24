@@ -40,9 +40,6 @@ public class User extends AuditableEntity {
 
     @Column
     private String name;
-    
-    @ManyToMany(mappedBy = "members")
-    private List<Group> groups;
 
     @Column
     private String languageTag;
@@ -148,11 +145,4 @@ public class User extends AuditableEntity {
         this.resetTime = resetTime;
     }
 
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
 }
