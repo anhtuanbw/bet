@@ -4,7 +4,7 @@
 			<h3 ng-bind="editor.tournamentInfo.name"></h3>
 		</div>
 		<div class="panel-body">
-			<button ng-show="!editor.tournamentInfo.activated" class="btn btn-primary">Active Tournament</button>
+			<button ng-show="!editor.tournamentInfo.activated" ng-click="editor.activeTournament();" class="btn btn-primary">Active Tournament</button>
 			<button class="btn btn-default">New match</button>
 		</div>
 	</div>
