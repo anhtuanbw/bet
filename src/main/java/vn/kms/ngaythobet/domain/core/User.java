@@ -31,11 +31,6 @@ public class User extends AuditableEntity {
         }
     }
     
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "group_id") })
-    private List<Group> groups;
-
     @Column
     private String username;
 
@@ -151,13 +146,5 @@ public class User extends AuditableEntity {
 
     public void setResetTime(LocalDateTime resetTime) {
         this.resetTime = resetTime;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
     }
 }
