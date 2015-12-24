@@ -17,23 +17,21 @@ export default class MatchService {
     });
   }
   
-  getRounds(data, tournamentId) {
+  getRounds(tournamentId) {
     var token = this.cacheService.get('loginUser');
     return this.$http({
       method: 'GET',
       url: '/api/matches/rounds/' + tournamentId,
-      headers: {'Accept': '*/*', 'x-auth-token': token},
-      data: data
+      headers: {'Accept': '*/*', 'x-auth-token': token}
     });
   }
   
-  getCompetitors(data, roundId) {
+  getCompetitors(roundId) {
     var token = this.cacheService.get('loginUser');
     return this.$http({
       method: 'POST',
       url: '/api/matches/competitors/' + roundId,
-      headers: {'Accept': '*/*', 'x-auth-token': token},
-      data: data
+      headers: {'Accept': '*/*', 'x-auth-token': token}
     });
   }
   

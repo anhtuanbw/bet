@@ -9,8 +9,8 @@ export default class CreateMatchController {
     this.modalInstance = $modalInstance;
     this.toaster = toaster;
     this.data = {};
-    this.dataRounds = {};
-    this.dataCompetitors = {};
+    this.dataRounds = [];
+    this.dataCompetitors = [];
   }
 
   createMatch() {
@@ -43,17 +43,25 @@ export default class CreateMatchController {
   }
 
   getRounds() {
-    var self = this;
-    this.this.matchService.createMatch(this.dataRounds)
+    // var colors = [
+    //   {id:1, shade:'dark'},
+    //   {id:2, shade:'light'},
+    //   {id:3, shade:'dark'},
+    //   {id:4, shade:'dark'},
+    //   {id:5, shade:'light'}
+    // ];
+    // var i;
+    // for (i = 0; i < colors.length; i++) {
+    //        this.dataRounds.push(colors[i]);
+    // }
+    // console.log(this.dataRounds);
+    this.matchService.getRounds('1')
       .then(response => {
         
         // Success
-      })
-      .catch(response => {
-        
-        // return error
-        if (response.data.message) {
-          self.pop('error', self.popTitle, response.data.message);
+        var i;
+        for (i = 0; i < response.data.length; i++) {
+          this.dataRounds.push(response.data[i]);
         }
       });
   }

@@ -7,11 +7,10 @@
     <form name="form" method="post">
       <div class="form-group">
         <label for="round">Select round <span class="text-danger">*</span></label>
-        <select name="round" class="form-control">
-          <option value=""></option>
-          <option value="1">Arabic</option>
-          <option value="2">English</option>
+        <select class="form-control" ng-model="createMatch.dataRounds.selected" ng-options="round.id as round.shade for round in createMatch.dataRounds">
+          <option value="">--Please choose round--</option>
         </select>
+        <div> {{createMatch.dataRounds.selected}}</div>
       </div>
       <div class="form-group">
         <div class="row">
@@ -57,7 +56,7 @@
       </div>
       <hr>
       <div class="text-right">
-        <button type="submit" class="btn btn-primary" ng-click="createMatch.createMatch()">Submit</button>
+        <button type="submit" class="btn btn-primary" ng-click="createMatch.getRounds()">Submit</button>
         <button type="button" class="btn btn-default" ng-click="createMatch.closeModal()">Cancel</button>
       </div>
     </form>
