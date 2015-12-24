@@ -1,11 +1,12 @@
 <div class="row" ng-controller="ManagementController as management">
-	<div class="col-sm-4">
+	<div class="col-sm-3">
 		<nav ng-init="hide=true" class="vertical_nav">
-			<ul id="js-menu" class="menu">
+			<ul class="menu">
 				<li class="menu-item">
-					<label class="menu-link" title="Item 1" ng-click="hide=!hide">
+					<label class="menu-link" ng-click="hide=!hide">
 						<i class="menu-icon fa fa-fw fa-users"></i>
-						<span class="menu-label">Item 1</span>
+						<span class="menu-label">Tournaments</span>
+						<span ng-click="management.showDetail=false;$event.stopPropagation();"><i class="fa fa-plus pull-right" ng-click="javascript:void(0)">New</i></span>
 					</label>
 					<ul class="sub_menu" ng-hide="hide" ng-repeat="tournament in management.tournaments track by $index">
 						<li class="sub-menu-item">
@@ -16,8 +17,9 @@
 			</ul>
 		</nav>
 	</div>
-	<div class="col-sm-8">
-		<div ng-include src="management.templateURL"></div>
+	<div class="col-sm-9">
+		<div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+		<div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
 	</div>
 </div>
 <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
