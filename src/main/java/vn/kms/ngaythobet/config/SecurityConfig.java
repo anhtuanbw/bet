@@ -91,8 +91,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/login").permitAll()
             .antMatchers("/api/matches/create-match").hasRole(User.Role.ADMIN.name())
-            .antMatchers("/api/matches/competitors").hasRole(User.Role.ADMIN.name())
-            .antMatchers("/api/matches/rounds").hasRole(User.Role.ADMIN.name())
+            .antMatchers("/api/matches/competitors/*").permitAll()
+            .antMatchers("/api/matches/rounds/*").permitAll()
             .antMatchers("/api/reset-password/*").permitAll()
             .antMatchers("/api/group/create").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/tournaments/create").hasRole(User.Role.ADMIN.name())
@@ -100,8 +100,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/tournaments/findAll").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/tournaments/getById").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/competitors/findByTournamentId").hasRole(User.Role.ADMIN.name())
+            .antMatchers("/api/createRound").hasRole(User.Role.ADMIN.name())
+            .antMatchers("/api/updateRound").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/**").authenticated()
-            .antMatchers("/api/createRound").hasRole(Role.ADMIN.toString())
             .and()
             .apply(securityConfigurerAdapter());
     }

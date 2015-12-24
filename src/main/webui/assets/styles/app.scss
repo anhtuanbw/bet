@@ -71,8 +71,7 @@ body {
   }
   
   .menu-label {
-    display: block;
-    height: 40px;
+    display: inline;
     line-height: 40px;
   }
   
@@ -80,6 +79,10 @@ body {
     overflow: hidden;
     padding-left: 0;
     list-style: none;
+  }
+  
+  .fa.fa-plus {
+    line-height: 40px;
   }
   
   .sub-menu-link {
