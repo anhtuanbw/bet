@@ -1,11 +1,12 @@
 ngaythobet - v0.0.4 / 2015-12-24
 ================================
 
-* [#8] Create Tournaments.
-* [#9] Create Matches.
-* [#10] Create Group.
-* [#29] Create Round.
-* [#12] Fixture list.
+* [#8 API, #28 UI] Create Tournaments.
+* [#9 API, #31 UI] Create Matches.
+* [#10 API, #32 UI] Create Group.
+* [#12 API] Fixture list.
+* [#29 API, #30 UI] Create Round.
+* [#33 UI] Home page and sidebar.
 
 
 **Improvement**
