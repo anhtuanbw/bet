@@ -51,34 +51,30 @@ public class MatchService {
                 .getAuthentication().getName();
         User user = userRepo.findOneByUsername(username).get();
         Group group = groupRepo.findByModerator(user);
-        //TODO: check permission for Role MOD
+        // TODO: check permission for Role MOD
 
-        if (group != null) {
-            Round round = roundRepo.findOne(createMatchInfo.getRound());
-            Tournament tournament = round.getTournament();
+        Round round = roundRepo.findOne(createMatchInfo.getRound());
+        Tournament tournament = round.getTournament();
 
-            Competitor competitor1 = competitorRepo.getOne(createMatchInfo
-                    .getCompetitor1());
-            Competitor competitor2 = competitorRepo.getOne(createMatchInfo
-                    .getCompetitor2());
+        Competitor competitor1 = competitorRepo.getOne(createMatchInfo
+                .getCompetitor1());
+        Competitor competitor2 = competitorRepo.getOne(createMatchInfo
+                .getCompetitor2());
 
-            if (competitor1.getTournament().getId().equals(tournament.getId())
-                    && competitor2.getTournament().getId()
-                            .equals(tournament.getId())) {
-                Match match = new Match();
-                match.setCompetitor1(competitor1);
-                match.setCompetitor2(competitor2);
-                match.setMatchTime(createMatchInfo.getTime());
-                match.setLocation(createMatchInfo.getLocation());
-                match.setComment(createMatchInfo.getComment());
-                match.setRound(round);
-                matchRepo.save(match);
-            } else {
-                throw new DataInvalidException(
-                        "exception.matchService.not-exist-tournament");
-            }
+        if (competitor1.getTournament().getId().equals(tournament.getId())
+                && competitor2.getTournament().getId()
+                        .equals(tournament.getId())) {
+            Match match = new Match();
+            match.setCompetitor1(competitor1);
+            match.setCompetitor2(competitor2);
+            match.setMatchTime(createMatchInfo.getTime());
+            match.setLocation(createMatchInfo.getLocation());
+            match.setComment(createMatchInfo.getComment());
+            match.setRound(round);
+            matchRepo.save(match);
         } else {
-            throw new DataInvalidException("exception.matchService.permission");
+            throw new DataInvalidException(
+                    "exception.matchService.not-exist-tournament");
         }
     }
 
