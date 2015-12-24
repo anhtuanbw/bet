@@ -2,16 +2,36 @@
 
 export default class TournamentService {
   /* @ngInject */
-  constructor($http) {
+  constructor($http, CacheService) {
     this.$http = $http;
+    this.cacheService = CacheService;
   }
   
   createTournament(tournamentInfo) {
-	  return this.$http.post('api/tournaments/create', tournamentInfo);
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'POST',
+      url: 'api/tournaments/create',
+      headers: {'Accept': '*/*', 'x-auth-token': token},
+      data: tournamentInfo
+    });
   }
   
   getAll() {
-	  return this.$http.get('api/tournaments/findAll');
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: 'api/tournaments/findAll',
+      headers: {'Accept': '*/*', 'x-auth-token': token}
+    });
   }
   
+  active(id) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: 'api/tournaments/active?tournamentId=' + id,
+      headers: {'Accept': '*/*', 'x-auth-token': token}
+    });
+  }
 }
