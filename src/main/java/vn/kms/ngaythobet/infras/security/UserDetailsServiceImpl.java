@@ -25,8 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
-        String lowercaseUsername = username.toLowerCase();
-        Optional<vn.kms.ngaythobet.domain.core.User> dbUser = userRepo.findOneByUsername(lowercaseUsername);
+        Optional<vn.kms.ngaythobet.domain.core.User> dbUser = userRepo.findOneByUsername(username);
 
         return dbUser.map(user -> {
             if (!user.isActivated()) {
@@ -34,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             }
 
             List<GrantedAuthority> authorities = singletonList(new SimpleGrantedAuthority(user.getRole().getAuthority()));
-            return new User(lowercaseUsername, user.getPassword(), authorities);
+            return new User(username, user.getPassword(), authorities);
         }).orElseThrow(() -> new UsernameNotFoundException("Authentication failed!"));
     }
 }

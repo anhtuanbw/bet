@@ -1,25 +1,10 @@
-<div class="row" ng-controller="ManagementController as management">
-	<div class="col-sm-3">
-		<nav ng-init="hide=true" class="vertical_nav">
-			<ul class="menu">
-				<li class="menu-item">
-					<label class="menu-link" ng-click="hide=!hide">
-						<i class="menu-icon fa fa-fw fa-users"></i>
-						<span class="menu-label">Tournaments</span>
-						<span ng-click="management.showDetail=false;$event.stopPropagation();"><i class="fa fa-plus pull-right" ng-click="javascript:void(0)">New</i></span>
-					</label>
-					<ul class="sub_menu" ng-hide="hide" ng-repeat="tournament in management.tournaments track by $index">
-						<li class="sub-menu-item">
-							<a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)" ng-bind="tournament.name" class="sub-menu-link sub_menu--link__active"></a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</nav>
+<div id="wrapper">
+	<div class="row" ng-init="hide=true" ng-controller="ManagementController as management">
+		<div sidebar></div>
+		<div class="col-sm-12">
+			<div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+			<div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
+		</div>
 	</div>
-	<div class="col-sm-9">
-		<div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
-		<div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
-	</div>
+	<toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
 </div>
-<toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>

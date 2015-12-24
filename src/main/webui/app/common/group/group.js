@@ -2,61 +2,50 @@
 
 export default class GroupController {
   /* @ngInject */
-  constructor(GroupService, TournamentService, $modalInstance, toaster) {
+  constructor(GroupService, TournamentService, $mdDialog, toaster) {
     this.groupService = GroupService;
     this.tournamentService = TournamentService;
-    this.modalInstance = $modalInstance;
+    this.mdDialog = $mdDialog;
     this.toaster = toaster;
-    this.states = this.getTournament();
+
+    this.moderators = this.getModerators();
+    this.getTournaments();
+    this.selectedItem = null;
+    this.searchText = null;
     this.querySearch = this.querySearch;
-    this.selectedItemChange = this.selectedItemChange;
     this.groupData = {};
     this.error = {};
   }
 
-  create() {
-    var self = this;
-    self.popTitle = 'Title';
-
-    // Show alert message
-    self.pop = function(type, title, content) {
+  pop(type, title, content) {
       this.toaster.pop(type, title, content);
-    };
+  };
 
-    this.groupService.create(self.groupData)
-    .then(response => {
-      if (response.status === 200) {
-        self.closeGroup();
-        self.pop('success', self.popTitle, 'Create success');
-      } else {
-        self.pop('warning', self.popTitle, response.data.message);
-      }
-    })
-    .catch(response => {
-      self.pop('error', self.popTitle, response.data.message);
-    });
+  getTournaments() {
+    var self = this;
+    this.tournamentService.findAll()
+      .then(response => {
+        if (response.status === 200) {
+          self.groupData.tournaments = response.data;
+        }
+      });
+  }
+
+  getModerators() {
+   return this.tournamentService.getAll()
+      .then(response => {
+        if (response.status === 200) {
+          var tournaments = response.data;
+          return tournaments.map( function (repo) {
+            return repo;
+          });
+        }
+      });
   }
 
   querySearch(query) {
-    var results = query ? this.states.filter( this.createFilterFor(query) ) : this.states, deferred;
-    return results;
-  }
-
-  selectedItemChange(item) {
-    if(item) {
-      this.groupData.moderator = item.value;
-    }
-  }
-
-  getTournament() {
-    var allStates = this.tournamentService.findAll();
-    console.log(allStates);
-    // return allStates.split(/, +/g).map( function (state) {
-    //   return {
-    //     value: state.toLowerCase(),
-    //     display: state
-    //   };
-    // });
+    var self = this;
+    return query ? self.moderators.filter(this.createFilterFor(query) ) : self.moderators;
   }
 
   createFilterFor(query) {
@@ -66,8 +55,30 @@ export default class GroupController {
     };
   }
 
-  closeGroup() {
-    this.modalInstance.dismiss();
+  save($event) {
+    var self = this;
+    // Create group
+    var data = {
+      name: this.groupData.name,
+      tournamentId: this.groupData.tournament,
+      moderator: this.selectedItem.id
+    };
+
+    this.groupService.create(data)
+      .then(response => {
+        if (response.status === 200) {
+
+        }
+      })
+      .catch(response => {
+          self.error = response.data.fieldErrors;
+          console.log(self.error);
+          self.pop('error', '', response.data.fieldErrors);
+      });
+  }
+
+  cancel($event) {
+    this.mdDialog.cancel();
   }
 
 }
