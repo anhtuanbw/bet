@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserService;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.Constants;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.infras.security.xauth.Token;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
@@ -33,15 +33,6 @@ import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
 import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 import vn.kms.ngaythobet.web.dto.ResetPasswordInfo;
 import vn.kms.ngaythobet.web.dto.UpdateUserInfo;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import java.time.LocalDateTime;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/api")
@@ -129,6 +120,6 @@ public class AccountRest {
     @RequestMapping(value = "/logout", method = POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader(Constants.XAUTH_TOKEN_HEADER_NAME);
-        tokenProvider.invalidToken(token);
+        tokenProvider.removeToken(token);
     }
 }
