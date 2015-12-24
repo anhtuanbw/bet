@@ -25,14 +25,29 @@ Spring framework with AngularJS implementation version for famous [ngaythobet](h
 Visit [http://localhost:8888](http://localhost:8888) and enjoy!
 
 ### Production mode
+    # Go to source folder
+    $ cd /opt/ngaythobet2
+     
     # Checkout a release tag
-    $ git fetch --tags
+    $ git fetch -–tags
+
+    # Save current config change into stash
+    $ git stash
+
+    # Checkout the tag build
     $ git checkout tag/ngaythobet-[VERSION]
 
+    # Apply the config change back to the tag
+    $ git stash apply
+
     # Build source code
-    $ mvn clean package -Pprod
+    $ mvn clean package –Pprod -DskipTests
 
     # Run application
-    $ nohup java -jar target/ngaythobet-[VERSION].jar &
+    $ nohup java -jar target/ngaythobet-[VERSION].jar > /dev/null 2>&1 &
+
+    # Check log server
+    $ tail -f logs/ngaythobet.log
+
 
 Visit [http://localhost:8080](http://localhost:8080) and enjoy!
