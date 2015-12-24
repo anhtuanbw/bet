@@ -6,7 +6,7 @@
 					<label class="menu-link" ng-click="hide=!hide">
 						<i class="menu-icon fa fa-fw fa-users"></i>
 						<span class="menu-label">Tournaments</span>
-						<span ng-click="management.showDetail=false;$event.stopPropagation();"><i class="fa fa-plus pull-right" ng-click="javascript:void(0)">New</i></span>
+						<span ng-click="management.showDetail=false;$event.stopPropagation();"><i class="fa fa-plus pull-right">New</i></span>
 					</label>
 					<ul class="sub_menu" ng-hide="hide" ng-repeat="tournament in management.tournaments track by $index">
 						<li class="sub-menu-item">
