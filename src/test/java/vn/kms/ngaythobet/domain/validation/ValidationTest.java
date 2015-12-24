@@ -79,11 +79,11 @@ public class ValidationTest extends BaseTest {
                     assertThat(violation.getMessage(), equalTo("'tester' is already existed"));
                     break;
                 case "email":
-                    assertThat(violation.getMessage(), equalTo("not a well-formed email address"));
+                    assertThat(violation.getMessage(), equalTo("email not valid"));
                     break;
                 case "password":
-                    assertThat(violation.getMessage(), equalTo("must contain at least six of uppercase, lowercase " +
-                        "letters, numbers and special characters"));
+                    assertThat(violation.getMessage(), equalTo("Password must contain at least six of uppercase, "
+                            + "lowercase letters, numbers and special characters"));
                     break;
                 case "confirmPassword":
                     assertThat(violation.getMessage(), equalTo("is not matched"));
