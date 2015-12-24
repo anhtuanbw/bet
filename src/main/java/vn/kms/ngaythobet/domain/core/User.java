@@ -2,18 +2,14 @@
 package vn.kms.ngaythobet.domain.core;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import vn.kms.ngaythobet.domain.tournament.Group;
 
 @Entity
 @Table(name = "users")
