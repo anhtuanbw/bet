@@ -44,9 +44,12 @@ public class TournamentService {
         return tournamentRepo.findOne(id);
     }
 
+    @Transactional
     public void activateTournament(long tournamentId) {
         Tournament tournament = tournamentRepo.findOne(tournamentId);
-        tournament.setActivated(true);
-        tournamentRepo.save(tournament);
+        if (tournament != null) {
+            tournament.setActivated(true);
+            tournamentRepo.save(tournament);
+        }
     }
 }

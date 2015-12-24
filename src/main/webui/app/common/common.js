@@ -7,7 +7,7 @@ import LanguageSelect from './language-select/language-select';
 import Login from './login/login';
 import Register from './register/register';
 import Round from './round-management/round-management';
-import DateTimePicker from './createMatch/date-time-picker';
+import DateTimePicker from './match/create-match/date-time-picker';
 import SideBar from './sidebar/sidebar';
 
 export const commonModule = angular.module('ngaythobet.common', [
