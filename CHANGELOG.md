@@ -1,6 +1,26 @@
 ngaythobet - v0.0.3 / 2015-12-23
 ================================
 
+* [#4] Log in/Log out.
+* [#13] Register User.
+* [#28] Tournament Management.
+* [#30] Round Management.
+* [#32] Group Management.
+
+**Improvement**
+
+
+**Bug**
+* [UI Login] Error message displays even though user logged in with valid account
+* [UI Register User] Error message display invalid.
+* [UI Tournament Management] Not work when click save button
+* [UI Group Management] Get all tornaments ok but still not save group when click save
+
+
+
+ngaythobet - v0.0.3 / 2015-12-23
+================================
+
 * [#8] Create Tournaments.
 * [#9] Create Matches.
 * [#10] Create Group.
