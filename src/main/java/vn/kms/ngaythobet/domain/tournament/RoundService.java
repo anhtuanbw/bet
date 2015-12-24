@@ -26,11 +26,11 @@ public class RoundService {
     public void createRound(CreateRoundInfo createRoundInfo) {
         Round round = new Round();
         round.setName(createRoundInfo.getName());
-        Tournament tournament = tournamentRepo.findOne(createRoundInfo.getTournamentId());
+        Tournament tournament = tournamentRepo.getOne(createRoundInfo.getTournamentId());
         round.setTournament(tournament);
         List<Competitor> competitors = new ArrayList<>();
-        if (createRoundInfo.getCompetitorId() != null) {
-            createRoundInfo.getCompetitorId().forEach(competitorIds -> {
+        if (createRoundInfo.getCompetitorIds() != null) {
+            createRoundInfo.getCompetitorIds().forEach(competitorIds -> {
                 competitors.add(competitorRepo.getOne(competitorIds));
             });
             round.setCompetitors(competitors);

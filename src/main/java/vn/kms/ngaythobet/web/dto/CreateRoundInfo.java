@@ -25,7 +25,7 @@ public class CreateRoundInfo {
     private long tournamentId;
 
     @ListUnique(message = "{validation.competitors.unique.message}")
-    private List<Long> competitorId;
+    private List<Long> competitorIds;
 
     public String getName() {
         return name;
@@ -43,11 +43,11 @@ public class CreateRoundInfo {
         this.tournamentId = tournamentId;
     }
 
-    public List<Long> getCompetitorId() {
-        return competitorId;
+    public List<Long> getCompetitorIds() {
+        return competitorIds;
     }
 
-    public void setCompetitorId(List<Long> competitorId) {
-        this.competitorId = competitorId;
+    public void setCompetitorIds(List<Long> competitorIds) {
+        this.competitorIds = competitorIds;
     }
 }
