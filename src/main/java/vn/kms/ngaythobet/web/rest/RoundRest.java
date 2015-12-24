@@ -17,6 +17,7 @@ import vn.kms.ngaythobet.domain.tournament.RoundService;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.tournament.TournamentService;
 import vn.kms.ngaythobet.web.dto.CreateRoundInfo;
+import vn.kms.ngaythobet.web.dto.UpdateRoundInfo;
 
 @RestController
 @RequestMapping("/api")
@@ -32,6 +33,11 @@ public class RoundRest {
     @RequestMapping(value = "/createRound", method = POST)
     public void createRound(@Valid @RequestBody CreateRoundInfo createRoundInfo) {
         roundService.createRound(createRoundInfo);
+    }
+    
+    @RequestMapping(value = "/updateRound", method = POST)
+    public void updateRound(@Valid @RequestBody UpdateRoundInfo updateRoundInfo){
+        roundService.updateRound(updateRoundInfo);
     }
 
     @RequestMapping(value = "/getRoundsInTournament/{tournament_id}", method = GET)

@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import vn.kms.ngaythobet.domain.tournament.Competitor;
+import vn.kms.ngaythobet.domain.tournament.Round;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 import vn.kms.ngaythobet.domain.validation.FieldNotMatch;
 
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size;
 @FieldNotMatch(firstField="competitor1", secondField="competitor2", message="{validation.matches.fieldNotMatch.message}")
 public class CreateMatchInfo {
     @NotNull
-    @EntityExist(type = Competitor.class, message="{validation.matches.existRoundEntity.message}")
+    @EntityExist(type = Round.class, message="{validation.matches.existRoundEntity.message}")
     private Long round;
 
     @NotNull

@@ -1,7 +1,11 @@
 {
   "components": {
     "tournament": {
-      "createTournament-success": "Creat tournament successfully!!!"
+      "createTournament-success": "Creat tournament successfully!!!",
+      "title": "Create Tournament",
+      "competitors": "Competitors",
+      "name": "Tournament name",
+      "active": "Active"
     }
   }
 }

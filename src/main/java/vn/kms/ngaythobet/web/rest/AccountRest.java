@@ -113,7 +113,7 @@ public class AccountRest {
         if (userService.changePassword(passwordInfo)) {
             return login(SecurityUtil.getCurrentLogin(), passwordInfo.getPassword());
         } else {
-            throw new DataInvalidException("exception.userService.password-invalid");
+            throw new DataInvalidException("exception.userService.currentPassword-invalid");
         }
     }
 

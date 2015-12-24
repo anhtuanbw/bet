@@ -1,5 +1,5 @@
 // Copyright (c) 2015 KMS Technology, Inc.
-package vn.kms.ngaythobet.domain.core;
+package vn.kms.ngaythobet.domain.tournament;
 
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.domain.core.MailService;
 import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
 import vn.kms.ngaythobet.domain.tournament.MatchRepository;
 import vn.kms.ngaythobet.domain.tournament.MatchService;
@@ -47,8 +48,7 @@ public class MatchServiceTest extends BaseTest {
         MailService mailService = mock(MailService.class);
         when(mailService.sendEmailAsync(anyString(), anyString(), anyString(), anyBoolean(), anyBoolean()))
                 .thenReturn(new AsyncResult<>(true));
-
-        matchService = new MatchService(tournamentRepo, competitorRepo, roundRepo, matchRepo);
+        //TODO
     }
     
     @Test

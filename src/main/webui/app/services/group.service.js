@@ -1,14 +1,20 @@
 'use strict';
 
 export default class GroupService {
-  /* @ngInject */
-  constructor($http) {
-    this.$http = $http;
-  }
+	/* @ngInject */
+	constructor($http, CacheService) {
+		this.$http = $http;
+		this.cacheService = CacheService;
+	}
 
-  create(data) {
-  	console.log(data);
-    return this.$http.post('api/group/create', data);
-  }
+	create(data) {
+		var token = this.cacheService.get('loginUser');
+		return this.$http({
+			method: 'POST',
+			url: 'api/group/create',
+			data: data,
+			headers: {'Accept': '*/*', 'x-auth-token': token}
+		});
+	}
 
 }

@@ -1,7 +1,11 @@
 {
   "components": {
     "tournament": {
-      "createTournament-success": "Thêm giải đấu thành công!!!"
+      "createTournament-success": "Thêm giải đấu thành công!!!",
+      "title": "Tạo giải đấu",
+      "competitors": "Các đội thi đấu",
+      "name": "Tên giải đấu",
+      "active": "Kích hoạt"
     }
   }
 }
