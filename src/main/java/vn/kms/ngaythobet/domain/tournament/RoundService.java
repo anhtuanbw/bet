@@ -47,7 +47,7 @@ public class RoundService {
     }
 
     public void updateRound(UpdateRoundInfo updateRoundInfo) {
-        Round round = roundRepo.findOne(updateRoundInfo.getRoundId());
+        Round round = roundRepo.getOne(updateRoundInfo.getRoundId());
         long tournamentId = round.getTournament().getId();
         List<Competitor> competitors = new ArrayList<>();
         if (updateRoundInfo.getCompetitorIds() != null) {
