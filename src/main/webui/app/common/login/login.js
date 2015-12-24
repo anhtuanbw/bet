@@ -20,8 +20,11 @@ export default class LoginController {
       if (token) {
         self.cacheService.set('loginUser', token);
         self.rootScope.$broadcast('login', data);
-        self.location.path('/home');
+        self.location.path('/management');
       }
+      //remove old login data
+      data.username = '';
+      data.password = '';
     }, function (response) {
       data.error = response.data.message;
     });

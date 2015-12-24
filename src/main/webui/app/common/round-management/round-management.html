@@ -6,45 +6,46 @@
     <div class="panel-body">
         <form name="roundform">
           <!-- Begin Tournament -->
-          <div class="form-group">
+          <div ng-class="form-group">
             <label for="tournamentname" class="control-label">Tournament Name</label><span class="text-danger"> *</span>
             <div ng-init="round.data.tourlist = []">
-              <select class="form-control" ng-change="round.selectTour(round.data)" ng-model="round.data.tour" ng-init="round.loadTour(round.data)">
+              <select class="form-control" ng-change="round.selectTour(round.data)" ng-model="round.data.tour" ng-init="round.loadTour(round.data)" required>
                 <option ng-repeat="tour in round.data.tourlist">{{tour}}</option>
               </select>
-
             </div>
+            <span class="text-danger" ng-bind="round.data.tourError"></span>
           </div>
           <!-- End Tournament -->
-
+          <br>
           <!-- Begin Round -->
-          <div class="form-group">
+          <div ng-class="form-group">
             <label for="roundname" class="control-label">Round Name</label><span class="text-danger"> *</span>
             <input type="text" class="form-control" ng-model="round.data.name" name="roundname" required>
+            <span class="text-danger" ng-bind="round.data.roundError"></span>
           </div>
           <!-- End Round -->
-
+          <br>
           <!-- Begin Competitor -->
-          <div class="form-group" ng-init="round.data.complist = []">
-            <label for="roundcompet" class="control-label">Round Competitor</label><span class="text-danger"> *</span>
+          <div class="form-group" ng-init="round.data.competitorList = []">
+            <label for="roundcompet" class="control-label">Competitor</label><span class="text-danger"> *</span>
             <ol>
-              <li ng-repeat="item in round.data.complist">{{item}}</li>
+              <li ng-repeat="item in round.data.competitorList">{{item}}</li>
             </ol>
-            <span class="text-danger" ng-bind="round.data.error"></span>
+            <span class="text-danger" ng-bind="round.data.CompetitorError"></span>
           </div>
 
           <!-- Combobox Competitor -->
-          <div class="input-group" ng-init="round.data.listcompet = []">
-            <select class="form-control" ng-model="round.data.compet">
-              <option ng-repeat="comp in round.data.listcompet">{{comp}}</option>
+          <div class="input-group" ng-init="round.data.competitorInComboBox = []">
+            <select class="form-control" ng-model="round.data.competitorSelected" required>
+              <option ng-repeat="comp in round.data.competitorInComboBox">{{comp}}</option>
             </select>
-                <div class="input-group-addon" ng-click="round.addMore(round.data)">Add</div>
+                <div class="input-group-addon" ng-click="round.addCompetitor(round.data)">Add</div>
           </div>
+          <span class="text-success" ng-bind="round.data.success"></span>
           <br>
           <!-- End Combobox Competitor -->
           <!-- End Competitor -->
-
-          <button type="button" class="btn btn-primary pull-right">Save</button>
+          <button type="button" class="btn btn-primary pull-right" ng-click="round.saveData(round.data)">Save</button>
         </form>
     </div>
   </div>

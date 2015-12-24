@@ -15,4 +15,21 @@ export default class RoundService {
     });
   }
 
+  getAllCompetitor(id){
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: `api/competitors/findByTournamentId?tournamentId=${id}`,
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    });
+  }
+
+  create(data){
+    var token = this.cacheService.get('loginUser');
+    var config = {
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    }
+    return this.$http.post('api/createRound', data, config);
+  }
+
 }
