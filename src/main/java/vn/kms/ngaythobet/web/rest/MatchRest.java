@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,12 +38,12 @@ public class MatchRest {
         matchService.createMatch(createMatchInfo);
     }
     
-    @RequestMapping(value = "/competitors", method = GET)
-    public List<Competitor> getCompetitorsByRound(@RequestParam Long roundId) {
+    @RequestMapping(value = "/competitors/{roundId}", method = GET)
+    public List<Competitor> getCompetitorsByRound(@PathVariable Long roundId) {
         return matchService.getCompetitors(roundId);
     }
-    @RequestMapping(value = "/rounds", method = GET)
-    public List<Round> getRoundsByTournament(@RequestParam Long tournamentId) {
+    @RequestMapping(value = "/rounds/{tournamentId}", method = GET)
+    public List<Round> getRoundsByTournament(@PathVariable Long tournamentId) {
         return matchService.getRounds(tournamentId);
     }
 }

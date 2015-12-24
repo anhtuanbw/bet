@@ -49,7 +49,7 @@ public class MatchServiceTest extends BaseTest {
         when(mailService.sendEmailAsync(anyString(), anyString(), anyString(), anyBoolean(), anyBoolean()))
                 .thenReturn(new AsyncResult<>(true));
 
-        matchService = new MatchService(tournamentRepo, competitorRepo, roundRepo, matchRepo);
+//        matchService = new MatchService(tournamentRepo, competitorRepo, roundRepo, matchRepo);
     }
     
     @Test
