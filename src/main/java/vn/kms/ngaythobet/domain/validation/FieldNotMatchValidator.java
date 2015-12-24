@@ -3,6 +3,8 @@ package vn.kms.ngaythobet.domain.validation;
 
 import org.springframework.security.util.FieldUtils;
 
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -27,6 +29,11 @@ public class FieldNotMatchValidator implements ConstraintValidator<FieldNotMatch
 
             if (firstValue == null && secondValue == null) {
                 return false;
+            }
+            
+            if(firstValue == null || secondValue == null){
+                throw new DataInvalidException(
+                        "exception.matchService.number-of-competitor");
             }
 
             boolean matched = firstValue.equals(secondValue);
