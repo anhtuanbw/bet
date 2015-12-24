@@ -2,7 +2,7 @@
 
 export default class CreateMatchController {
   /* @ngInject */
-  constructor(MatchService, CacheService, $location, $modalInstance, toaster, $rootScope, editId) {
+  constructor(MatchService, CacheService, $location, $modalInstance, toaster, editId) {
     this.matchService = MatchService;
     this.cacheService = CacheService;
     this.location = $location;
@@ -23,8 +23,8 @@ export default class CreateMatchController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-
-    this.this.matchService.createMatch(this.data)
+  console.log(self.data);
+    this.matchService.createMatch(this.data)
       .then(response => {
         
         // Success
@@ -42,36 +42,24 @@ export default class CreateMatchController {
         }
         self.errorMessage = response.data.fieldErrors;
       });
+    
   }
 
   getRounds() {
-    var colors = [
-      { id: 1, name: 'dark' },
-      { id: 2, name: 'light' },
-      { id: 3, name: 'dark' },
-      { id: 4, name: 'dark' },
-      { id: 5, name: 'light' }
-    ];
-    var i;
-    for (i = 0; i < colors.length; i++) {
-      this.dataRounds.push(colors[i]);
-    }
-    console.log(this.dataRounds);
-    
-    // this.matchService.getRounds(this.tournamentId)
-    //   .then(response => {
+    this.matchService.getRounds(this.tournamentId)
+      .then(response => {
         
-    //     // Success
-    //     var i;
-    //     for (i = 0; i < response.data.length; i++) {
-    //       this.dataRounds.push(response.data[i]);
-    //     }
-    //   });
+        // Success
+        var i;
+        for (i = 0; i < response.data.length; i++) {
+          this.dataRounds.push(response.data[i]);
+        }
+      });
   }
 
   getCompetitors() {
-    console.log(this.dataRounds.selected);
-    this.matchService.getCompetitors(this.dataRounds.selected)
+    console.log(this.data.round);
+    this.matchService.getCompetitors(this.data.round)
       .then(response => {
         
         // Success

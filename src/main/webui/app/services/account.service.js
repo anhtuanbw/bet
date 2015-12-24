@@ -29,8 +29,14 @@ export default class AccountService {
     });
   }
   
-  changepassword(passwordModel) {
-    return this.$http.post('api/account/change-password', passwordModel);
+  changePassword(data) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'POST',
+      url: 'api/account/change-password',
+      headers: {'Accept': '*/*', 'x-auth-token': token},
+      data: data
+    });
   }
 
   resetPassword(email) {

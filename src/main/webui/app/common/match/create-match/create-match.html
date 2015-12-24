@@ -6,11 +6,14 @@
   <div class="modal-body">
     <form name="form" method="post">
       <div class="form-group">
-        <label for="round">Select round <span class="text-danger">*</span></label>
-        <select class="form-control" ng-model="createMatch.dataRounds.selected" ng-options="round.id as round.name for round in createMatch.dataRounds"
-        ng-change="createMatch.getCompetitors();">
-          <option value="">--Please choose round--</option>
-        </select>
+        <div ng-class="(createMatch.errorMessage.round) ? 'form-group has-error' : 'form-group'">
+          <label for="round">Select round <span class="text-danger">*</span></label>
+          <select class="form-control" ng-model="createMatch.data.round" ng-options="round.id as round.name for round in createMatch.dataRounds"
+          ng-change="createMatch.getCompetitors();">
+            <option value="">--Please choose round--</option>
+          </select>
+          <div class="text-danger" ng-show="createMatch.errorMessage" ng-bind="createMatch.errorMessage.round"></div>
+        </div>
       </div>
       <div class="form-group">
         <div class="row">
@@ -20,30 +23,45 @@
           <div class="col-md-6">
             <label for="competitor2">Competitor 2 <span class="text-danger">*</span></label>
           </div>
-          <div class="col-md-6">
-            <select class="form-control" ng-model="createMatch.dataCompetitors.selected" ng-options="competitor.id as competitor.name for competitor in createMatch.dataCompetitors">
-              <option value="">--Please choose competitor 1--</option>
-            </select>
+          <div class="form-group">
+            <div class="col-md-6">
+              <div ng-class="(createMatch.errorMessage.competitor1) ? 'form-group has-error' : 'form-group'">
+                <select class="form-control" ng-model="createMatch.data.competitor1" ng-options="competitor.id as competitor.name for competitor in createMatch.dataCompetitors">
+                  <option value="">--Please choose competitor 1--</option>
+                </select>
+              </div>
+              <div class="text-danger" ng-show="createMatch.errorMessage" ng-bind="createMatch.errorMessage.competitor1"></div>
+            </div>
           </div>
-          <div class="col-md-6">
-            <select class="form-control" ng-model="createMatch.dataCompetitors.selected" ng-options="competitor.id as competitor.name for competitor in createMatch.dataCompetitors">
-              <option value="">--Please choose competitor 2--</option>
-            </select>
+          <div class="form-group">
+            <div class="col-md-6">
+              <div ng-class="(createMatch.errorMessage.competitor2) ? 'form-group has-error' : 'form-group'">
+                <select class="form-control" ng-model="createMatch.data.competitor2" ng-options="competitor.id as competitor.name for competitor in createMatch.dataCompetitors">
+                  <option value="">--Please choose competitor 2--</option>
+                </select>
+              </div>
+              <div class="text-danger" ng-show="createMatch.errorMessage" ng-bind="createMatch.errorMessage.competitor2"></div>
+            </div>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="location">Location <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" ng-model="createMatch.data.location" name="createMatch.data.location">
-        <div class="text-danger" ng-show="changePassword.errorMessage" ng-bind="changePassword.errorMessage.confirmPassword"></div>
+        <div ng-class="(createMatch.errorMessage.location) ? 'form-group has-error' : 'form-group'">
+          <label for="location">Location <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" ng-model="createMatch.data.location" name="createMatch.data.location">
+          <div class="text-danger" ng-show="createMatch.errorMessage" ng-bind="createMatch.errorMessage.location"></div>
+        </div>
       </div>
       <div class="form-group">
-        <label for="time">Time <span class="text-danger">*</span></label>
-        <div class="input-group date" id="datetimepicker1" data-date-time-picker>
-          <input type="text" class="form-control" ng-model="createMatch.data.time">
-          <span class="input-group-addon">
+        <div ng-class="(createMatch.errorMessage.time) ? 'form-group has-error' : 'form-group'">
+          <label for="time">Time <span class="text-danger">*</span></label>
+          <div class="input-group date" id="datetimepicker1" data-date-time-picker>
+            <input type="text" class="form-control" ng-model="createMatch.data.time" name="createMatch.data.time">
+            <span class="input-group-addon">
 			      <span class="glyphicon glyphicon-calendar"></span>
-          </span>
+            </span>
+          </div>
+          <div class="text-danger" ng-show="createMatch.errorMessage" ng-bind="createMatch.errorMessage.time"></div>
         </div>
       </div>
       <div class="form-group">
