@@ -1,6 +1,7 @@
 'use strict';
 
 export default class CreateTournamentController {
+  /* @ngInject */
   constructor(TournamentService, toaster, $rootScope) {
     this.rootScope = $rootScope;
     this.tournamentService = TournamentService;
