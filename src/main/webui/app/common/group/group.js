@@ -2,10 +2,11 @@
 
 export default class GroupController {
   /* @ngInject */
-  constructor(GroupService, TournamentService, $mdDialog) {
+  constructor(GroupService, TournamentService, $mdDialog, toaster) {
     this.groupService = GroupService;
     this.tournamentService = TournamentService;
     this.mdDialog = $mdDialog;
+    this.toaster = toaster;
 
     this.moderators = this.getModerators();
     this.getTournaments();
@@ -16,18 +17,22 @@ export default class GroupController {
     this.error = {};
   }
 
+  pop(type, title, content) {
+      this.toaster.pop(type, title, content);
+  };
+
   getTournaments() {
     var self = this;
-    return this.tournamentService.findAll()
+    this.tournamentService.findAll()
       .then(response => {
         if (response.status === 200) {
-          self.groupData.tournament = response.data
+          self.groupData.tournaments = response.data;
         }
       });
   }
 
   getModerators() {
-   return this.tournamentService.findAll()
+   return this.tournamentService.getAll()
       .then(response => {
         if (response.status === 200) {
           var tournaments = response.data;
@@ -40,7 +45,7 @@ export default class GroupController {
 
   querySearch(query) {
     var self = this;
-    return query ? self.moderators.filter(self.createFilterFor(query) ) : self.moderators;
+    return query ? self.moderators.filter(this.createFilterFor(query) ) : self.moderators;
   }
 
   createFilterFor(query) {
@@ -51,7 +56,25 @@ export default class GroupController {
   }
 
   save($event) {
+    var self = this;
     // Create group
+    var data = {
+      name: this.groupData.name,
+      tournamentId: this.groupData.tournament,
+      moderator: this.selectedItem.id
+    };
+
+    this.groupService.create(data)
+      .then(response => {
+        if (response.status === 200) {
+
+        }
+      })
+      .catch(response => {
+          self.error = response.data.fieldErrors;
+          console.log(self.error);
+          self.pop('error', '', response.data.fieldErrors);
+      });
   }
 
   cancel($event) {
