@@ -1,6 +1,7 @@
 'use strict';
 
 export default class ActivatorController {
+  /* @ngInject */
   constructor($location, $timeout, AccountService) {
     this.location = $location;
     this.accountService = AccountService;
