@@ -1,4 +1,11 @@
 <div ng-controller="EditTournamentController as editor">
-	<h2 ng-bind="editor.tournamentInfo.name"></h2>
-	
+	<div class="panel panel-default">
+		<div class="panel-heading panel-title">
+			<h3 ng-bind="editor.tournamentInfo.name"></h3>
+		</div>
+		<div class="panel-body">
+			<button ng-show="!editor.tournamentInfo.activated" class="btn btn-primary">Active Tournament</button>
+			<button class="btn btn-default">New match</button>
+		</div>
+	</div>
 </div>

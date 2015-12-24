@@ -2,13 +2,14 @@
 
 export default class LoginController {
   /* @ngInject */
-  constructor(AccountService, CacheService, $location, $rootScope, $modal) {
+  constructor(AccountService, CacheService, $location, $rootScope, $modal, $mdDialog) {
     this.accountService = AccountService;
     this.cacheService = CacheService;
     this.rootScope = $rootScope;
     this.location = $location;
     this.data = {};
     this.modal = $modal;
+    this.mdDialog = $mdDialog;
   }
 
   login(data) {
@@ -34,13 +35,17 @@ export default class LoginController {
     });
   }
 
-  openGroup() {
-    this.modal.open({
-      templateUrl: 'app/common/group/group.html',
+  createGroup($event) {
+    this.mdDialog.show({
       controller: 'GroupController',
-      controllerAs: 'group'
+      controllerAs: 'groupCtrl',
+      templateUrl: 'app/common/group/group.html',
+      parent: angular.element(document.body),
+      targetEvent: $event,
+      clickOutsideToClose:true
     });
   }
+
 }
 
 export default class Login {

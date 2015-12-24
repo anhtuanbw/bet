@@ -1,45 +1,52 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <h2 class="modal-title"><small>Create Betting Group</small></h2>
-  </div>
-  <div class="modal-body">
-    <form enctype="application/json" ng-submit="group.create()">
-      <div class="form-group" ng-class="{'has-error': group.error.name.length > 0}">
-        <label for="name" class="control-label">Please enter name of new group <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="name" name="name" ng-model="group.groupData.name" required>
-        <span class="text-danger" ng-show="group.error.name">{{ ::group.error.name }}</span>
-      </div>
-      <div class="form-group" ng-class="{'has-error': group.error.tournament.length > 0}">
-        <label for="tournament" class="control-label">Select one tournament <span class="text-danger">*</span></label>
-        <select id="tournament" class="form-control" name="tournament" ng-model="group.groupData.tournament" required>
-          <option value="1" selected>Tour 1</option>
-          <option value="2">Tour 2</option>
-          <option value="3">Tour 3</option>
-          <option value="4">Tour 4</option>
-        </select>
-        <span class="text-danger" ng-show="group.error.tournament">{{ ::group.error.tournament }}</span>
-      </div>
-      <div class="form-group" ng-class="{'has-error': group.error.moderator.length > 0}">
-        <label for="moderator" class="control-label">set moderator <span class="text-danger">*</span></label>
-        <md-autocomplete
-          name="moderator"
-          id="moderator"
-          md-search-text="group.searchText"
-          md-selected-item-change="group.selectedItemChange(item)"
-          md-items="item in group.querySearch(group.searchText)"
-          md-item-text="item.display"
-          md-min-length="0"
-          placeholder="Please select moderator">
-        <md-item-template>
-          <span md-highlight-text="group.searchText" md-highlight-flags="^i">{{item.display}}</span>
-        </md-item-template>
-      </md-autocomplete>
-        <span class="text-danger" ng-show="group.error.moderator">{{ ::group.error.moderator }}</span>
-      </div>
-      <div class="text-right">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-default" ng-click="group.closeGroup()">Cancel</button>
-      </div>
-    </form>
+<md-dialog ng-cloak>
+<md-toolbar>
+<div class="md-toolbar-tools">
+  <h2>Create Betting Group</h2>
+</div>
+</md-toolbar>
+<md-dialog-content>
+<div class="md-dialog-content">
+  <form ng-submit="$event.preventDefault()">
+  <p>The fields mark <span class="text-danger">(*)</span> is required. Please enter all required fields to create group</p>
+    <div class="form-group" ng-class="{'has-error': group.error.name.length > 0}">
+      <label for="name" class="control-label">Please enter name of new group <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="name" name="name" ng-model="groupCtrl.groupData.name" required>
+      <span class="text-danger" ng-show="group.error.name">{{ ::groupCtrl.error.name }}</span>
+    </div>
+    <div class="form-group" ng-class="{'has-error': groupCtrl.error.tournament.length > 0}">
+      <label for="tournament" class="control-label">Select one tournament <span class="text-danger">*</span></label>
+      <select id="tournament" class="form-control" name="tournament" ng-model="groupCtrl.groupData.tournament" required>
+        <option value="1" selected ng-repeat="tournament in groupCtrl.groupData.tournaments">Tour 1</option>
+        <option value="2">Tour 2</option>
+        <option value="3">Tour 3</option>
+        <option value="4">Tour 4</option>
+      </select>
+      <span class="text-danger" ng-show="group.error.tournament">{{ ::groupCtrl.error.tournament }}</span>
+    </div>
+    <div class="form-group" ng-class="{'has-error': group.error.moderator.length > 0}">
+      <label for="moderator" class="control-label">Set moderator <span class="text-danger">*</span></label>
+      <md-autocomplete
+      md-selected-item="groupCtrl.selectedItem"
+      md-search-text="groupCtrl.searchText"
+      md-items="item in groupCtrl.querySearch(groupCtrl.searchText)"
+      md-item-text="item.name"
+      md-min-length="0"
+      placeholder="Please select moderator!">
+      <md-item-template>
+      <span md-highlight-text="groupCtrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
+    </md-item-template>
+    <md-not-found>
+    No states matching "{{groupCtrl.searchText}}" were found.
+  </md-not-found>
+</md-autocomplete>
+</div>
+</form>
+<div class="form-group">
+  <div class="text-right">
+    <button type="submit" class="btn btn-primary" ng-click="groupCtrl.save($event)">Save</button>
+    <button type="button" class="btn btn-default" ng-click="groupCtrl.cancel($event)">Cancel</button>
   </div>
 </div>
+</div>
+</md-dialog-content>
+</md-dialog>

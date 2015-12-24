@@ -40,7 +40,7 @@ public class RoundService {
                 roundRepo.save(round);
             } else {
                 throw new DataInvalidException(
-                        "exception.RoundService.this.competitors.isnot.belong.to.yourTournament");
+                        "exception.competitor.not-exist-tournament");
             }
         } else {
             roundRepo.save(round);
