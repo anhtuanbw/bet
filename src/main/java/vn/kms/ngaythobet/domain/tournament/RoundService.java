@@ -36,7 +36,7 @@ public class RoundService {
         roundRepo.save(round);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Round> getRoundByTournamentId(Long tournamentId) {
         return roundRepo.findByTournamentId(tournamentId);
     }

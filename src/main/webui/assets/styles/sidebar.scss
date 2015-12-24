@@ -32,7 +32,6 @@
 #page-content-wrapper {
     width: 100%;
     position: absolute;
-    padding: 15px;
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -106,7 +105,6 @@
     }
 
     #page-content-wrapper {
-        padding: 20px;
         position: relative;
     }
 
@@ -114,4 +112,12 @@
         position: relative;
         margin-right: 0;
     }
+    
+    .nomargin {
+        margin:0 !important;
+    }
+    
+}
+.newButton {
+    line-height: 40px;
 }
