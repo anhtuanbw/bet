@@ -20,9 +20,9 @@ public class CreateRoundInfo {
     @FieldUnique(entity = Round.class, field = "name")
     private String name;
     
-    @NotNull
     @EntityExist(type = Tournament.class, message = "{validation.existTournament.message}")
-    private long tournamentId;
+    @NotNull
+    private Long tournamentId;
 
     @ListUnique(message = "{validation.competitors.unique.message}")
     private List<Long> competitorIds;
@@ -35,11 +35,11 @@ public class CreateRoundInfo {
         this.name = name;
     }
 
-    public long getTournamentId() {
+    public Long getTournamentId() {
         return tournamentId;
     }
 
-    public void setTournamentId(long tournamentId) {
+    public void setTournamentId(Long tournamentId) {
         this.tournamentId = tournamentId;
     }
 

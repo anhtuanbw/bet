@@ -8,18 +8,18 @@ import vn.kms.ngaythobet.domain.validation.EntityExist;
 import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 public class UpdateRoundInfo {
-    @NotNull
     @EntityExist(type = Round.class, message = "{validation.matches.existRoundEntity.message}")
-    private long roundId;
+    @NotNull
+    private Long roundId;
     
     @ListUnique(message = "{validation.competitors.unique.message}")
     private List<Long> competitorIds;
 
-    public long getRoundId() {
+    public Long getRoundId() {
         return roundId;
     }
 
-    public void setRoundId(long roundId) {
+    public void setRoundId(Long roundId) {
         this.roundId = roundId;
     }
 
