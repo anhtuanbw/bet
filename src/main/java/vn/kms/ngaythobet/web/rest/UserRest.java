@@ -1,6 +1,8 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.web.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -9,19 +11,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.DataNotFoundException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -55,5 +53,10 @@ public class UserRest {
         return userRepo
                 .findOneByUsername(username)
                 .orElseThrow(() -> new DataNotFoundException("exception.userRest.user-not-found", username));
+    }
+
+    @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
+    public List<User> searchUser(@PathVariable String name) {
+        return userRepo.findByNameContainingIgnoreCase(name);
     }
 }
