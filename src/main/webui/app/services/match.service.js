@@ -29,7 +29,7 @@ export default class MatchService {
   getCompetitors(roundId) {
     var token = this.cacheService.get('loginUser');
     return this.$http({
-      method: 'POST',
+      method: 'GET',
       url: '/api/matches/competitors/' + roundId,
       headers: {'Accept': '*/*', 'x-auth-token': token}
     });

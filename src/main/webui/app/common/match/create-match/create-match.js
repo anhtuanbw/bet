@@ -2,7 +2,7 @@
 
 export default class CreateMatchController {
   /* @ngInject */
-  constructor(MatchService, CacheService, $location, $modalInstance, toaster) {
+  constructor(MatchService, CacheService, $location, $modalInstance, toaster, $rootScope, editId) {
     this.matchService = MatchService;
     this.cacheService = CacheService;
     this.location = $location;
@@ -11,6 +11,8 @@ export default class CreateMatchController {
     this.data = {};
     this.dataRounds = [];
     this.dataCompetitors = [];
+    this.tournamentId = editId;
+    this.getRounds();
   }
 
   createMatch() {
@@ -43,25 +45,39 @@ export default class CreateMatchController {
   }
 
   getRounds() {
-    // var colors = [
-    //   {id:1, shade:'dark'},
-    //   {id:2, shade:'light'},
-    //   {id:3, shade:'dark'},
-    //   {id:4, shade:'dark'},
-    //   {id:5, shade:'light'}
-    // ];
-    // var i;
-    // for (i = 0; i < colors.length; i++) {
-    //        this.dataRounds.push(colors[i]);
-    // }
-    // console.log(this.dataRounds);
-    this.matchService.getRounds('1')
+    var colors = [
+      { id: 1, name: 'dark' },
+      { id: 2, name: 'light' },
+      { id: 3, name: 'dark' },
+      { id: 4, name: 'dark' },
+      { id: 5, name: 'light' }
+    ];
+    var i;
+    for (i = 0; i < colors.length; i++) {
+      this.dataRounds.push(colors[i]);
+    }
+    console.log(this.dataRounds);
+    
+    // this.matchService.getRounds(this.tournamentId)
+    //   .then(response => {
+        
+    //     // Success
+    //     var i;
+    //     for (i = 0; i < response.data.length; i++) {
+    //       this.dataRounds.push(response.data[i]);
+    //     }
+    //   });
+  }
+
+  getCompetitors() {
+    console.log(this.dataRounds.selected);
+    this.matchService.getCompetitors(this.dataRounds.selected)
       .then(response => {
         
         // Success
         var i;
         for (i = 0; i < response.data.length; i++) {
-          this.dataRounds.push(response.data[i]);
+          this.dataCompetitors.push(response.data[i]);
         }
       });
   }
