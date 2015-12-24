@@ -78,7 +78,7 @@ public class TokenProvider {
         return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes())));
     }
 
-    public void invalidToken(String token) {
+    public void removeToken(String token) {
         tokenCache.invalidate(token);
     }
 }

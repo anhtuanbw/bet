@@ -35,4 +35,9 @@ public class RoundService {
         round.setCompetitors(competitors);
         roundRepo.save(round);
     }
+
+    @Transactional
+    public List<Round> getRoundByTournamentId(Long tournamentId) {
+        return roundRepo.findByTournamentId(tournamentId);
+    }
 }

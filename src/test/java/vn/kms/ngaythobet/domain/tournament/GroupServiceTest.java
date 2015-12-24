@@ -1,11 +1,14 @@
-package vn.kms.ngaythobet.domain.core;
+package vn.kms.ngaythobet.domain.tournament;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
 import vn.kms.ngaythobet.domain.tournament.GroupService;
@@ -45,8 +48,11 @@ public class GroupServiceTest extends BaseTest {
         assertThat(group.getName(), is(equalTo("Launch 4")));
         assertThat(group.getModerator().getUsername(), is(equalTo(user.getUsername())));
         assertThat(group.getTournament().getName(), is(equalTo(tournament.getName())));
+    }
 
-        groupRepo.delete(group);
-        tournamentRepo.delete(tournament);
+    @After
+    public void deteleData() {
+        groupRepo.deleteAll();
+        tournamentRepo.deleteAll();
     }
 }

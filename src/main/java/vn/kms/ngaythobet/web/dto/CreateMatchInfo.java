@@ -5,26 +5,36 @@ package vn.kms.ngaythobet.web.dto;
 import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import vn.kms.ngaythobet.domain.tournament.Competitor;
+import vn.kms.ngaythobet.domain.validation.EntityExist;
+import vn.kms.ngaythobet.domain.validation.FieldNotMatch;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@FieldNotMatch(firstField="competitor1", secondField="competitor2", message="{validation.matches.fieldNotMatch.message}")
 public class CreateMatchInfo {
-    @NotEmpty
-    private long round;
+    @NotNull
+    @EntityExist(type = Competitor.class, message="{validation.matches.existRoundEntity.message}")
+    private Long round;
 
-    @NotEmpty
+    @NotNull
+    @EntityExist(type = Competitor.class, message="{validation.matches.existCompetitorEntity.message}")
     private Long competitor1;
     
-    @NotEmpty
+    @NotNull
+    @EntityExist(type = Competitor.class, message="{validation.matches.existCompetitorEntity.message}")
     private Long competitor2;
     
-    @NotEmpty
+    @NotNull
+    @DateTimeFormat(pattern="yyyy-MM-dd hh:mm a")
     private LocalDateTime time;
     
     @NotEmpty
     private String location;
     
-    @NotEmpty
     @Size(max=512)
     private String comment;
 
