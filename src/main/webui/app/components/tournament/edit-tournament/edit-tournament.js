@@ -6,7 +6,6 @@ export default class EditTournamentController {
     this.tournamentInfo = {};
 	  $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       this.tournamentInfo = tournamentInfo;
-      console.log(this.tournamentInfo);
     });
   }
   
@@ -14,11 +13,7 @@ export default class EditTournamentController {
     this.tournamentService.active(this.tournamentInfo.id)
     .then(() => {
       this.tournamentInfo.activated = true;
-      console.log('success');
     })
-    .catch(error => {
-      console.log(this.tournamentInfo.id);
-      console.log(error);
-    });
+    .catch();
   }
 }
