@@ -11,18 +11,17 @@
 }
 
 #sidebar-wrapper {
-    z-index: 1000;
     position: fixed;
     left: 250px;
     width: 0;
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #2f4050;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+    border-radius: 4px;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -37,6 +36,19 @@
 #wrapper.toggled #page-content-wrapper {
     position: absolute;
     margin-right: -250px;
+}
+
+.no-padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.well {
+  padding-top: 0 !important;
+}
+
+#sidebar-wrapper .panel {
+  border: none !important;
 }
 
 /* Sidebar Styles */
@@ -97,7 +109,7 @@
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 16.66%;
     }
 
     #wrapper.toggled #sidebar-wrapper {
@@ -120,4 +132,9 @@
 }
 .newButton {
     line-height: 40px;
+}
+
+.tour-banner {
+  max-height: 150px;
+  overflow: hidden;
 }

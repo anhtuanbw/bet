@@ -1,7 +1,7 @@
 <div ng-controller="CreateTournamentController as creator">
 	<div class="panel panel-default">
 		<div class="panel-heading panel-title">
-			<h2 translate="components.tournament.title"></h2>
+			<h4 translate="components.tournament.title"></h4>
 		</div>
 		<div class="panel-body">
 			<form novalidate>
@@ -11,7 +11,7 @@
 					<span class="text-danger" ng-show="creator.errorMessage" ng-bind="creator.errorMessage.name"></span>
 				</div>
 				<div ng-class="(creator.errorMessage.competitors) ? 'form-group has-error' : 'form-group'">
-					<label class="control-label" translate="components.tournament.competitors"></label><span class="text-danger">(>1)</span><span>: {{creator.getNumOfCompetitors()}}</span>
+					<label class="control-label" translate="components.tournament.competitors"></label><span class="text-danger">(>1)</span><span class="badge">{{creator.getNumOfCompetitors()}}</span>
 					<tags-input placeholder="Add a competitor" ng-model="creator.competitors"></tags-input>
 					<span class="text-danger" ng-show="creator.errorMessage" ng-bind="creator.errorMessage.competitors"></span>
 				</div>

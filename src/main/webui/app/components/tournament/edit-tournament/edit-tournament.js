@@ -2,12 +2,24 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
+    this.mdDialog = $mdDialog;
 	  $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       this.tournamentInfo = tournamentInfo;
+    });
+  }
+
+  createGroup($event) {
+    this.mdDialog.show({
+      controller: 'GroupController',
+      controllerAs: 'groupCtrl',
+      templateUrl: 'app/common/group/group.html',
+      parent: angular.element(document.body),
+      targetEvent: $event,
+      clickOutsideToClose:true
     });
   }
   

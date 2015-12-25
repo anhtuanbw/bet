@@ -1,10 +1,5 @@
-<div id="wrapper">
-	<div class="row" ng-init="hide=true" ng-controller="ManagementController as management">
-		<div sidebar></div>
-		<div class="col-sm-12">
-			<div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
-			<div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
-		</div>
+	<div ng-init="hide=true" ng-controller="ManagementController as management">
+        <div sidebar ng-show="management.isAuthorized()"></div>
+        <div unauthorized ng-show="!management.isAuthorized()"></div>
 	</div>
 	<toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
-</div>

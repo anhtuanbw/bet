@@ -1,18 +1,28 @@
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li>
-            <a href="javascript:void(0)" ng-click="hide=!hide">Tournament1
-                <span ng-click="management.showDetail=false;$event.stopPropagation();"><i class="fa fa-plus pull-right newButton">New</i></span>
-            </a>
-            <ul class="nav nav-second-level" ng-hide="hide" ng-repeat="tournament in management.tournaments track by $index">
-                <li>
-                    <a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)">
-                        <i class="fa fa-desktop"></i>
-                        <span class="nav-label" ng-bind="tournament.name"></span>
-                        <span class="fa arrow"></span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+<div id="sidebar-wrapper" class="no-padding col-md-2 well">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title pull-left">Tournament</h3>
+      <h3 class="text-right panel-title" ng-click="management.createTournament()">
+        <i class="fa fa-plus-circle"></i> New tournament
+      </h3>  
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id)">
+        <i class="fa fa-clock-o"></i>
+           {{tournament.name}}
+     </li>
+     <li class="list-group-item">Tournament 2</li>
+   </ul>  
+ </div>
+</div>
+<div class="col-md-10 pull-right">
+  <div class="panel panel-default">
+    <div class="tour-banner">
+      <img src="http://blog.sandos.com/wp-content/uploads/Hero-Shot-World-Cup-2014-banner.jpg">
+    </div>
+    <div class="panel-body">
+      <div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+      <div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
+    </div>
+  </div>
 </div>
