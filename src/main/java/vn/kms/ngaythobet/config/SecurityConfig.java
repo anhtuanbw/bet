@@ -96,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/reset-password/*").permitAll()
             .antMatchers("/api/group/create").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/tournaments/create").hasRole(User.Role.ADMIN.name())
-            .antMatchers("/api/tournaments/active").hasRole(User.Role.ADMIN.name())
+            .antMatchers("/api/tournaments/active").permitAll()
             .antMatchers("/api/tournaments/findAll").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/tournaments/getById").hasRole(User.Role.ADMIN.name())
             .antMatchers("/api/competitors/findByTournamentId").hasRole(User.Role.ADMIN.name())

@@ -8,11 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
+import vn.kms.ngaythobet.domain.core.MongoDbRef;
 
 @Entity
 @Table(name = "tournaments")
 public class Tournament extends AuditableEntity {
+    /**
+     * 
+     */
+
     @Column
     private String name;
 
@@ -21,6 +28,21 @@ public class Tournament extends AuditableEntity {
 
     @Column(name = "number_of_competitors")
     private Long numOfCompetitors;
+
+    @MongoDbRef
+    @OneToMany(mappedBy = "tournament")
+    @JsonIgnore
+    private List<Competitor> competitors;
+
+    @MongoDbRef
+    @OneToMany(mappedBy = "tournament")
+    @JsonIgnore
+    private List<Group> groups;
+
+    @MongoDbRef
+    @OneToMany(mappedBy = "tournament")
+    @JsonIgnore
+    private List<Round> rounds;
 
     public String getName() {
         return name;
@@ -44,6 +66,34 @@ public class Tournament extends AuditableEntity {
 
     public void setNumOfCompetitor(Long numOfCompetitors) {
         this.numOfCompetitors = numOfCompetitors;
+    }
+
+    public List<Competitor> getCompetitors() {
+        return competitors;
+    }
+
+    public void setCompetitors(List<Competitor> competitors) {
+        this.competitors = competitors;
+    }
+
+    public void setNumOfCompetitors(Long numOfCompetitors) {
+        this.numOfCompetitors = numOfCompetitors;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(List<Round> rounds) {
+        this.rounds = rounds;
     }
 
 }
