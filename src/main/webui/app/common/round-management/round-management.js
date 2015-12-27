@@ -8,7 +8,9 @@ export default class roundManController {
     this.tourCompetitor = [];
     this.tourID = 0;
     this.roundCompetitor = [];
+    this.roundListData = [];
     this.roundSave = {};
+    this.roundID = 0;
   }
 
 
@@ -43,6 +45,7 @@ export default class roundManController {
     //remove old Competitor list, comboBox and round name
     round.competitorList = [];
     round.competitorInComboBox = [];
+    round.roundList = [];
     round.name = '';
     round.roundError = '';
     round.CompetitorError = '';
@@ -58,13 +61,22 @@ export default class roundManController {
         }
       }
       //add competitors to comboBox
-      this.RoundService.getAllCompetitor(this.tourID)
-      .then(response => {
-        this.tourCompetitor = response.data;
-        for (var j = 0; j < response.data.length; j++) {
-          round.competitorInComboBox.push(response.data[j].name);
-        }
-      });
+      this.addCompetitorToComboBox(round);
+      this.loadRoundComboBox(round);
+      round.roundSelected = '';
+    });
+
+
+  }
+
+  addCompetitorToComboBox(round){
+    round.competitorInComboBox = [];
+    this.RoundService.getAllCompetitor(this.tourID)
+    .then(response => {
+      this.tourCompetitor = response.data;
+      for (var j = 0; j < response.data.length; j++) {
+        round.competitorInComboBox.push(response.data[j].name);
+      }
     });
   }
 
@@ -72,19 +84,19 @@ export default class roundManController {
     this.RoundService.getAllTournament()
     .then(response => {
       //success
-      var i;
-      for (i = 0; i < response.data.length; i++) {
+      for (var i = 0; i < response.data.length; i++) {
           round.tourlist.push(response.data[i].name);
       }
     });
   }
 
-  saveData(roundData){
+  createRound(roundData){
     this.roundSave = {
       'name': roundData.name,
       'tournamentId': this.tourID,
       'competitorIds': this.roundCompetitor
     };
+    console.log(this.roundSave);
     roundData.CompetitorError = '';
     roundData.roundError = '';
     this.RoundService.create(this.roundSave)
@@ -100,6 +112,74 @@ export default class roundManController {
       roundData.CompetitorError = response.data.fieldErrors.competitorId;
     });
   }
+
+  saveData(roundData){
+      roundData.roundListError = '';
+    if (roundData.hide === true) {
+      this.roundCompetitor = [];
+      for (var i = 0; i < roundData.competitorList.length; i++) {
+        this.pushCompetitorIdToList(this.tourCompetitor,this.roundCompetitor,roundData.competitorList[i]);
+      }
+      var dataUpdate = {
+        'roundId': this.roundID,
+        'competitorIds': this.roundCompetitor
+      };
+      this.RoundService.update(dataUpdate)
+      .then(response => {
+        //success
+        roundData.success = 'Update Successfully !!!';
+        roundData.competitorList = [];
+        roundData.roundSelected = '';
+        roundData.competitorSelected = '';
+      }, function(response){
+        roundData.roundListError = response.data.fieldErrors.roundId;
+      });
+    } else {
+      this.createRound(roundData);
+    }
+  }
+
+  updateRound(data){
+      data.hide = true;
+      data.tourError = '';
+      data.competitorList = [];
+      //Load round to comboBox
+      this.loadRoundComboBox(data);
+  }
+
+  loadRoundComboBox(data){
+    data.roundList = [];
+    this.RoundService.getRoundInTournament(this.tourID)
+    .then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        data.roundList.push(response.data[i].name);
+      }
+    });
+  }
+
+  selectRound(data){
+    data.competitorList = [];
+    data.success = '';
+    this.RoundService.getRoundInTournament(this.tourID)
+    .then(response => {
+      this.roundListData = response.data;
+      this.loadOldCompetitorList(data);
+      this.addCompetitorToComboBox(data);
+      data.roundListError = '';
+    });
+  }
+
+  loadOldCompetitorList(data){
+    for (var i = 0; i < this.roundListData.length; i++) {
+      if(this.roundListData[i].name === data.roundSelected) {
+        this.roundID = this.roundListData[i].id;
+        for (var j = 0; j < this.roundListData[i].competitors.length; j++) {
+          data.competitorList.push(this.roundListData[i].competitors[j].name);
+        }
+      }
+    }
+  }
+
 }
 
 export default class Round {

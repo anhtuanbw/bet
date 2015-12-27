@@ -29,8 +29,25 @@ export default class RoundService {
     var token = this.cacheService.get('loginUser');
     var config = {
       headers: { 'Accept': '*/*', 'x-auth-token': token }
-    }
+    };
     return this.$http.post('api/createRound', data, config);
+  }
+
+  update(data){
+    var token = this.cacheService.get('loginUser');
+    var config = {
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    };
+    return this.$http.post('api/updateRound', data, config);
+  }
+
+  getRoundInTournament(id){
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: `api/getRoundsInTournament/${id}`,
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    });
   }
 
 }
