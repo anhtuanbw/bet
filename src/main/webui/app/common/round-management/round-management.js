@@ -13,6 +13,10 @@ export default class roundManController {
     this.roundID = 0;
   }
 
+  close(round,ind){
+    round.competitorList.splice(ind, 1);
+    this.roundCompetitor.splice(ind, 1);
+  }
 
   addCompetitor(round) {
     var checkExist = round.competitorList.indexOf(round.competitorSelected);
@@ -21,8 +25,6 @@ export default class roundManController {
     if ( checkExist === -1 && compType !== 'undefined' && round.competitorSelected !== '') {
         round.competitorList.push(round.competitorSelected);
         this.pushCompetitorIdToList(this.tourCompetitor, this.roundCompetitor, round.competitorSelected);
-        var ind = round.competitorInComboBox.indexOf(round.competitorSelected);
-        round.competitorInComboBox.splice(ind, 1);
         round.competitorSelected = '';
         round.CompetitorError = '';
     } else if (typeof round.competitorSelected === 'undefined' || round.competitorSelected === '') {
@@ -96,7 +98,6 @@ export default class roundManController {
       'tournamentId': this.tourID,
       'competitorIds': this.roundCompetitor
     };
-    console.log(this.roundSave);
     roundData.CompetitorError = '';
     roundData.roundError = '';
     this.RoundService.create(this.roundSave)

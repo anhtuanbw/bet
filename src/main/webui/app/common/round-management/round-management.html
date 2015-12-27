@@ -1,9 +1,9 @@
-<div class="row">
-  <div class="panel panel-default">
-    <div class="panel-heading panel-title">
-      <h4>Round Management</h4>
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Round Management</h4>
     </div>
-    <div class="panel-body">
+    <div class="modal-body">
         <form name="roundform">
           <!-- Begin Tournament -->
           <div ng-class="form-group">
@@ -36,7 +36,9 @@
           <div class="form-group" ng-init="round.data.competitorList = []">
             <label for="roundcompet" class="control-label">Competitor</label><span class="text-danger"> *</span>
             <ol>
-              <li ng-repeat="item in round.data.competitorList">{{item}}</li>
+              <li ng-repeat="item in round.data.competitorList">{{item}}
+                <span class="glyphicon glyphicon-remove-sign text-danger" ng-hide="round.data.hide" ng-click="round.close(round.data,$index)"></span>
+              </li>
             </ol>
             <span class="text-danger" ng-bind="round.data.CompetitorError"></span>
           </div>
@@ -57,4 +59,3 @@
         </form>
     </div>
   </div>
-</div>
