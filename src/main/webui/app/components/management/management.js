@@ -2,18 +2,27 @@
 
 export default class ManagementController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope) {
+  constructor(TournamentService, CacheService, $rootScope) {
     this.rootScope = $rootScope;
     this.tournamentService = TournamentService;
     this.tournaments = [];
     this.getAllTournament();
-    this.showDetail = false;
+    this.showDetail = true;
+    this.cacheService = CacheService;
     this.templateURL = 'app/components/tournament/create-tournament/create-tournament.html';
     $rootScope.$on('addTournament', () => {
       this.getAllTournament();
     });
   }
-  
+
+  createTournament() {
+    this.showDetail = false;
+  }
+
+  isAuthorized() {
+    return this.cacheService.get('loginUser')!= null;
+  }
+
   getAllTournament() {
     this.tournamentService.getAll()
     .then(response => {
