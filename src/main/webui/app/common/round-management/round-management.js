@@ -143,6 +143,7 @@ export default class roundManController {
   updateRound(data){
       data.hide = true;
       data.tourError = '';
+      data.success = '';
       data.competitorList = [];
       //Load round to comboBox
       this.loadRoundComboBox(data);
