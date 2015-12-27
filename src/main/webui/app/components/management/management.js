@@ -6,7 +6,7 @@ export default class ManagementController {
     this.tournamentService = TournamentService;
     this.tournaments = [];
     this.getAllTournament();
-    this.showDetail = true;
+    this.showDetail = false;
     this.cacheService = CacheService;
     this.templateURL = 'app/components/tournament/create-tournament/create-tournament.html';
     $rootScope.$on('addTournament', () => {

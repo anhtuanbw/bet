@@ -1,28 +1,27 @@
-<div id="sidebar-wrapper" class="no-padding col-md-2 well">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h3 class="panel-title pull-left">Tournament</h3>
-      <h3 class="text-right panel-title" ng-click="management.createTournament()">
-        <i class="fa fa-plus-circle"></i> New tournament
-      </h3>  
-    </div>
-    <ul class="list-group">
+<div class="row content">
+  <div class="col-sm-3 sidenav">
+    <div class="list-group">
+      <li class="list-group-item active">
+        <span>Tournament</span>
+        <span class="pull-right" ng-click="management.createTournament()"><i class="fa fa-plus-circle"></i> Create tournament</span>
+      </li>
       <li class="list-group-item" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id)">
-        <i class="fa fa-clock-o"></i>
-           {{tournament.name}}
-     </li>
-     <li class="list-group-item">Tournament 2</li>
-   </ul>  
- </div>
-</div>
-<div class="col-md-10 pull-right">
-  <div class="panel panel-default">
-    <div class="tour-banner">
-      <img src="http://blog.sandos.com/wp-content/uploads/Hero-Shot-World-Cup-2014-banner.jpg">
-    </div>
-    <div class="panel-body">
-      <div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
-      <div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
-    </div>
+       <a href="javascript:void(0)">
+        <i class="fa fa-desktop"></i> {{tournament.name}}
+      </a>
+    </li>
   </div>
+</div>
+
+<div class="col-sm-9">
+ <div class="panel panel-default">
+  <div class="tour-banner">
+    <img src="http://blog.sandos.com/wp-content/uploads/Hero-Shot-World-Cup-2014-banner.jpg">
+  </div>
+  <div class="panel-body">
+    <div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+    <div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
+  </div>
+</div>
+</div>
 </div>
