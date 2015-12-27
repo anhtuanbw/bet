@@ -2,10 +2,10 @@
 
 export default class GroupController {
   /* @ngInject */
-  constructor(GroupService, TournamentService, AccountService, $mdDialog, toaster) {
+  constructor(GroupService, TournamentService, UserService, $mdDialog, toaster) {
     this.groupService = GroupService;
     this.tournamentService = TournamentService;
-    this.accountService = AccountService;
+    this.userService = UserService;
     this.mdDialog = $mdDialog;
     this.toaster = toaster;
 
@@ -33,7 +33,7 @@ export default class GroupController {
   }
 
   getModerators() {
-   return this.accountService.users()
+   return this.userService.users()
    .then(response => {
     if (response.status === 200) {
       var users = response.data;
