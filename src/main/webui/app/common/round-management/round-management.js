@@ -2,7 +2,7 @@
 
 export default class roundManController {
   /* @ngInject */
-  constructor($scope, RoundService) {
+  constructor($scope, RoundService, toaster) {
     this.scope = $scope;
     this.RoundService = RoundService;
     this.tourCompetitor = [];
@@ -11,6 +11,7 @@ export default class roundManController {
     this.roundListData = [];
     this.roundSave = {};
     this.roundID = 0;
+    this.toaster = toaster;
   }
 
   close(round,ind){
@@ -93,6 +94,7 @@ export default class roundManController {
   }
 
   createRound(roundData){
+    var popTitle = 'Round Management';
     this.roundSave = {
       'name': roundData.name,
       'tournamentId': this.tourID,
@@ -102,7 +104,7 @@ export default class roundManController {
     roundData.roundError = '';
     this.RoundService.create(this.roundSave)
     .then(response => {
-      roundData.success = 'Saved Successfully !!!';
+      this.toaster.pop('success', popTitle, 'Save Successfully !!!');
       //remove all old data
       roundData.competitorList = [];
       roundData.competitorInComboBox = [];
@@ -115,7 +117,9 @@ export default class roundManController {
   }
 
   saveData(roundData){
-      roundData.roundListError = '';
+    var popTitle = 'Round Management';
+    roundData.roundListError = '';
+
     if (roundData.hide === true) {
       this.roundCompetitor = [];
       for (var i = 0; i < roundData.competitorList.length; i++) {
@@ -128,7 +132,7 @@ export default class roundManController {
       this.RoundService.update(dataUpdate)
       .then(response => {
         //success
-        roundData.success = 'Update Successfully !!!';
+        this.toaster.pop('success', popTitle, 'Update Successfully !!!');
         roundData.competitorList = [];
         roundData.roundSelected = '';
         roundData.competitorSelected = '';

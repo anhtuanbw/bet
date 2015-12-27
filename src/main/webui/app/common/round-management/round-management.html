@@ -50,11 +50,14 @@
             </select>
                 <div class="input-group-addon" ng-click="round.addCompetitor(round.data)">Add</div>
           </div>
-          <span class="text-success" ng-bind="round.data.success"></span>
+
           <br>
           <!-- End Combobox Competitor -->
           <!-- End Competitor -->
-          <button type="button" class="btn btn-primary pull-right" ng-click="round.saveData(round.data)">Save</button>
+          <div class="pull-right">
+            <button type="button" class="btn btn-primary" ng-click="round.saveData(round.data)">Save</button>
+            <button type="button" class="btn btn-primary" ng-click="round.cancel()">Cancel</button>
+          </div>
           <button type="button" class="btn btn-warning" ng-click="round.updateRound(round.data)">Update Round</button>
         </form>
     </div>
