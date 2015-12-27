@@ -36,6 +36,8 @@
     <div class="col-sm-4">
         <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
         <div round></div>
-        <div login ng-if="!home.isAuthorized"></div>
-		<div register ng-if="!home.isAuthorized"></div>
+        <div ng-if="!home.isAuthorized">
+            <div login></div>
+            <div register></div>    
+        </div>
     </div>
