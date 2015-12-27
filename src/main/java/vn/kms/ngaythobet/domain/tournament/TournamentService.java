@@ -1,12 +1,16 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.UserService;
 import vn.kms.ngaythobet.web.dto.CreateTournamentInfo;
 
 @Service
@@ -15,6 +19,9 @@ public class TournamentService {
     private final TournamentRepository tournamentRepo;
 
     private final CompetitorRepository competitorRepo;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     public TournamentService(TournamentRepository tournamentRepo, CompetitorRepository competitorRepo) {
@@ -51,5 +58,13 @@ public class TournamentService {
             tournament.setActivated(true);
             tournamentRepo.save(tournament);
         }
+    }
+
+    public List<Tournament> findAllTournamentOfUser() {
+        User user = userService.getUserInfo();
+        if (!user.getRole().equals(User.Role.ADMIN)) {
+            return user.getGroups().stream().map(group -> group.getTournament()).collect(Collectors.toList());
+        }
+        return tournamentRepo.findAll();
     }
 }
