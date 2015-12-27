@@ -12,7 +12,6 @@ export default class GroupController {
     this.moderators = this.getModerators();
     this.getTournaments();
     this.selectedItem = null;
-    this.searchText = null;
     this.querySearch = this.querySearch;
     this.groupData = {};
     this.error = {};
@@ -32,8 +31,8 @@ export default class GroupController {
     });
   }
 
-  getModerators() {
-   return this.userService.users()
+  getModerators(query) {
+   return this.userService.users(query)
    .then(response => {
     if (response.status === 200) {
       var users = response.data;
@@ -45,8 +44,7 @@ export default class GroupController {
  }
 
  querySearch(query) {
-  var self = this;
-  return query ? self.moderators.filter(this.createFilterFor(query) ) : self.moderators;
+  return this.getModerators(query);
 }
 
 createFilterFor(query) {
@@ -73,7 +71,6 @@ save($event) {
     })
     .catch(response => {
       self.error = response.data.fieldErrors;
-      console.log(self.error);
       self.pop('error', '', response.data.fieldErrors);
     });
   }

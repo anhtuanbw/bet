@@ -7,13 +7,11 @@ export default class UserService {
 		this.cacheService = CacheService;
 	}
 
-	users(username) {
-		console.log(username);
+	users(name) {
 		var token = this.cacheService.get('loginUser');
 		return this.$http({
 			method: 'GET',
-			url: 'api/users/search',
-			data: username,
+			url: 'api/users/search/'+name,
 			headers: {'Accept': '*/*', 'x-auth-token': token}
 		});
 	}

@@ -1,6 +1,7 @@
 'use strict';
 
 export default class HomeController {
+  /* @ngInject */
   constructor($rootScope, CacheService) { 
   	this.isAuthorized = CacheService.get('loginUser')!=null;
   	$rootScope.$on('login', (event, cb) => this.login(cb));
