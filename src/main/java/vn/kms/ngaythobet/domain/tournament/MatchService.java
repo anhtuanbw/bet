@@ -1,6 +1,8 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
+import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
 
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,18 +27,31 @@ public class MatchService {
     private final RoundRepository roundRepo;
 
     private final MatchRepository matchRepo;
-    
+
+    private final GroupRepository groupRepo;
+
+    private final UserRepository userRepo;
+
     @Autowired
-    public MatchService(TournamentRepository tournamentRepo,CompetitorRepository competitorRepo,
-            RoundRepository roundRepo, MatchRepository matchRepo ) {
+    public MatchService(TournamentRepository tournamentRepo,
+            CompetitorRepository competitorRepo, RoundRepository roundRepo,
+            MatchRepository matchRepo, GroupRepository groupRepo,
+            UserRepository userRepo) {
         this.tournamentRepo = tournamentRepo;
         this.competitorRepo = competitorRepo;
         this.roundRepo = roundRepo;
         this.matchRepo = matchRepo;
+        this.groupRepo = groupRepo;
+        this.userRepo = userRepo;
     }
 
     @Transactional
     public void createMatch(CreateMatchInfo createMatchInfo) {
+        String username = SecurityContextHolder.getContext()
+                .getAuthentication().getName();
+        User user = userRepo.findOneByUsername(username).get();
+        Group group = groupRepo.findByModerator(user);
+        // TODO: check permission for Role MOD
 
         Round round = roundRepo.findOne(createMatchInfo.getRound());
         Tournament tournament = round.getTournament();
@@ -64,13 +80,14 @@ public class MatchService {
 
     @Transactional(readOnly = true)
     public List<Competitor> getCompetitors(Long roundId) {
-        Round round = roundRepo.findOne(roundId);
-        return round.getCompetitors();
+        Round round = roundRepo.getOne(roundId);
+        return competitorRepo.findByRounds(round);
     }
 
     @Transactional(readOnly = true)
     public List<Round> getRounds(Long tournamentId) {
-        return roundRepo.findByTournament(tournamentRepo.findOne(tournamentId));
+
+        return roundRepo.findByTournamentId(tournamentId);
     }
 
     @Transactional

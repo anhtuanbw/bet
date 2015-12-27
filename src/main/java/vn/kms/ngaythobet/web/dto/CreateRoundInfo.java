@@ -16,10 +16,9 @@ import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 public class CreateRoundInfo {
     @NotEmpty
-    @Size(min=6, max=50)
-    @FieldUnique(entity = Round.class, field = "name")
+    @Size(min = 6, max = 50)
     private String name;
-    
+
     @EntityExist(type = Tournament.class, message = "{validation.existTournament.message}")
     @NotNull
     private Long tournamentId;

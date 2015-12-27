@@ -15,7 +15,7 @@ export default class ChangePasswordController {
   changePass() {
     var self = this;
     self.popTitle = 'Change password';
-
+    var successMessage = 'Your password have been changed!';
     // Show alert message
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
@@ -26,8 +26,9 @@ export default class ChangePasswordController {
         
         // Success
         self.closeModal();
-        self.pop('success', self.popTitle, 'Your password have been changed!');
+        self.pop('success', self.popTitle, successMessage);
         self.data = {};
+        successMessage = '';
         self.location.path('/home');
         const token = response.data.token;
         if (token) {

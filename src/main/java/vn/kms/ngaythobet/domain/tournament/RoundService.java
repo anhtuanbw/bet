@@ -2,6 +2,9 @@ package vn.kms.ngaythobet.domain.tournament;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ public class RoundService {
     private final RoundRepository roundRepo;
     private final TournamentRepository tournamentRepo;
     private final CompetitorRepository competitorRepo;
+    private List<Competitor> competitors = new ArrayList<>();
 
     @Autowired
     public RoundService(RoundRepository roundRepo, TournamentRepository tournamentRepo,
@@ -24,45 +28,69 @@ public class RoundService {
         this.competitorRepo = competitorRepo;
     }
 
-    public void createRound(CreateRoundInfo createRoundInfo) {
-        Round round = new Round();
-        round.setName(createRoundInfo.getName());
-        Tournament tournament = tournamentRepo.getOne(createRoundInfo.getTournamentId());
-        round.setTournament(tournament);
+    public List<Competitor> getCompetitorsByCompetitorIds(List<Long> competitorIds) {
         List<Competitor> competitors = new ArrayList<>();
-        if (createRoundInfo.getCompetitorIds() != null) {
-            createRoundInfo.getCompetitorIds().forEach(competitorIds -> {
-                competitors.add(competitorRepo.getOne(competitorIds));
-            });
-            round.setCompetitors(competitors);
-            if (competitors.stream().filter(competitor -> competitor.getTournament().getId().equals(tournament.getId()))
-                    .count() == competitors.size()) {
-                roundRepo.save(round);
+        competitorIds.forEach(competitorId -> {
+            competitors.add(competitorRepo.getOne(competitorId));
+        });
+        return competitors;
+    }
+
+    private boolean competitorsIsExistedTournament(List<Competitor> competitors, long tournamentId) {
+        return (competitors.stream().filter(competitor -> competitor.getTournament().getId().equals(tournamentId))
+                .count() == competitors.size());
+    }
+
+    private boolean roundNameIsExistedInTournament(String roundName, long tournamentId) {
+        return (getRoundByTournamentId(tournamentId).stream().filter(round -> round.getName().equals(roundName))
+                .count() != 0);
+    }
+
+    private boolean competitorsIsExistedInRound(List<Long> newCompetitorIds, long roundId) {
+        List<Long> currentCompetitorIds = roundRepo.getOne(roundId).getCompetitors().stream()
+                .map(competitor -> competitor.getId()).collect(Collectors.toList());
+        return (currentCompetitorIds.stream().filter(x -> newCompetitorIds.contains(x)).count() != 0);
+    }
+
+    public void createRound(CreateRoundInfo createRoundInfo) {
+        if (!roundNameIsExistedInTournament(createRoundInfo.getName(), createRoundInfo.getTournamentId())) {
+            Round round = new Round();
+            round.setName(createRoundInfo.getName());
+            Tournament tournament = tournamentRepo.getOne(createRoundInfo.getTournamentId());
+            round.setTournament(tournament);
+            if (createRoundInfo.getCompetitorIds() != null) {
+                competitors = getCompetitorsByCompetitorIds(createRoundInfo.getCompetitorIds());
+                round.setCompetitors(competitors);
+                if (competitorsIsExistedTournament(competitors, createRoundInfo.getTournamentId())) {
+                    roundRepo.save(round);
+                } else {
+                    throw new DataInvalidException("exception.competitor.not-exist-tournament");
+                }
             } else {
-                throw new DataInvalidException("exception.competitor.not-exist-tournament");
+                roundRepo.save(round);
             }
         } else {
-            roundRepo.save(round);
+            throw new DataInvalidException("exception.round.existed.in.this.tournament");
         }
     }
 
     public void updateRound(UpdateRoundInfo updateRoundInfo) {
-        Round round = roundRepo.getOne(updateRoundInfo.getRoundId());
-        long tournamentId = round.getTournament().getId();
-        List<Competitor> competitors = new ArrayList<>();
-        if (updateRoundInfo.getCompetitorIds() != null) {
-            updateRoundInfo.getCompetitorIds().forEach(competitor -> {
-                competitors.add(competitorRepo.getOne(competitor));
-            });
-            round.setCompetitors(competitors);
-            if (competitors.stream().filter(competitor -> competitor.getTournament().getId().equals(tournamentId))
-                    .count() == competitors.size()) {
-                roundRepo.save(round);
+        if (!competitorsIsExistedInRound(updateRoundInfo.getCompetitorIds(), updateRoundInfo.getRoundId())) {
+            Round round = roundRepo.getOne(updateRoundInfo.getRoundId());
+            long tournamentId = round.getTournament().getId();
+            if (updateRoundInfo.getCompetitorIds() != null) {
+                competitors = getCompetitorsByCompetitorIds(updateRoundInfo.getCompetitorIds());
+                round.setCompetitors(competitors);
+                if (competitorsIsExistedTournament(competitors, tournamentId)) {
+                    roundRepo.save(round);
+                } else {
+                    throw new DataInvalidException("exception.competitor.not-exist-tournament");
+                }
             } else {
-                throw new DataInvalidException("exception.competitor.not-exist-tournament");
+                roundRepo.save(round);
             }
         } else {
-            roundRepo.save(round);
+            throw new DataInvalidException("exception.competitor.existed.in.this.round");
         }
     }
 

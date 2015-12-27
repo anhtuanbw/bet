@@ -1,5 +1,11 @@
 package vn.kms.ngaythobet.domain.tournament;
 
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +44,12 @@ public class GroupService {
     public void createGroup(CreateGroupInfo createGroupInfo) {
         User moderator = userRepo.findOne(createGroupInfo.getModerator());
         Group group = new Group();
+        List<User> members = new ArrayList<>();
+        members.add(moderator);
         group.setName(createGroupInfo.getName());
         group.setModerator(moderator);
-        group.setTournament(tournamentRepo.findOne(createGroupInfo.getTournamentId()));
+        group.setTournament(tournamentRepo.getOne(createGroupInfo.getTournamentId()));
+        group.setMembers(members);
         groupRepo.save(group);
         mailService.sendMailToGroupModeratorAsync(moderator, group);
     }

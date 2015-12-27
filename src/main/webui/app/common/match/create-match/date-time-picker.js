@@ -7,7 +7,7 @@ export default function () {
     link: function (scope, element, attrs, ngModelCtrl) {
       $(function () {
       element.datetimepicker({
-        format: 'MM-DD-YYYY hh:mm A'
+        format: 'YYYY-MM-DD hh:mm A'
         });
       });
     }
