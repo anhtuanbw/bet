@@ -2,7 +2,7 @@
 
 export default class roundManController {
   /* @ngInject */
-  constructor($scope, RoundService, toaster) {
+  constructor($scope, RoundService, toaster, $modalInstance) {
     this.scope = $scope;
     this.RoundService = RoundService;
     this.tourCompetitor = [];
@@ -12,6 +12,7 @@ export default class roundManController {
     this.roundSave = {};
     this.roundID = 0;
     this.toaster = toaster;
+    this.modalInstance = $modalInstance;
   }
 
   close(round,ind){
@@ -103,7 +104,7 @@ export default class roundManController {
     roundData.CompetitorError = '';
     roundData.roundError = '';
     this.RoundService.create(this.roundSave)
-    .then(response => {
+    .then(() => {
       this.toaster.pop('success', popTitle, 'Save Successfully !!!');
       //remove all old data
       roundData.competitorList = [];
@@ -121,16 +122,17 @@ export default class roundManController {
     roundData.roundListError = '';
 
     if (roundData.hide === true) {
-      this.roundCompetitor = [];
-      for (var i = 0; i < roundData.competitorList.length; i++) {
-        this.pushCompetitorIdToList(this.tourCompetitor,this.roundCompetitor,roundData.competitorList[i]);
-      }
+      // this.roundCompetitor = [];
+      // for (var i = 0; i < roundData.competitorList.length; i++) {
+      //   this.pushCompetitorIdToList(this.tourCompetitor,this.roundCompetitor,roundData.competitorList[i]);
+      // }
       var dataUpdate = {
         'roundId': this.roundID,
         'competitorIds': this.roundCompetitor
       };
+      console.log(dataUpdate);
       this.RoundService.update(dataUpdate)
-      .then(response => {
+      .then(() => {
         //success
         this.toaster.pop('success', popTitle, 'Update Successfully !!!');
         roundData.competitorList = [];
@@ -186,14 +188,8 @@ export default class roundManController {
     }
   }
 
-}
-
-export default class Round {
-  constructor () {
-    return {
-      controller: roundManController,
-      controllerAs: 'round',
-      templateUrl: 'app/common/round-management/round-management.html'
-    };
+  cancel(){
+    this.modalInstance.dismiss();
   }
+
 }

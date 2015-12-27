@@ -7,7 +7,7 @@ import HomeController from './components/home/home';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
-import roundManController from './common/round-management/round-management';
+import RoundManController from './common/round-management/round-management';
 import GroupController from './common/group/group';
 import ActivatorController from './components/activate/activate';
 import CreateTournamentController from './components/tournament/create-tournament/create-tournament';
@@ -22,7 +22,7 @@ export default class AppController {
       { path: '/home', component: 'home' },
       { path: '/api/reset-password/finish', component: 'reset-passwordFinish' },
       { path: '/api/activate', component: 'activate' },
-      { path: '/management', component: 'management' },      
+      { path: '/management', component: 'management' },
       { path: '/', redirectTo: '/home' }
     ]);
   }
@@ -49,7 +49,7 @@ angular.module('ngaythobet', [
 .controller('CreateTournamentController', CreateTournamentController)
 .controller('EditTournamentController', EditTournamentController)
 .controller('ManagementController', ManagementController)
-.controller('roundManController', roundManController)
+.controller('RoundManController', RoundManController)
 .controller('GroupController', GroupController)
 .controller('CreateMatchController', CreateMatchController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {

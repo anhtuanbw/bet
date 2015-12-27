@@ -24,7 +24,7 @@ export default class EditTournamentController {
       clickOutsideToClose:true
     });
   }
-  
+
   activeTournament() {
     this.tournamentService.active(this.tournamentInfo.id)
     .then(() => {
@@ -38,7 +38,7 @@ export default class EditTournamentController {
       }
     });
   }
-  
+
   openCreateMatch() {
     var self = this;
     this.modal.open({
@@ -50,6 +50,14 @@ export default class EditTournamentController {
            return self.tournamentInfo.id;
          }
        }
+    });
+  }
+
+  openCreateRound(){
+    this.modal.open({
+      templateUrl: 'app/common/round-management/round-management.html',
+      controller: 'RoundManController',
+      controllerAs: 'round'
     });
   }
 }
