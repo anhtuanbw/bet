@@ -2,9 +2,10 @@
 
 export default class GroupController {
   /* @ngInject */
-  constructor(GroupService, TournamentService, $mdDialog, toaster) {
+  constructor(GroupService, TournamentService, AccountService, $mdDialog, toaster) {
     this.groupService = GroupService;
     this.tournamentService = TournamentService;
+    this.accountService = AccountService;
     this.mdDialog = $mdDialog;
     this.toaster = toaster;
 
@@ -18,45 +19,45 @@ export default class GroupController {
   }
 
   pop(type, title, content) {
-      this.toaster.pop(type, title, content);
+    this.toaster.pop(type, title, content);
   };
 
   getTournaments() {
     var self = this;
     this.tournamentService.getAll()
-      .then(response => {
-        if (response.status === 200) {
-          self.groupData.tournaments = response.data;
-        }
-      });
+    .then(response => {
+      if (response.status === 200) {
+        self.groupData.tournaments = response.data;
+      }
+    });
   }
 
   getModerators() {
-   return this.tournamentService.getAll()
-      .then(response => {
-        if (response.status === 200) {
-          var tournaments = response.data;
-          return tournaments.map( function (repo) {
-            return repo;
-          });
-        }
+   return this.accountService.users()
+   .then(response => {
+    if (response.status === 200) {
+      var users = response.data;
+      return users.map( function (repo) {
+        return repo;
       });
-  }
+    }
+  });
+ }
 
-  querySearch(query) {
-    var self = this;
-    return query ? self.moderators.filter(this.createFilterFor(query) ) : self.moderators;
-  }
+ querySearch(query) {
+  var self = this;
+  return query ? self.moderators.filter(this.createFilterFor(query) ) : self.moderators;
+}
 
-  createFilterFor(query) {
-    var lowercaseQuery = angular.lowercase(query);
-    return function filterFn(state) {
-      return (state.value.indexOf(lowercaseQuery) === 0);
-    };
-  }
+createFilterFor(query) {
+  var lowercaseQuery = angular.lowercase(query);
+  return function filterFn(state) {
+    return (state.value.indexOf(lowercaseQuery) === 0);
+  };
+}
 
-  save($event) {
-    var self = this;
+save($event) {
+  var self = this;
     // Create group
     var data = {
       name: this.groupData.name,
@@ -65,16 +66,16 @@ export default class GroupController {
     };
 
     this.groupService.create(data)
-      .then(response => {
-        if (response.status === 200) {
+    .then(response => {
+      if (response.status === 200) {
 
-        }
-      })
-      .catch(response => {
-          self.error = response.data.fieldErrors;
-          console.log(self.error);
-          self.pop('error', '', response.data.fieldErrors);
-      });
+      }
+    })
+    .catch(response => {
+      self.error = response.data.fieldErrors;
+      console.log(self.error);
+      self.pop('error', '', response.data.fieldErrors);
+    });
   }
 
   cancel($event) {
