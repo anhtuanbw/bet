@@ -12,6 +12,7 @@ export default class GroupController {
     this.moderators = this.getModerators();
     this.getTournaments();
     this.selectedItem = null;
+    this.searchText = null;
     this.querySearch = this.querySearch;
     this.groupData = {};
     this.error = {};
@@ -19,7 +20,7 @@ export default class GroupController {
 
   pop(type, title, content) {
     this.toaster.pop(type, title, content);
-  };
+  }
 
   getTournaments() {
     var self = this;
@@ -36,7 +37,7 @@ export default class GroupController {
    .then(response => {
     if (response.status === 200) {
       var users = response.data;
-      return users.map( function (repo) {
+      return users.map(function(repo) {
         return repo;
       });
     }

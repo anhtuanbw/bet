@@ -27,6 +27,7 @@
     <label for="moderator" class="control-label">Set moderator <span class="text-danger">*</span></label>
     <md-autocomplete
     md-selected-item="groupCtrl.selectedItem"
+    md-search-text-change="groupCtrl.searchTextChange(groupCtrl.searchText)"
     md-search-text="groupCtrl.searchText"
     md-items="item in groupCtrl.querySearch(groupCtrl.searchText)"
     md-item-text="item.name"
