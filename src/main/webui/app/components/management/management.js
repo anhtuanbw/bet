@@ -1,6 +1,7 @@
 'use strict';
 
 export default class ManagementController {
+  /* @ngInject */
   constructor(TournamentService, CacheService, $rootScope) {
     this.rootScope = $rootScope;
     this.tournamentService = TournamentService;

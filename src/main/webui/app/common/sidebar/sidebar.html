@@ -1,17 +1,16 @@
-<div id="sidebar-wrapper" class="no-padding col-md-2 well">
+<div id="sidebar-wrapper" ng-init="hide=true" class="no-padding col-md-2 well">
   <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" ng-click="hide=!hide">
       <h3 class="panel-title pull-left">Tournament</h3>
-      <h3 class="text-right panel-title" ng-click="management.createTournament()">
+      <h3 class="text-right panel-title" ng-click="management.createTournament(); $event.stopPropagation();">
         <i class="fa fa-plus-circle"></i> New tournament
       </h3>  
     </div>
-    <ul class="list-group">
+    <ul ng-hide="hide" class="list-group">
       <li class="list-group-item" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id)">
         <i class="fa fa-clock-o"></i>
            {{tournament.name}}
      </li>
-     <li class="list-group-item">Tournament 2</li>
    </ul>  
  </div>
 </div>
