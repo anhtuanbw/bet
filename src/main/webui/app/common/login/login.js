@@ -21,6 +21,9 @@ export default class LoginController {
         self.rootScope.$broadcast('login', data);
         self.location.path('/management');
       }
+      //remove old login data
+      data.username = '';
+      data.password = '';
     }, function (response) {
       data.error = response.data.message;
     });
