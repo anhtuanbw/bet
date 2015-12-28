@@ -34,7 +34,7 @@ public class Round extends AuditableEntity {
     @MongoDbRef
     @JsonIgnore
     @OneToMany(mappedBy = "round")
-    private List<Match> matches;
+    List<Match> matches;
 
     @MongoDbRef
     @JsonIgnore
