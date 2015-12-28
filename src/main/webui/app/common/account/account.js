@@ -18,6 +18,7 @@ export default class AccountController {
     .then(response => {
       if (response.data != 'anonymousUser') {
         this.loginUser.username = response.data;
+        this.location.path('/management');
       } else {
         this.cacheService.remove('loginUser');
         this.loginUser = {};
