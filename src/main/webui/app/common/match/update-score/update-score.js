@@ -19,10 +19,10 @@ export default class UpdateScoreController {
     this.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    
+
     this.matchService.updateScore(this.data, matchId)
-      .then(response => {
-        
+      .then(() => {
+
         // Success
         this.closeModal();
         this.pop('success', this.popTitle, successMessage);
