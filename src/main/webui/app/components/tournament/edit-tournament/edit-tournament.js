@@ -32,8 +32,7 @@ export default class EditTournamentController {
       this.toaster.pop('success', null, 'app/components/tournament/edit-tournament/activeSuccess.html', null, 'template');
     })
     .catch(error => {
-      if (error.status === 403)
-      {
+      if (error.status === 403) {
         this.toaster.pop('error', 'Warning', error.data.message);
       }
     });
