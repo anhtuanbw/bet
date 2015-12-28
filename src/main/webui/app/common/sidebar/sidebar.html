@@ -1,15 +1,17 @@
-<div class="row content">
+<div class="row content" ng-init="hidden=false">
   <div class="col-sm-3 sidenav">
     <div class="list-group">
-      <li class="list-group-item active">
+      <li class="list-group-item active" ng-click="hidden=!hidden">
         <span translate="common.sidebar.title"></span>
-        <span class="pull-right" ng-click="management.createTournament()" translate="common.sidebar.create"></span>
+        <span class="pull-right" ng-click="management.createTournament();$event.stopPropagation();"  translate="common.sidebar.create"></span>
       </li>
-      <li class="list-group-item" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id)" ng-class="{'active': $index == management.selected}" ng-focus="management.select($index)">
-       <a href="javascript:void(0)">
-        <i class="fa fa-desktop"></i> {{tournament.name}}
-      </a>
-    </li>
+      <div ng-hide="hidden">
+          <li class="list-group-item" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id)" ng-class="{'active': $index == management.selected}" ng-focus="management.select($index)">
+             <a href="javascript:void(0)">
+              <i class="fa fa-desktop"></i> {{tournament.name}}
+            </a>
+          </li>
+      </div>
   </div>
 </div>
 
