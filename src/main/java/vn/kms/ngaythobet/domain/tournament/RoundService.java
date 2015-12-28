@@ -18,7 +18,6 @@ public class RoundService {
     private final RoundRepository roundRepo;
     private final TournamentRepository tournamentRepo;
     private final CompetitorRepository competitorRepo;
-    private List<Competitor> competitors = new ArrayList<>();
 
     @Autowired
     public RoundService(RoundRepository roundRepo, TournamentRepository tournamentRepo,
@@ -59,6 +58,7 @@ public class RoundService {
             Tournament tournament = tournamentRepo.getOne(createRoundInfo.getTournamentId());
             round.setTournament(tournament);
             if (createRoundInfo.getCompetitorIds() != null) {
+                List<Competitor> competitors = new ArrayList<>();
                 competitors = getCompetitorsByCompetitorIds(createRoundInfo.getCompetitorIds());
                 round.setCompetitors(competitors);
                 if (competitorsIsExistedTournament(competitors, createRoundInfo.getTournamentId())) {
@@ -79,9 +79,14 @@ public class RoundService {
             Round round = roundRepo.getOne(updateRoundInfo.getRoundId());
             long tournamentId = round.getTournament().getId();
             if (updateRoundInfo.getCompetitorIds() != null) {
-                competitors = getCompetitorsByCompetitorIds(updateRoundInfo.getCompetitorIds());
-                round.setCompetitors(competitors);
-                if (competitorsIsExistedTournament(competitors, tournamentId)) {
+                List<Competitor> newCompetitors = new ArrayList<>();
+                newCompetitors = getCompetitorsByCompetitorIds(updateRoundInfo.getCompetitorIds());
+                if (competitorsIsExistedTournament(newCompetitors, tournamentId)) {
+                    List<Competitor> currentCompetitors = round.getCompetitors();
+                    for (Competitor competitor : newCompetitors) {
+                        currentCompetitors.add(competitor);
+                    }
+                    round.setCompetitors(currentCompetitors);
                     roundRepo.save(round);
                 } else {
                     throw new DataInvalidException("exception.competitor.not-exist-tournament");

@@ -30,12 +30,12 @@ public class Round extends AuditableEntity {
     private Tournament tournament;
 
     @OneToMany(mappedBy = "round")
-    List<Match> matches;
+    private List<Match> matches;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "round_competitor", joinColumns = { @JoinColumn(name = "round_id") }, inverseJoinColumns = {
             @JoinColumn(name = "competitor_id") })
-    List<Competitor> competitors;
+    private List<Competitor> competitors;
 
     public String getName() {
         return name;
