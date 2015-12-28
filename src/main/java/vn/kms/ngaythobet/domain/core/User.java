@@ -1,22 +1,19 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import vn.kms.ngaythobet.domain.tournament.Group;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import vn.kms.ngaythobet.domain.tournament.Group;
 
 @Entity
 @Table(name = "users")
@@ -30,7 +27,13 @@ public class User extends AuditableEntity {
             return "ROLE_" + name();
         }
     }
-    
+
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    @AuditIgnore
+    //TODO: I will fix 'AuditIgnore' later
+    private List<Group> groups;
+
     @Column
     private String username;
 
@@ -147,4 +150,13 @@ public class User extends AuditableEntity {
     public void setResetTime(LocalDateTime resetTime) {
         this.resetTime = resetTime;
     }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
 }
