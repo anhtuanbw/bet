@@ -24,7 +24,7 @@ export default class EditTournamentController {
       clickOutsideToClose:true
     });
   }
-  
+
   activeTournament() {
     this.tournamentService.active(this.tournamentInfo.id)
     .then(() => {
@@ -37,7 +37,7 @@ export default class EditTournamentController {
       }
     });
   }
-  
+
   openUpdateScore() {
     this.modal.open({
       templateUrl: 'app/common/match/update-score/update-score.html',
@@ -45,15 +45,15 @@ export default class EditTournamentController {
       controllerAs: 'updateScore'
     });
   }
-  
-  openUpdateScore() {
+
+  openCreateRound() {
     this.modal.open({
-      templateUrl: 'app/common/match/update-score/update-score.html',
-      controller: 'UpdateScoreController',
-      controllerAs: 'updateScore'
+      templateUrl: 'app/common/round-management/round-management.html',
+      controller: 'RoundManController',
+      controllerAs: 'round'
     });
   }
-  
+
   openCreateMatch() {
     var self = this;
     this.modal.open({
