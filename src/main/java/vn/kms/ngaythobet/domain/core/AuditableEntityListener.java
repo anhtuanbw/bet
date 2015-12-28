@@ -1,14 +1,15 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
-import vn.kms.ngaythobet.domain.core.ChangeLog.Change;
-import vn.kms.ngaythobet.domain.util.SecurityUtil;
+import static vn.kms.ngaythobet.domain.core.ChangeLog.Action.DELETE;
+import static vn.kms.ngaythobet.domain.core.ChangeLog.Action.INSERT;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -18,12 +19,17 @@ import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
-import static vn.kms.ngaythobet.domain.core.ChangeLog.Action.DELETE;
-import static vn.kms.ngaythobet.domain.core.ChangeLog.Action.INSERT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
+
+import vn.kms.ngaythobet.domain.core.ChangeLog.Change;
+import vn.kms.ngaythobet.domain.util.SecurityUtil;
+import vn.kms.ngaythobet.domain.core.MongoDbRef;
 
 @Component
 public class AuditableEntityListener {
@@ -46,7 +52,8 @@ public class AuditableEntityListener {
 
     @PostConstruct
     public void initApplicationContext() {
-        // cheat to set APP_CONTEXT since AuditableEntityListener is called by JPA, not Spring container
+        // cheat to set APP_CONTEXT since AuditableEntityListener is called by
+        // JPA, not Spring container
         APP_CONTEXT = appContext;
     }
 
@@ -64,9 +71,8 @@ public class AuditableEntityListener {
         EntityManagerFactory factory = APP_CONTEXT.getBean(EntityManagerFactory.class);
         EntityManager em = factory.createEntityManager();
         AuditableEntity persistingEntity = em
-            .createQuery("from " + entity.getClass().getName() + " where id = :id", entity.getClass())
-            .setParameter("id", entity.getId())
-            .getSingleResult();
+                .createQuery("from " + entity.getClass().getName() + " where id = :id", entity.getClass())
+                .setParameter("id", entity.getId()).getSingleResult();
 
         entity.setAuditValuesByFields(getAuditValuesByFields(persistingEntity));
     }
@@ -104,14 +110,23 @@ public class AuditableEntityListener {
 
     private static Map<String, Object> getAuditValuesByFields(AuditableEntity entity) {
         Map<String, Object> auditValuesByFields = new HashMap<>();
-
-        ReflectionUtils.doWithFields(entity.getClass(),
-            field -> {
-                field.setAccessible(true);
+        ReflectionUtils.doWithFields(entity.getClass(), field -> {
+            field.setAccessible(true);
+            if (field.isAnnotationPresent(MongoDbRef.class)) {
+                if (Collection.class.isAssignableFrom(field.getType())) {
+                    List<Long> entityIds = new ArrayList<>();
+                    ((List<AuditableEntity>) field.get(entity)).forEach(referenceEntity -> {
+                        entityIds.add(referenceEntity.getId());
+                    });
+                    auditValuesByFields.put(field.getName(), entityIds);
+                } else {
+                    AuditableEntity referenceEntity = (AuditableEntity) field.get(entity);
+                    auditValuesByFields.put(field.getName(), referenceEntity.getId());
+                }
+            } else {
                 auditValuesByFields.put(field.getName(), field.get(entity));
-            },
-            field -> !field.isAnnotationPresent(AuditIgnore.class)
-        );
+            }
+        } , field -> !field.isAnnotationPresent(AuditIgnore.class));
 
         return auditValuesByFields;
     }
@@ -123,7 +138,7 @@ public class AuditableEntityListener {
             Object oldValue = oldValues.get(entry.getKey());
 
             if ((oldValue == null && entry.getValue() != null)
-             || (oldValue != null && !oldValue.equals(entry.getValue()))) {
+                    || (oldValue != null && !oldValue.equals(entry.getValue()))) {
                 changes.put(entry.getKey(), new Change(oldValue, entry.getValue()));
             }
         });

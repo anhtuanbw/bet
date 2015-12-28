@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
+import vn.kms.ngaythobet.domain.core.MongoDbRef;
 
 @Entity
 @Table(name = "matches")
@@ -25,21 +26,26 @@ public class Match extends AuditableEntity {
 
     @Column(name = "match_time")
     private LocalDateTime matchTime;
-    
+
     @Column
     private String comment;
 
     @Column
     private String location;
 
+    @MongoDbRef
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "competitor_id_1")
     private Competitor competitor1;
 
+    @MongoDbRef
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "competitor_id_2")
     private Competitor competitor2;
 
+    @MongoDbRef
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "round_id")

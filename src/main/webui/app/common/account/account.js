@@ -18,7 +18,6 @@ export default class AccountController {
     .then(response => {
       if (response.data != 'anonymousUser') {
         this.loginUser.username = response.data;
-        this.location.path('/management');
       } else {
         this.cacheService.remove('loginUser');
         this.loginUser = {};
@@ -42,6 +41,7 @@ export default class AccountController {
       this.loginUser = {};
       this.cacheService.remove('cartId');
       this.rootScope.$broadcast('updateCart');
+      this.rootScope.$broadcast('logout');
       this.location.path('/');
     });
   }

@@ -71,7 +71,8 @@ body {
   }
   
   .menu-label {
-    display: inline;
+    display: block;
+    height: 40px;
     line-height: 40px;
   }
   
@@ -79,10 +80,6 @@ body {
     overflow: hidden;
     padding-left: 0;
     list-style: none;
-  }
-  
-  .fa.fa-plus {
-    line-height: 40px;
   }
   
   .sub-menu-link {
@@ -95,4 +92,25 @@ body {
 }
 .md-autocomplete-suggestions-container {
   z-index: 9999 !important;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    min-height: 40px;
+    background-color: #f5f5f5;
+}
+
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.tour-banner {
+  overflow: hidden;
+  max-height: 200px;
+}
+
+.update-score{
+  width: 50px;
 }

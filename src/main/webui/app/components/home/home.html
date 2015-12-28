@@ -33,9 +33,10 @@
             </ul>
         </p>
     </div>
-    <div class="col-sm-4">
-        <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
-        <div round></div>
+<div class="col-sm-4">
+    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
+    <div ng-if="!home.isAuthorized">
         <div login></div>
-		<div register></div>
+        <div register></div>    
     </div>
+</div>
