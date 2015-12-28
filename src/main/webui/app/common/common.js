@@ -9,6 +9,7 @@ import Register from './register/register';
 import Round from './round-management/round-management';
 import DateTimePicker from './match/create-match/date-time-picker';
 import SideBar from './sidebar/sidebar';
+import Unauthorized from './UnAuthorized/UnAuthorized';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -22,4 +23,5 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('register', () => new Register())
 .directive('sidebar', () => new SideBar())
 .directive('round', () => new Round())
+.directive('unauthorized', () => new Unauthorized())
 .directive('dateTimePicker', DateTimePicker);

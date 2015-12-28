@@ -1,6 +1,7 @@
 'use strict';
 
 export default class SideBar {
+  /* @ngInject */
   constructor() {
     return {
       replace: false,

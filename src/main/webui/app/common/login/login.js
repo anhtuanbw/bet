@@ -2,14 +2,13 @@
 
 export default class LoginController {
   /* @ngInject */
-  constructor(AccountService, CacheService, $location, $rootScope, $modal, $mdDialog) {
+  constructor(AccountService, CacheService, $location, $rootScope, $modal) {
     this.accountService = AccountService;
     this.cacheService = CacheService;
     this.rootScope = $rootScope;
     this.location = $location;
     this.data = {};
     this.modal = $modal;
-    this.mdDialog = $mdDialog;
   }
 
   login(data) {
@@ -20,6 +19,7 @@ export default class LoginController {
       if (token) {
         self.cacheService.set('loginUser', token);
         self.rootScope.$broadcast('login', data);
+        self.location.path('/management');
       }
     }, function (response) {
       data.error = response.data.message;
@@ -31,17 +31,6 @@ export default class LoginController {
       templateUrl: 'app/common/reset-password/reset-password.html',
       controller: 'ResetPasswordController',
       controllerAs: 'resetPassword'
-    });
-  }
-
-  createGroup($event) {
-    this.mdDialog.show({
-      controller: 'GroupController',
-      controllerAs: 'groupCtrl',
-      templateUrl: 'app/common/group/group.html',
-      parent: angular.element(document.body),
-      targetEvent: $event,
-      clickOutsideToClose:true
     });
   }
 
