@@ -30,7 +30,7 @@ export default class CreateTournamentController {
     var tournamentInfo = this.getData();
     this.tournamentService.createTournament(tournamentInfo)
     .then(() => {
-      this.toaster.pop('success', null, "app/components/tournament/create-tournament/success.html", null, 'template');
+      this.toaster.pop('success', null, 'app/components/tournament/create-tournament/success.html', null, 'template');
       this.competitors = [];
       this.name = '';
       this.errorMessage = {};
