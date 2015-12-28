@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
+import vn.kms.ngaythobet.domain.core.MongoDbRef;
 
 @Entity
 @Table(name = "competitors")
@@ -20,11 +21,13 @@ public class Competitor extends AuditableEntity {
     @Column
     private String name;
 
+    @MongoDbRef
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
+    @MongoDbRef
     @JsonIgnore
     @ManyToMany(mappedBy = "competitors")
     private List<Round> rounds;
