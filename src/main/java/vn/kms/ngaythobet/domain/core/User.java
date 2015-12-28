@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -31,12 +30,7 @@ public class User extends AuditableEntity {
             return "ROLE_" + name();
         }
     }
-
-    @ManyToMany(mappedBy = "members", fetch = FetchType.EAGER)
-    @AuditIgnore
-    //TODO: I will fix 'AuditIgnore' later
-    private List<Group> groups;
-
+    
     @Column
     private String username;
 
@@ -153,13 +147,4 @@ public class User extends AuditableEntity {
     public void setResetTime(LocalDateTime resetTime) {
         this.resetTime = resetTime;
     }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-
 }

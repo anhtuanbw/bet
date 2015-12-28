@@ -46,9 +46,4 @@ public class TournamentRest {
     public Tournament getById(@RequestParam Long tournamentId) {
         return tournamentService.findById(tournamentId);
     }
-
-    @RequestMapping(value = "/findByRole", method = GET)
-    public List<Tournament> getAllByRole() {
-        return tournamentService.findAllTournamentOfUser();
-    }
 }
