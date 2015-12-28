@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
+import vn.kms.ngaythobet.domain.core.MongoDbRef;
 
 @Entity
 @Table(name = "rounds")
@@ -24,14 +25,19 @@ public class Round extends AuditableEntity {
     @Column
     private String name;
 
+    @MongoDbRef
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
+    @MongoDbRef
+    @JsonIgnore
     @OneToMany(mappedBy = "round")
     private List<Match> matches;
 
+    @MongoDbRef
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "round_competitor", joinColumns = { @JoinColumn(name = "round_id") }, inverseJoinColumns = {
             @JoinColumn(name = "competitor_id") })
