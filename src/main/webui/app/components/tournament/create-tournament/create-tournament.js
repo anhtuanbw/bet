@@ -42,7 +42,7 @@ export default class CreateTournamentController {
       }
       if (error.status === 403)
       {
-        this.toaster.pop('error', "Warning", error.data.message);
+        this.toaster.pop('error', 'Warning', error.data.message);
       }
     });
   }
