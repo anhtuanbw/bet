@@ -6,7 +6,7 @@ ngaythobet:
         license: Copyright (c) 2015 KMS Technology, Inc.
         contact: trungnguyen@kms-technology.com
     paging-size: 20
-    webapp-baseurl: http://localhost:8080/#
+    webapp-baseurl: http://localhost:8080/#/
     mail-sender: Ngaythobet<kmslaunch-smtpuser-01@kms-technology.com>
     async:
         core-pool-size: 4
