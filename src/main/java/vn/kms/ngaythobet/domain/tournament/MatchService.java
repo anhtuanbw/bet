@@ -47,10 +47,10 @@ public class MatchService {
 
     @Transactional
     public void createMatch(CreateMatchInfo createMatchInfo) {
-        String username = SecurityContextHolder.getContext()
-                .getAuthentication().getName();
-        User user = userRepo.findOneByUsername(username).get();
-        Group group = groupRepo.findByModerator(user);
+//        String username = SecurityContextHolder.getContext()
+//                .getAuthentication().getName();
+//        User user = userRepo.findOneByUsername(username).get();
+//        Group group = groupRepo.findByModerator(user);
         // TODO: check permission for Role MOD
 
         Round round = roundRepo.findOne(createMatchInfo.getRound());
@@ -98,9 +98,12 @@ public class MatchService {
     }
 
     @Transactional
-    public void updateScore(long matchId, int competitor1Score,
-            int competitor2Score) {
-        // TODO
+    public void updateScore(Long matchId, Long competitor1Score,
+            Long competitor2Score) {
+        Match match = matchRepo.findOne(matchId);
+        match.setScore1(competitor1Score);
+        match.setScore2(competitor2Score);
+        matchRepo.save(match);
     }
 
     @Transactional(readOnly = true)

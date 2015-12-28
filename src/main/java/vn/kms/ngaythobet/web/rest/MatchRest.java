@@ -46,4 +46,9 @@ public class MatchRest {
     public List<Round> getRoundsByTournament(@PathVariable Long tournamentId) {
         return matchService.getRounds(tournamentId);
     }
+    
+    @RequestMapping(value = "/update-score", method = POST)
+    public void createMatch(@RequestBody Long matchId, @RequestBody Long competitor1Score, @RequestBody Long competitor2Score) {
+        matchService.updateScore(matchId, competitor1Score, competitor2Score);
+    }
 }
