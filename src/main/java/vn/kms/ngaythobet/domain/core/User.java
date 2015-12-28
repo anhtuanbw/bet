@@ -1,23 +1,19 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import vn.kms.ngaythobet.domain.tournament.Group;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import vn.kms.ngaythobet.domain.tournament.Group;
 
 @Entity
 @Table(name = "users")
@@ -32,7 +28,8 @@ public class User extends AuditableEntity {
         }
     }
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
     @AuditIgnore
     //TODO: I will fix 'AuditIgnore' later
     private List<Group> groups;
