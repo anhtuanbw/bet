@@ -3,7 +3,7 @@
       "account": {
           "change-password": "Đổi Mật khẩu",
           "logout": "Đăng xuất",
-          "manament": "Trang quản trị"
+          "management": "Trang quản trị"
       },
       "group": {
       	"title": "Tạo nhóm mới",
