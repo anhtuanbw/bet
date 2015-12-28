@@ -10,7 +10,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
+import vn.kms.ngaythobet.domain.core.MongoDbRef;
 import vn.kms.ngaythobet.domain.core.User;
 
 @Entity
@@ -23,11 +26,15 @@ public class Group extends AuditableEntity {
     @JoinColumn(name = "moderator")
     private User moderator;
 
+    @MongoDbRef
+    @JsonIgnore
     @ManyToMany(targetEntity = vn.kms.ngaythobet.domain.core.User.class)
     @JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id") })
     private List<User> members;
 
+    @MongoDbRef
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;

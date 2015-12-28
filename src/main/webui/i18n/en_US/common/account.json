@@ -2,7 +2,21 @@
   "common": {
       "account": {
           "change-password": "Change Password",
-          "logout": "Logout"
+          "logout": "Logout",
+          "management": "Manament"
+      },
+      "group": {
+      	"title": "Create Betting Group",
+      	"mark": "The fields mark <span class='text-danger'>(*)</span> is required. Please enter all required fields to create group",
+      	"name": "Please enter name of new group <span class='text-danger'>*</span>",
+      	"tournament": "Select one tournament <span class='text-danger'>*</span>",
+      	"moderator": "Set moderator <span class='text-danger'>*</span>",
+      	"marktournament": "-- Select tournaments --",
+        "create-success": "Create group success!"
+      },
+      "reset-password": {
+      	"title": "Forgot Password",
+      	"mark": "Please enter your email to reset password"
       }
   }
 }

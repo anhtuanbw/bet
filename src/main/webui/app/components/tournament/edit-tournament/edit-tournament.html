@@ -1,12 +1,30 @@
 <div ng-controller="EditTournamentController as editor">
-	<div class="panel panel-default">
+	<div class="panel panel-info">
 		<div class="panel-heading panel-title">
-			<h3 class="panel-title pull-left" ng-bind="editor.tournamentInfo.name"></h3>
+			<h3 class="panel-title pull-left text-muted" ng-bind="editor.tournamentInfo.name"></h3>
 			<div class="text-right panel-title">
 				<button class="btn btn-primary" ng-click="editor.activeTournament()" ng-show="!editor.tournamentInfo.activated">Active tournament</button>
 				<button class="btn btn-default" ng-click="editor.createGroup()"><i class="fa fa-plus"></i> New group</button>
 				<button class="btn btn-default" ng-click="editor.openCreateMatch()"><i class="fa fa-plus"></i> New match</button>
 				<button class="btn btn-default" ng-click="editor.openCreateRound()"><i class="fa fa-plus"></i> New round</button>
+			</div>
+		</div>
+		<div class="panel-body">
+			<h3><small>Round</small></h3>
+			<hr/>
+			<h3><small>Match</small></h3>
+			<hr/>
+			<div class="col-md-4">
+				<strong>Time: </strong>
+				<span>....</span>
+			</div>
+			<div class="col-md-4">
+				<strong>Location: </strong>
+				<span>xxx</span>
+			</div>
+			<div class="col-md-4">
+				<strong>Comment: </strong>
+				<span>....?</span>
 			</div>
 		</div>
 	</div>
