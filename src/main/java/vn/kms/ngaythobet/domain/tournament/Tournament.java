@@ -16,10 +16,6 @@ import vn.kms.ngaythobet.domain.core.MongoDbRef;
 @Entity
 @Table(name = "tournaments")
 public class Tournament extends AuditableEntity {
-    /**
-     * 
-     */
-
     @Column
     private String name;
 
