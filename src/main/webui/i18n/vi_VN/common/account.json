@@ -2,7 +2,21 @@
   "common": {
       "account": {
           "change-password": "Đổi Mật khẩu",
-          "logout": "Đăng xuất"
+          "logout": "Đăng xuất",
+          "manament": "Trang quản trị"
+      },
+      "group": {
+      	"title": "Tạo nhóm mới",
+      	"mark": "Những trường được đánh dấu <span class='text-danger'>(*)</span> yêu cầu phải nhập đầy đủ thông tin.",
+      	"name": "Nhập tên nhóm <span class='text-danger'>*</span>",
+      	"tournament": "Nhập tên giải đấu <span class='text-danger'>*</span>",
+      	"moderator": "Chọn user làm làm chủ <span class='text-danger'>*</span>",
+      	"marktournament": "Vui lòng chọn giải đấu",
+        "create-success": "Tạo nhóm thành công!"
+      },
+      "reset-password": {
+        "title": "Quên mật khẩu",
+        "mark": "Vui lòng nhập email để khôi phục mật khẩu"
       }
   }
 }

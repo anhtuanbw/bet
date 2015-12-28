@@ -13,7 +13,7 @@
     background-color: #337ab7;
 }
 
-.sidenav li:hover a {
+.sidenav li:hover a, .sidenav li.active a {
     color:#fff;
 }
 
@@ -26,12 +26,17 @@
     border-bottom-right-radius: 0;
 }
 
+.tour-banner img {
+    height:200px;
+    width:100%;
+}
+
 @media screen and (max-width: 767px) {
     .sidenav {
         height: auto;
         padding: 15px;
     }
-    .row.content {
+    .row .content {
         height: auto;
     } 
 }

@@ -12,14 +12,9 @@ export default class GroupController {
     this.moderators = this.getModerators();
     this.getTournaments();
     this.selectedItem = null;
-    this.searchText = null;
     this.querySearch = this.querySearch;
     this.groupData = {};
     this.error = {};
-  }
-
-  pop(type, title, content) {
-    this.toaster.pop(type, title, content);
   }
 
   getTournaments() {
@@ -37,8 +32,8 @@ export default class GroupController {
    .then(response => {
     if (response.status === 200) {
       var users = response.data;
-      return users.map(function(repo) {
-        return repo;
+      return users.map(function(user) {
+        return user;
       });
     }
   });
@@ -48,36 +43,29 @@ export default class GroupController {
   return this.getModerators(query);
 }
 
-createFilterFor(query) {
-  var lowercaseQuery = angular.lowercase(query);
-  return function filterFn(state) {
-    return (state.value.indexOf(lowercaseQuery) === 0);
+save() {
+  // Create group
+  var self = this;
+  var data = {
+    name: this.groupData.name,
+    tournamentId: this.groupData.tournament,
+    moderator: this.selectedItem ? this.selectedItem.id : null
   };
+
+  this.groupService.create(data)
+  .then(response => {
+    if (response.status === 200) {
+      this.toaster.pop('success', 'Create group', 'app/common/group/create-success.html', null, 'template');
+      self.cancel();
+    }
+  })
+  .catch(response => {
+    self.error = response.data.fieldErrors;
+  });
 }
 
-save($event) {
-  var self = this;
-    // Create group
-    var data = {
-      name: this.groupData.name,
-      tournamentId: this.groupData.tournament,
-      moderator: this.selectedItem.id ? this.selectedItem.id : null
-    };
-
-    this.groupService.create(data)
-    .then(response => {
-      if (response.status === 200) {
-
-      }
-    })
-    .catch(response => {
-      self.error = response.data.fieldErrors;
-      self.pop('error', '', response.data.fieldErrors);
-    });
-  }
-
-  cancel($event) {
-    this.mdDialog.cancel();
-  }
+cancel() {
+  this.mdDialog.cancel();
+}
 
 }

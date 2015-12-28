@@ -7,11 +7,16 @@ export default class ManagementController {
     this.tournaments = [];
     this.getAllTournament();
     this.showDetail = false;
+    this.selected = -1;
     this.cacheService = CacheService;
     this.templateURL = 'app/components/tournament/create-tournament/create-tournament.html';
     $rootScope.$on('addTournament', () => {
       this.getAllTournament();
     });
+  }
+
+  select(index) {
+    this.selected = index;
   }
 
   createTournament() {
