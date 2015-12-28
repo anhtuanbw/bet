@@ -3,12 +3,13 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
     this.mdDialog = $mdDialog;
-	  $rootScope.$on('selectTournament', (event, tournamentInfo) => {
+    this.toaster = toaster;
+    $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       this.tournamentInfo = tournamentInfo;
     });
   }
@@ -28,8 +29,13 @@ export default class EditTournamentController {
     this.tournamentService.active(this.tournamentInfo.id)
     .then(() => {
       this.tournamentInfo.activated = true;
+      this.toaster.pop('success', null, 'app/components/tournament/edit-tournament/activeSuccess.html', null, 'template');
     })
-    .catch();
+    .catch(error => {
+      if (error.status === 403) {
+        this.toaster.pop('error', 'Warning', error.data.message);
+      }
+    });
   }
   
   openCreateMatch() {

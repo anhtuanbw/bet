@@ -2,6 +2,7 @@ package vn.kms.ngaythobet.web.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -9,11 +10,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.validation.FieldUnique;
 import vn.kms.ngaythobet.domain.validation.ListUnique;
+import static vn.kms.ngaythobet.domain.util.Constants.*;
 
 public class CreateTournamentInfo {
     @NotEmpty
     @Size(min = 6, max = 50)
     @FieldUnique(entity = Tournament.class, field = "name", message = "{validation.tournament.name.unique.message}")
+    @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.pattern.blankspace}")
     private String name;
 
     @NotEmpty

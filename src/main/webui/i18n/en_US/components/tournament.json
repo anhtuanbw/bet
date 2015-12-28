@@ -5,7 +5,8 @@
       "title": "Create Tournament",
       "competitors": "Competitors",
       "name": "Tournament name",
-      "active": "Active"
+      "active": "Active",
+      "activeSuccess": "Active tournament successfully!!!"
     }
   }
 }
