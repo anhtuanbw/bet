@@ -130,7 +130,6 @@ export default class roundManController {
         'roundId': this.roundID,
         'competitorIds': this.roundCompetitor
       };
-      console.log(dataUpdate);
       this.RoundService.update(dataUpdate)
       .then(() => {
         //success

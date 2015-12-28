@@ -15,4 +15,4 @@ export const services = angular
     .service('MatchService', MatchService)
     .service('TournamentService', TournamentService)
     .service('RoundService', RoundService)
-    .service('GroupService', GroupService)
+    .service('GroupService', GroupService);
