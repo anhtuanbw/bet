@@ -109,4 +109,17 @@ public class MailService {
 
         return sendEmailAsync(user.getEmail(), subject, content, false, true);
     }
+    
+    @Async
+    public Future<Boolean> sendMailToGroupMemberAsync(User user, Group group) {
+        Locale locale = Locale.forLanguageTag(user.getLanguageTag());
+        Context context = new Context(locale);
+        context.setVariable("user", user);
+        context.setVariable("group", group);
+        context.setVariable("baseUrl", baseUrl);
+        String content = templateEngine.process("notify-group-member", context);
+        String subject = messageSource.getMessage("email.notify.group.member.title", null, locale);
+
+        return sendEmailAsync(user.getEmail(), subject, content, false, true);
+    }
 }
