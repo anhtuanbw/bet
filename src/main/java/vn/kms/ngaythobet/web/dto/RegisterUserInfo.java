@@ -13,7 +13,7 @@ import static vn.kms.ngaythobet.domain.util.Constants.*;
 
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
 public class RegisterUserInfo {
-    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @Pattern(regexp = "^[a-zA-Z0-9-_.]*$", message = "{validation.username.message}")
     @NotEmpty
     @Size(min = 6, max = 50)
     @FieldUnique(field = "username", entity = User.class)

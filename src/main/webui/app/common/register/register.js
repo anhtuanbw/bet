@@ -16,7 +16,7 @@ export default class RegisterController {
     .then(() => {
       this.errorMessage = {};
       this.userInfo = {};
-      this.toaster.pop('success', null, "app/common/register/success.html", null, 'template');
+      this.toaster.pop('success', null, 'app/common/register/success.html', null, 'template');
     })
     .catch(error => {
       if (error.status === 400) {
