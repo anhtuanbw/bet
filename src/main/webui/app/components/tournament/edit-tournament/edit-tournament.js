@@ -1,4 +1,5 @@
 'use strict';
+/* global angular */
 
 export default class EditTournamentController {
   /* @ngInject */
