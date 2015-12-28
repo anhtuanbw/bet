@@ -38,6 +38,22 @@ export default class EditTournamentController {
     });
   }
   
+  openUpdateScore() {
+    this.modal.open({
+      templateUrl: 'app/common/match/update-score/update-score.html',
+      controller: 'UpdateScoreController',
+      controllerAs: 'updateScore'
+    });
+  }
+  
+  openUpdateScore() {
+    this.modal.open({
+      templateUrl: 'app/common/match/update-score/update-score.html',
+      controller: 'UpdateScoreController',
+      controllerAs: 'updateScore'
+    });
+  }
+  
   openCreateMatch() {
     var self = this;
     this.modal.open({
