@@ -9,7 +9,7 @@ export default class EditTournamentController {
     this.modal = $modal;
     this.mdDialog = $mdDialog;
     this.toaster = toaster;
-	  $rootScope.$on('selectTournament', (event, tournamentInfo) => {
+    $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       this.tournamentInfo = tournamentInfo;
     });
   }
