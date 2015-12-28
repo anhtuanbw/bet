@@ -4,6 +4,7 @@
 import {service} from './services/services'; // jshint ignore:line
 import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
+import UpdateScoreController from './common/match/update-score/update-score';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
@@ -42,6 +43,7 @@ angular.module('ngaythobet', [
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
+.controller('UpdateScoreController', UpdateScoreController)
 .controller('ResetPasswordController', ResetPasswordController)
 .controller('ResetPasswordFinishController', ResetPasswordFinishController)
 .controller('ChangePasswordController', ChangePasswordController)

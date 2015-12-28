@@ -3,7 +3,7 @@
       "account": {
           "change-password": "Change Password",
           "logout": "Logout",
-          "management": "Manament"
+          "management": "Management"
       },
       "group": {
       	"title": "Create Betting Group",
