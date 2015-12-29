@@ -27,7 +27,7 @@ import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.tournament.TournamentRepository;
 import vn.kms.ngaythobet.web.dto.AddCommentInfo;
 import vn.kms.ngaythobet.web.dto.PlayerBettingMatchInfo;
-import vn.kms.ngaythobet.web.dto.updatePlayerBettingMatchInfo;
+import vn.kms.ngaythobet.web.dto.UpdatePlayerBettingMatchInfo;
 
 public class BettingPlayerServiceTest extends BaseTest {
 
@@ -153,7 +153,7 @@ public class BettingPlayerServiceTest extends BaseTest {
     @Test
     public void testUpdatePlayBet() {
         mockLoginUser("user2");
-        updatePlayerBettingMatchInfo updateInfo = new updatePlayerBettingMatchInfo();
+        UpdatePlayerBettingMatchInfo updateInfo = new UpdatePlayerBettingMatchInfo();
         updateInfo.setBettingPlayerId(bettingPlayerTemp.getId());
         updateInfo.setCompetitorId(competitorTemp1.getId());
         bettingPlayerService.updatePlayBet(updateInfo);
