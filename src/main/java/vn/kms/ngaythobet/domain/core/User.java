@@ -27,10 +27,10 @@ public class User extends AuditableEntity {
             return "ROLE_" + name();
         }
     }
-
+    
+    @AuditIgnore
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
-    @AuditIgnore
     private List<Group> groups;
 
     @Column
