@@ -2,7 +2,8 @@
 
 export default class CreateMatchController {
   /* @ngInject */
-  constructor(MatchService, CacheService, $location, $modalInstance, toaster, editId) {
+  constructor(MatchService, CacheService, $location, $modalInstance, toaster, editId, $rootScope) {
+    this.rootScope = $rootScope;
     this.matchService = MatchService;
     this.cacheService = CacheService;
     this.location = $location;
@@ -33,6 +34,7 @@ export default class CreateMatchController {
         this.pop('success', this.popTitle, successMessage);
         this.data = {};
         successMessage = '';
+        this.rootScope.$broadcast('selectTournament');
       })
       .catch(response => {
         self.data.time = time;
@@ -68,6 +70,10 @@ export default class CreateMatchController {
       });
   }
 
+  changeTime(time) {
+    return (time.length === 2 ? time : '0' + time[0]);
+  }
+
   formatTime(time) {
     var timeFormat = new Date(time);
     var getYear = timeFormat.getFullYear(),
@@ -75,8 +81,8 @@ export default class CreateMatchController {
       getDate = timeFormat.getDate().toString(),
       getHour = timeFormat.getHours().toString(),
       getMinute = timeFormat.getMinutes().toString();
-    return getYear + '-' + (getMonth.length === 2 ? getMonth : '0' + getMonth[0]) + '-' + (getDate.length === 2 ? getDate : '0' + getDate[0]) + 'T' +
-      (getHour.length === 2 ? getHour : '0' + getHour[0]) + ':' + (getMinute.length === 2 ? getMinute : '0' + getMinute[0]);
+    return getYear + '-' + this.changeTime(getMonth) + '-' + this.changeTime(getDate) + 'T' +
+      this.changeTime(getHour) + ':' + this.changeTime(getMinute);
   }
 
   closeModal() {

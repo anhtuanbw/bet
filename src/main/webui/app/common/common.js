@@ -8,7 +8,7 @@ import Login from './login/login';
 import Register from './register/register';
 import DateTimePicker from './match/create-match/date-time-picker';
 import SideBar from './sidebar/sidebar';
-import Unauthorized from './UnAuthorized/UnAuthorized';
+import Unauthorized from './unAuthorized/unAuthorized';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
