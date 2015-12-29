@@ -14,7 +14,7 @@ import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.AddCommentInfo;
 import vn.kms.ngaythobet.web.dto.PlayerBettingMatchInfo;
-import vn.kms.ngaythobet.web.dto.updatePlayerBettingMatchInfo;
+import vn.kms.ngaythobet.web.dto.UpdatePlayerBettingMatchInfo;
 
 @Service
 @Transactional
