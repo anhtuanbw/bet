@@ -8,12 +8,15 @@ export default class ManagementController {
     this.accountService = AccountService;
     this.tournaments = [];
     this.getAllTournament();
-    this.showDetail = false;
+    this.showView = {
+      isCreate: true,
+      isEdit: false,
+      isGroup: false
+    };
     this.selected = -1;
     this.cacheService = CacheService;
     this.isAdmin = false;
     this.authen();
-    this.templateURL = 'app/components/tournament/create-tournament/create-tournament.html';
     $rootScope.$on('addTournament', () => {
       this.getAllTournament();
     });
@@ -24,7 +27,16 @@ export default class ManagementController {
   }
 
   createTournament() {
-    this.showDetail = false;
+    this.showView.isCreate = true;
+    this.showView.isEdit = false;
+    this.showView.isGroup = false;
+  }
+
+  createGroup() {
+    this.showView.isCreate = false;
+    this.showView.isEdit = false;
+    this.showView.isGroup = true;
+    console.log('asdfasfd');
   }
 
   isAuthorized() {
@@ -40,7 +52,10 @@ export default class ManagementController {
   }
   
   showTournamenDetail(tournamentId) {
-    this.showDetail = true;
+    this.showView.isEdit = true;
+    this.showView.isGroup = false;
+    this.showView.isCreate = false;
+
     for (var i in this.tournaments)
     {
       if (this.tournaments[i].id === tournamentId) {
@@ -48,7 +63,6 @@ export default class ManagementController {
         break;
       }
     }
-    this.templateURL = 'app/components/tournament/edit-tournament/edit-tournament.html';
   }
   
    authen() {
