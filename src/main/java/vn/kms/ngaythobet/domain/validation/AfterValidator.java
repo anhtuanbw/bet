@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class DateFormatValidator implements
-        ConstraintValidator<DateFormat, LocalDateTime> {
+public class AfterValidator implements
+        ConstraintValidator<After, LocalDateTime> {
 
     @Override
-    public void initialize(DateFormat constraintAnnotation) {
+    public void initialize(After constraintAnnotation) {
 
     }
 

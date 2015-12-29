@@ -12,10 +12,10 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = DateFormatValidator.class)
+@Constraint(validatedBy = AfterValidator.class)
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
-public @interface DateFormat {
+public @interface After {
 
     String message() default "{validation.dateFormat.message}";
 

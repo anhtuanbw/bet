@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Round;
-import vn.kms.ngaythobet.domain.validation.DateFormat;
+import vn.kms.ngaythobet.domain.validation.After;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 import vn.kms.ngaythobet.domain.validation.FieldNotMatch;
 
@@ -30,7 +30,7 @@ public class CreateMatchInfo {
     private Long competitor2;
     
     @NotNull
-    @DateFormat
+    @After
     private LocalDateTime time;
     
     @NotEmpty
