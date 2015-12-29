@@ -7,19 +7,18 @@ import javax.validation.constraints.NotNull;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
-import vn.kms.ngaythobet.domain.validation.ListExist;
 import vn.kms.ngaythobet.domain.validation.ListUnique;
 import vn.kms.ngaythobet.domain.validation.ModeratorAccess;
 
 @ModeratorAccess
-//@ListNew(entity = User.class, target = Group.class, message = "{validation.list.user.not.new.message}", listField = "members", targetField = "groupId")
 public class AddNewMemberInfo {
     @NotNull
     @EntityExist(type = Group.class)
     private Long groupId;
 
     @ListUnique(message = "{validation.member.unique.message}")
-    @ListExist(entity = User.class, message = "{validation.list.not.exist.message}")
+    //TODO: update validate annotation from HieuVu
+    //@ListEntityExist(type = User.class, message = "{validation.list.not.exist.message}")
     private List<Long> memberIds;
 
     public Long getGroupId() {
