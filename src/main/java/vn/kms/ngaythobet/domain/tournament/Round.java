@@ -37,7 +37,7 @@ public class Round extends AuditableEntity {
     private List<Match> matches;
 
     @MongoDbRef
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "round_competitor", joinColumns = { @JoinColumn(name = "round_id") }, inverseJoinColumns = {
             @JoinColumn(name = "competitor_id") })
     private List<Competitor> competitors;

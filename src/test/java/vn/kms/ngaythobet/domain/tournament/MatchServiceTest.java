@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import vn.kms.ngaythobet.BaseTest;
 import vn.kms.ngaythobet.domain.core.MailService;
-import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
 import vn.kms.ngaythobet.domain.tournament.MatchRepository;
 import vn.kms.ngaythobet.domain.tournament.MatchService;
@@ -38,12 +37,6 @@ public class MatchServiceTest extends BaseTest {
     
     @Autowired
     private MatchRepository matchRepo;
-    
-    @Autowired
-    private GroupRepository groupRepo;
-    
-    @Autowired
-    private UserRepository userRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,7 +48,7 @@ public class MatchServiceTest extends BaseTest {
         MailService mailService = mock(MailService.class);
         when(mailService.sendEmailAsync(anyString(), anyString(), anyString(), anyBoolean(), anyBoolean()))
                 .thenReturn(new AsyncResult<>(true));
-        matchService = new MatchService(tournamentRepo, competitorRepo, roundRepo, matchRepo, groupRepo, userRepo);
+        //TODO
     }
     
     @Test

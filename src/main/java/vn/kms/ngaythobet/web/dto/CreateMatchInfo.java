@@ -5,10 +5,10 @@ package vn.kms.ngaythobet.web.dto;
 import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Round;
+import vn.kms.ngaythobet.domain.validation.DateFormat;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 import vn.kms.ngaythobet.domain.validation.FieldNotMatch;
 
@@ -30,7 +30,7 @@ public class CreateMatchInfo {
     private Long competitor2;
     
     @NotNull
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+    @DateFormat
     private LocalDateTime time;
     
     @NotEmpty

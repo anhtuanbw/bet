@@ -30,7 +30,7 @@ public class Competitor extends AuditableEntity {
 
     @MongoDbRef
     @JsonIgnore
-    @ManyToMany(mappedBy = "competitors", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "competitors")
     private List<Round> rounds;
 
     public Competitor() {

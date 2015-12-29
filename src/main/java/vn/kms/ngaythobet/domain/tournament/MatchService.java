@@ -5,8 +5,10 @@ import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
+import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,16 +52,26 @@ public class MatchService {
         String username = SecurityContextHolder.getContext()
                 .getAuthentication().getName();
         User user = userRepo.findOneByUsername(username).get();
-        Group group = groupRepo.findByModerator(user);
-        
-        if (group == null) {
+        List<Group> groups = groupRepo.findByModerator(user);
+
+        if (groups == null) {
             throw new DataInvalidException("exception.matchService.permission");
         }
 
         Round round = roundRepo.findOne(createMatchInfo.getRound());
         Tournament tournament = round.getTournament();
 
-        if (!group.getTournament().getId().equals(tournament.getId())) {
+        boolean isModerator = false;
+        if (groups.size() != 0) {
+            for (Group group : groups) {
+                if (group.getTournament().getId().equals(tournament.getId())) {
+                    isModerator = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isModerator) {
             throw new DataInvalidException("exception.matchService.permission");
         }
 
@@ -67,9 +79,24 @@ public class MatchService {
                 .getCompetitor1());
         Competitor competitor2 = competitorRepo.findOne(createMatchInfo
                 .getCompetitor2());
-        
-        if(!competitorRepo.findByRounds(round).contains(competitor1) || !competitorRepo.findByRounds(round).contains(competitor2)){
-            throw new DataInvalidException("exception.matchService.competitor-belong-round");
+
+        List<Competitor> competitors = competitorRepo.findByRounds(round);
+        System.out.println("++++++++++++++++++++++++++ "+competitors.size());
+        int countBelongRound = 0;
+        for (Competitor competitor : competitors) {
+            if (competitor.getId().equals(competitor1.getId())
+                    || competitor.getId().equals(competitor2.getId())) {
+                countBelongRound++;
+            }
+
+            if (countBelongRound == 2) {
+                break;
+            }
+        }
+
+        if (countBelongRound != 2) {
+            throw new DataInvalidException(
+                    "exception.matchService.competitor-belong-round");
         }
 
         List<Match> matches = matchRepo.findByRound(round);
@@ -109,8 +136,12 @@ public class MatchService {
 
     @Transactional(readOnly = true)
     public List<Round> getRounds(Long tournamentId) {
-
         return roundRepo.findByTournamentId(tournamentId);
+    }
+
+    @Transactional(readOnly = true)
+    public Match getMatch(Long matchId) {
+        return matchRepo.findOne(matchId);
     }
 
     @Transactional
@@ -121,11 +152,13 @@ public class MatchService {
     }
 
     @Transactional
-    public void updateScore(Long matchId, Long competitor1Score,
-            Long competitor2Score) {
-        Match match = matchRepo.findOne(matchId);
-        match.setScore1(competitor1Score);
-        match.setScore2(competitor2Score);
+    public void updateScore(UpdateScoreInfo updateScoreInfo) {
+        Match match = matchRepo.findOne(updateScoreInfo.getMatchId());
+        if (LocalDateTime.now().isBefore(match.getMatchTime())) {
+            throw new DataInvalidException("validation.dateFormat.message");
+        }
+        match.setScore1(updateScoreInfo.getCompetitor1Score());
+        match.setScore2(updateScoreInfo.getCompetitor2Score());
         matchRepo.save(match);
     }
 

@@ -91,6 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Envi
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/login").permitAll()
             .antMatchers("/api/matches/create-match").permitAll()
+            .antMatchers("/api/matches/getMatch/*").permitAll()
             .antMatchers("/api/matches/update-score").permitAll()
             .antMatchers("/api/matches/competitors/*").permitAll()
             .antMatchers("/api/matches/rounds/*").permitAll()
