@@ -1,7 +1,9 @@
 package vn.kms.ngaythobet.domain.tournament;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.kms.ngaythobet.domain.core.MailService;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.AddNewMemberInfo;
 import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
 
@@ -56,9 +59,15 @@ public class GroupService {
     @Transactional
     public void addMember(AddNewMemberInfo newNemberInfo) {
         Group group = groupRepo.findOne(newNemberInfo.getGroupId());
-        List<User> members = newNemberInfo.getMemberIds().stream().map(id -> userRepo.getOne(id)).collect(Collectors.toList());
-        group.getMembers().addAll(members);
+        List<User> newMembers = newNemberInfo.getMemberIds().stream().map(id -> userRepo.getOne(id)).collect(Collectors.toList());
+        Set<User> members = new HashSet<>( group.getMembers());
+        for(User user : newMembers){
+            if(members.contains(user)){
+                throw new DataInvalidException("validation.list.user.not.new.message");
+            }
+        }
+        group.getMembers().addAll(newMembers);
         groupRepo.save(group);
-        members.forEach(member -> mailService.sendMailToGroupMemberAsync(member, group));
+        newMembers.forEach(member -> mailService.sendMailToGroupMemberAsync(member, group));
     }
 }

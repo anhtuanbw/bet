@@ -34,13 +34,11 @@ public class Match extends AuditableEntity {
     private String location;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "competitor_id_1")
     private Competitor competitor1;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "competitor_id_2")
     private Competitor competitor2;

@@ -31,7 +31,6 @@ public class User extends AuditableEntity {
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
     @AuditIgnore
-    //TODO: I will fix AuditIgnore latter
     private List<Group> groups;
 
     @Column

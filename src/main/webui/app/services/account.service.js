@@ -55,12 +55,4 @@ export default class AccountService {
   activate(key) {
 	  return this.$http.get('api/activate?key=' + key);
   }
-
-  users() {
-    return this.$http({
-      method: 'GET',
-      url: 'api/users',
-      headers: {'Accept': '*/*'}
-    });
-  }
 }

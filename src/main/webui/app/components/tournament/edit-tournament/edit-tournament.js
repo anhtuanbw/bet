@@ -1,13 +1,27 @@
 'use strict';
+/* global angular */
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
-	  $rootScope.$on('selectTournament', (event, tournamentInfo) => {
+    this.mdDialog = $mdDialog;
+    this.toaster = toaster;
+    $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       this.tournamentInfo = tournamentInfo;
+    });
+  }
+
+  createGroup($event) {
+    this.mdDialog.show({
+      controller: 'GroupController',
+      controllerAs: 'groupCtrl',
+      templateUrl: 'app/common/group/group.html',
+      parent: angular.element(document.body),
+      targetEvent: $event,
+      clickOutsideToClose:true
     });
   }
   
@@ -15,8 +29,29 @@ export default class EditTournamentController {
     this.tournamentService.active(this.tournamentInfo.id)
     .then(() => {
       this.tournamentInfo.activated = true;
+      this.toaster.pop('success', null, 'app/components/tournament/edit-tournament/activeSuccess.html', null, 'template');
     })
-    .catch();
+    .catch(error => {
+      if (error.status === 403) {
+        this.toaster.pop('error', 'Warning', error.data.message);
+      }
+    });
+  }
+  
+  openUpdateScore() {
+    this.modal.open({
+      templateUrl: 'app/common/match/update-score/update-score.html',
+      controller: 'UpdateScoreController',
+      controllerAs: 'updateScore'
+    });
+  }
+  
+  openUpdateScore() {
+    this.modal.open({
+      templateUrl: 'app/common/match/update-score/update-score.html',
+      controller: 'UpdateScoreController',
+      controllerAs: 'updateScore'
+    });
   }
   
   openCreateMatch() {

@@ -11,7 +11,7 @@
         </p>
         <p>
             <!-- TODO: Link href to Group page info which allow moderator adds new Member -->
-            <a href="#" th:text="|${group.name}|">Group name</a>
+            <a href="@{|${baseUrl}home" th:text="|${group.name}|">Group name</a>
         </p>
         <p>
             <span th:text="#{email.greeting-end}">Regards,</span>
