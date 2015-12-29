@@ -10,11 +10,11 @@ public class PlayerBettingMatchInfo {
     @NotEmpty
     @EntityExist(type = Match.class)
     private Long matchId;
-    
+
     @NotEmpty
     @EntityExist(type = Competitor.class)
-    private Long CompetitorId;
-    
+    private Long competitorId;
+
     private String comment;
 
     public Long getMatchId() {
@@ -34,11 +34,11 @@ public class PlayerBettingMatchInfo {
     }
 
     public Long getCompetitorId() {
-        return CompetitorId;
+        return competitorId;
     }
 
     public void setCompetitorId(Long competitorId) {
-        CompetitorId = competitorId;
+        this.competitorId = competitorId;
     }
 
 }

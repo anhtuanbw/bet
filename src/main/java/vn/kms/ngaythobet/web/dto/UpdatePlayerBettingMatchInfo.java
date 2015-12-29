@@ -5,13 +5,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 
-public class updatePlayerBettingMatchInfo {
+public class UpdatePlayerBettingMatchInfo {
     @NotEmpty
     @EntityExist(type = BettingPlayer.class)
     private Long bettingPlayerId;
 
     @NotEmpty
-    private Long CompetitorId;
+    private Long competitorId;
 
     public Long getBettingPlayerId() {
         return bettingPlayerId;
@@ -22,11 +22,11 @@ public class updatePlayerBettingMatchInfo {
     }
 
     public Long getCompetitorId() {
-        return CompetitorId;
+        return competitorId;
     }
 
     public void setCompetitorId(Long competitorId) {
-        CompetitorId = competitorId;
+        this.competitorId = competitorId;
     }
 
 }
