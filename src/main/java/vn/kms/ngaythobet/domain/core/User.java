@@ -51,7 +51,6 @@ public class User extends AuditableEntity {
 
     @Enumerated(EnumType.STRING)
     @Column
-    @JsonIgnore
     private Role role = Role.USER;
 
     @Column
