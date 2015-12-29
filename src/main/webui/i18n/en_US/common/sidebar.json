@@ -1,0 +1,8 @@
+{
+  "common": {
+    "sidebar": {
+    	"title": "<i class='fa fa-bars'></i> Tournament",
+    	"create": "<i class='fa fa-plus-circle'></i> Create tournament"
+    }
+  }
+}

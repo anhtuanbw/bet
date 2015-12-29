@@ -7,6 +7,7 @@ import MatchService from './match.service';
 import TournamentService from './tournament.service';
 import RoundService from './round.service';
 import GroupService from './group.service';
+import UserService from './user.service';
 
 export const services = angular
     .module('ngaythobet.services', [])
@@ -16,3 +17,4 @@ export const services = angular
     .service('TournamentService', TournamentService)
     .service('RoundService', RoundService)
     .service('GroupService', GroupService)
+    .service('UserService', UserService);

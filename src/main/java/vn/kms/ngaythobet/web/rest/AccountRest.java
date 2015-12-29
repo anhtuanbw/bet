@@ -83,8 +83,9 @@ public class AccountRest {
      * check if the user is authenticated, and return its login.
      */
     @RequestMapping(value = "/authenticate", method = GET)
-    public String isAuthenticated() {
-        return SecurityUtil.getCurrentLogin();
+    public User isAuthenticated() {
+        User user = userService.getUserInfo();
+        return user;
     }
 
     @RequestMapping(value = "/reset-password/init", method = POST)
