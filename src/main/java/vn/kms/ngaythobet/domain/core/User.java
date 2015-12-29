@@ -15,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.tournament.Group;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 public class User extends AuditableEntity {
@@ -151,7 +153,7 @@ public class User extends AuditableEntity {
 
     public List<Group> getGroups() {
         return groups;
-    }
+}
 
     public void setGroups(List<Group> groups) {
         this.groups = groups;
