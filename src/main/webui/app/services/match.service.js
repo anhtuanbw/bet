@@ -35,14 +35,22 @@ export default class MatchService {
     });
   }
   
-  updateScore(data, matchId) {
+  updateScore(data) {
     var token = this.cacheService.get('loginUser');
     return this.$http({
       method: 'POST',
-      url: '/api/matches/update-score/' + matchId,
+      url: '/api/matches/update-score',
       headers: {'Accept': '*/*', 'x-auth-token': token},
       data: data
     });
   }
   
+  getMatchInfo(matchId) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: '/api/matches/getMatch/' + matchId,
+      headers: {'Accept': '*/*', 'x-auth-token': token}
+    });
+  }
 }
