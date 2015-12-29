@@ -9,7 +9,6 @@ export default class EditTournamentController {
     this.modal = $modal;
     this.mdDialog = $mdDialog;
     this.toaster = toaster;
-    this.isAdmin = CacheService.get('role') === 'ADMIN' ? true : false;
     $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       this.tournamentInfo = tournamentInfo;
     });
