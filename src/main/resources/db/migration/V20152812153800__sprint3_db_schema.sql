@@ -10,6 +10,7 @@ create table betting_matches(
     expire_time timestamp,
     bet_amount decimal,
     comment varchar(512),
+    description varchar(512),
     activated bool,
     match_id BIGINT not null,
     group_id BIGINT not null,
@@ -27,7 +28,6 @@ create table betting_players(
     competitor_id BIGINT not null,
     user_id BIGINT not null,
     betting_match_id BIGINT not null,
-    comment varchar(512),
     CONSTRAINT FK_PLAYER_USER FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT FK_PLAYER_COMPETITOR FOREIGN KEY (competitor_id) REFERENCES competitors (id),
     CONSTRAINT FK_PLAYER_BETTING_MATCH FOREIGN KEY (betting_match_id) REFERENCES betting_matches (id)
