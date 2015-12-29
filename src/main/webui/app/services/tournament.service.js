@@ -34,4 +34,13 @@ export default class TournamentService {
       headers: {'Accept': '*/*', 'x-auth-token': token}
     });
   }
+  
+  showInfoTournament(tournamentId) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: '/api/getRoundsInTournament/' + tournamentId,
+      headers: {'Accept': '*/*', 'x-auth-token': token}
+    });
+  }
 }
