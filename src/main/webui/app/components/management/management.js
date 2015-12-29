@@ -10,6 +10,7 @@ export default class ManagementController {
     this.showDetail = false;
     this.selected = -1;
     this.cacheService = CacheService;
+    this.isAdmin = this.cacheService.get('role') === 'ADMIN' ? true : false;
     this.templateURL = 'app/components/tournament/create-tournament/create-tournament.html';
     $rootScope.$on('addTournament', () => {
       this.getAllTournament();
@@ -34,6 +35,10 @@ export default class ManagementController {
       this.tournaments = response.data;
     })
     .catch();
+  }
+  
+  getRole() {
+    
   }
   
   showTournamenDetail(tournamentId) {

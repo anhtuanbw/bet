@@ -3,12 +3,13 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, CacheService) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
     this.mdDialog = $mdDialog;
     this.toaster = toaster;
+    this.isAdmin = CacheService.get('role') === 'ADMIN' ? true : false;
     $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       this.tournamentInfo = tournamentInfo;
     });

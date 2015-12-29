@@ -3,7 +3,7 @@
     <div class="list-group">
       <li class="list-group-item active" ng-click="hidden=!hidden">
         <span translate="common.sidebar.title"></span>
-        <span class="pull-right" ng-click="management.createTournament();$event.stopPropagation();"  translate="common.sidebar.create"></span>
+        <span ng-show="management.isAdmin" class="pull-right" ng-click="management.createTournament();$event.stopPropagation();" translate="common.sidebar.create"></span>
       </li>
       <div ng-hide="hidden">
           <li class="list-group-item" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id)" ng-class="{'active': $index == management.selected}" ng-focus="management.select($index)">
@@ -20,7 +20,7 @@
   <div class="tour-banner">
   <img ng-src="http://www.9737524.com/statics/cash/img/home/banner01-en-us.jpg?20150924021723">
   </div>
-  <div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+  <div ng-show="!management.showDetail && management.isAdmin" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
   <div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
 </div>
 </div>
