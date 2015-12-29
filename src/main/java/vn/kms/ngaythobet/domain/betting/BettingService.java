@@ -9,16 +9,6 @@ import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
 
 public class BettingService {
 
-    private final MatchRepository matchRepo;
-    private final GroupRepository groupRepo;
-    private final BettingMatchRepository bettingRepo;
-
-    public BettingService(MatchRepository matchRepo, GroupRepository groupRepo, BettingMatchRepository bettingRepo) {
-        this.matchRepo = matchRepo;
-        this.groupRepo = groupRepo;
-        this.bettingRepo = bettingRepo;
-    }
-
     public void createBettingMatch(CreateBettingMatchInfo createBettingMatchInfo) {
 
     }
