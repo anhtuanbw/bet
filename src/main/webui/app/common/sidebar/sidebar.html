@@ -30,7 +30,7 @@
   <div class="tour-banner">
   <img ng-src="assets/images/banner-tournament.jpg">
   </div>
-  <div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+  <div ng-show="!management.showDetail && management.isAdmin" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
   <div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
 </div>
 </div>

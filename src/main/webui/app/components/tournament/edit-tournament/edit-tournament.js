@@ -3,7 +3,7 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, CacheService) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
@@ -88,7 +88,8 @@ export default class EditTournamentController {
 
   formatTime(time) {
     return (time.length === 2 ? time : '0' + time[0]);
-
+  }
+  
   openCreateRound() {
     this.modal.open({
       templateUrl: 'app/common/round-management/round-management.html',

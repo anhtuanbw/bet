@@ -2,14 +2,17 @@
 
 export default class ManagementController {
   /* @ngInject */
-  constructor(TournamentService, CacheService, $rootScope) {
+  constructor(TournamentService, CacheService, $rootScope, AccountService) {
     this.rootScope = $rootScope;
     this.tournamentService = TournamentService;
+    this.accountService = AccountService;
     this.tournaments = [];
     this.getAllTournament();
     this.showDetail = false;
     this.selected = -1;
     this.cacheService = CacheService;
+    this.isAdmin = false;
+    this.authen();
     this.templateURL = 'app/components/tournament/create-tournament/create-tournament.html';
     $rootScope.$on('addTournament', () => {
       this.getAllTournament();
@@ -46,5 +49,14 @@ export default class ManagementController {
       }
     }
     this.templateURL = 'app/components/tournament/edit-tournament/edit-tournament.html';
+  }
+  
+   authen() {
+    this.accountService.authen()
+    .then(response => {
+      if (response.data) {
+         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+      }
+    });
   }
 }
