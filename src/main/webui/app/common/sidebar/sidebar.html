@@ -20,7 +20,7 @@
             <i class="fa fa-angle-up pull-right" ng-show="showGroup && isClick"></i>
             <div class="tour-group" ng-show="isClick && showGroup">
                 <ul class="list-unstyled">
-                  <li class="list-group-item" ng-repeat="group in tournament.groups">
+                  <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.createGroup();$event.stopPropagation();">
                     <a href="javascript:void(0)">
                       <i class="fa fa-users"></i> {{group.name}}
                     </a>
@@ -37,8 +37,9 @@
   <div class="tour-banner">
   <img ng-src="assets/images/banner-tournament.jpg">
   </div>
-  <div ng-show="!management.showDetail" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
-  <div ng-show="management.showDetail" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
+  <div ng-show="management.showView.isCreate" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+  <div ng-show="management.showView.isEdit" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
+  <div ng-show="management.showView.isGroup" ng-include src="'app/components/tournament/group/group.html'"></div>
 </div>
 </div>
 </div>
