@@ -113,7 +113,10 @@ footer {
 
 .update-score {
   width: 50px;
-  display: inline-block;
+}
+
+.has-minheight {
+  min-height: 55px;
 }
 
 .showTournament {
