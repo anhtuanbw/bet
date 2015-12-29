@@ -7,30 +7,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
+import vn.kms.ngaythobet.domain.core.MongoDbRef;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 
 @Entity
 @Table(name = "betting_players")
 public class BettingPlayer extends AuditableEntity {
-    @DBRef
+    @MongoDbRef
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "betting_match_id")
     private BettingMatch bettingMatch;
 
-    @DBRef
+    @MongoDbRef
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User player;
 
-    @DBRef
+    @MongoDbRef
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "competitor_id")
