@@ -58,7 +58,7 @@ public class UserRest {
 
     @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
     public List<User> searchUser(@PathVariable String name) {
-        return userRepo.findTop10ByNameContainingIgnoreCase(name).stream()
-                .filter(user -> user.isActivated()).collect(Collectors.toList());
+        Pageable topTen = new PageRequest(0, 10);
+        return userRepo.findTop10ByNameContainingIgnoreCase("%"+name+"%", topTen);
     }
 }

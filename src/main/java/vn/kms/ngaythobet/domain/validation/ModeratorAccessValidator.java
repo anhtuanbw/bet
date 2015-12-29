@@ -16,7 +16,7 @@ import vn.kms.ngaythobet.domain.core.UserService;
  * @author thangpham
  *
  */
-public class MonderatorAccessValidator implements ConstraintValidator<ModeratorAccess, Object> {
+public class ModeratorAccessValidator implements ConstraintValidator<ModeratorAccess, Object> {
     @PersistenceContext
     private EntityManager em;
 

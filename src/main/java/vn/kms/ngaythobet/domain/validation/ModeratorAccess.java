@@ -19,7 +19,7 @@ import javax.validation.Payload;
 @Documented
 @Target(TYPE)
 @Retention(RUNTIME)
-@Constraint(validatedBy = MonderatorAccessValidator.class)
+@Constraint(validatedBy = ModeratorAccessValidator.class)
 public @interface ModeratorAccess {
     String message() default "{validation.moderator.access.deny.message}";
 
