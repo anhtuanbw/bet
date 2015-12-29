@@ -48,7 +48,7 @@ public class MatchRest {
     }
     
     @RequestMapping(value = "/update-score", method = POST)
-    public void createMatch(@RequestBody Long matchId, @RequestBody Long competitor1Score, @RequestBody Long competitor2Score) {
+    public void createMatch(@RequestParam Long matchId, @RequestParam Long competitor1Score, @RequestParam Long competitor2Score) {
         matchService.updateScore(matchId, competitor1Score, competitor2Score);
     }
 }

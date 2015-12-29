@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -38,7 +39,7 @@ public class Round extends AuditableEntity {
 
     @MongoDbRef
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "round_competitor", joinColumns = { @JoinColumn(name = "round_id") }, inverseJoinColumns = {
             @JoinColumn(name = "competitor_id") })
     private List<Competitor> competitors;

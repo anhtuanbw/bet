@@ -47,19 +47,42 @@ public class MatchService {
 
     @Transactional
     public void createMatch(CreateMatchInfo createMatchInfo) {
-//        String username = SecurityContextHolder.getContext()
-//                .getAuthentication().getName();
-//        User user = userRepo.findOneByUsername(username).get();
-//        Group group = groupRepo.findByModerator(user);
-        // TODO: check permission for Role MOD
+        String username = SecurityContextHolder.getContext()
+                .getAuthentication().getName();
+        User user = userRepo.findOneByUsername(username).get();
+        Group group = groupRepo.findByModerator(user);
+        
+        if (group == null) {
+            throw new DataInvalidException("exception.matchService.permission");
+        }
 
         Round round = roundRepo.findOne(createMatchInfo.getRound());
         Tournament tournament = round.getTournament();
 
-        Competitor competitor1 = competitorRepo.getOne(createMatchInfo
+        if (!group.getTournament().getId().equals(tournament.getId())) {
+            throw new DataInvalidException("exception.matchService.permission");
+        }
+
+        Competitor competitor1 = competitorRepo.findOne(createMatchInfo
                 .getCompetitor1());
-        Competitor competitor2 = competitorRepo.getOne(createMatchInfo
+        Competitor competitor2 = competitorRepo.findOne(createMatchInfo
                 .getCompetitor2());
+        
+        if(!competitorRepo.findByRounds(round).contains(competitor1) || !competitorRepo.findByRounds(round).contains(competitor2)){
+            throw new DataInvalidException("exception.matchService.competitor-belong-round");
+        }
+
+        List<Match> matches = matchRepo.findByRound(round);
+        if (matches.size() != 0) {
+            for (Match match : matches) {
+                if ((match.getCompetitor1().getId().equals(competitor1.getId()))
+                        || (match.getCompetitor2().getId().equals(competitor2
+                                .getId()))) {
+                    throw new DataInvalidException(
+                            "exception.matchService.same-time-for-same-competitor");
+                }
+            }
+        }
 
         if (competitor1.getTournament().getId().equals(tournament.getId())
                 && competitor2.getTournament().getId()

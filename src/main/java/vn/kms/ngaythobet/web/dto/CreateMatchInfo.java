@@ -30,7 +30,7 @@ public class CreateMatchInfo {
     private Long competitor2;
     
     @NotNull
-    @DateTimeFormat(pattern="yyyy-MM-dd hh:mm a")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime time;
     
     @NotEmpty
