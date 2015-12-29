@@ -88,6 +88,13 @@ export default class EditTournamentController {
 
   formatTime(time) {
     return (time.length === 2 ? time : '0' + time[0]);
+
+  openCreateRound() {
+    this.modal.open({
+      templateUrl: 'app/common/round-management/round-management.html',
+      controller: 'RoundManController',
+      controllerAs: 'round'
+    });
   }
 
   openCreateMatch() {
@@ -115,6 +122,5 @@ export default class EditTournamentController {
         }
       }
     });
-    console.log(matchId);
   }
 }

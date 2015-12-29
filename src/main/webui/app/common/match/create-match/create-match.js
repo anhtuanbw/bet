@@ -27,8 +27,8 @@ export default class CreateMatchController {
     var time = this.data.time;
     this.data.time = this.formatTime(this.data.time);
     this.matchService.createMatch(this.data)
-      .then(response => {
-        
+      .then(() => {
+
         // Success
         this.closeModal();
         this.pop('success', this.popTitle, successMessage);
@@ -61,7 +61,7 @@ export default class CreateMatchController {
     this.dataCompetitors = [];
     this.matchService.getCompetitors(this.data.round)
       .then(response => {
-        
+
         // Success
         var i;
         for (i = 0; i < response.data.length; i++) {
