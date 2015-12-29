@@ -76,13 +76,13 @@ export default class CreateMatchController {
 
   formatTime(time) {
     var timeFormat = new Date(time);
-    var getYear = timeFormat.getFullYear(),
-      getMonth = (timeFormat.getMonth() + 1).toString(),
-      getDate = timeFormat.getDate().toString(),
-      getHour = timeFormat.getHours().toString(),
-      getMinute = timeFormat.getMinutes().toString();
-    return getYear + '-' + this.changeTime(getMonth) + '-' + this.changeTime(getDate) + 'T' +
-      this.changeTime(getHour) + ':' + this.changeTime(getMinute);
+    var year = timeFormat.getFullYear(),
+      month = (timeFormat.getMonth() + 1).toString(),
+      date = timeFormat.getDate().toString(),
+      hour = timeFormat.getHours().toString(),
+      minute = timeFormat.getMinutes().toString();
+    return year + '-' + this.changeTime(month) + '-' + this.changeTime(date) + 'T' +
+      this.changeTime(hour) + ':' + this.changeTime(minute);
   }
 
   closeModal() {

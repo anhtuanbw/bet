@@ -16,7 +16,6 @@ export default class UpdateScoreController {
   }
 
   updateScore() {
-    console.log(this.data);
     var self = this;
     this.popTitle = 'Update score';
     var successMessage = 'Update score successfully!';
