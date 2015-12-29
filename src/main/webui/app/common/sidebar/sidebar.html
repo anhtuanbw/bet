@@ -2,15 +2,22 @@
   <div class="col-sm-3 sidenav">
     <div class="list-group">
       <li class="list-group-item header" style="background:#2C6BA0;border-top-right-radius: 4px;" ng-click="hidden=!hidden">
-        <span translate="common.sidebar.title" style="font-weight:bold;"></span>
-        <span class="pull-right" ng-click="management.createTournament();$event.stopPropagation();"  translate="common.sidebar.create" style="font-weight:bold;"></span>
+        <div class="row">
+            <div class="col-xs-6 col-sm-12 col-md-6">
+              <span translate="common.sidebar.title" style="font-weight:bold;"></span>
+            </div>
+            <div class="col-xs-6 col-sm-12 col-md-6">
+               <span class="pull-right" ng-click="management.createTournament();$event.stopPropagation();"  translate="common.sidebar.create" style="font-weight:bold;"></span>
+            </div>
+        </div>
       </li>
       <div ng-hide="hidden">
           <li class="list-group-item child" ng-init="isClick=false; showGroup=tournament.groups.length>0" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id); isClick=!isClick" ng-class="{'selected': isClick, 'choose':$index == management.selected}" ng-focus="management.select($index)">
              <a href="javascript:void(0)" ng-focus="management.select($index)">
               <i class="fa fa-th-large"></i> {{ tournament.name }} <span class="badge" ng-show="showGroup">{{ tournament.groups.length }}</span>
             </a>
-            <i class="fa fa-angle-down pull-right" ng-show="showGroup"></i>
+            <i class="fa fa-angle-down pull-right" ng-show="showGroup && !isClick"></i>
+            <i class="fa fa-angle-up pull-right" ng-show="showGroup && isClick"></i>
             <div class="tour-group" ng-show="isClick && showGroup">
                 <ul class="list-unstyled">
                   <li class="list-group-item" ng-repeat="group in tournament.groups">
