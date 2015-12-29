@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
+import vn.kms.ngaythobet.domain.validation.ListEntityExist;
 import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 public class CreateRoundInfo {
@@ -27,6 +28,7 @@ public class CreateRoundInfo {
     private Long tournamentId;
 
     @ListUnique(message = "{validation.competitors.unique.message}")
+    @ListEntityExist(type = Competitor.class, message = "{validation.competitors.existed.message}")
     private List<Long> competitorIds;
 
     public String getName() {

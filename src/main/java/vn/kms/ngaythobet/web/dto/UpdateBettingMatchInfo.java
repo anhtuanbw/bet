@@ -2,20 +2,20 @@ package vn.kms.ngaythobet.web.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
-
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 
-public class CreateBettingMatchInfo {
+public class UpdateBettingMatchInfo {
 
+    @EntityExist(type = BettingMatch.class)
+    private Long bettingMatchId;
+    
     @NotNull
     private BigDecimal balance1;
 
@@ -34,14 +34,22 @@ public class CreateBettingMatchInfo {
     @EntityExist(type = Match.class, message = "{validation.existMatch.message}")
     private long matchId;
 
-    @NotNull
-    @EntityExist(type = Group.class, message = "{validation.existGroup.message}")
-    private long groupId;
-
     @Size(min = 0, max = 512)
     private String comment;
 
+    @NotNull
+    @EntityExist(type = Group.class, message = "{validation.existGroup.message}")
+    private Long groupId;
+    
     private boolean activated;
+
+    public Long getBettingMatchId() {
+        return bettingMatchId;
+    }
+
+    public void setBettingMatchId(Long bettingMatchId) {
+        this.bettingMatchId = bettingMatchId;
+    }
 
     public BigDecimal getBalance1() {
         return balance1;
@@ -83,14 +91,6 @@ public class CreateBettingMatchInfo {
         this.matchId = matchId;
     }
 
-    public long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -107,4 +107,13 @@ public class CreateBettingMatchInfo {
         this.activated = activated;
     }
 
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    
 }
