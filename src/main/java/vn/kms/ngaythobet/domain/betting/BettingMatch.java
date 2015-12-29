@@ -56,6 +56,9 @@ public class BettingMatch extends AuditableEntity {
     private String comment;
 
     @Column
+    private String description;
+
+    @Column
     private boolean activated;
 
     public Group getGroup() {
@@ -114,6 +117,14 @@ public class BettingMatch extends AuditableEntity {
         this.betAmount = betAmount;
     }
 
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -122,12 +133,12 @@ public class BettingMatch extends AuditableEntity {
         this.comment = comment;
     }
 
-    public boolean isActivated() {
-        return activated;
+    public String getDescription() {
+        return description;
     }
 
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
