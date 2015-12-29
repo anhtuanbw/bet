@@ -21,16 +21,6 @@ public class BettingService {
 
     public void createBettingMatch(CreateBettingMatchInfo createBettingMatchInfo) {
 
-        BettingMatch bettingMatch = new BettingMatch();
-        bettingMatch.setBalance1(createBettingMatchInfo.getBalance1());
-        bettingMatch.setBalance2(createBettingMatchInfo.getBalance2());
-        bettingMatch.setExpiredTime(createBettingMatchInfo.getExpiredTime());
-        bettingMatch.setBetAmount(createBettingMatchInfo.getBetAmount());
-        bettingMatch.setMatch(matchRepo.getOne(createBettingMatchInfo.getMatchId()));
-        bettingMatch.setGroup(groupRepo.getOne(createBettingMatchInfo.getGroupId()));
-        bettingMatch.setComment(createBettingMatchInfo.getComment());
-        bettingMatch.setActivated(createBettingMatchInfo.isActivated());
-        bettingRepo.save(bettingMatch);
     }
 
     public void updateMatchBetBalance(int matchBetId, double competitor1Balance, double competitor2Balance) {
