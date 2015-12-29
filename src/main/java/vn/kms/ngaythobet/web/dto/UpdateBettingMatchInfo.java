@@ -10,7 +10,9 @@ import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
+import vn.kms.ngaythobet.domain.validation.ModeratorAccess;
 
+@ModeratorAccess
 public class UpdateBettingMatchInfo {
 
     @EntityExist(type = BettingMatch.class)
@@ -35,7 +37,7 @@ public class UpdateBettingMatchInfo {
     private long matchId;
 
     @Size(min = 0, max = 512)
-    private String comment;
+    private String decription;
 
     @NotNull
     @EntityExist(type = Group.class, message = "{validation.existGroup.message}")
@@ -91,20 +93,12 @@ public class UpdateBettingMatchInfo {
         this.matchId = matchId;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDecription() {
+        return decription;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public void setDecription(String decription) {
+        this.decription = decription;
     }
 
     public Long getGroupId() {
@@ -113,6 +107,14 @@ public class UpdateBettingMatchInfo {
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     

@@ -52,7 +52,7 @@ public class BettingMatchService {
                 bettingMatch.setBetAmount(createBettingMatchInfo.getBetAmount());
                 bettingMatch.setMatch(matchRepo.getOne(createBettingMatchInfo.getMatchId()));
                 bettingMatch.setGroup(groupRepo.getOne(createBettingMatchInfo.getGroupId()));
-                bettingMatch.setComment(createBettingMatchInfo.getComment());
+                bettingMatch.setDescription(createBettingMatchInfo.getDecription());
                 bettingMatch.setActivated(createBettingMatchInfo.isActivated());
                 bettingMatchRepo.save(bettingMatch);
             } else {
@@ -67,17 +67,16 @@ public class BettingMatchService {
         bettingMatch = bettingMatchRepo.getOne(updateBettingMatchInfo.getBettingMatchId());
         Match match = new Match();
         match = matchRepo.getOne(updateBettingMatchInfo.getMatchId());
-        if(updateBettingMatchInfo.getExpiredTime().isBefore(match.getMatchTime())){
+        if (updateBettingMatchInfo.getExpiredTime().isBefore(match.getMatchTime())) {
             bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
             bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
             bettingMatch.setExpiredTime(updateBettingMatchInfo.getExpiredTime());
             bettingMatch.setBetAmount(updateBettingMatchInfo.getBetAmount());
             bettingMatch.setMatch(matchRepo.getOne(updateBettingMatchInfo.getMatchId()));
-            bettingMatch.setComment(updateBettingMatchInfo.getComment());
+            bettingMatch.setDescription(updateBettingMatchInfo.getDecription());
             bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
             bettingMatchRepo.save(bettingMatch);
-        }
-        else {
+        } else {
             throw new DataInvalidException("exception.expritedTime.invalid.match");
         }
 

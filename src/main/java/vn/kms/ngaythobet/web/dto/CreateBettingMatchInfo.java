@@ -7,13 +7,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
+import vn.kms.ngaythobet.domain.validation.ModeratorAccess;
 
+@ModeratorAccess
 public class CreateBettingMatchInfo {
 
     @NotNull
@@ -39,7 +40,7 @@ public class CreateBettingMatchInfo {
     private long groupId;
 
     @Size(min = 0, max = 512)
-    private String comment;
+    private String decription;
 
     private boolean activated;
 
@@ -91,12 +92,12 @@ public class CreateBettingMatchInfo {
         this.groupId = groupId;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDecription() {
+        return decription;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDecription(String decription) {
+        this.decription = decription;
     }
 
     public boolean isActivated() {
@@ -107,4 +108,5 @@ public class CreateBettingMatchInfo {
         this.activated = activated;
     }
 
+    
 }
