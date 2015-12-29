@@ -229,35 +229,4 @@ public class UserServiceTest extends BaseTest {
         assertThat(user.getEmail(), equalTo("tester@test.local"));
         assertThat(user.getLanguageTag(), equalTo("en"));
     }
-    
-    @Test
-    public void testSearchUser(){
-        String usernameA = "TestA";
-        User userA = new User();
-        userA.setUsername(usernameA);
-        userA.setPassword(passwordEncoder.encode("Tester@123"));
-        userA.setEmail(usernameA + "@test.local");
-        userA.setName(usernameA + " User");
-        userA.setLanguageTag("en");
-        userA.setActivated(true);
-        userA.setRole(USER);
-        userRepo.save(userA);
-        
-        String usernameB = "TestA";
-        User userB = new User();
-        userB.setUsername(usernameB);
-        userB.setPassword(passwordEncoder.encode("Tester@123"));
-        userB.setEmail(usernameB + "@test.local");
-        userB.setName(usernameB + " User");
-        userB.setLanguageTag("en");
-        userB.setActivated(true);
-        userB.setRole(USER);
-        userRepo.save(userA);
-        
-        User defaultUser = getDefaultUser();
-        String username = defaultUser.getUsername();
-        mockLoginUser(username);
-        
-        
-    }
 }
