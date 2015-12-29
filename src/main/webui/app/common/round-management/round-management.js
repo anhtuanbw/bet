@@ -169,7 +169,6 @@ export default class roundManController {
     data.success = '';
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
-      console.log(response.data);
       this.roundListData = response.data;
       this.loadOldCompetitorList(data);
       this.addCompetitorToComboBox(data);
