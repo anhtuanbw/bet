@@ -1,7 +1,6 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.betting;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,9 +34,6 @@ public class BettingPlayer extends AuditableEntity {
     @JoinColumn(name = "competitor_id")
     private Competitor betCompetitor;
 
-    @Column
-    private String comment;
-
     public BettingMatch getBettingMatch() {
         return bettingMatch;
     }
@@ -60,14 +56,6 @@ public class BettingPlayer extends AuditableEntity {
 
     public void setBetCompetitor(Competitor betCompetitor) {
         this.betCompetitor = betCompetitor;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
 }
