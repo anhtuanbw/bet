@@ -6,13 +6,20 @@
 				<button class="btn btn-primary" ng-click="editor.activeTournament()" ng-show="!editor.tournamentInfo.activated">Active tournament</button>
 				<button class="btn btn-default" ng-click="editor.createGroup()"><i class="fa fa-plus"></i> New group</button>
 				<button class="btn btn-default" ng-click="editor.openCreateMatch()"><i class="fa fa-plus"></i> New match</button>
-				<button class="btn btn-default" ng-click=""><i class="fa fa-plus"></i> New round</button>
+				<button class="btn btn-default" ng-click="editor.openCreateRound()"><i class="fa fa-plus"></i> New round</button>
 			</div>
 		</div>
 		<div class="panel-body">
-			<h3><small>Round</small></h3>
+			<span><strong>Round</strong></span>
 			<hr/>
-			<h3><small>Match</small></h3>
+			<div class="row">
+				<div class="col-md-3">
+					<span><strong>Match</strong></span>
+				</div>
+				<div class="col-md-9">
+					<button class="btn btn-default pull-right">Update scrore</button>
+				</div>
+			</div>
 			<hr/>
 			<div class="col-md-4">
 				<strong>Time: </strong>

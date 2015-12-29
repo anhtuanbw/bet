@@ -5,7 +5,8 @@
       "title": "Tạo giải đấu",
       "competitors": "Các đội thi đấu",
       "name": "Tên giải đấu",
-      "active": "Kích hoạt"
+      "active": "Kích hoạt",
+      "activeSuccess": "Kích hoạt giải đấu thành công!!!"
     }
   }
 }

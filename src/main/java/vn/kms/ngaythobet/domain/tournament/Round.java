@@ -33,12 +33,10 @@ public class Round extends AuditableEntity {
     private Tournament tournament;
 
     @MongoDbRef
-    @JsonIgnore
     @OneToMany(mappedBy = "round")
     private List<Match> matches;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "round_competitor", joinColumns = { @JoinColumn(name = "round_id") }, inverseJoinColumns = {
             @JoinColumn(name = "competitor_id") })

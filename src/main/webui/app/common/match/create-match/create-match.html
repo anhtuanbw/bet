@@ -55,10 +55,9 @@
       <div class="form-group">
         <div ng-class="(createMatch.errorMessage.time) ? 'form-group has-error' : 'form-group'">
           <label for="time">Time <span class="text-danger">*</span></label>
-          <div class="input-group date" id="datetimepicker1" data-date-time-picker>
-            <input type="text" class="form-control" ng-model="createMatch.data.time" name="createMatch.data.time">
-            <span class="input-group-addon">
-			      <span class="glyphicon glyphicon-calendar"></span>
+          <div class='input-group date' date-time-picker ng-model="createMatch.data.time">
+            <input type='text' class="form-control" />
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
             </span>
           </div>
           <div class="text-danger" ng-show="createMatch.errorMessage" ng-bind="createMatch.errorMessage.time"></div>
