@@ -58,7 +58,7 @@ public class BettingPlayerService {
         bettingMatchRepo.save(bettingMatch);
     }
 
-    public void updatePlayBet(updatePlayerBettingMatchInfo playerBettingMatchInfo) {
+    public void updatePlayBet(UpdatePlayerBettingMatchInfo playerBettingMatchInfo) {
         BettingPlayer bettingPlayer = bettingPlayerRepo.findOne(playerBettingMatchInfo.getBettingPlayerId());
         if (!isAuthor(bettingPlayer.getPlayer().getUsername())) {
             throw new DataInvalidException("exception.unauthorized");
