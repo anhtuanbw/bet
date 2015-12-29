@@ -42,8 +42,7 @@ public class BettingMatchService {
 
     public void createBettingMatch(CreateBettingMatchInfo createBettingMatchInfo) {
         BettingMatch bettingMatch = new BettingMatch();
-        Match match = new Match();
-        match = matchRepo.getOne(createBettingMatchInfo.getMatchId());
+        Match match = matchRepo.findOne(createBettingMatchInfo.getMatchId());
         if (bettingMatchIsExisted(createBettingMatchInfo.getGroupId(), createBettingMatchInfo.getMatchId())) {
             if (createBettingMatchInfo.getExpiredTime().isBefore(match.getMatchTime())) {
                 bettingMatch.setBalance1(createBettingMatchInfo.getBalance1());
@@ -63,10 +62,9 @@ public class BettingMatchService {
     }
 
     public void updateBettingMatch(UpdateBettingMatchInfo updateBettingMatchInfo) {
-        BettingMatch bettingMatch = new BettingMatch();
-        bettingMatch = bettingMatchRepo.getOne(updateBettingMatchInfo.getBettingMatchId());
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(updateBettingMatchInfo.getBettingMatchId());
         Match match = new Match();
-        match = matchRepo.getOne(updateBettingMatchInfo.getMatchId());
+        match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
         if (updateBettingMatchInfo.getExpiredTime().isBefore(match.getMatchTime())) {
             bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
             bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
