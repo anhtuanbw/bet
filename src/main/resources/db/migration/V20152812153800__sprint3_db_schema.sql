@@ -26,15 +26,9 @@ create table betting_players(
     
     competitor_id BIGINT not null,
     user_id BIGINT not null,
+    betting_match_id BIGINT not null,
     comment varchar(512),
     CONSTRAINT FK_PLAYER_USER FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT FK_PLAYER_COMPETITOR FOREIGN KEY (competitor_id) REFERENCES competitors (id)
-);
-
-create table betting_match_details(
-	betting_player_id BIGINT not null,
-    betting_match_id BIGINT not null,
-    PRIMARY KEY (betting_player_id, betting_match_id),
-    CONSTRAINT FK_DETAIL_BETTING_MATCH FOREIGN KEY (betting_match_id) REFERENCES betting_matches (id),
-    CONSTRAINT FK_DETAIL_BETTING_PLAYER FOREIGN KEY (betting_player_id) REFERENCES betting_players (id)
+    CONSTRAINT FK_PLAYER_COMPETITOR FOREIGN KEY (competitor_id) REFERENCES competitors (id),
+    CONSTRAINT FK_PLAYER_BETTING_MATCH FOREIGN KEY (betting_match_id) REFERENCES betting_matches (id)
 );
