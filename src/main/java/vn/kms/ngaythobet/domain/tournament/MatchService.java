@@ -81,7 +81,6 @@ public class MatchService {
                 .getCompetitor2());
 
         List<Competitor> competitors = competitorRepo.findByRounds(round);
-        System.out.println("++++++++++++++++++++++++++ "+competitors.size());
         int countBelongRound = 0;
         for (Competitor competitor : competitors) {
             if (competitor.getId().equals(competitor1.getId())
