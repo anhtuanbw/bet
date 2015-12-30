@@ -5,7 +5,7 @@
         <div class="col-md-6">
           <div class="input-group ">
             <input type="text" ng-model="player.comment" class="form-control">
-            <span class="input-group-btn"><button class="btn btn-primary" type="button">Comment</button>
+            <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()" type="button">Comment</button>
           </span>
           </div>
           <div>{{player.comment}}</div>

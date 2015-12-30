@@ -2,8 +2,8 @@
 
 export default class PlayerBettingMatchController {
 	/* @ngInject */
-	constructor(TournamentService, $rootScope, CacheService) {
-		this.tournamentService = TournamentService;
+	constructor($rootScope, CacheService) {
+		this.cacheService = CacheService;
 		this.comment = '';
 		this.connect();
 	}
@@ -31,9 +31,20 @@ export default class PlayerBettingMatchController {
 	}
 
 	sendComment() {
-		this.tournamentService.sendComment(this.comment)
-			.then(response => {
-				// Success
-			});
+		var token = this.cacheService.get('loginUser');
+		stompClient.send("/app/api/greetings/1", { "x-auth-token": token}, JSON.stringify({ 'comment': this.comment }));
 	}
+}
+
+// export default class PlayerBettingMatch {
+//   /* @ngInject */
+//   constructor() {
+//     return {
+//       replace: true,
+//       scope: true,
+//       controller: PlayerBettingMatchController,
+//       controllerAs: 'player',
+//       templateUrl: 'app/components/tournament/player-betting-match/player-betting-match.html'
+//     };
+//   }
 }

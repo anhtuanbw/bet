@@ -43,14 +43,5 @@ export default class TournamentService {
       headers: {'Accept': '*/*', 'x-auth-token': token}
     });
   }
-  
-  sendComment(comment) {
-    var token = this.cacheService.get('loginUser');
-    return this.$http({
-      method: 'POST',
-      url: 'api/tournaments/create',
-      headers: {'Accept': '*/*', 'x-auth-token': token},
-      data: comment
-    });
-  }
+ 
 }
