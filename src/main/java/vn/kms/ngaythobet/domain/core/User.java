@@ -30,10 +30,9 @@ public class User extends AuditableEntity {
         }
     }
     
-    //@AuditIgnore
+    @AuditIgnore
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
-    @MongoDbRef
     private List<Group> groups;
 
     @Column
