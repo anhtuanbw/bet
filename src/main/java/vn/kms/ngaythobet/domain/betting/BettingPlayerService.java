@@ -37,6 +37,7 @@ public class BettingPlayerService {
 
     public void playBet(PlayerBettingMatchInfo playerBettingMatchInfo) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(playerBettingMatchInfo.getBettingMatchId());
+        String comment = bettingMatch.getComment();
         if (isExpired(bettingMatch.getExpiredTime())) {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-is-expired");
         } else if (!bettingMatch.isActivated()) {
@@ -53,6 +54,12 @@ public class BettingPlayerService {
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
             bettingPlayer.setBetCompetitor(betCompetitor);
             bettingPlayerRepo.save(bettingPlayer);
+            if (comment != null) {
+                if (!comment.trim().isEmpty()) {
+                    bettingMatch.setComment(comment);
+                    bettingMatchRepo.save(bettingMatch);
+                }
+            }
         }
 
     }
