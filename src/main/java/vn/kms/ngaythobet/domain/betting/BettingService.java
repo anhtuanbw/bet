@@ -2,11 +2,14 @@
 package vn.kms.ngaythobet.domain.betting;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+
+import vn.kms.ngaythobet.domain.tournament.GroupRepository;
+import vn.kms.ngaythobet.domain.tournament.MatchRepository;
+import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
 
 public class BettingService {
 
-    public void createBettingMatch(BettingMatch bettingMatch) {
+    public void createBettingMatch(CreateBettingMatchInfo createBettingMatchInfo) {
 
     }
 
