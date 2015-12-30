@@ -140,5 +140,4 @@ public class BettingMatch extends AuditableEntity {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
