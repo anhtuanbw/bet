@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.tournament.GroupService;
 import vn.kms.ngaythobet.web.dto.AddNewMemberInfo;
+import vn.kms.ngaythobet.web.dto.CheckModeratorInfo;
 import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
 
 /**
@@ -28,9 +29,14 @@ public class GroupRest {
     public void createGroup(@Valid @RequestBody CreateGroupInfo createGroupInfo) {
         groupService.createGroup(createGroupInfo);
     }
-    
+
     @RequestMapping(value = "/addMember", method = POST)
-    public void addNewMember(@Valid @RequestBody AddNewMemberInfo addNewMemberInfo){
+    public void addNewMember(@Valid @RequestBody AddNewMemberInfo addNewMemberInfo) {
         groupService.addMember(addNewMemberInfo);
+    }
+    
+    @RequestMapping(value = "/isModerator", method = POST)
+    public void checkModeratorPermission(@Valid @RequestBody CheckModeratorInfo checkModeratorInfo){
+        groupService.checkModeratorPermission(checkModeratorInfo);
     }
 }
