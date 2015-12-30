@@ -6,7 +6,21 @@
       "competitors": "Các đội thi đấu",
       "name": "Tên giải đấu",
       "active": "Kích hoạt",
-      "activeSuccess": "Kích hoạt giải đấu thành công!!!"
+      "activeSuccess": "Kích hoạt giải đấu thành công!!!",
+      "group": {
+        "groupStatistic": "Thống kê nhóm",
+        "playerStatistic": "Thống kê người chơi",
+        "table": {
+          "no": "STT",
+          "match": "Trận đấu",
+          "competitor": "Đối thủ",
+          "score": "Tỷ số",
+          "expired": "Thời gian hết hạn",
+          "loss": "Số trận thua"
+        },
+        "total": "Tổng số thua",
+        "unit": "VNĐ"
+      }
     }
   }
 }
