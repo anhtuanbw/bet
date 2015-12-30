@@ -122,10 +122,6 @@ export default class roundManController {
     roundData.roundListError = '';
 
     if (roundData.hide === true) {
-      // this.roundCompetitor = [];
-      // for (var i = 0; i < roundData.competitorList.length; i++) {
-      //   this.pushCompetitorIdToList(this.tourCompetitor,this.roundCompetitor,roundData.competitorList[i]);
-      // }
       var dataUpdate = {
         'roundId': this.roundID,
         'competitorIds': this.roundCompetitor

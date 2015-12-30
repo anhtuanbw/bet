@@ -9,6 +9,7 @@ import Register from './register/register';
 import DateTimePicker from './match/create-match/date-time-picker';
 import SideBar from './sidebar/sidebar';
 import Unauthorized from './unAuthorized/unAuthorized';
+import betting from './betting-match-management/betting-match-management';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -22,4 +23,5 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('register', () => new Register())
 .directive('sidebar', () => new SideBar())
 .directive('unauthorized', () => new Unauthorized())
-.directive('dateTimePicker', DateTimePicker);
+.directive('dateTimePicker', DateTimePicker)
+.directive('betting', () => new betting());

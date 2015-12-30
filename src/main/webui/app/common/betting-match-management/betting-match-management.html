@@ -1,22 +1,15 @@
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#Matches">Matches</a></li>
-  <li><a href="#Statistic">Statistic</a></li>
-  <li><a href="#Information">Information</a></li>
-</ul>
-<div class="tab-content">
-  <div class="tab-pane fade in active" id="Matches">
+<br>
+<button class="btn btn-primary pull-right clearfix" ng-click=""><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
+<br><br><br>
+<div ng-init="betting.data.roundList = []; betting.loadRound(betting.data)">
+  <div ng-repeat="round in betting.data.roundList">
     <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="text-center">{{round}}</div>
+      </div>
       <div class="panel-body">
-        <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
-        <div class="panel panel-default">
-          <div calss="panel-heading">
-            <h3>Round1</h3>
-          </div>
-        </div>
       </div>
     </div>
+    <br>
   </div>
-  <div class="tab-pane fade" id="Statistic">
-  </div>
-  <div class="tab-pane fade" id="Information"></div>
 </div>

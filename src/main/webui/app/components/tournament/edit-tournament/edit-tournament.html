@@ -1,37 +1,59 @@
 <div ng-controller="EditTournamentController as editor">
 	<div class="panel panel-info">
-		<div class="panel-heading panel-title">
-			<h3 class="panel-title pull-left text-muted" ng-bind="editor.tournamentInfo.name"></h3>
-			<div class="text-right panel-title">
+		<div class="panel-heading panel-title has-minheight">
+			<strong class="panel-title pull-left text-muted font-size" ng-bind="editor.tournamentInfo.name"></strong>
+			<div class="text-right panel-title" ng-show="management.isAdmin">
 				<button class="btn btn-primary" ng-click="editor.activeTournament()" ng-show="!editor.tournamentInfo.activated">Active tournament</button>
 				<button class="btn btn-default" ng-click="editor.createGroup()"><i class="fa fa-plus"></i> New group</button>
 				<button class="btn btn-default" ng-click="editor.openCreateMatch()"><i class="fa fa-plus"></i> New match</button>
 				<button class="btn btn-default" ng-click="editor.openCreateRound()"><i class="fa fa-plus"></i> New round</button>
 			</div>
 		</div>
-		<div class="panel-body">
-			<span><strong>Round</strong></span>
-			<hr/>
-			<div class="row">
-				<div class="col-md-3">
-					<span><strong>Match</strong></span>
+		<div class="panel-body" ng-repeat="round in editor.inforTournament track by $index">
+			<div class="panel panel-default">
+				<div class="showTournament">
+					<div class="panel-heading panel-title">
+						<span><h4 class="padding-round bold" ng-bind="round.name"></h4></span>
+						<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-sort-desc fa-2x pull-right"></i></a>
+						<div ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
+							<hr>
+							<div class="text-center">
+								<h4 class="text-danger padding-button ">Match {{$index + 1}}</h4>
+								<div class="pull-right">
+									<button class="btn btn-default" ng-click="editor.openUpdateScore(match.id)">Update score</button>
+									<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-sort-desc fa-2x"></i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-5 text-right">
+									<strong>{{match.competitor1.name}}</strong>
+								</div>
+								<div class="col-md-2 text-center">
+									<span>{{match.score1}}</span>
+									<span class="space-line">-</span>
+									<span class="space-line">{{match.score2}}</span>
+								</div>
+								<div class="col-md-4 text-left">
+									<span><strong>{{match.competitor2.name}}</strong></span>
+								</div>
+								<div class="distane-top" ng-hide="hideInfo">
+									<div class="col-md-4">
+										<strong><i class="fa fa-clock-o"></i> Time: </strong>
+										<span>{{match.matchTime}}</span>
+									</div>
+									<div class="col-md-4">
+										<strong><i class="fa fa-map-marker"></i> Location: </strong>
+										<span>{{match.location}}</span>
+									</div>
+									<div class="col-md-4">
+										<strong><i class="fa fa-commenting-o"></i> Comment: </strong>
+										<span>{{match.comment}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-md-9">
-					<button class="btn btn-default pull-right">Update scrore</button>
-				</div>
-			</div>
-			<hr/>
-			<div class="col-md-4">
-				<strong>Time: </strong>
-				<span>....</span>
-			</div>
-			<div class="col-md-4">
-				<strong>Location: </strong>
-				<span>xxx</span>
-			</div>
-			<div class="col-md-4">
-				<strong>Comment: </strong>
-				<span>....?</span>
 			</div>
 		</div>
 	</div>
