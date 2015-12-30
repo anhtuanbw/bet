@@ -6,7 +6,21 @@
       "competitors": "Competitors",
       "name": "Tournament name",
       "active": "Active",
-      "activeSuccess": "Active tournament successfully!!!"
+      "activeSuccess": "Active tournament successfully!!!",
+      "group": {
+        "groupStatistic": "Group statistic",
+        "playerStatistic": "Player statistic",
+        "table": {
+          "no": "No",
+          "match": "Match",
+          "competitor": "You choose competitor",
+          "score": "Score (Balance)",
+          "expired": "Expired bet time",
+          "loss": "Loss amount"
+        },
+        "total": "Total loss amount",
+        "unit": "USD"
+      }
     }
   }
 }
