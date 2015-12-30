@@ -10,6 +10,7 @@ import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
+import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.AddCommentInfo;
@@ -35,11 +36,15 @@ public class BettingPlayerService {
     }
 
     public void playBet(PlayerBettingMatchInfo playerBettingMatchInfo) {
-        BettingMatch bettingMatch = bettingMatchRepo.findOne(playerBettingMatchInfo.getMatchId());
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(playerBettingMatchInfo.getBettingMatchId());
         if (isExpired(bettingMatch.getExpiredTime())) {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-is-expired");
         } else if (!bettingMatch.isActivated()) {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-not-active");
+        } else if (!isValidCompetitor(playerBettingMatchInfo.getCompetitorId(), bettingMatch.getMatch())) {
+            throw new DataInvalidException("exception.bettingPlayer.service.competitor-belong-match");
+        } else if (isBet(bettingMatch)) {
+            throw new DataInvalidException("exception.bettingPlayer.service.already-bet");
         } else {
             BettingPlayer bettingPlayer = new BettingPlayer();
             User player = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
@@ -66,6 +71,9 @@ public class BettingPlayerService {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-not-active");
         } else if (isExpired(bettingPlayer.getBettingMatch().getExpiredTime())) {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-is-expired");
+        } else if (!isValidCompetitor(playerBettingMatchInfo.getCompetitorId(),
+                bettingPlayer.getBettingMatch().getMatch())) {
+            throw new DataInvalidException("exception.bettingPlayer.service.competitor-belong-match");
         } else {
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
             bettingPlayer.setBetCompetitor(betCompetitor);
@@ -79,5 +87,15 @@ public class BettingPlayerService {
 
     private boolean isExpired(LocalDateTime time) {
         return time.isBefore(LocalDateTime.now());
+    }
+
+    private boolean isValidCompetitor(Long competitorId, Match match) {
+        return (competitorId.equals(match.getCompetitor1().getId())
+                || competitorId.equals(match.getCompetitor2().getId()));
+    }
+
+    private boolean isBet(BettingMatch bettingMatch) {
+        User player = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
+        return (bettingPlayerRepo.findByPlayerAndBettingMatch(player, bettingMatch) != null);
     }
 }
