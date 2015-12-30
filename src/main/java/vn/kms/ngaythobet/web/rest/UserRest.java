@@ -2,6 +2,7 @@
 package vn.kms.ngaythobet.web.rest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +58,7 @@ public class UserRest {
 
     @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
     public List<User> searchUser(@PathVariable String name) {
-        return userRepo.findTop10ByNameContainingIgnoreCase(name);
+        Pageable topTen = new PageRequest(0, 10);
+        return userRepo.findTop10ByNameContainingIgnoreCase("%"+name+"%", topTen);
     }
 }

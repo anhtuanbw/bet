@@ -63,8 +63,7 @@ public class BettingMatchService {
 
     public void updateBettingMatch(UpdateBettingMatchInfo updateBettingMatchInfo) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(updateBettingMatchInfo.getBettingMatchId());
-        Match match = new Match();
-        match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
+        Match match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
         if (updateBettingMatchInfo.getExpiredTime().isBefore(match.getMatchTime())) {
             bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
             bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
