@@ -21,13 +21,19 @@ export default class EditTournamentController {
   }
 
   createGroup($event) {
+    var self = this;
     this.mdDialog.show({
       controller: 'GroupController',
       controllerAs: 'groupCtrl',
       templateUrl: 'app/common/group/group.html',
       parent: angular.element(document.body),
       targetEvent: $event,
-      clickOutsideToClose: true
+      clickOutsideToClose: true,
+      resolve: {
+        tournamentId: function () {
+          return self.tournamentInfo.id;
+        }
+      }
     });
   }
 

@@ -1,0 +1,65 @@
+<button class="btn btn-default btn-outline" translate="components.tournament.group.groupStatistic"></button>
+<button class="btn btn-primary" translate="components.tournament.group.playerStatistic"></button>
+<h3>User Thai</h3>
+<div class="table-responsive">          
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th translate="components.tournament.group.table.no"></th>
+				<th>
+					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'match';playerHistory.sortReverse = !playerHistory.sortReverse">
+						<span translate="components.tournament.group.table.match"></span>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'match' && playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'match' && !playerHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'competitor';playerHistory.sortReverse = !playerHistory.sortReverse">
+						<span translate="components.tournament.group.table.competitor"></span>  
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'competitor' && playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'competitor' && !playerHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'Score';playerHistory.sortReverse = !playerHistory.sortReverse">
+						<span translate="components.tournament.group.table.score"></span>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Score' && playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Score' && !playerHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'Expired';playerHistory.sortReverse = !playerHistory.sortReverse">
+						<span translate="components.tournament.group.table.expired"></span>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Expired' && playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Expired' && !playerHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'Loss';playerHistory.sortReverse = !playerHistory.sortReverse">
+						<span translate="components.tournament.group.table.loss"></span>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Loss' && playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Loss' && !playerHistory.sortReverse"></i>
+					</a>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="player in playerHistory.data | orderBy:playerHistory.sortType:playerHistory.sortReverse">
+				<td>{{$index}}</td>
+				<td>{{player.match}}</td>
+				<td>{{player.competitor}}</td>
+				<td>{{player.Score}}</td>
+				<td>{{player.Expired}}</td>
+				<td>{{player.Loss}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="col-xs-4 col-xs-offset-8 col-sm-4 col-sm-offset-8 col-md-4 col-md-offset-8">
+		<div class="col-md-8">
+			<h4><strong translate="components.tournament.group.total"></strong></h4>
+		</div>
+		<div class="col-md-4">
+			<h5><strong>0 <span translate="components.tournament.group.unit"></span></strong></h5>
+		</div>
+	</div>
+</div>
