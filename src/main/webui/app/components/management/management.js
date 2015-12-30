@@ -44,7 +44,7 @@ export default class ManagementController {
   }
 
   getAllTournament() {
-    this.tournamentService.getAll()
+    this.tournamentService.findByRole()
     .then(response => {
       this.tournaments = response.data;
     })
