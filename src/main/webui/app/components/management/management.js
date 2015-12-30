@@ -32,10 +32,11 @@ export default class ManagementController {
     this.showView.isGroup = false;
   }
 
-  createGroup() {
+  createGroup(data) {
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
+    this.rootScope.$broadcast('tourID', data);
   }
 
   isAuthorized() {

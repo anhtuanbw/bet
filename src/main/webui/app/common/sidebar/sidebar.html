@@ -20,7 +20,7 @@
             <i class="fa fa-angle-up pull-right" ng-show="showGroup && isClick"></i>
             <div class="tour-group" ng-show="isClick && showGroup">
                 <ul class="list-unstyled">
-                  <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.createGroup();$event.stopPropagation();">
+                  <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.createGroup(tournament.id);$event.stopPropagation();">
                     <a href="javascript:void(0)">
                       <i class="fa fa-users"></i> {{group.name}}
                     </a>

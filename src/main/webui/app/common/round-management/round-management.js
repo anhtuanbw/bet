@@ -111,6 +111,7 @@ export default class roundManController {
       roundData.competitorInComboBox = [];
       roundData.tour = [];
       roundData.name = '';
+      this.modalInstance.dismiss();
     }, function (response) {
       roundData.roundError = response.data.fieldErrors.name;
       roundData.CompetitorError = response.data.fieldErrors.competitorId;
@@ -133,6 +134,7 @@ export default class roundManController {
         roundData.competitorList = [];
         roundData.roundSelected = '';
         roundData.competitorSelected = '';
+        this.modalInstance.dismiss();
       }, function(response){
         roundData.roundListError = response.data.fieldErrors.roundId;
       });

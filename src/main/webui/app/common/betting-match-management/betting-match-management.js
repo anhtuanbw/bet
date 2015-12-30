@@ -2,15 +2,41 @@
 
 export default class BettingMatchController {
   /* @ngInject */
-  constructor(RoundService){
+  constructor(RoundService, $rootScope){
+    this.rootScope = $rootScope;
     this.RoundService = RoundService;
+    this.tourID = 0;
+    this.roundData = {};
   }
+
   loadRound(data){
-    console.log('acb');
-    data.roundList.push('list');
-    data.roundList.push('agh');
-    data.roundList.push('lifryjst');
+    this.rootScope.$on('tourID', (event, tournamentID) => {
+      if (tournamentID) {
+        this.tourID = tournamentID;
+        this.selectGroup(data);
+        data.hide = false;
+      }
+    });
   }
+
+  selectGroup(data){
+    data.roundList = [];
+    data.round = [];
+    this.RoundService.getRoundInTournament(this.tourID)
+    .then(response => {
+      this.roundData = response.data;
+      for (var i = 0; i < response.data.length; i++) {
+        data.roundList.push(response.data[i].name);
+        data.round.push(response.data[i]);
+      }
+    });
+  }
+
+  add(data){
+    data.hide = true;
+  }
+
+
 }
 
 export default class betting {
