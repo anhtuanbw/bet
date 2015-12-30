@@ -19,9 +19,11 @@ public class UpdateBettingMatchInfo {
     private Long bettingMatchId;
     
     @NotNull
+    @Min(value = 0,message = "{validation.balance.invalid}")
     private BigDecimal balance1;
 
     @NotNull
+    @Min(value = 0,message = "{validation.balance.invalid}")
     private BigDecimal balance2;
 
     @NotNull

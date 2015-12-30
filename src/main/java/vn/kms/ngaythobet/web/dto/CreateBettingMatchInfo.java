@@ -18,9 +18,11 @@ import vn.kms.ngaythobet.domain.validation.ModeratorAccess;
 public class CreateBettingMatchInfo {
 
     @NotNull
+    @Min(value = 0,message = "{validation.balance.invalid}")
     private BigDecimal balance1;
 
     @NotNull
+    @Min(value = 0,message = "{validation.balance.invalid}")
     private BigDecimal balance2;
 
     @NotNull
