@@ -26,12 +26,11 @@ public class BettingMatchRest {
 
     @RequestMapping(value = "/createBettingMatch", method = POST)
     public void createBettingMatch(@Valid @RequestBody CreateBettingMatchInfo createBettingMatchInfo) {
-
         bettingMatchService.createBettingMatch(createBettingMatchInfo);
     }
-    
+
     @RequestMapping(value = "/updateBettingMatch", method = POST)
-    public void updateBettingMatch(@Valid @RequestBody UpdateBettingMatchInfo updateBettingMatchInfo){
+    public void updateBettingMatch(@Valid @RequestBody UpdateBettingMatchInfo updateBettingMatchInfo) {
         bettingMatchService.updateBettingMatch(updateBettingMatchInfo);
     }
 }
