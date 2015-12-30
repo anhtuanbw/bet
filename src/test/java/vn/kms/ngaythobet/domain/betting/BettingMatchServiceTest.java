@@ -1,4 +1,4 @@
-package vn.kms.ngaythobet.domain.tournament;
+package vn.kms.ngaythobet.domain.betting;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,6 +18,16 @@ import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
 import vn.kms.ngaythobet.domain.betting.BettingMatchService;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.User.Role;
+import vn.kms.ngaythobet.domain.tournament.Competitor;
+import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
+import vn.kms.ngaythobet.domain.tournament.Group;
+import vn.kms.ngaythobet.domain.tournament.GroupRepository;
+import vn.kms.ngaythobet.domain.tournament.Match;
+import vn.kms.ngaythobet.domain.tournament.MatchRepository;
+import vn.kms.ngaythobet.domain.tournament.Round;
+import vn.kms.ngaythobet.domain.tournament.RoundRepository;
+import vn.kms.ngaythobet.domain.tournament.Tournament;
+import vn.kms.ngaythobet.domain.tournament.TournamentRepository;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
@@ -58,23 +68,14 @@ public class BettingMatchServiceTest extends BaseTest {
     private Group groupTemp;
     private BettingMatch bettingMatchTemp;
 
+    
     @Override
     protected void doStartUp() {
+
+        
         // create 2 users
-        User user1 = new User();
-        user1.setActivated(true);
-        user1.setEmail("hieu1@abc.com");
-        user1.setName("hieu1");
-        user1.setPassword("123467");
-        user1.setRole(Role.USER);
-        user1.setUsername("hieu1");
-        User user2 = new User();
-        user2.setActivated(true);
-        user2.setEmail("hieu2@abc.com");
-        user2.setName("hieu2");
-        user2.setPassword("123467");
-        user2.setRole(Role.USER);
-        user2.setUsername("hieu2");
+        User user1 = createUser(true, "hieu1@abc.com", "hieu1", "123467", Role.USER, "hieu1");
+        User user2 = createUser(true, "hieu2@abc.com", "hieu2", "123467", Role.USER, "hieu2");
         userTemp1 = userRepo.save(user1);
         userTemp2 = userRepo.save(user2);
         // create tournament
@@ -117,6 +118,17 @@ public class BettingMatchServiceTest extends BaseTest {
 
     }
 
+    private User createUser(boolean active,String email, String name, String password,Role role,String userName){
+        User user = new User();
+        user.setActivated(active);
+        user.setEmail(email);
+        user.setName(name);
+        user.setPassword(password);
+        user.setRole(role);
+        user.setUsername(userName);
+        return user;
+    }
+    
     @Test
     public void testCreateBettingMatch() {
         CreateBettingMatchInfo createBettingMatchInfo = new CreateBettingMatchInfo();
@@ -172,5 +184,6 @@ public class BettingMatchServiceTest extends BaseTest {
         tournamentRepo.deleteAll();
         userRepo.deleteAll();
     }
+
 
 }

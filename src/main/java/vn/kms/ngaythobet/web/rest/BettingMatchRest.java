@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.betting.BettingMatchService;
-import vn.kms.ngaythobet.domain.betting.BettingService;
-import vn.kms.ngaythobet.domain.tournament.MatchRepository;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
 
@@ -28,12 +26,11 @@ public class BettingMatchRest {
 
     @RequestMapping(value = "/createBettingMatch", method = POST)
     public void createBettingMatch(@Valid @RequestBody CreateBettingMatchInfo createBettingMatchInfo) {
-
         bettingMatchService.createBettingMatch(createBettingMatchInfo);
     }
-    
+
     @RequestMapping(value = "/updateBettingMatch", method = POST)
-    public void updateBettingMatch(@Valid @RequestBody UpdateBettingMatchInfo updateBettingMatchInfo){
+    public void updateBettingMatch(@Valid @RequestBody UpdateBettingMatchInfo updateBettingMatchInfo) {
         bettingMatchService.updateBettingMatch(updateBettingMatchInfo);
     }
 }
