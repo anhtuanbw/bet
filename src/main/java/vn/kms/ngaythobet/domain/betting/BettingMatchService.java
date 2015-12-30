@@ -76,6 +76,5 @@ public class BettingMatchService {
         } else {
             throw new DataInvalidException("exception.expritedTime.invalid.match");
         }
-
     }
 }
