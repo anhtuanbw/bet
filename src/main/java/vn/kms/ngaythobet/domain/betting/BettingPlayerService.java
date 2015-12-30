@@ -55,7 +55,7 @@ public class BettingPlayerService {
             bettingPlayer.setBetCompetitor(betCompetitor);
             bettingPlayerRepo.save(bettingPlayer);
             if (comment != null) {
-                if (comment.trim().isEmpty()) {
+                if (!comment.trim().isEmpty()) {
                     bettingMatch.setComment(comment);
                     bettingMatchRepo.save(bettingMatch);
                 }
