@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title th:text="#{email.reset.title}">Ngaythobet Password Reset</title>
+        <title th:text="#{email.notify.group.moderator.title}">Ngaythobet New member</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
         <p th:text="#{email.greeting(${user.name})}">Dear [User],</p>
-        <p th:text="#{email.reset.message}">
-            For your Ngaythobet account, a password reset was requested, please click on the URL below to reset it:
+        <p th:text="#{email.notify.group.member.message}">
+            You are now become member of a group, please click on the URL below to view the group information:
         </p>
         <p>
-            <a th:href="@{|${baseUrl}api/reset-password/finish?key=${user.resetKey}|}" th:text="|${user.name}|">|[User]|</a>
+            <a href="@{|${baseUrl}home" th:text="|${group.name}|">Group name</a>
         </p>
         <p>
             <span th:text="#{email.greeting-end}">Regards,</span>

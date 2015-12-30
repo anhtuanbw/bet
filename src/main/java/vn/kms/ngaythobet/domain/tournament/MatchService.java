@@ -5,8 +5,10 @@ import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
+import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,16 +52,63 @@ public class MatchService {
         String username = SecurityContextHolder.getContext()
                 .getAuthentication().getName();
         User user = userRepo.findOneByUsername(username).get();
-        Group group = groupRepo.findByModerator(user);
-        // TODO: check permission for Role MOD
+        List<Group> groups = groupRepo.findByModerator(user);
+
+        if (groups == null) {
+            throw new DataInvalidException("exception.matchService.permission");
+        }
 
         Round round = roundRepo.findOne(createMatchInfo.getRound());
         Tournament tournament = round.getTournament();
 
-        Competitor competitor1 = competitorRepo.getOne(createMatchInfo
+        boolean isModerator = false;
+        if (groups.size() != 0) {
+            for (Group group : groups) {
+                if (group.getTournament().getId().equals(tournament.getId())) {
+                    isModerator = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isModerator) {
+            throw new DataInvalidException("exception.matchService.permission");
+        }
+
+        Competitor competitor1 = competitorRepo.findOne(createMatchInfo
                 .getCompetitor1());
-        Competitor competitor2 = competitorRepo.getOne(createMatchInfo
+        Competitor competitor2 = competitorRepo.findOne(createMatchInfo
                 .getCompetitor2());
+
+        List<Competitor> competitors = competitorRepo.findByRounds(round);
+        int countBelongRound = 0;
+        for (Competitor competitor : competitors) {
+            if (competitor.getId().equals(competitor1.getId())
+                    || competitor.getId().equals(competitor2.getId())) {
+                countBelongRound++;
+            }
+
+            if (countBelongRound == 2) {
+                break;
+            }
+        }
+
+        if (countBelongRound != 2) {
+            throw new DataInvalidException(
+                    "exception.matchService.competitor-belong-round");
+        }
+
+        List<Match> matches = matchRepo.findByRound(round);
+        if (matches.size() != 0) {
+            for (Match match : matches) {
+                if ((match.getCompetitor1().getId().equals(competitor1.getId()))
+                        || (match.getCompetitor2().getId().equals(competitor2
+                                .getId()))) {
+                    throw new DataInvalidException(
+                            "exception.matchService.same-time-for-same-competitor");
+                }
+            }
+        }
 
         if (competitor1.getTournament().getId().equals(tournament.getId())
                 && competitor2.getTournament().getId()
@@ -86,8 +135,12 @@ public class MatchService {
 
     @Transactional(readOnly = true)
     public List<Round> getRounds(Long tournamentId) {
-
         return roundRepo.findByTournamentId(tournamentId);
+    }
+
+    @Transactional(readOnly = true)
+    public Match getMatch(Long matchId) {
+        return matchRepo.findOne(matchId);
     }
 
     @Transactional
@@ -98,9 +151,14 @@ public class MatchService {
     }
 
     @Transactional
-    public void updateScore(long matchId, int competitor1Score,
-            int competitor2Score) {
-        // TODO
+    public void updateScore(UpdateScoreInfo updateScoreInfo) {
+        Match match = matchRepo.findOne(updateScoreInfo.getMatchId());
+        if (LocalDateTime.now().isBefore(match.getMatchTime())) {
+            throw new DataInvalidException("validation.dateFormat.message");
+        }
+        match.setScore1(updateScoreInfo.getCompetitor1Score());
+        match.setScore2(updateScoreInfo.getCompetitor2Score());
+        matchRepo.save(match);
     }
 
     @Transactional(readOnly = true)

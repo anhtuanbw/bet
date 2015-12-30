@@ -32,7 +32,6 @@ public class Tournament extends AuditableEntity {
 
     @MongoDbRef
     @OneToMany(mappedBy = "tournament")
-    @JsonIgnore
     private List<Group> groups;
 
     @MongoDbRef
