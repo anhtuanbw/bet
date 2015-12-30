@@ -61,7 +61,6 @@ public class MatchServiceTest extends BaseTest {
     private Tournament tournamentTemp;
     private Round roundTemp;
     private List<Competitor> competitors;
-    private Competitor competitorTemp;
     private Competitor competitorTemp1;
     private Competitor competitorTemp2;
     private Competitor competitorTemp3;
@@ -86,14 +85,10 @@ public class MatchServiceTest extends BaseTest {
         List<Round> rounds = new ArrayList<Round>();
         rounds.add(roundTemp);
         // Create competitors
-        competitorTemp = createCompetitor("Brazil", tournamentTemp, rounds);
-        competitorTemp1 = competitorRepo.save(competitorTemp);
-        competitorTemp = createCompetitor("France", tournamentTemp, rounds);
-        competitorTemp2 = competitorRepo.save(competitorTemp);
-        competitorTemp = createCompetitor("England", tournamentTemp, rounds);
-        competitorTemp3 = competitorRepo.save(competitorTemp);
-        competitorTemp = createCompetitor("Germany", tournamentTemp, rounds);
-        competitorTemp4 = competitorRepo.save(competitorTemp);
+        competitorTemp1 = competitorRepo.save(createCompetitor("Brazil", tournamentTemp, rounds));
+        competitorTemp2 = competitorRepo.save(createCompetitor("France", tournamentTemp, rounds));
+        competitorTemp3 = competitorRepo.save(createCompetitor("England", tournamentTemp, rounds));
+        competitorTemp4 = competitorRepo.save(createCompetitor("Germany", tournamentTemp, rounds));
 
         competitors = competitorRepo.findAll();
 
