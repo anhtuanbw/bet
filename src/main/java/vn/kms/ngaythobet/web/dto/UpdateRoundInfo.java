@@ -3,8 +3,11 @@ package vn.kms.ngaythobet.web.dto;
 
 import java.util.List;
 import javax.validation.constraints.NotNull;
+
+import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Round;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
+import vn.kms.ngaythobet.domain.validation.ListEntityExist;
 import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 public class UpdateRoundInfo {
@@ -13,6 +16,7 @@ public class UpdateRoundInfo {
     private Long roundId;
     
     @ListUnique(message = "{validation.competitors.unique.message}")
+    @ListEntityExist(type = Competitor.class, message = "{validation.competitors.existed.message}")
     private List<Long> competitorIds;
 
     public Long getRoundId() {

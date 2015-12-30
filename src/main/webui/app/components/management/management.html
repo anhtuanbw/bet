@@ -1,5 +1,19 @@
-	<div ng-init="hide=true" ng-controller="ManagementController as management">
-        <div sidebar ng-show="management.isAuthorized()"></div>
-        <div unauthorized ng-show="!management.isAuthorized()"></div>
+<div ng-init="hide=true" ng-controller="ManagementController as management">
+	<div ng-show="management.isAuthorized()" class="row content" ng-init="showTours=false">
+		<div class="col-sm-3 sidenav">
+			<div sidebar></div>
+		</div>
+		<div class="col-sm-9" style="padding-top:0;">
+			<div class="panel panel-default">
+				<div class="tour-banner">
+					<img ng-src="assets/images/banner-tournament.jpg">
+				</div>
+				<div ng-show="management.showView.isCreate && management.isAdmin" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
+				<div ng-show="management.showView.isEdit" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
+				<div ng-show="management.showView.isGroup" ng-include src="'app/components/tournament/group/group.html'"></div>
+			</div>
+		</div>
 	</div>
-	<toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
+	<div unauthorized ng-show="!management.isAuthorized()"></div>
+</div>
+<toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>

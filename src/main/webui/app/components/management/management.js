@@ -8,6 +8,7 @@ export default class ManagementController {
     this.accountService = AccountService;
     this.tournaments = [];
     this.getAllTournament();
+    this.selectedTour = -1;
     this.showView = {
       isCreate: true,
       isEdit: false,
@@ -32,11 +33,10 @@ export default class ManagementController {
     this.showView.isGroup = false;
   }
 
-  createGroup() {
+  showGroup() {
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
-    console.log('asdfasfd');
   }
 
   isAuthorized() {
@@ -55,6 +55,7 @@ export default class ManagementController {
     this.showView.isEdit = true;
     this.showView.isGroup = false;
     this.showView.isCreate = false;
+    this.selectedTour = tournamentId;
 
     for (var i in this.tournaments)
     {
