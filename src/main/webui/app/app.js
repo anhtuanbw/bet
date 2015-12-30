@@ -8,13 +8,13 @@ import UpdateScoreController from './common/match/update-score/update-score';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
-import RoundManController from './common/round-management/round-management';
-import GroupController from './common/group/group';
+// import RoundManController from './common/round-management/round-management';
+// import GroupController from './common/group/group';
 import ActivatorController from './components/activate/activate';
 import CreateTournamentController from './components/tournament/create-tournament/create-tournament';
 import EditTournamentController from './components/tournament/edit-tournament/edit-tournament';
 import ManagementController from './components/management/management';
-import CreateMatchController from './common/match/create-match/create-match';
+// import CreateMatchController from './common/match/create-match/create-match';
 
 export default class AppController {
   /* @ngInject */
@@ -51,9 +51,9 @@ angular.module('ngaythobet', [
 .controller('CreateTournamentController', CreateTournamentController)
 .controller('EditTournamentController', EditTournamentController)
 .controller('ManagementController', ManagementController)
-.controller('RoundManController', RoundManController)
-.controller('GroupController', GroupController)
-.controller('CreateMatchController', CreateMatchController)
+// .controller('RoundManController', RoundManController)
+// .controller('GroupController', GroupController)
+// .controller('CreateMatchController', CreateMatchController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

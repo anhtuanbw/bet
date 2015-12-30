@@ -11,7 +11,8 @@ export default class ManagementController {
     this.showView = {
       isCreate: true,
       isEdit: false,
-      isGroup: false
+      isGroup: false,
+      isPlayerBettingMatch: true
     };
     this.selected = -1;
     this.cacheService = CacheService;
@@ -39,38 +40,44 @@ export default class ManagementController {
     console.log('asdfasfd');
   }
 
+  playerBettingMatch() {
+    this.showView.isCreate = false;
+    this.showView.isEdit = false;
+    this.showView.isGroup = false;
+    this.isPlayerBettingMatch = true
+  }
+
   isAuthorized() {
-    return this.cacheService.get('loginUser')!= null;
+    return this.cacheService.get('loginUser') != null;
   }
 
   getAllTournament() {
     this.tournamentService.getAll()
-    .then(response => {
-      this.tournaments = response.data;
-    })
-    .catch();
+      .then(response => {
+        this.tournaments = response.data;
+      })
+      .catch();
   }
-  
+
   showTournamenDetail(tournamentId) {
     this.showView.isEdit = true;
     this.showView.isGroup = false;
     this.showView.isCreate = false;
 
-    for (var i in this.tournaments)
-    {
+    for (var i in this.tournaments) {
       if (this.tournaments[i].id === tournamentId) {
         this.rootScope.$broadcast('selectTournament', this.tournaments[i]);
         break;
       }
     }
   }
-  
-   authen() {
+
+  authen() {
     this.accountService.authen()
-    .then(response => {
-      if (response.data) {
-         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
-      }
-    });
+      .then(response => {
+        if (response.data) {
+          this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+        }
+      });
   }
 }
