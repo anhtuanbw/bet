@@ -1,0 +1,14 @@
+{
+  "common": {
+      "group": {
+		"information": {
+			"name": "Group Name",
+			"information": "Information",
+			"moderator": "Moderator",
+			"editGroup": " Edit Group",
+			"groupPlayers": "Group Players",
+			"update-success": "Update group successfully!!!"
+		}
+      }
+  }
+}
