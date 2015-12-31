@@ -52,4 +52,5 @@ export default class TournamentService {
       headers: {'Accept': '*/*', 'x-auth-token': token}
     });
   }
+ 
 }

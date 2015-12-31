@@ -17,5 +17,9 @@
     "angular-tags-input": "ng-tags-input#3.0.0",
     "eonasdan-bootstrap-datetimepicker": "eonasdan-bootstrap-datetimepicker#latest",
     "angular-material": "~1.0.1"
+  },
+  "dependencies": {
+    "sockjs": "~0.3.4",
+    "stomp-websocket": "2.3.1"
   }
 }
