@@ -35,7 +35,7 @@ public class BettingPlayerService {
         this.userRepo = userRepo;
     }
 
-    public void playBet(PlayerBettingMatchInfo playerBettingMatchInfo) {
+    public void playBet(PlayerBettingMatchInfo playerBettingMatchInfo,String username) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(playerBettingMatchInfo.getBettingMatchId());
         String comment = bettingMatch.getComment();
         if (isExpired(bettingMatch.getExpiredTime())) {
@@ -48,7 +48,7 @@ public class BettingPlayerService {
             throw new DataInvalidException("exception.bettingPlayer.service.already-bet");
         } else {
             BettingPlayer bettingPlayer = new BettingPlayer();
-            User player = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
+            User player = userRepo.findOneByUsername(username).get();
             bettingPlayer.setPlayer(player);
             bettingPlayer.setBettingMatch(bettingMatch);
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());

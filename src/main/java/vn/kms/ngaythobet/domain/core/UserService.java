@@ -152,4 +152,9 @@ public class UserService {
         random.nextBytes(bytes);
         return DigestUtils.md5DigestAsHex(bytes);
     }
+
+    public User getUsernameByUsername(String username) {
+        Optional<User> user = userRepo.findOneByUsername(username);
+        return user.get();
+    }
 }

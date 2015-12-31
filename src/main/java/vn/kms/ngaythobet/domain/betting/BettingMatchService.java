@@ -67,4 +67,8 @@ public class BettingMatchService {
         bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
         bettingMatchRepo.save(bettingMatch);
     }
+
+    public BettingMatch getBettingMatchById(Long id) {
+        return bettingMatchRepo.findOne(id);
+    }
 }

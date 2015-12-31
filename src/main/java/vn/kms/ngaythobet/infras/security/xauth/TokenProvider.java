@@ -1,12 +1,20 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.infras.security.xauth;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+
+import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.UserService;
+import vn.kms.ngaythobet.domain.util.Constants;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,7 +24,10 @@ public class TokenProvider {
 
     private final String secretKey;
     private final int tokenValidity;
-    private final  Cache<String, Object> tokenCache;
+    private final Cache<String, Object> tokenCache;
+    @Autowired
+    private UserService userService;
+
     public TokenProvider(String secretKey, int tokenValidity) {
         this.secretKey = secretKey;
         this.tokenValidity = tokenValidity;
@@ -80,5 +91,21 @@ public class TokenProvider {
 
     public void removeToken(String token) {
         tokenCache.invalidate(token);
+    }
+
+    public User getUsernameByHeader(SimpMessageHeaderAccessor headerAccessor) {
+        MultiValueMap<String, String> nativeHeaders = headerAccessor
+                .getMessageHeaders()
+                .get(StompHeaderAccessor.NATIVE_HEADERS, MultiValueMap.class);
+        String token = null;
+        if (nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME) != null
+                && !nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME)
+                        .isEmpty()) {
+            token = nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).get(0);
+            String username = getUsernameFromToken(token);
+            User user = userService.getUsernameByUsername(username);
+            return user;
+        }
+        return null;
     }
 }
