@@ -17,6 +17,10 @@
       "reset-password": {
       	"title": "Forgot Password",
       	"mark": "Please enter your email to reset password"
+      },
+      "reset-passwordSuccess": {
+        "title": "Reset password success",
+        "mark": "Your password has been changed successfully, Please login again!"
       }
   }
 }
