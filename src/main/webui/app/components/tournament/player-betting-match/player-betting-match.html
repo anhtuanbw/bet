@@ -1,0 +1,44 @@
+<div ng-controller="PlayerBettingMatchController as player">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-6 border-right">
+          <h3 class="padding">Betting Match</h3>
+          <div class="pull-right">
+            <button class="btn btn-danger">You lose: 0 VND</button>
+          </div>
+          <hr>
+          <div class="text-center">
+            <h4 class="text-muted">Round 3</h4>
+          </div>
+          <div class="col-sm-5 text-right">
+            <strong>Liverpool <i class="fa fa-users"></i></strong>
+            <div class="margin-choose">
+              <button type="button" class="btn btn-primary btn-lg raised"> Choose Liverpool</button>
+            </div>
+          </div>
+          <div class="col-sm-2 text-center">
+            <span>?</span>
+            <span class="space-line">-</span>
+            <span class="space-line">?</span>
+          </div>
+          <div class="col-sm-5 text-left">
+            <span><strong><i class="fa fa-users"></i> Chelsea</strong></span>
+            <div class="margin-choose">
+              <button type="button" class="btn btn-primary btn-lg raised"><i class="fa fa-check"></i> Choose Chelsea</button>
+            </div>
+          </div>
+          <div class="margin-choose">
+            <div class="input-group">
+              <input type="text" ng-model="player.comment" class="form-control">
+              <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()" type="button">Comment</button></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <h3 class="padding">Match Information</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
