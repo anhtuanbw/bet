@@ -12,13 +12,14 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.security.util.FieldUtils;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 
 public class ExprivatedTimeValidValidator implements ConstraintValidator<ExpritedTimeValid, Object> {
 
     private Class<? extends AuditableEntity> entity;
-    private String firstField;
-    private String secondField;
-    private String thirdField;
+    private String entityId;
+    private String targetField;
+    private String fieldName;
     private String message;
 
     @PersistenceContext
@@ -26,33 +27,31 @@ public class ExprivatedTimeValidValidator implements ConstraintValidator<Exprite
 
     public void initialize(ExpritedTimeValid annotation) {
         this.entity = annotation.type();
-        firstField = annotation.firstField();
-        secondField = annotation.secondField();
-        thirdField = annotation.thirdField();
+        entityId = annotation.entityId();
+        targetField = annotation.targetField();
+        fieldName = annotation.fieldName();
         message = annotation.message();
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        boolean isvalid;
         try {
-            final Long firstValue = (Long) FieldUtils.getFieldValue(value, firstField);
-            final LocalDateTime secondValue = (LocalDateTime) FieldUtils.getFieldValue(value, secondField);
+            final Long entityIdValue = (Long) FieldUtils.getFieldValue(value, entityId);
+            final LocalDateTime targetFieldValue = (LocalDateTime) FieldUtils.getFieldValue(value, targetField);
             Query query = em
-                    .createQuery("select " + thirdField + " from " + entity.getName() + " where id=" + firstValue);
-            if (secondValue.isAfter((LocalDateTime) query.getSingleResult())) {
-                isvalid = false;
-            } else {
-                isvalid = true;
-            }
+                    .createQuery("select " + fieldName + " from " + entity.getName() + " where id=" + entityIdValue);
+            if (!query.getResultList().isEmpty()) {
+                if (!targetFieldValue.isBefore((LocalDateTime) query.getSingleResult())) {
+                    context.disableDefaultConstraintViolation();
+                    context.buildConstraintViolationWithTemplate(message).addPropertyNode(targetField)
+                            .addConstraintViolation();
+                    return false;
+                }
+            } 
         } catch (Exception ex) {
-            throw new RuntimeException("Could not compare field value of " + firstField + " and " + secondField, ex);
-        }
-        if (!isvalid) {
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(message).addPropertyNode(secondField).addConstraintViolation();
+            throw new RuntimeException("Could not compare field value of " + entityId + " and " + targetField, ex);
         }
 
-        return isvalid;
+        return true;
     }
 }

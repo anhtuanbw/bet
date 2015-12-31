@@ -48,7 +48,8 @@ public class RoundService {
     private boolean competitorsIsExistedInRound(List<Long> newCompetitorIds, long roundId) {
         List<Long> currentCompetitorIds = roundRepo.getOne(roundId).getCompetitors().stream()
                 .map(competitor -> competitor.getId()).collect(Collectors.toList());
-        return (currentCompetitorIds.stream().filter(currentCompetitorId -> newCompetitorIds.contains(currentCompetitorId)).count() != 0);
+        return (currentCompetitorIds.stream()
+                .filter(currentCompetitorId -> newCompetitorIds.contains(currentCompetitorId)).count() != 0);
     }
 
     public void createRound(CreateRoundInfo createRoundInfo) {
@@ -61,11 +62,7 @@ public class RoundService {
                 List<Competitor> competitors = new ArrayList<>();
                 competitors = getCompetitorsByCompetitorIds(createRoundInfo.getCompetitorIds());
                 round.setCompetitors(competitors);
-                if (competitorsIsExistedTournament(competitors, createRoundInfo.getTournamentId())) {
-                    roundRepo.save(round);
-                } else {
-                    throw new DataInvalidException("exception.competitor.not-exist-tournament");
-                }
+                roundRepo.save(round);
             } else {
                 roundRepo.save(round);
             }

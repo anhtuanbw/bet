@@ -14,7 +14,7 @@ import vn.kms.ngaythobet.domain.validation.ExpritedTimeValid;
 import vn.kms.ngaythobet.domain.validation.ModeratorAccess;
 
 @ModeratorAccess
-@ExpritedTimeValid(firstField = "matchId", secondField = "expiredTime", thirdField = "matchTime", type = Match.class)
+@ExpritedTimeValid(entityId = "matchId", targetField = "expiredTime", fieldName = "matchTime", type = Match.class, message = "{validation.bettingMatch.expritedTime.message}")
 public class UpdateBettingMatchInfo {
 
     @EntityExist(type = BettingMatch.class)

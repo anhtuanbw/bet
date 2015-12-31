@@ -14,23 +14,23 @@ import javax.validation.Payload;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 
-@Target({TYPE, ANNOTATION_TYPE})
+@Target({ TYPE, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = ExprivatedTimeValidValidator.class)
+@Constraint(validatedBy = ListEntityJoinedValidValidator.class)
 @Documented
-public @interface ExpritedTimeValid {
+public @interface ListEntityJoinedValid {
 
-    String message() default "{validation.expritedTime.message}";
+    String message() default "{validation.listEntityJoined.message}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-    
+
     Class<? extends AuditableEntity> type();
 
     String entityId();
 
-    String targetField();
-    
     String fieldName();
+    
+    String entities();
 }
