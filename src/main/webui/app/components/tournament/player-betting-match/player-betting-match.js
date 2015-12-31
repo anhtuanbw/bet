@@ -1,50 +1,41 @@
 'use strict';
 
 export default class PlayerBettingMatchController {
-	/* @ngInject */
-	constructor($rootScope, CacheService) {
-		this.cacheService = CacheService;
-		this.comment = '';
-		this.connect();
+  /* @ngInject */
+  constructor($rootScope, CacheService) {
+    this.cacheService = CacheService;
+	this.comment = '';
+    this.stompClient = null;
+	this.connect();
 	}
 
-	connect() {
-		this.disconnect();
-		var socket = new SockJS('/hello');
-		stompClient = Stomp.over(socket);
+  connect() {
+	var token = this.cacheService.get('loginUser');
+	var socket = new SockJS('/betting-match');
+	this.stompClient = Stomp.over(socket);
 
-		stompClient.connect({}, function (frame) {
-			setConnected(true);
-			console.log('Connected: ' + frame);
-			stompClient.subscribe('/topic/greetings/1', function (greeting) {
-				showGreeting(JSON.parse(greeting.body).content);
-			});
-		});
+	var self = this;
+	this.stompClient.connect({}, function (frame) {
+	  self.stompClient.subscribe('/topic/comment/1', function (comment) {
+		  
+	  });
+	});
+  }
+
+  disconnect() {
+	var self = this;
+	if (self.stompClient != null) {
+		self.stompClient.disconnect();
 	}
+  }
 
-	disconnect() {
-		if (stompClient != null) {
-			stompClient.disconnect();
-		}
-		setConnected(false);
-		console.log("Disconnected");
+  sendComment() {
+	var self = this;
+	var token = this.cacheService.get('loginUser');
+	var requestBody = {
+		"bettingMatchId": 10,
+		"comment": "12312"
 	}
-
-	sendComment() {
-		var token = this.cacheService.get('loginUser');
-		stompClient.send("/app/api/greetings/1", { "x-auth-token": token}, JSON.stringify({ 'comment': this.comment }));
-	}
-}
-
-// export default class PlayerBettingMatch {
-//   /* @ngInject */
-//   constructor() {
-//     return {
-//       replace: true,
-//       scope: true,
-//       controller: PlayerBettingMatchController,
-//       controllerAs: 'player',
-//       templateUrl: 'app/components/tournament/player-betting-match/player-betting-match.html'
-//     };
-//   }
+	self.stompClient.send("/app/betting-match/comment/1", { "x-auth-token": token }, JSON.stringify(requestBody));
+  }
 }
