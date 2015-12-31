@@ -27,7 +27,6 @@ public class Group extends AuditableEntity {
     private User moderator;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToMany(targetEntity = vn.kms.ngaythobet.domain.core.User.class)
     @JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id") })
