@@ -33,11 +33,12 @@ export default class ManagementController {
     this.showView.isGroup = false;
   }
 
-  showGroup(group, tournamentName) {
+  showGroup(tournament, group) {
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
-    group.tournamentName = tournamentName;
+    this.rootScope.$broadcast('tourID', tournament.id, group.id);
+    group.tournamentName = tournament.name;
     this.rootScope.$broadcast('selectGroup', group);
   }
 
@@ -52,7 +53,7 @@ export default class ManagementController {
     })
     .catch();
   }
-  
+
   showTournamenDetail(tournamentId) {
     this.showView.isEdit = true;
     this.showView.isGroup = false;
@@ -67,7 +68,7 @@ export default class ManagementController {
       }
     }
   }
-  
+
    authen() {
     this.accountService.authen()
     .then(response => {

@@ -5,6 +5,7 @@ import {service} from './services/services'; // jshint ignore:line
 import {common} from './common/common'; // jshint ignore:line
 import HomeController from './components/home/home';
 import UpdateScoreController from './common/match/update-score/update-score';
+import PlayerBettingMatchController from './components/tournament/player-betting-match/player-betting-match';
 import ResetPasswordController from './common/reset-password/reset-password';
 import ResetPasswordFinishController from './components/reset-passwordFinish/reset-passwordFinish';
 import ChangePasswordController from './common/change-password/change-password';
@@ -18,6 +19,7 @@ import CreateMatchController from './common/match/create-match/create-match';
 import TournamentGroupController from './components/tournament/group/group';
 import ResetPasswordSuccessController from './common/reset-passwordSuccess/reset-passwordSuccess';
 import UpdateGroupController from './common/update-group/update-group';
+import CreateBettingController from './common/create-betting-match/create-betting-match';
 
 export default class AppController {
   /* @ngInject */
@@ -60,6 +62,8 @@ angular.module('ngaythobet', [
 .controller('TournamentGroupController', TournamentGroupController)
 .controller('ResetPasswordSuccessController', ResetPasswordSuccessController)
 .controller('UpdateGroupController', UpdateGroupController)
+.controller('PlayerBettingMatchController', PlayerBettingMatchController)
+.controller('CreateBettingController', CreateBettingController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

@@ -11,6 +11,8 @@ import SideBar from './sidebar/sidebar';
 import Unauthorized from './unAuthorized/unAuthorized';
 import PlayerHistory from './player-history/player-history';
 import Comment from './comment/comment';
+import betting from './betting-match-management/betting-match-management';
+import createBet from './create-betting-match/create-betting-match';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -26,4 +28,6 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('unauthorized', () => new Unauthorized())
 .directive('playerhistory', () => new PlayerHistory())
 .directive('comment', () => new Comment())
-.directive('dateTimePicker', DateTimePicker);
+.directive('dateTimePicker', DateTimePicker)
+.directive('betting', () => new betting())
+.directive('createBet', () => new createBet());
