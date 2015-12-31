@@ -1,22 +1,23 @@
-<div class="modal-content">
+<div class="modal-content" ng-init="createBet.loadData(createBet.data)">
   <div class="modal-header">
-    <h4 class="modal-title">Create Betting Match</h4>
+  <button type="button" class="close" ng-click="createBet.closeModal()">&times;</button>
+      <h4 class="modal-title">Create Betting Match</h4>
   </div>
   <div class="modal-body">
     <p><strong>Match</Strong></p>
-      <div>
-        <span ng-bind="createBet.data.competitor1"></span> -
-        <span ng-bind="createBet.data.competitor2"></span>
+      <div class="text-center">
+        <span ng-bind="createBet.data.competitor1"></span> - <span ng-bind="createBet.data.competitor2"></span>
       </div>
     <br>
     <p><strong>Balance<span class="text-danger">*</span></strong></p>
     <p>
       <div class="form-inline text-center">
-        <div class="col-md-6">
-          <input type="text" class="form-control" ng-model="createBet.data.balance1">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <input type="number" class="form-control" ng-model="createBet.data.balance1">
         </div>
-        <div class="col-md-6">
-          <input type="text" class="form-control" ng-model="createBet.data.balance2">
+        <div class="col-md-5">
+          <input type="number" class="form-control" ng-model="createBet.data.balance2">
         </div>
       </div>
     </p>
@@ -30,13 +31,19 @@
         </div>
     </div>
     <p><strong>Bet amount<span class="text-danger">*</span></strong></p>
-    <input type="text" class="form-control">
+    <input type="number" class="form-control" ng-model="createBet.data.amount">
     <br>
     <p><strong>Description<span class="text-danger">*</span></strong></p>
-    <textarea class="form-control" rows="3"></textarea>
+      <textarea class="form-control" rows="3" ng-model="createBet.data.description"></textarea>
+    <br>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="createBet.data.active"> Activate
+      </label>
+    </div>
     <hr>
     <div class="pull-right">
-      <button type="button" class="btn btn-primary" ng-click="createBet.create()">Create</button>
+      <button type="button" class="btn btn-primary" ng-click="createBet.create(createBet.data)">Create</button>
       <button type="button" class="btn btn-primary" ng-click="createBet.cancel()">Cancel</button>
     </div>
     <br>

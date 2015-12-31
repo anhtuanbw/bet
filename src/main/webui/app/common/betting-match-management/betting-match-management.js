@@ -43,11 +43,17 @@ export default class BettingMatchController {
     return String(new Date(...date));
   }
 
-  chooseMatch(){
+  chooseMatch(data){
+    data.groupID = this.groupID;
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
       controller: 'CreateBettingController',
-      controllerAs: 'createBet'
+      controllerAs: 'createBet',
+      resolve: {
+        matchInfo: function () {
+          return data;
+        }
+      }
     });
   }
 

@@ -33,7 +33,7 @@
           <td>{{row.competitor1.name}} - {{row.competitor2.name}}</td>
           <td>{{betting.parseTime(row.matchTime)}}</td>
           <td>{{row.location}}</td>
-  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch()">Choose</button></td>
+  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch(row)">Choose</button></td>
   			</tr>
   		</tbody>
   	</table>
