@@ -2,19 +2,18 @@ package vn.kms.ngaythobet.web.dto;
 
 import static vn.kms.ngaythobet.domain.util.Constants.WHITE_SPACE_REGEX;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import vn.kms.ngaythobet.domain.betting.BettingPlayer;
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 
 public class AddCommentInfo {
-    @NotEmpty
-    @EntityExist(type = BettingPlayer.class)
+    @NotNull
+    @EntityExist(type = BettingMatch.class)
     private Long bettingMatchId;
 
-    @NotEmpty
+    @NotNull
     @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.pattern.blankspace}")
     private String comment;
 
