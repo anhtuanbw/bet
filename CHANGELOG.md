@@ -1,3 +1,19 @@
+ngaythobet - v0.0.5 / 2015-12-29
+================================
+
+* [#8 API, #28 UI] Create Tournaments.
+* [#9 API, #31 UI] Create Matches.
+* [#10 API, #32 UI] Create Group.
+* [#29 API, #30 UI] Create Round.
+* [#33 UI] Home page and sidebar.
+* [#52 UI] Fixture list and update score.
+* [#59 API] Adding members to the Group.
+**Improvement**
+
+**Bug**
+* Devs didn't find bugs for this release.
+
+
 ngaythobet - v0.0.4 / 2015-12-24
 ================================
 
