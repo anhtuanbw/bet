@@ -33,10 +33,11 @@ export default class ManagementController {
     this.showView.isGroup = false;
   }
 
-  showGroup() {
+  showGroup(data, groupID) {
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
+    this.rootScope.$broadcast('tourID', data, groupID);
   }
 
   isAuthorized() {
@@ -50,7 +51,7 @@ export default class ManagementController {
     })
     .catch();
   }
-  
+
   showTournamenDetail(tournamentId) {
     this.showView.isEdit = true;
     this.showView.isGroup = false;
@@ -65,7 +66,7 @@ export default class ManagementController {
       }
     }
   }
-  
+
    authen() {
     this.accountService.authen()
     .then(response => {

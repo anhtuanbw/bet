@@ -29,13 +29,11 @@ export default class ChangePasswordController {
         self.pop('success', self.popTitle, successMessage);
         self.data = {};
         successMessage = '';
-        self.location.path('/home');
         const token = response.data.token;
         if (token) {
           
           // reset new token
           self.cacheService.set('loginUser', token);
-          self.location.path('/home');
         }
       })
       .catch(response => {
