@@ -10,8 +10,8 @@
         </div>
     </li>
     <div ng-hide="showTours">
-        <li class="list-group-item child" ng-init="active=false; showGroup=tournament.groups.length>0" ng-repeat="tournament in management.tournaments" ng-click="management.showTournamenDetail(tournament.id); active=!active" ng-class="{'selected': active, 'choose':$index == management.selected}" ng-focus="management.select($index)">
-            <a href="javascript:void(0)" ng-focus="management.select($index)">
+        <li class="list-group-item child" ng-init="active=false; showGroup=tournament.groups.length>0" ng-repeat="tournament in management.tournaments" ng-click="active=!active" ng-class="{'selected': active, 'choose':$index == management.selected}" ng-focus="management.select($index)">
+            <a href="javascript:void(0)" ng-focus="management.select($index)" ng-click="management.showTournamenDetail(tournament.id)">
             <i class="fa fa-th-large"></i> {{ tournament.name }} 
             <span class="label label-info" ng-show="showGroup" ng-bind="tournament.groups.length"></span>
             </a>
