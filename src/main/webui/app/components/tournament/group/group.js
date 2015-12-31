@@ -12,7 +12,6 @@ export default class TournamentGroupController {
     this.isMod = false;
     this.authen();
     this.rootScope.$on('selectGroup', (event, groupInfo) => {
-      console.log(groupInfo);
       if (groupInfo) {
         if(groupInfo.tournamentName) {
           this.tournamentName = groupInfo.tournamentName;
