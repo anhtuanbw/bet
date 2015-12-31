@@ -18,7 +18,7 @@
 						<div ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
 							<hr>
 							<div class="text-center">
-								<h4 class="text-danger padding-button ">Match {{$index + 1}}</h4>
+								<h4 class="text-danger padding-button">Match {{$index + 1}}</h4>
 								<div class="pull-right">
 									<button class="btn btn-default" ng-click="editor.openUpdateScore(match.id)">Update score</button>
 									<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-sort-desc fa-2x"></i></a>
