@@ -3,6 +3,8 @@ package vn.kms.ngaythobet;
 
 import static vn.kms.ngaythobet.domain.core.User.Role.USER;
 
+import java.util.Collections;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -72,6 +74,7 @@ public abstract class BaseTest {
         user.setName(username + " User");
         user.setLanguageTag("en");
         user.setActivated(true);
+        user.setGroups(Collections.emptyList());
         user.setRole(USER);
 
         return user;
