@@ -16,6 +16,8 @@ import CreateTournamentController from './components/tournament/create-tournamen
 import EditTournamentController from './components/tournament/edit-tournament/edit-tournament';
 import ManagementController from './components/management/management';
 import CreateMatchController from './common/match/create-match/create-match';
+import TournamentGroupController from './components/tournament/group/group';
+import ResetPasswordSuccessController from './common/reset-passwordSuccess/reset-passwordSuccess';
 
 export default class AppController {
   /* @ngInject */
@@ -55,6 +57,8 @@ angular.module('ngaythobet', [
 .controller('RoundManController', RoundManController)
 .controller('GroupController', GroupController)
 .controller('CreateMatchController', CreateMatchController)
+.controller('TournamentGroupController', TournamentGroupController)
+.controller('ResetPasswordSuccessController', ResetPasswordSuccessController)
 .controller('PlayerBettingMatchController', PlayerBettingMatchController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info

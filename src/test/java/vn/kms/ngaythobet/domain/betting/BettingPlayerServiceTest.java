@@ -95,7 +95,7 @@ public class BettingPlayerServiceTest extends BaseTest {
         // add round
         Round round = new Round();
         round.setTournament(tournamentTemp);
-        round.setName("hieusida");
+        round.setName("round 1");
         roundTemp = roundRepo.save(round);
         // add 2 competitors
         Competitor competitor1 = new Competitor(tournamentTemp, "England");
@@ -145,9 +145,10 @@ public class BettingPlayerServiceTest extends BaseTest {
         PlayerBettingMatchInfo playerBettingMatchInfo = new PlayerBettingMatchInfo();
         playerBettingMatchInfo.setComment("test");
         playerBettingMatchInfo.setCompetitorId(competitorTemp1.getId());
-        playerBettingMatchInfo.setMathchId(matchTemp.getId());
+        playerBettingMatchInfo.setBettingMatchId(bettingMatchTemp.getId());
         bettingPlayerService.playBet(playerBettingMatchInfo);
         assertThat(bettingPlayerRepo.findAll().size(), equalTo(2));
+        assertThat(bettingMatchRepo.findOne(bettingMatchTemp.getId()).getComment(), equalTo("test"));
     }
 
     @Test

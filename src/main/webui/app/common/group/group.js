@@ -2,18 +2,21 @@
 
 export default class GroupController {
   /* @ngInject */
-  constructor(GroupService, TournamentService, UserService, $mdDialog, toaster) {
+  constructor(GroupService, TournamentService, UserService, $mdDialog, $rootScope, toaster, tournamentId) {
     this.groupService = GroupService;
     this.tournamentService = TournamentService;
     this.userService = UserService;
     this.mdDialog = $mdDialog;
+    this.rootScope = $rootScope;
     this.toaster = toaster;
 
     this.moderators = this.getModerators();
     this.getTournaments();
     this.selectedItem = null;
     this.querySearch = this.querySearch;
-    this.groupData = {};
+    this.groupData = {
+      tournament: tournamentId
+    };
     this.error = {};
   }
 
@@ -56,6 +59,7 @@ save() {
   .then(response => {
     if (response.status === 200) {
       this.toaster.pop('success', 'Create group', 'app/common/group/create-success.html', null, 'template');
+      this.rootScope.$broadcast('addTournament');
       self.cancel();
     }
   })

@@ -25,6 +25,15 @@ export default class TournamentService {
       headers: {'Accept': '*/*', 'x-auth-token': token}
     });
   }
+
+  findByRole() {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: 'api/tournaments/findByRole',
+      headers: {'Accept': '*/*', 'x-auth-token': token}
+    });
+  }
   
   active(id) {
     var token = this.cacheService.get('loginUser');
