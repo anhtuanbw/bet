@@ -9,8 +9,12 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.User.Role;
+import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.web.dto.CreateTournamentInfo;
 
 public class TournamentServiceTest extends BaseTest {
@@ -21,13 +25,19 @@ public class TournamentServiceTest extends BaseTest {
     @Autowired
     private CompetitorRepository competitorRepo;
 
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private GroupRepository groupRepo;
+
+    @Autowired
     private TournamentService tournamentService;
 
     private Tournament temp;
 
     @Override
     protected void doStartUp() {
-        tournamentService = new TournamentService(tournamentRepo, competitorRepo);
         Tournament tournament = new Tournament();
         tournament.setActivated(false);
         tournament.setName("Euro");
@@ -65,6 +75,35 @@ public class TournamentServiceTest extends BaseTest {
     public void testActivateTournament() {
         tournamentService.activateTournament(temp.getId());
         assertThat(tournamentService.findById(temp.getId()).isActivated(), equalTo(true));
+    }
+
+    @Test
+    @Transactional
+    public void testFindAllTournamentOfUser() {
+        User admin = makeUser("admin");
+        admin.setRole(Role.ADMIN);
+        userRepo.save(admin);
+        User userA = getDefaultUser();
+        userRepo.save(userA);
+        User userB = makeUser("Tester1");
+        userRepo.save(userB);
+
+        List<User> members = new ArrayList<>();
+        members.add(userA);
+        Group group = new Group();
+        group.setName("Launch 4");
+        group.setTournament(temp);
+        group.setModerator(userA);
+        group.setMembers(members);
+        groupRepo.save(group);
+
+        mockLoginUser(admin.getUsername());
+        List<Tournament> tournaments = tournamentService.findAllTournamentOfUser();
+        assertThat(1, equalTo(tournaments.size()));
+
+        mockLoginUser(userB.getUsername());
+        tournaments = tournamentService.findAllTournamentOfUser();
+        assertThat(0, equalTo(tournaments.size()));
     }
 
     @After

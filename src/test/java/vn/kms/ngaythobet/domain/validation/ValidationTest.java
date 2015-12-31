@@ -11,10 +11,14 @@ import vn.kms.ngaythobet.domain.core.User;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.Pattern;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static vn.kms.ngaythobet.domain.util.Constants.WHITE_SPACE_REGEX;
 
 public class ValidationTest extends BaseTest {
     @Autowired
@@ -54,8 +58,8 @@ public class ValidationTest extends BaseTest {
     public void testFieldUniqueValidation() {
         User defaultUser = getDefaultUser();
 
-        UserData data = new UserData(defaultUser.getUsername(), "test@test.local", "Test@123",
-                                    "Test@123", defaultUser.getId());
+        UserData data = new UserData(defaultUser.getUsername(), "test@test.local", "Test@123", "Test@123",
+                defaultUser.getId());
         Set<ConstraintViolation<UserData>> violations = validator.validate(data);
         assertThat(violations.size(), equalTo(1));
 
@@ -75,24 +79,47 @@ public class ValidationTest extends BaseTest {
         assertThat(violations.size(), equalTo(5));
         violations.forEach(violation -> {
             switch (violation.getPropertyPath().toString()) {
-                case "username":
-                    assertThat(violation.getMessage(), equalTo("'tester' is already existed"));
-                    break;
-                case "email":
-                    assertThat(violation.getMessage(), equalTo("email not valid"));
-                    break;
-                case "password":
-                    assertThat(violation.getMessage(), equalTo("Password must contain at least six of uppercase, "
-                            + "lowercase letters, numbers and special characters"));
-                    break;
-                case "confirmPassword":
-                    assertThat(violation.getMessage(), equalTo("is not matched"));
-                    break;
-                case "manager":
-                    assertThat(violation.getMessage(), equalTo("is not existed"));
-                    break;
+            case "username":
+                assertThat(violation.getMessage(), equalTo("'tester' is already existed"));
+                break;
+            case "email":
+                assertThat(violation.getMessage(), equalTo("email not valid"));
+                break;
+            case "password":
+                assertThat(violation.getMessage(), equalTo("Password must contain at least six of uppercase, "
+                        + "lowercase letters, numbers and special characters"));
+                break;
+            case "confirmPassword":
+                assertThat(violation.getMessage(), equalTo("is not matched"));
+                break;
+            case "manager":
+                assertThat(violation.getMessage(), equalTo("is not existed"));
+                break;
             }
         });
+    }
+
+    @Test
+    public void testListUniqueAndWhiteSpaceValidation() {
+        List<Long> competitorIds = new ArrayList<>();
+        competitorIds.add((long) 1);
+        competitorIds.add((long) 1);
+        competitorIds.add((long) 2);
+        TournamentData tournamentData = new TournamentData("   test white space     ", competitorIds);
+        Set<ConstraintViolation<TournamentData>> violations = validator.validate(tournamentData);
+        assertThat(violations.size(), equalTo(2));
+    }
+
+    static class TournamentData {
+        @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.pattern.blankspace}")
+        String tournamentName;
+        @ListUnique
+        List<Long> competitorIds;
+
+        public TournamentData(String tournamentName, List<Long> competitorIds) {
+            this.tournamentName = tournamentName;
+            this.competitorIds = competitorIds;
+        }
     }
 
     @FieldMatch(firstField = "password", secondField = "confirmPassword")
@@ -103,8 +130,7 @@ public class ValidationTest extends BaseTest {
         @Email
         String email;
 
-        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#$%&'()*+,-./:!<=>?@\\^_`\\[\\]{|}~;])\\S{6,50}$",
-                message = "{validation.password.message}")
+        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#$%&'()*+,-./:!<=>?@\\^_`\\[\\]{|}~;])\\S{6,50}$", message = "{validation.password.message}")
         String password;
 
         @NotEmpty

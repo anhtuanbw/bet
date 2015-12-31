@@ -2,30 +2,39 @@
 
 export default class ResetPasswordFinishController {
   /* @ngInject */
-  constructor(AccountService, $location) {
+  constructor(AccountService, $location, $modal) {
     this.accountService = AccountService;
     this.location = $location;
+    this.modal = $modal;
     this.errorMessage = {};
   }
 
   resetPasswordFinish(resetPasswordInfo) {
-    var vm = this;
-    this.accountService.resetPasswordFinish(vm.location.search().key, resetPasswordInfo)
+    var self = this;
+    self.resetSuccess = function() {
+      this.modal.open({
+        templateUrl: 'app/common/reset-passwordSuccess/reset-passwordSuccess.html',
+        controller: 'ResetPasswordSuccessController',
+        controllerAs: 'resetpasswordSuccess'
+      });
+    };
+
+    this.accountService.resetPasswordFinish(self.location.search().key, resetPasswordInfo)
     .then(response => {
       // Success
       if (response.status === 200) {
-        vm.location.path('/home');
+        self.resetSuccess();
       } else {
-        vm.errorMessage = response.data.message;
+        self.errorMessage = response.data.message;
       }
     }, function(response) {
       // Failed
       if(response.data.message) {
-        vm.errorMessage.message = response.data.message;
+        self.errorMessage.message = response.data.message;
       } else {
-       vm.errorMessage = response.data.fieldErrors;
+       self.errorMessage = response.data.fieldErrors;
      }
    });
   }
-
+ 
 }

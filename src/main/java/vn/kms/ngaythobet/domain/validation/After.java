@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface After {
 
-    String message() default "{validation.dateFormat.message}";
+    String message() default "{validation.matchService.updateScore.message}";
 
     Class<?>[] groups() default {};
 

@@ -3,6 +3,7 @@ package vn.kms.ngaythobet.domain.tournament;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.AddNewMemberInfo;
+import vn.kms.ngaythobet.web.dto.CheckModeratorInfo;
 import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
 
 /**
@@ -69,5 +71,14 @@ public class GroupService {
         group.getMembers().addAll(newMembers);
         groupRepo.save(group);
         newMembers.forEach(member -> mailService.sendMailToGroupMemberAsync(member, group));
+    }
+
+    @Transactional(readOnly = true)
+    public void checkModeratorPermission(CheckModeratorInfo checkModeratorInfo){
+        Optional<Group> group = groupRepo.findByIdAndModerator(checkModeratorInfo.getGroupId(),
+                userRepo.getOne(checkModeratorInfo.getUserId()));
+        if(!group.isPresent()){
+            throw new DataInvalidException("validation.moderator.access.deny.message");
+        }
     }
 }

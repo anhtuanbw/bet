@@ -1,3 +1,22 @@
+ngaythobet - v0.0.6 / 2015-12-29
+================================
+
+* [#8 API, #28 UI] Create Tournaments.
+* [#9 API, #31 UI] Create Matches.
+* [#10 API, #32 UI] Create Group.
+* [#29 API, #30 UI] Create Round.
+* [#33 UI] Home page and sidebar.
+* [#52 UI] Fixture list and update score.
+* [#59 API] Adding members to the Group.
+* [#58 UI] Player history.
+* [#52 UI] Betting match management.
+**Improvement**
+
+**Bug**
+* [UI Player history] Waiting API to complete task.
+* [UI Betting match management] Some areas are not active.
+
+
 ngaythobet - v0.0.5 / 2015-12-29
 ================================
 
