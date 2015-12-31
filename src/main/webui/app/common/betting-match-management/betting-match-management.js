@@ -2,17 +2,20 @@
 
 export default class BettingMatchController {
   /* @ngInject */
-  constructor(RoundService, $rootScope){
+  constructor(RoundService, $rootScope, $modal){
     this.rootScope = $rootScope;
     this.RoundService = RoundService;
     this.tourID = 0;
+    this.groupID = 0;
     this.roundData = {};
+    this.modal = $modal;
   }
 
   loadRound(data){
-    this.rootScope.$on('tourID', (event, tournamentID) => {
+    this.rootScope.$on('tourID', (event, tournamentID, groupID) => {
       if (tournamentID) {
         this.tourID = tournamentID;
+        this.groupID = groupID;
         this.selectGroup(data);
         data.hide = false;
       }
@@ -35,6 +38,19 @@ export default class BettingMatchController {
   add(data){
     data.hide = true;
   }
+
+  parseTime(date){
+    return String(new Date(...date));
+  }
+
+  chooseMatch(){
+    this.modal.open({
+      templateUrl: 'app/common/create-betting-match/create-betting-match.html',
+      controller: 'CreateBettingController',
+      controllerAs: 'createBet'
+    });
+  }
+
 
 
 }

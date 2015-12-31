@@ -15,6 +15,7 @@ import CreateTournamentController from './components/tournament/create-tournamen
 import EditTournamentController from './components/tournament/edit-tournament/edit-tournament';
 import ManagementController from './components/management/management';
 import CreateMatchController from './common/match/create-match/create-match';
+import CreateBettingController from './common/create-betting-match/create-betting-match';
 
 export default class AppController {
   /* @ngInject */
@@ -54,6 +55,7 @@ angular.module('ngaythobet', [
 .controller('RoundManController', RoundManController)
 .controller('GroupController', GroupController)
 .controller('CreateMatchController', CreateMatchController)
+.controller('CreateBettingController', CreateBettingController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

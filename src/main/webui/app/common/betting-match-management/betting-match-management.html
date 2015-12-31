@@ -31,9 +31,9 @@
   			<tr ng-repeat="row in table.matches">
           <td>{{row.id}}</td>
           <td>{{row.competitor1.name}} - {{row.competitor2.name}}</td>
-          <td>{{row.matchTime[0]}}/{{row.matchTime[1]}}/{{row.matchTime[2]}}  {{row.matchTime[3]}}h{{row.matchTime[4]}}</td>
+          <td>{{betting.parseTime(row.matchTime)}}</td>
           <td>{{row.location}}</td>
-  				<td><button type="button" class="btn btn-success">Choose</button></td>
+  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch()">Choose</button></td>
   			</tr>
   		</tbody>
   	</table>
