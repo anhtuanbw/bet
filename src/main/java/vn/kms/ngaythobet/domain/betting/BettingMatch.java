@@ -24,19 +24,16 @@ import vn.kms.ngaythobet.domain.tournament.Match;
 @Table(name = "betting_matches")
 public class BettingMatch extends AuditableEntity {
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "match_id")
     private Match match;
 
     @MongoDbRef
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bettingMatch")
     private List<BettingPlayer> bettingPlayers;
 

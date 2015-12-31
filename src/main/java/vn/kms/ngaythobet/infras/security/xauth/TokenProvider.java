@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -15,9 +16,11 @@ import com.google.common.cache.CacheBuilder;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserService;
 import vn.kms.ngaythobet.domain.util.Constants;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TokenProvider {
@@ -25,6 +28,8 @@ public class TokenProvider {
     private final String secretKey;
     private final int tokenValidity;
     private final Cache<String, Object> tokenCache;
+    @Autowired
+    private UserDetailsService userDetailsService;
     @Autowired
     private UserService userService;
 
@@ -93,19 +98,20 @@ public class TokenProvider {
         tokenCache.invalidate(token);
     }
 
-    public User getUsernameByHeader(SimpMessageHeaderAccessor headerAccessor) {
+    public String getUsernameByHeader(SimpMessageHeaderAccessor headerAccessor) {
         MultiValueMap<String, String> nativeHeaders = headerAccessor
                 .getMessageHeaders()
                 .get(StompHeaderAccessor.NATIVE_HEADERS, MultiValueMap.class);
         String token = null;
-        if (nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME) != null
-                && !nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME)
-                        .isEmpty()) {
-            token = nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).get(0);
+        List<String> header = nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME);
+        if (header != null && !header.isEmpty()) {
+            token = header.get(0);
             String username = getUsernameFromToken(token);
-            User user = userService.getUsernameByUsername(username);
-            return user;
+            UserDetails details = userDetailsService.loadUserByUsername(username);
+            if (validateToken(token, details)) {
+                return username;
+            }
         }
-        return null;
+        throw new DataInvalidException("exception.unauthorized");
     }
 }
