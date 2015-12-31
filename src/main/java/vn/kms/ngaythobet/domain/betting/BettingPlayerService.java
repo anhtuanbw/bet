@@ -37,7 +37,7 @@ public class BettingPlayerService {
 
     public void playBet(PlayerBettingMatchInfo playerBettingMatchInfo) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(playerBettingMatchInfo.getBettingMatchId());
-        String comment = bettingMatch.getComment();
+        String comment = playerBettingMatchInfo.getComment();
         if (isExpired(bettingMatch.getExpiredTime())) {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-is-expired");
         } else if (!bettingMatch.isActivated()) {
