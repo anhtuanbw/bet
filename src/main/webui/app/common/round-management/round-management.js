@@ -111,6 +111,7 @@ export default class roundManController {
       roundData.competitorInComboBox = [];
       roundData.tour = [];
       roundData.name = '';
+      this.modalInstance.dismiss();
     }, function (response) {
       roundData.roundError = response.data.fieldErrors.name;
       roundData.CompetitorError = response.data.fieldErrors.competitorId;
@@ -122,10 +123,6 @@ export default class roundManController {
     roundData.roundListError = '';
 
     if (roundData.hide === true) {
-      // this.roundCompetitor = [];
-      // for (var i = 0; i < roundData.competitorList.length; i++) {
-      //   this.pushCompetitorIdToList(this.tourCompetitor,this.roundCompetitor,roundData.competitorList[i]);
-      // }
       var dataUpdate = {
         'roundId': this.roundID,
         'competitorIds': this.roundCompetitor
@@ -137,6 +134,7 @@ export default class roundManController {
         roundData.competitorList = [];
         roundData.roundSelected = '';
         roundData.competitorSelected = '';
+        this.modalInstance.dismiss();
       }, function(response){
         roundData.roundListError = response.data.fieldErrors.roundId;
       });
@@ -169,7 +167,6 @@ export default class roundManController {
     data.success = '';
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
-      console.log(response.data);
       this.roundListData = response.data;
       this.loadOldCompetitorList(data);
       this.addCompetitorToComboBox(data);

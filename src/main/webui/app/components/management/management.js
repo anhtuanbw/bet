@@ -12,8 +12,7 @@ export default class ManagementController {
     this.showView = {
       isCreate: true,
       isEdit: false,
-      isGroup: false,
-      isPlayerBettingMatch: true
+      isGroup: false
     };
     this.selected = -1;
     this.cacheService = CacheService;
@@ -34,29 +33,23 @@ export default class ManagementController {
     this.showView.isGroup = false;
   }
 
-  showGroup() {
+  showGroup(data, groupID) {
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
-  }
-
-  playerBettingMatch() {
-    this.showView.isCreate = false;
-    this.showView.isEdit = false;
-    this.showView.isGroup = false;
-    this.isPlayerBettingMatch = true
+    this.rootScope.$broadcast('tourID', data, groupID);
   }
 
   isAuthorized() {
-    return this.cacheService.get('loginUser') != null;
+    return this.cacheService.get('loginUser')!= null;
   }
 
   getAllTournament() {
     this.tournamentService.findByRole()
-      .then(response => {
-        this.tournaments = response.data;
-      })
-      .catch();
+    .then(response => {
+      this.tournaments = response.data;
+    })
+    .catch();
   }
 
   showTournamenDetail(tournamentId) {
@@ -65,7 +58,8 @@ export default class ManagementController {
     this.showView.isCreate = false;
     this.selectedTour = tournamentId;
 
-    for (var i in this.tournaments) {
+    for (var i in this.tournaments)
+    {
       if (this.tournaments[i].id === tournamentId) {
         this.rootScope.$broadcast('selectTournament', this.tournaments[i]);
         break;
@@ -73,12 +67,12 @@ export default class ManagementController {
     }
   }
 
-  authen() {
+   authen() {
     this.accountService.authen()
-      .then(response => {
-        if (response.data) {
-          this.isAdmin = response.data.role === 'ADMIN' ? true : false;
-        }
-      });
+    .then(response => {
+      if (response.data) {
+         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+      }
+    });
   }
 }
