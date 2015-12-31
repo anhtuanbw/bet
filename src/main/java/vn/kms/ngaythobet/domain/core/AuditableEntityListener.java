@@ -112,19 +112,21 @@ public class AuditableEntityListener {
         Map<String, Object> auditValuesByFields = new HashMap<>();
         ReflectionUtils.doWithFields(entity.getClass(), field -> {
             field.setAccessible(true);
-            if (field.isAnnotationPresent(MongoDbRef.class)) {
-                if (Collection.class.isAssignableFrom(field.getType())) {
-                    List<Long> entityIds = new ArrayList<>();
-                    ((List<AuditableEntity>) field.get(entity)).forEach(referenceEntity -> {
-                        entityIds.add(referenceEntity.getId());
-                    });
-                    auditValuesByFields.put(field.getName(), entityIds);
+            if (field.get(entity) != null) {
+                if (field.isAnnotationPresent(MongoDbRef.class)) {
+                    if (Collection.class.isAssignableFrom(field.getType())) {
+                        List<Long> entityIds = new ArrayList<>();
+                        ((List<AuditableEntity>) field.get(entity)).forEach(referenceEntity -> {
+                            entityIds.add(referenceEntity.getId());
+                        });
+                        auditValuesByFields.put(field.getName(), entityIds);
+                    } else {
+                        AuditableEntity referenceEntity = (AuditableEntity) field.get(entity);
+                        auditValuesByFields.put(field.getName(), referenceEntity.getId());
+                    }
                 } else {
-                    AuditableEntity referenceEntity = (AuditableEntity) field.get(entity);
-                    auditValuesByFields.put(field.getName(), referenceEntity.getId());
+                    auditValuesByFields.put(field.getName(), field.get(entity));
                 }
-            } else {
-                auditValuesByFields.put(field.getName(), field.get(entity));
             }
         } , field -> !field.isAnnotationPresent(AuditIgnore.class));
 

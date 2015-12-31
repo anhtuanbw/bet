@@ -17,6 +17,10 @@
       "reset-password": {
         "title": "Quên mật khẩu",
         "mark": "Vui lòng nhập email để khôi phục mật khẩu"
+      },
+      "reset-passwordSuccess": {
+        "title": "Đổi mật khẩu",
+        "mark": "Mật khẩu của bạn đã được thay đổi thành công, vui lòng đăng nhập lại!"
       }
   }
 }

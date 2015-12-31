@@ -1,28 +1,28 @@
 package vn.kms.ngaythobet.web.dto;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
-import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 
 public class PlayerBettingMatchInfo {
-    @NotEmpty
-    @EntityExist(type = Match.class)
-    private Long matchId;
+    @NotNull
+    @EntityExist(type = BettingMatch.class)
+    private Long bettingMatchId;
 
-    @NotEmpty
+    @NotNull
     @EntityExist(type = Competitor.class)
     private Long competitorId;
 
     private String comment;
 
-    public Long getMatchId() {
-        return matchId;
+    public Long getBettingMatchId() {
+        return bettingMatchId;
     }
 
-    public void setMathchId(Long matchId) {
-        this.matchId = matchId;
+    public void setBettingMatchId(Long bettingMatchId) {
+        this.bettingMatchId = bettingMatchId;
     }
 
     public String getComment() {

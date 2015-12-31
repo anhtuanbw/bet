@@ -1,3 +1,7 @@
+*:focus {
+    outline: 0;
+}
+
 .content {
     height: 1500px;
 }
@@ -18,7 +22,11 @@ li.header {
     border: none;
 }
 
-li.list-group-item:hover > a {
+li.list-group-item:hover {
+    background-color: #fff;
+}
+
+li.child:hover > a {
     font-weight: bold;
 }
 
