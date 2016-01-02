@@ -21,7 +21,7 @@
             </div>
             <div class="tour-group" ng-show="(index == management.selectedTour) && havechild">
                 <ul class="list-unstyled">
-                    <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.showGroup($index); $event.stopPropagation();" ng-class="{'selected': management.selectedGroup == $index}">
+                    <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.showGroup($index, tournament.id, group.id); $event.stopPropagation();" ng-class="{'selected': management.selectedGroup == $index}">
                         <a href="javascript:void(0)"><i class="fa fa-users"></i> {{ group.name }}</a>
                     </li>
                 </ul>
