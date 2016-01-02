@@ -14,6 +14,13 @@ export default class CreateBettingController {
   loadData(data){
     data.competitor1 = this.matchData.competitor1.name;
     data.competitor2 = this.matchData.competitor2.name;
+    data.balance1 = this.matchData.balance1;
+    data.balance2 = this.matchData.balance2;
+    data.amount = this.matchData.betAmount;
+    data.description = this.matchData.decription;
+    data.time = this.matchData.expiredTime;
+    data.active = this.matchData.activated;
+    data.hide = this.matchData.hide;
   }
 
   create(data){
@@ -35,7 +42,7 @@ export default class CreateBettingController {
         'expiredTime': data.time,
         'groupId': this.matchData.groupID,
         'matchId': this.matchData.id
-        }
+        };
     this.BettingService.create(betData)
     .then(() => {
       self.pop('success', self.popTitle, successMessage);

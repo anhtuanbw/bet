@@ -57,7 +57,43 @@ export default class BettingMatchController {
     });
   }
 
+  openUpdate(){
+    var data = {
+      'competitor1': {name: 'teamA'},
+      'competitor2': {name: 'teamB'},
+      'activated': true,
+      'balance1': 3,
+      'balance2': 1,
+      'betAmount': 200,
+      'decription': 'update emulator',
+      'expiredTime': '2015/12/15 10;35',
+      'groupId': 3,
+      'hide': true,
+      'matchId': 5
+    };
+    this.modal.open({
+      templateUrl: 'app/common/create-betting-match/create-betting-match.html',
+      controller: 'CreateBettingController',
+      controllerAs: 'createBet',
+      resolve: {
+        matchInfo: function () {
+          return data;
+        }
+      }
+    });
+  }
 
+  activate(){
+
+  }
+
+  update(){
+
+  }
+
+  betMatch(){
+
+  }
 
 }
 
