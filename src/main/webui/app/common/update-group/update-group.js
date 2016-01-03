@@ -48,6 +48,6 @@ export default class UpdateGroupController {
           this.errorMessage.memberIds = error.data.message;
         }
       }
-    })
+    });
   }
 }
