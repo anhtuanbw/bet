@@ -4,6 +4,8 @@ package vn.kms.ngaythobet.infras.security.xauth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.codec.Hex;
@@ -98,20 +100,28 @@ public class TokenProvider {
         tokenCache.invalidate(token);
     }
 
-    public String getUsernameByHeader(SimpMessageHeaderAccessor headerAccessor) {
+    public void setAuthenticationFromHeader(SimpMessageHeaderAccessor headerAccessor) {
         MultiValueMap<String, String> nativeHeaders = headerAccessor
                 .getMessageHeaders()
                 .get(StompHeaderAccessor.NATIVE_HEADERS, MultiValueMap.class);
         String token = null;
-        List<String> header = nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME);
-        if (header != null && !header.isEmpty()) {
-            token = header.get(0);
-            String username = getUsernameFromToken(token);
+        if (nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME) != null
+                && !nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME)
+                        .isEmpty()) {
+            token = nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).get(0);
+            setAuthenticationFromToken(token);
+        }
+    }
+    public void setAuthenticationFromToken(String authToken) {
+        if (StringUtils.hasText(authToken)) {
+            String username = getUsernameFromToken(authToken);
             UserDetails details = userDetailsService.loadUserByUsername(username);
-            if (validateToken(token, details)) {
-                return username;
+
+            if (validateToken(authToken, details)) {
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(details,
+                        details.getPassword(), details.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(token);
             }
         }
-        throw new DataInvalidException("exception.unauthorized");
     }
 }

@@ -146,7 +146,7 @@ public class BettingPlayerServiceTest extends BaseTest {
         playerBettingMatchInfo.setComment("test");
         playerBettingMatchInfo.setCompetitorId(competitorTemp1.getId());
         playerBettingMatchInfo.setBettingMatchId(bettingMatchTemp.getId());
-        bettingPlayerService.playBet(playerBettingMatchInfo,"user1");
+        bettingPlayerService.playBet(playerBettingMatchInfo);
         assertThat(bettingPlayerRepo.findAll().size(), equalTo(2));
         assertThat(bettingMatchRepo.findOne(bettingMatchTemp.getId()).getComment(), equalTo("test"));
     }
