@@ -2,6 +2,7 @@ package vn.kms.ngaythobet.domain.betting;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +120,9 @@ public class BettingPlayerService {
                 .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor2().getId());
         Group group = bettingMatch.getGroup();
         List<User> users = group.getMembers();
-        List<BettingPlayer> bettingPlayers = bettingPlayerRepo.findAll();
+        List<BettingPlayer> bettingPlayers = new ArrayList<BettingPlayer>();
+        bettingPlayers.addAll(bettingPlayersChoosingTeam1);
+        bettingPlayers.addAll(bettingPlayersChoosingTeam2);
         BettingMatchStatisticsInfo info = new BettingMatchStatisticsInfo();
         info.setBettingPlayersChooseCompetitor1(bettingPlayersChoosingTeam1);
         info.setBettingPlayersChooseCompetitor2(bettingPlayersChoosingTeam2);
