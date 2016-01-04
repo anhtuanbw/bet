@@ -20,7 +20,7 @@ import vn.kms.ngaythobet.domain.core.AuditableEntity;
 @Documented
 public @interface ExpiredTimeValid {
 
-    String message() default "{validation.expritedTime.message}";
+    String message() default "{validation.expiredTime.message}";
 
     Class<?>[] groups() default {};
 
