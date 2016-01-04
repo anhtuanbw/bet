@@ -2,6 +2,7 @@ package vn.kms.ngaythobet.web.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import vn.kms.ngaythobet.domain.core.ChangeLog.Change;
@@ -9,7 +10,7 @@ import vn.kms.ngaythobet.domain.tournament.Competitor;
 
 public class HistoryBetting {
     private String username;
-    private MatchInfo matchInfo;
+    private List<Competitor> competitors;
     private Competitor currentBetCompetitor;
     private Map<String, Change> competitorChanges;
     private Long competitor1Score;
@@ -25,12 +26,12 @@ public class HistoryBetting {
         this.username = username;
     }
 
-    public MatchInfo getMatchInfo() {
-        return matchInfo;
+    public List<Competitor> getCompetitors() {
+        return competitors;
     }
 
-    public void setMatchInfo(MatchInfo matchInfo) {
-        this.matchInfo = matchInfo;
+    public void setCompetitors(List<Competitor> competitors) {
+        this.competitors = competitors;
     }
 
     public Competitor getCurrentBetCompetitor() {
