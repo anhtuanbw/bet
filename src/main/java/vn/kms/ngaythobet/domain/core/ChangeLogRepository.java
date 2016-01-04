@@ -9,4 +9,5 @@ public interface ChangeLogRepository extends MongoRepository<ChangeLog, String> 
     void deleteByEntityId(long entityId);
     List<ChangeLog> findByEntityTypeAndEntityId(String entityType, Long entityId);
     List<ChangeLog> findByEntityType(String entityType);
+    ChangeLog findFirst1ByEntityTypeAndEntityIdOrderByTimestampDesc(String entityType, Long entityId);
 }
