@@ -30,7 +30,7 @@
                     placeholder="Please select moderator!">
                     <md-item-template>
                         <i class="fa fa-user"></i>
-                        <span md-highlight-text="groupCtrl.searchText" md-highlight-flags="^i">{{ item.name }}</span>
+                        <span md-highlight-text="groupCtrl.searchText" md-highlight-flags="^i">{{ item.name }} ({{ item.username }})</span>
                     </md-item-template>
                     <md-not-found>
                         <span>No user matching "{{ groupCtrl.searchText }}" were found</span>
