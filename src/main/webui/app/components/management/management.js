@@ -38,7 +38,9 @@ export default class ManagementController {
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
-    this.rootScope.$broadcast('tourID', data, groupID);
+    this.rootScope.$broadcast('tourID', tournament.id, group.id);
+    group.tournamentName = tournament.name;
+    this.rootScope.$broadcast('selectGroup', group);
   }
 
   isAuthorized() {
