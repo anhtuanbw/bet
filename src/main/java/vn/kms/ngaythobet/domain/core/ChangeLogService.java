@@ -59,7 +59,7 @@ public class ChangeLogService {
             commentInfo.setBetCompetitor(bettingPlayer.getBetCompetitor());
 
             Map<String, Change> entityChange = changelog.getEntityChanges();
-            if (entityChange != null && entityChange.size() == 1) {
+            if (entityChange != null) {
                 Change change = entityChange.get("comment");
                 if (change != null) {
                     commentInfo.setComment(change.getNewValue().toString());
