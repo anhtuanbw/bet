@@ -134,7 +134,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testListUniqueAndWhiteSpaceValidation() {
-        Tournament tournament = makeTournament(true);
+        Tournament tournament = createTournament(true);
 
         List<Long> competitorIds = new ArrayList<>();
         competitorIds.add((long) 1);
@@ -148,7 +148,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testEntityValidatedValidation() {
-        Tournament tournament = makeTournament(false);
+        Tournament tournament = createTournament(false);
 
         List<Long> competitorIds = new ArrayList<>();
         competitorIds.add((long) 1);
@@ -164,7 +164,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testModeratorAccessValidation() {
-        Tournament tournament = makeTournament(true);
+        Tournament tournament = createTournament(true);
 
         User tester = makeUser("Tester");
         userRepo.save(tester);
@@ -196,7 +196,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testListEntityExistValidation() {
-        Tournament tournament = makeTournament(true);
+        Tournament tournament = createTournament(true);
 
         List<Long> memberIds = new ArrayList<>();
         memberIds.add(getDefaultUser().getId());
@@ -221,7 +221,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testExpritedTimeValidation() {
-        Tournament tournament = makeTournament(true);
+        Tournament tournament = createTournament(true);
 
         Group group = new Group();
         group.setName("Launch 4");
@@ -236,7 +236,7 @@ public class ValidationTest extends BaseTest {
         competitorRepo.save(competitorA);
 
         Competitor competitorB = new Competitor();
-        competitorB.setName("MU");
+        competitorB.setName("Arsenal");
         competitorB.setTournament(tournament);
         competitorRepo.save(competitorB);
 
@@ -265,6 +265,16 @@ public class ValidationTest extends BaseTest {
         bettingMatchData = new BettingMatchData(match.getId(), matchTime.minusMinutes(10));
         violations = validator.validate(bettingMatchData);
         assertThat(violations.size(), equalTo(0));
+    }
+
+    @Test
+    public void testFieldNotMatchValidation() {
+        MatchData matchData = new MatchData((long) 1, (long) 1);
+        Set<ConstraintViolation<MatchData>> violations = validator.validate(matchData);
+        assertThat(violations.size(), equalTo(1));
+        ConstraintViolation<MatchData> violation = violations.iterator().next();
+        assertThat(violation.getPropertyPath().toString(), equalTo("competitor2"));
+        assertThat(violation.getMessage(), equalTo("Competitors must be different"));
     }
 
     static class TournamentData {
@@ -332,7 +342,18 @@ public class ValidationTest extends BaseTest {
         };
     }
 
-    private Tournament makeTournament(boolean isActivated) {
+    @FieldNotMatch(firstField = "competitor1", secondField = "competitor2")
+    static class MatchData {
+        Long competitor1;
+        Long competitor2;
+
+        MatchData(Long competitor1, Long competitor2) {
+            this.competitor1 = competitor1;
+            this.competitor2 = competitor2;
+        }
+    }
+
+    private Tournament createTournament(boolean isActivated) {
         Tournament tournament = new Tournament();
         tournament.setActivated(isActivated);
         tournament.setName("World Cup");
