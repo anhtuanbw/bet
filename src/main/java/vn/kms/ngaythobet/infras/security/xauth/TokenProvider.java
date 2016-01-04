@@ -1,22 +1,40 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.infras.security.xauth;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.codec.Hex;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
+import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.UserService;
+import vn.kms.ngaythobet.domain.util.Constants;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TokenProvider {
 
     private final String secretKey;
     private final int tokenValidity;
-    private final  Cache<String, Object> tokenCache;
+    private final Cache<String, Object> tokenCache;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
+
     public TokenProvider(String secretKey, int tokenValidity) {
         this.secretKey = secretKey;
         this.tokenValidity = tokenValidity;
@@ -80,5 +98,30 @@ public class TokenProvider {
 
     public void removeToken(String token) {
         tokenCache.invalidate(token);
+    }
+
+    public void setAuthenticationFromHeader(SimpMessageHeaderAccessor headerAccessor) {
+        MultiValueMap<String, String> nativeHeaders = headerAccessor
+                .getMessageHeaders()
+                .get(StompHeaderAccessor.NATIVE_HEADERS, MultiValueMap.class);
+        String token = null;
+        if (nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME) != null
+                && !nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME)
+                        .isEmpty()) {
+            token = nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).get(0);
+            setAuthenticationFromToken(token);
+        }
+    }
+    public void setAuthenticationFromToken(String authToken) {
+        if (StringUtils.hasText(authToken)) {
+            String username = getUsernameFromToken(authToken);
+            UserDetails details = userDetailsService.loadUserByUsername(username);
+
+            if (validateToken(authToken, details)) {
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(details,
+                        details.getPassword(), details.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(token);
+            }
+        }
     }
 }

@@ -2,9 +2,11 @@
 package vn.kms.ngaythobet.domain.betting;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BettingMatchRepository extends JpaRepository<BettingMatch, Long>{
     List<BettingMatch> findAllByOrderByCreatedAtDesc();
+    Optional<BettingMatch> findByIdAndActivated(Long id, boolean activated);
 }
