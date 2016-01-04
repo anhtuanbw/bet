@@ -11,65 +11,65 @@
     height: 100%;
     padding: 0;
     box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
-}
-
-.list-group-item {
-    background-color: #f1f1f1;
-}
-
-li.header {
-    color: #fff;
-    border: none;
-}
-
-li.list-group-item:hover {
-    background-color: #fff;
-}
-
-li.child:hover > a {
-    font-weight: bold;
-}
-
-li.child {
-    padding-left: 30px;
-}
-
-li.selected {
-    background-color: #f7f7f9;
-}
-
-li.choose {
-    font-weight: bold;
-}
-
-li.selected .tour-group .list-group-item {
-    background-color: #f7f7f9;
-}
-
-li.selected .tour-group li:hover {
-    background-color: #f1f1f1;
-}
-
-.tour-group a {
-    color: #555555;
-    font-weight: normal;
-}
-
-ul.list-unstyled li {
-    border: none;
-}
-
-.list-group-item.active li {
-    background-color: #337ab7;
-}
-
-li.active a {
-    color: #fff;
-}
-
-.list-group-item:last-child, .list-group-item:first-child {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    
+    .list-group-item {
+        background-color: #f1f1f1;
+    }
+    
+    li.header {
+        color: #fff;
+        border: none;
+    }
+    
+    li.list-group-item:hover {
+        background-color: #fff;
+    }
+    
+    li.child:hover > a {
+        font-weight: bold;
+    }
+    
+    li.child {
+        padding-left: 30px;
+    }
+    
+    li.selected {
+        background-color: #f7f7f9;
+    }
+    
+    li.choose {
+        font-weight: bold;
+    }
+    
+    li.selected .tour-group .list-group-item {
+        background-color: #f7f7f9;
+    }
+    
+    li.selected .tour-group li:hover {
+        background-color: #f1f1f1;
+    }
+    
+    .tour-group a {
+        color: #555555;
+        font-weight: normal;
+    }
+    
+    ul.list-unstyled li {
+        border: none;
+    }
+    
+    .list-group-item.active li {
+        background-color: #337ab7;
+    }
+    
+    li.active a {
+        color: #fff;
+    }
+    
+    .list-group-item:last-child, .list-group-item:first-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 }
 
 .tour-banner img {

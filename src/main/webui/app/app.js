@@ -18,6 +18,7 @@ import ManagementController from './components/management/management';
 import CreateMatchController from './common/match/create-match/create-match';
 import TournamentGroupController from './components/tournament/group/group';
 import ResetPasswordSuccessController from './common/reset-passwordSuccess/reset-passwordSuccess';
+import UpdateGroupController from './common/update-group/update-group';
 import CreateBettingController from './common/create-betting-match/create-betting-match';
 
 export default class AppController {
@@ -60,6 +61,7 @@ angular.module('ngaythobet', [
 .controller('CreateMatchController', CreateMatchController)
 .controller('TournamentGroupController', TournamentGroupController)
 .controller('ResetPasswordSuccessController', ResetPasswordSuccessController)
+.controller('UpdateGroupController', UpdateGroupController)
 .controller('PlayerBettingMatchController', PlayerBettingMatchController)
 .controller('CreateBettingController', CreateBettingController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
