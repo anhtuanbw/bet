@@ -7,7 +7,7 @@
 			<form novalidate>
 				<div ng-class="(creator.errorMessage.name) ? 'form-group has-error' : 'form-group'">
 					<label class="control-label" translate="components.tournament.name"></label><span class="text-danger"> (*)</span>
-					<input type="text" class="form-control" ng-model="creator.name" />
+					<input type="text" class="form-control" ng-model="creator.name" ng-trim="false"/>
 					<span class="text-danger" ng-show="creator.errorMessage" ng-bind="creator.errorMessage.name"></span>
 				</div>
 				<div ng-class="(creator.errorMessage.competitors) ? 'form-group has-error' : 'form-group'">
