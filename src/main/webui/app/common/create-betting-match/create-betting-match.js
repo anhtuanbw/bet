@@ -31,18 +31,20 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    data.time = data.time.replace(' ', 'T');
-    data.time+=':00.000';
+    var expiredTime = data.time;
+    expiredTime = expiredTime.replace(' ', 'T');
+    expiredTime+=':00.000';
     var betData = {
         'activated': data.active,
         'balance1': data.balance1,
         'balance2': data.balance2,
         'betAmount': data.amount,
         'decription': data.description,
-        'expiredTime': data.time,
+        'expiredTime': expiredTime,
         'groupId': this.matchData.groupID,
         'matchId': this.matchData.id
         };
+    console.log(betData);
     this.BettingService.create(betData)
     .then(() => {
       self.pop('success', self.popTitle, successMessage);

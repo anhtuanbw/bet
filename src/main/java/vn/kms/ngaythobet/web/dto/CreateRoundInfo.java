@@ -18,7 +18,7 @@ import vn.kms.ngaythobet.domain.validation.ListEntityExist;
 import vn.kms.ngaythobet.domain.validation.ListEntityJoinedValid;
 import vn.kms.ngaythobet.domain.validation.ListUnique;
 
-@ListEntityJoinedValid(entityId = "tournamentId", fieldName = "competitors", entities = "competitorIds", type = Tournament.class, message = "{validation.competitor-is-not-joined.message}")
+@ListEntityJoinedValid(entityId = "tournamentId", fieldName = "competitors", entities = "competitorIds", type = Tournament.class, message = "{validation.competitor.is.not.joined}")
 public class CreateRoundInfo {
     @NotEmpty
     @Size(min = 6, max = 50)

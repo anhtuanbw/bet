@@ -12,4 +12,5 @@ public interface BettingMatchRepository extends JpaRepository<BettingMatch, Long
     List<BettingMatch> findAllByOrderByCreatedAtDesc();
     Optional<BettingMatch> findByIdAndActivated(Long id, boolean activated);
     List<BettingMatch> findByMatch(Match match);
+
 }
