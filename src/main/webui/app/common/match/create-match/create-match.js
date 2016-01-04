@@ -81,6 +81,7 @@ export default class CreateMatchController {
       date = timeFormat.getDate().toString(),
       hour = timeFormat.getHours().toString(),
       minute = timeFormat.getMinutes().toString();
+
     return year + '-' + this.changeTime(month) + '-' + this.changeTime(date) + 'T' +
       this.changeTime(hour) + ':' + this.changeTime(minute);
   }
