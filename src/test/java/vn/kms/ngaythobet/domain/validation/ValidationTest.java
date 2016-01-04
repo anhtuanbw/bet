@@ -260,11 +260,35 @@ public class ValidationTest extends BaseTest {
         assertThat(violations.size(), equalTo(1));
         ConstraintViolation<BettingMatchData> violation = violations.iterator().next();
         assertThat(violation.getPropertyPath().toString(), equalTo("expiredTime"));
-        assertThat(violation.getMessage(), equalTo("Time must be before Match start"));
+        assertThat(violation.getMessage(), equalTo("Time is not valid"));
 
         bettingMatchData = new BettingMatchData(match.getId(), matchTime.minusMinutes(10));
         violations = validator.validate(bettingMatchData);
         assertThat(violations.size(), equalTo(0));
+    }
+
+    @Test
+    public void testListEntityJoinedValidation(){
+        Tournament tournament = createTournament(true);
+        Tournament tournament2 = createTournament(true);
+        Competitor competitor1 = new Competitor(tournament, "England");
+        Competitor competitor2 = new Competitor(tournament, "France");
+        Competitor competitor3 = new Competitor(tournament2, "abc");
+        competitorRepo.save(competitor1);
+        competitorRepo.save(competitor2);
+        competitorRepo.save(competitor3);
+        List<Long> competitorIds = new ArrayList<>();
+        competitorIds.add(competitor1.getId());
+        competitorIds.add(competitor2.getId());
+        competitorIds.add(competitor3.getId());
+        RoundData roundData = new RoundData(tournament.getId(), competitorIds);
+        Set<ConstraintViolation<RoundData>> violations = validator.validate(roundData);
+        violations = validator.validate(roundData);
+        assertThat(violations.size(), equalTo(1));
+        ConstraintViolation<RoundData> violation = violations.iterator().next();
+        assertThat(violation.getPropertyPath().toString(), equalTo("competitorIds"));
+        assertThat(violation.getMessage(), equalTo("is not joined"));
+        
     }
 
     @Test
@@ -318,6 +342,16 @@ public class ValidationTest extends BaseTest {
         }
     }
 
+    @ListEntityJoinedValid(entities = "competitorIds", entityId = "tournamentId", fieldName = "competitors", type = Tournament.class)
+    static class RoundData{
+        Long tournamentId;
+        List<Long> competitorIds;
+        public RoundData(Long tournamentId, List<Long> competitorIds) {
+          this.tournamentId = tournamentId;
+          this.competitorIds = competitorIds;
+        }
+    }
+
     @ModeratorAccess
     static class MembersData {
         Long groupId;
@@ -331,7 +365,7 @@ public class ValidationTest extends BaseTest {
         }
     }
 
-    @ExpritedTimeValid(firstField = "matchId", secondField = "expiredTime", thirdField = "matchTime", type = Match.class)
+    @ExpiredTimeValid(entityId = "matchId", targetField = "expiredTime", fieldName = "matchTime", type = Match.class)
     static class BettingMatchData {
         Long matchId;
         LocalDateTime expiredTime;
