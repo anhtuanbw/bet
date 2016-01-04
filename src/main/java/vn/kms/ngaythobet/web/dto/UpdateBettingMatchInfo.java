@@ -10,11 +10,11 @@ import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
-import vn.kms.ngaythobet.domain.validation.ExpritedTimeValid;
+import vn.kms.ngaythobet.domain.validation.ExpiredTimeValid;
 import vn.kms.ngaythobet.domain.validation.ModeratorAccess;
 
 @ModeratorAccess
-@ExpritedTimeValid(entityId = "matchId", targetField = "expiredTime", fieldName = "matchTime", type = Match.class, message = "{validation.bettingMatch.expritedTime.message}")
+@ExpiredTimeValid(entityId = "matchId", targetField = "expiredTime", fieldName = "matchTime", type = Match.class, message = "{validation.bettingMatch.expritedTime.message}")
 public class UpdateBettingMatchInfo {
 
     @EntityExist(type = BettingMatch.class)

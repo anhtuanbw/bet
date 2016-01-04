@@ -12,9 +12,8 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.security.util.FieldUtils;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
 
-public class ExprivatedTimeValidValidator implements ConstraintValidator<ExpritedTimeValid, Object> {
+public class ExpiredTimeValidValidator implements ConstraintValidator<ExpiredTimeValid, Object> {
 
     private Class<? extends AuditableEntity> entity;
     private String entityId;
@@ -25,7 +24,7 @@ public class ExprivatedTimeValidValidator implements ConstraintValidator<Exprite
     @PersistenceContext
     private EntityManager em;
 
-    public void initialize(ExpritedTimeValid annotation) {
+    public void initialize(ExpiredTimeValid annotation) {
         this.entity = annotation.type();
         entityId = annotation.entityId();
         targetField = annotation.targetField();
