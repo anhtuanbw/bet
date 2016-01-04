@@ -151,4 +151,11 @@ public class BettingPlayerService {
         }
         return userNotBet;
     }
+
+    public BettingPlayer getBettingPlayerOfCurrentUserByBettingMatchId(Long bettingMatchId) {
+        User user = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
+        BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(user, bettingMatch);
+        return bettingPlayer;
+    }
 }

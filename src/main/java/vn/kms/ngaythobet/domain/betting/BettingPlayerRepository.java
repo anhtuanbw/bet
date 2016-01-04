@@ -9,5 +9,6 @@ import vn.kms.ngaythobet.domain.core.User;
 
 public interface BettingPlayerRepository extends JpaRepository<BettingPlayer, Long> {
     BettingPlayer findByPlayerAndBettingMatch(User player, BettingMatch bettingMatch);
-    List<BettingPlayer> findByBettingMatchIdAndBetCompetitorId(Long bettingMatchId,Long betCompetitorId);
+
+    List<BettingPlayer> findByBettingMatchIdAndBetCompetitorId(Long bettingMatchId, Long betCompetitorId);
 }

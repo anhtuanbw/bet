@@ -12,13 +12,13 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.betting.BettingMatchService;
+import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.betting.BettingPlayerService;
 import vn.kms.ngaythobet.domain.core.ChangeLogService;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
@@ -53,6 +53,11 @@ public class PlayerBettingMatchRest {
         return bettingMatchService.findActiveBettingMatchById(bettingMatchId);
     }
 
+    @RequestMapping(value ="/api/betting-player/getBettingPlayerByBettingMatchId/{bettingMatchId}", method = RequestMethod.GET)
+    public BettingPlayer getBettingPlayer(@PathVariable Long bettingMatchId) {        
+        return bettingPlayerService.getBettingPlayerOfCurrentUserByBettingMatchId(bettingMatchId);
+    }
+
     @RequestMapping(value = "/api/betting-match/bettingMatchStatistics/{bettingMatchId}", method = RequestMethod.GET)
     public BettingMatchStatisticsInfo getbettingMatchStatistics(@PathVariable Long bettingMatchId) {
         return bettingPlayerService.getBettingMatchStatistics(bettingMatchId);
@@ -69,7 +74,7 @@ public class PlayerBettingMatchRest {
 
     @MessageMapping(value = "/betting-match/updatePlayBet/{bettingMatchId}")
     @SendTo("/topic/updatePlayBet/{bettingMatchId}")
-    public BettingMatchStatisticsInfo updateBet(UpdatePlayerBettingMatchInfo bettingPlayerInfo,
+    public BettingMatchStatisticsInfo updateBet(@Valid UpdatePlayerBettingMatchInfo bettingPlayerInfo,
             @DestinationVariable Long bettingMatchId, SimpMessageHeaderAccessor headerAccessor) {
         tokenProvider.setAuthenticationFromHeader(headerAccessor);
         bettingPlayerService.updatePlayBet(bettingPlayerInfo);
@@ -78,7 +83,7 @@ public class PlayerBettingMatchRest {
 
     @MessageMapping(value = "/betting-match/comment/{bettingMatchId}")
     @SendTo("/topic/comment/{bettingMatchId}")
-    public CommentInfo comment(AddCommentInfo comment, @DestinationVariable Long bettingMatchId,
+    public CommentInfo comment(@Valid AddCommentInfo comment, @DestinationVariable Long bettingMatchId,
             SimpMessageHeaderAccessor headerAccessor) {
         bettingPlayerService.addComment(comment);
         return changeLogService.getRecentComment(bettingMatchId);
