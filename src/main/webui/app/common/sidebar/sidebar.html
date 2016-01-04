@@ -10,16 +10,18 @@
         </div>
     </li>
     <div ng-hide="showTours">
-        <li class="list-group-item child" ng-init="active=false; showGroup=tournament.groups.length>0" ng-repeat="tournament in management.tournaments" ng-click="active=!active" ng-class="{'selected': active, 'choose':$index == management.selected}" ng-focus="management.select($index)">
-            <a href="javascript:void(0)" ng-focus="management.select($index)" ng-click="management.showTournamenDetail(tournament.id)">
+        <li class="list-group-item child" ng-init="index = $index; havechild=tournament.groups.length>0" ng-repeat="tournament in management.tournaments" ng-click="management.changeTournament($index)" ng-class="{'choose':index == management.selectedTour}">
+            <a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)">
             <i class="fa fa-th-large"></i> {{ tournament.name }} 
-            <span class="label label-info" ng-show="showGroup" ng-bind="tournament.groups.length"></span>
+            <span class="label label-info" ng-show="havechild" ng-bind="tournament.groups.length"></span>
             </a>
-            <i class="fa fa-angle-down pull-right" ng-show="showGroup && !active"></i>
-            <i class="fa fa-angle-up pull-right" ng-show="showGroup && active"></i>
-            <div class="tour-group" ng-show="active && showGroup">
+            <div class="pull-right arrow" ng-show="havechild">
+                <i class="fa fa-angle-down" ng-show="(index == management.selectedTour)"></i>
+                <i class="fa fa-angle-left" ng-show="(index != management.selectedTour)"></i>
+            </div>
+            <div class="tour-group" ng-show="(index == management.selectedTour) && havechild">
                 <ul class="list-unstyled">
-                    <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.showGroup(tournament, group);$event.stopPropagation();">
+                    <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.showGroup($index, tournament.id, group.id); $event.stopPropagation();" ng-class="{'selected': management.selectedGroup == $index}">
                         <a href="javascript:void(0)"><i class="fa fa-users"></i> {{ group.name }}</a>
                     </li>
                 </ul>
