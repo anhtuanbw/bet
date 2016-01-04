@@ -43,15 +43,57 @@ export default class BettingMatchController {
     return String(new Date(...date));
   }
 
-  chooseMatch(){
+  chooseMatch(data){
+    data.groupID = this.groupID;
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
       controller: 'CreateBettingController',
-      controllerAs: 'createBet'
+      controllerAs: 'createBet',
+      resolve: {
+        matchInfo: function () {
+          return data;
+        }
+      }
     });
   }
 
+  openUpdate(){
+    var data = {
+      'competitor1': {name: 'teamA'},
+      'competitor2': {name: 'teamB'},
+      'activated': true,
+      'balance1': 3,
+      'balance2': 1,
+      'betAmount': 200,
+      'decription': 'update emulator',
+      'expiredTime': '2015-12-15 10:35',
+      'groupId': 3,
+      'hide': true,
+      'matchId': 5
+    };
+    this.modal.open({
+      templateUrl: 'app/common/create-betting-match/create-betting-match.html',
+      controller: 'CreateBettingController',
+      controllerAs: 'createBet',
+      resolve: {
+        matchInfo: function () {
+          return data;
+        }
+      }
+    });
+  }
 
+  activate(){
+
+  }
+
+  update(data){
+    console.log('data: '+data.time);
+  }
+
+  betMatch(){
+
+  }
 
 }
 

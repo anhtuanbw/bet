@@ -23,7 +23,6 @@ public class BettingPlayer extends AuditableEntity {
     private BettingMatch bettingMatch;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User player;
