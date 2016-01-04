@@ -2,6 +2,7 @@
 package vn.kms.ngaythobet.domain.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,12 @@ public class ChangeLogService {
         List<CommentInfo> comments = new ArrayList<CommentInfo>();
         List<ChangeLog> changeLogs = changeLogRepo.findByEntityTypeAndEntityId(
                 BettingMatch.class.getCanonicalName(), bettingMatchId);
-        for (ChangeLog changelog : changeLogs) {
+
+        Iterator<ChangeLog> iteratorChangeLogs = changeLogs.iterator();
+
+        while (iteratorChangeLogs.hasNext()) {
+            ChangeLog changelog = iteratorChangeLogs.next();
+
             CommentInfo commentInfo = new CommentInfo();
             commentInfo.setUsername(changelog.getUsername());
             commentInfo.setTimestamp(changelog.getTimestamp());
@@ -76,18 +82,22 @@ public class ChangeLogService {
         List<ChangeLog> changelogs = changeLogRepo
                 .findByEntityType(BettingPlayer.class.getCanonicalName());
 
-        for (ChangeLog changlog : changelogs) {
+        Iterator<ChangeLog> iteratorChangeLogs = changelogs.iterator();
+
+        while (iteratorChangeLogs.hasNext()) {
+            ChangeLog changelog = iteratorChangeLogs.next();
+
             HistoryBetting historyBetting = new HistoryBetting();
-           
-            String username = changlog.getUsername();
-            BettingMatch bettingMatch = bettingMatchRepo.findOne(changlog
+
+            String username = changelog.getUsername();
+            BettingMatch bettingMatch = bettingMatchRepo.findOne(changelog
                     .getEntityId());
-           
+
             Match match = bettingMatch.getMatch();
-          
+
             Competitor competitor1 = match.getCompetitor1();
             Competitor competitor2 = match.getCompetitor2();
-          
+
             User user = userRepo.findOneByUsername(username).get();
 
             BettingPlayer bettingPlayer = bettingPlayerRepo
@@ -95,15 +105,12 @@ public class ChangeLogService {
             List<Competitor> competitors = new ArrayList<Competitor>();
             competitors.add(competitor1);
             competitors.add(competitor2);
-            
-            MatchInfo matchInfo = new MatchInfo();
-            matchInfo.setCompetitors(competitors);
-            
+
             historyBetting.setUsername(username);
-            historyBetting.setMatchInfo(matchInfo);
+            historyBetting.setCompetitors(competitors);
             historyBetting.setCurrentBetCompetitor(bettingPlayer
                     .getBetCompetitor());
-            historyBetting.setCompetitorChanges(changlog.getEntityChanges());
+            historyBetting.setCompetitorChanges(changelog.getEntityChanges());
             historyBetting.setCompetitor1Score(match.getScore1());
             historyBetting.setCompetitor2Score(match.getScore2());
             historyBetting.setExpiredTime(bettingMatch.getExpiredTime());
