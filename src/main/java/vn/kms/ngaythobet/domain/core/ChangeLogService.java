@@ -78,28 +78,27 @@ public class ChangeLogService {
 
         for (ChangeLog changlog : changelogs) {
             HistoryBetting historyBetting = new HistoryBetting();
-
+           
             String username = changlog.getUsername();
-
             BettingMatch bettingMatch = bettingMatchRepo.findOne(changlog
                     .getEntityId());
-
+           
             Match match = bettingMatch.getMatch();
+          
             Competitor competitor1 = match.getCompetitor1();
             Competitor competitor2 = match.getCompetitor2();
-
+          
             User user = userRepo.findOneByUsername(username).get();
 
             BettingPlayer bettingPlayer = bettingPlayerRepo
                     .findByPlayerAndBettingMatch(user, bettingMatch);
-
             List<Competitor> competitors = new ArrayList<Competitor>();
             competitors.add(competitor1);
             competitors.add(competitor2);
-
+            
             MatchInfo matchInfo = new MatchInfo();
             matchInfo.setCompetitors(competitors);
-
+            
             historyBetting.setUsername(username);
             historyBetting.setMatchInfo(matchInfo);
             historyBetting.setCurrentBetCompetitor(bettingPlayer
