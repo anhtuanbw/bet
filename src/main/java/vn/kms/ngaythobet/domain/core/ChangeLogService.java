@@ -19,7 +19,6 @@ import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.web.dto.CommentInfo;
 import vn.kms.ngaythobet.web.dto.HistoryBetting;
-import vn.kms.ngaythobet.web.dto.MatchInfo;
 
 @Service
 @Transactional
