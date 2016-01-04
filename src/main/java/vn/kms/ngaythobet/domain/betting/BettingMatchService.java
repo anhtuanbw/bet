@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
+import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.tournament.MatchRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
@@ -75,5 +76,10 @@ public class BettingMatchService {
     @Transactional(readOnly = true)
     public BettingMatch findActiveBettingMatchById(Long id) {
         return bettingMatchRepo.findByIdAndActivated(id, true).get();
+    }
+    
+    public List<BettingMatch> getBettingMatchesByMatch(Long matchId){
+        Match match = matchRepo.getOne(matchId);
+        return bettingMatchRepo.findByMatch(match);
     }
 }

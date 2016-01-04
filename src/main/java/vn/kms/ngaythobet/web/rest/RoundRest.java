@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.tournament.Round;
 import vn.kms.ngaythobet.domain.tournament.RoundService;
-import vn.kms.ngaythobet.domain.tournament.TournamentService;
 import vn.kms.ngaythobet.web.dto.CreateRoundInfo;
 import vn.kms.ngaythobet.web.dto.UpdateRoundInfo;
 
@@ -23,20 +22,19 @@ import vn.kms.ngaythobet.web.dto.UpdateRoundInfo;
 @RequestMapping("/api")
 public class RoundRest {
     private final RoundService roundService;
-    private final TournamentService tournamentService;
+
     @Autowired
-    public RoundRest(RoundService roundService,TournamentService tournamentService) {
+    public RoundRest(RoundService roundService) {
         this.roundService = roundService;
-        this.tournamentService = tournamentService;
     }
 
     @RequestMapping(value = "/createRound", method = POST)
     public void createRound(@Valid @RequestBody CreateRoundInfo createRoundInfo) {
         roundService.createRound(createRoundInfo);
     }
-    
+
     @RequestMapping(value = "/updateRound", method = POST)
-    public void updateRound(@Valid @RequestBody UpdateRoundInfo updateRoundInfo){
+    public void updateRound(@Valid @RequestBody UpdateRoundInfo updateRoundInfo) {
         roundService.updateRound(updateRoundInfo);
     }
 
