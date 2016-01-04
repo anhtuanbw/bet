@@ -34,19 +34,17 @@ li.child {
     padding-left: 30px;
 }
 
-li.selected {
-    background-color: #f7f7f9;
-}
-
 li.choose {
     font-weight: bold;
+    background-color: #fff;
+    border-left: 4px solid #19aa8d
 }
 
-li.selected .tour-group .list-group-item {
-    background-color: #f7f7f9;
+li.choose .tour-group .list-group-item {
+    background-color: #fff;
 }
 
-li.selected .tour-group li:hover {
+li.choose .tour-group li:hover {
     background-color: #f1f1f1;
 }
 
@@ -90,4 +88,13 @@ li.active a {
     .row .content {
         height: auto;
     } 
+}
+
+.tour-group li.selected a {
+    font-weight: bold;
+    color: #007aff;
+}
+
+.arrow {
+    display: inline;
 }

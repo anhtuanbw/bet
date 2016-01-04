@@ -8,13 +8,13 @@ export default class ManagementController {
     this.accountService = AccountService;
     this.tournaments = [];
     this.getAllTournament();
+    this.selectedGroup = -1;
     this.selectedTour = -1;
     this.showView = {
       isCreate: true,
       isEdit: false,
       isGroup: false
     };
-    this.selected = -1;
     this.cacheService = CacheService;
     this.isAdmin = false;
     this.authen();
@@ -23,8 +23,8 @@ export default class ManagementController {
     });
   }
 
-  select(index) {
-    this.selected = index;
+  changeTournament(index) {
+    this.selectedTour = (index == this.selectedTour ? -1 : index);
   }
 
   createTournament() {
@@ -33,11 +33,14 @@ export default class ManagementController {
     this.showView.isGroup = false;
   }
 
-  showGroup(tournament, group) {
+  showGroup(index, tournament, group) {
+    this.selectedGroup = index;
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
     this.rootScope.$broadcast('tourID', tournament.id, group.id);
+    group.tournamentName = tournament.name;
+    this.rootScope.$broadcast('selectGroup', group);
   }
 
   isAuthorized() {
@@ -56,7 +59,6 @@ export default class ManagementController {
     this.showView.isEdit = true;
     this.showView.isGroup = false;
     this.showView.isCreate = false;
-    this.selectedTour = tournamentId;
 
     for (var i in this.tournaments)
     {

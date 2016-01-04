@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="TournamentGroupController as tourGroup">
 	<ol class="breadcrumb">
 		<li><a href="javascript:void(0)">Tournament</a></li>
 		<li><a href="javascript:void(0)">Group</a></li>
@@ -21,9 +21,52 @@
 						<div comment></div>
 					</div>
 					<div id="information" class="tab-pane fade">
-						<h3>Information</h3>
-						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-					</div>
+						<div class="row">
+							<div class="col-sm-8">
+								<div class="panel-heading panel-title has-minheight">
+									<strong class="panel-title pull-left text-muted font-size" translate="common.group.information.information"></strong>
+									<div class="text-right panel-title" ng-show="tourGroup.isMod">
+										<button class="btn btn-primary" ng-click="tourGroup.openUpdateGroup()">
+  											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span translate="common.group.information.editGroup"></span>
+										</button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="row">
+												<span class="col-sm-4" translate="common.group.information.name"></span>
+												<span class="col-sm-8" ng-bind="tourGroup.groupInfo.name"></span>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div class="row">
+												<span class="col-sm-4" translate="common.group.information.moderator"></span>
+												<span class="col-sm-8" ng-bind="tourGroup.groupInfo.moderator.username"></span>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div class="row">
+												<span class="col-sm-4" translate="components.tournament.name"></span>
+												<span class="col-sm-8" ng-bind="tourGroup.tournamentName"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="panel-heading panel-title has-minheight">
+									<strong class="panel-title pull-left text-muted font-size" translate="common.group.information.groupPlayers"></strong>
+								</div>
+								<div class="panel-body">
+									<ul class="list-group">
+										<li class="list-group-item" ng-repeat="member in tourGroup.groupInfo.members" >
+											<i class="fa fa-user"></i> {{member.username}}
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
