@@ -53,20 +53,8 @@ public class PlayerBettingMatchRest {
         return bettingMatchService.findActiveBettingMatchById(bettingMatchId);
     }
 
-    @RequestMapping(value = "/api/betting-match/recentComment/{bettingMatchId}", method = RequestMethod.GET)
-    public CommentInfo getBettingPlayers(@PathVariable Long bettingMatchId) {
-        changeLogService.getComments(bettingMatchId);
-        return changeLogService.getRecentComment(bettingMatchId);
-    }
-
-    @RequestMapping(value = "/api/betting-match/comment/{bettingMatchId}", method = RequestMethod.POST)
-    public CommentInfo testComment(@Valid @RequestBody AddCommentInfo comment,@PathVariable Long bettingMatchId) {
-        bettingPlayerService.addComment(comment);
-        return changeLogService.getRecentComment(bettingMatchId);
-    }
-
     @RequestMapping(value = "/api/betting-match/bettingMatchStatistics/{bettingMatchId}", method = RequestMethod.GET)
-    public BettingMatchStatisticsInfo getBettingPlayers2(@PathVariable Long bettingMatchId) {
+    public BettingMatchStatisticsInfo getbettingMatchStatistics(@PathVariable Long bettingMatchId) {
         return bettingPlayerService.getBettingMatchStatistics(bettingMatchId);
     }
 
