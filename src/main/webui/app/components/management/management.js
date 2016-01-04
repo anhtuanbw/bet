@@ -33,7 +33,7 @@ export default class ManagementController {
     this.showView.isGroup = false;
   }
 
-  showGroup(index, data, groupID) {
+  showGroup(index, tournament, group) {
     this.selectedGroup = index;
     this.showView.isCreate = false;
     this.showView.isEdit = false;
