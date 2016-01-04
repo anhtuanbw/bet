@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static vn.kms.ngaythobet.domain.util.Constants.WHITE_SPACE_REGEX;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,8 +24,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import vn.kms.ngaythobet.BaseTest;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
+import vn.kms.ngaythobet.domain.tournament.Competitor;
+import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
+import vn.kms.ngaythobet.domain.tournament.Match;
+import vn.kms.ngaythobet.domain.tournament.MatchRepository;
+import vn.kms.ngaythobet.domain.tournament.Round;
+import vn.kms.ngaythobet.domain.tournament.RoundRepository;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.tournament.TournamentRepository;
 
@@ -40,6 +47,15 @@ public class ValidationTest extends BaseTest {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private MatchRepository matchRepo;
+
+    @Autowired
+    private CompetitorRepository competitorRepo;
+
+    @Autowired
+    private RoundRepository roundRepo;
 
     @Test
     public void testEntityExistValidation() {
@@ -118,7 +134,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testListUniqueAndWhiteSpaceValidation() {
-        Tournament tournament = createTournament(true);
+        Tournament tournament = makeTournament(true);
 
         List<Long> competitorIds = new ArrayList<>();
         competitorIds.add((long) 1);
@@ -132,7 +148,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testEntityValidatedValidation() {
-        Tournament tournament = createTournament(false);
+        Tournament tournament = makeTournament(false);
 
         List<Long> competitorIds = new ArrayList<>();
         competitorIds.add((long) 1);
@@ -148,7 +164,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testModeratorAccessValidation() {
-        Tournament tournament = createTournament(true);
+        Tournament tournament = makeTournament(true);
 
         User tester = makeUser("Tester");
         userRepo.save(tester);
@@ -180,7 +196,7 @@ public class ValidationTest extends BaseTest {
 
     @Test
     public void testListEntityExistValidation() {
-        Tournament tournament = createTournament(true);
+        Tournament tournament = makeTournament(true);
 
         List<Long> memberIds = new ArrayList<>();
         memberIds.add(getDefaultUser().getId());
@@ -201,6 +217,54 @@ public class ValidationTest extends BaseTest {
         ConstraintViolation<MembersData> violation = violations.iterator().next();
         assertThat(violation.getPropertyPath().toString(), equalTo("memberIds"));
         assertThat(violation.getMessage(), equalTo("Entity is not existed"));
+    }
+
+    @Test
+    public void testExpritedTimeValidation() {
+        Tournament tournament = makeTournament(true);
+
+        Group group = new Group();
+        group.setName("Launch 4");
+        group.setModerator(getDefaultUser());
+        group.setMembers(Collections.emptyList());
+        group.setTournament(tournament);
+        groupRepo.save(group);
+
+        Competitor competitorA = new Competitor();
+        competitorA.setName("MU");
+        competitorA.setTournament(tournament);
+        competitorRepo.save(competitorA);
+
+        Competitor competitorB = new Competitor();
+        competitorB.setName("MU");
+        competitorB.setTournament(tournament);
+        competitorRepo.save(competitorB);
+
+        Round round = new Round();
+        round.setName("Final");
+        round.setTournament(tournament);
+        roundRepo.save(round);
+
+        Match match = new Match();
+        LocalDateTime matchTime = LocalDateTime.now();
+        match.setMatchTime(matchTime);
+        match.setLocation("CH Office");
+        match.setCompetitor1(competitorA);
+        match.setCompetitor2(competitorB);
+        match.setRound(round);
+        matchRepo.save(match);
+
+        BettingMatchData bettingMatchData = new BettingMatchData(match.getId(), matchTime.plusMinutes(10));
+        Set<ConstraintViolation<BettingMatchData>> violations = validator.validate(bettingMatchData);
+        violations = validator.validate(bettingMatchData);
+        assertThat(violations.size(), equalTo(1));
+        ConstraintViolation<BettingMatchData> violation = violations.iterator().next();
+        assertThat(violation.getPropertyPath().toString(), equalTo("expiredTime"));
+        assertThat(violation.getMessage(), equalTo("Time must be before Match start"));
+
+        bettingMatchData = new BettingMatchData(match.getId(), matchTime.minusMinutes(10));
+        violations = validator.validate(bettingMatchData);
+        assertThat(violations.size(), equalTo(0));
     }
 
     static class TournamentData {
@@ -257,7 +321,18 @@ public class ValidationTest extends BaseTest {
         }
     }
 
-    private Tournament createTournament(boolean isActivated) {
+    @ExpritedTimeValid(firstField = "matchId", secondField = "expiredTime", thirdField = "matchTime", type = Match.class)
+    static class BettingMatchData {
+        Long matchId;
+        LocalDateTime expiredTime;
+
+        BettingMatchData(Long matchId, LocalDateTime expiredTime) {
+            this.matchId = matchId;
+            this.expiredTime = expiredTime;
+        };
+    }
+
+    private Tournament makeTournament(boolean isActivated) {
         Tournament tournament = new Tournament();
         tournament.setActivated(isActivated);
         tournament.setName("World Cup");
@@ -267,6 +342,9 @@ public class ValidationTest extends BaseTest {
     @After
     public void clearData() {
         groupRepo.deleteAll();
+        matchRepo.deleteAll();
+        competitorRepo.deleteAll();
+        roundRepo.deleteAll();
         tournamentRepo.deleteAll();
     }
 
