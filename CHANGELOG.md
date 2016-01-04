@@ -1,4 +1,4 @@
-ngaythobet - v0.0.7 / 2016-01-04
+ngaythobet - v0.0.8 / 2016-01-04
 ================================
 
 * [#55 API] Player Betting Match.
