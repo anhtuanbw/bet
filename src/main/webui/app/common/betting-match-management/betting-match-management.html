@@ -9,6 +9,23 @@
         <div class="text-center">{{round}}</div>
       </div>
       <div class="panel-body">
+        <div class="col-md-5 text-right">
+          <span>{{match.competitor1}}</span>
+        </div>
+        <div class="col-md-2 text-center">{{match.score1}} - {{match.score2}}</div>
+        <div class="col-md-5">
+          <span>{{match.competitor2}}</span>
+        </div>
+        <div class="text-center">({{match.balance1}} - {{match.balance2}})</div>
+        <button type="button" class="btn btn-success">
+          <span class="glyphicon glyphicon-hand-right"></span>Activate
+        </button>
+        <button type="button" class="btn btn-default" ng-click="betting.openUpdate()">
+          <span class="glyphicon glyphicon-edit"></span>Update
+        </button>
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-hand-right"></span>Bet match
+        </button>
       </div>
     </div>
     <br>
@@ -33,7 +50,7 @@
           <td>{{row.competitor1.name}} - {{row.competitor2.name}}</td>
           <td>{{betting.parseTime(row.matchTime)}}</td>
           <td>{{row.location}}</td>
-  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch()">Choose</button></td>
+  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch(row)">Choose</button></td>
   			</tr>
   		</tbody>
   	</table>

@@ -35,7 +35,7 @@ export default class PlayerBettingMatchController {
 	var requestBody = {
 		'bettingMatchId': 10,
 		'comment': '12312'
-	}
+	};
 	self.stompClient.send('/app/betting-match/comment/1', { 'x-auth-token': token }, JSON.stringify(requestBody));
   }
 }
