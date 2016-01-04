@@ -26,7 +26,7 @@
     <p><strong>Expire time<span class="text-danger">*</span></strong></p>
     <div class="form-group">
         <div class="input-group date" date-time-picker ng-model="createBet.data.time">
-          <input type="text" class="form-control" />
+          <input type="text" class="form-control" ng-model="createBet.data.timeOld" />
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
           </span>
         </div>
@@ -45,7 +45,7 @@
     <hr>
     <div class="pull-right">
       <button type="button" class="btn btn-primary" ng-hide="createBet.data.hide" ng-click="createBet.create(createBet.data)">Create</button>
-      <button type="button" class="btn btn-primary" ng-hide="!createBet.data.hide">Update</button>
+      <button type="button" class="btn btn-primary" ng-hide="!createBet.data.hide" ng-click="createBet.update(createBet.data)">Update</button>
       <button type="button" class="btn btn-primary" ng-click="createBet.cancel()">Cancel</button>
     </div>
     <br>

@@ -18,7 +18,7 @@ export default class CreateBettingController {
     data.balance2 = this.matchData.balance2;
     data.amount = this.matchData.betAmount;
     data.description = this.matchData.decription;
-    data.time = this.matchData.expiredTime;
+    data.timeOld = this.matchData.expiredTime;
     data.active = this.matchData.activated;
     data.hide = this.matchData.hide;
   }
@@ -50,6 +50,10 @@ export default class CreateBettingController {
     }, function (response) {
       self.pop('error', self.popTitle, response.data.message);
     });
+  }
+
+  update(data){
+    console.log('data: '+data.time);
   }
 
   cancel(){

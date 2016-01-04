@@ -66,7 +66,7 @@ export default class BettingMatchController {
       'balance2': 1,
       'betAmount': 200,
       'decription': 'update emulator',
-      'expiredTime': '2015/12/15 10;35',
+      'expiredTime': '2015-12-15 10:35',
       'groupId': 3,
       'hide': true,
       'matchId': 5
@@ -87,8 +87,8 @@ export default class BettingMatchController {
 
   }
 
-  update(){
-
+  update(data){
+    console.log('data: '+data.time);
   }
 
   betMatch(){
