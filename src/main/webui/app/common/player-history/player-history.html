@@ -1,7 +1,7 @@
-<button class="btn btn-default btn-outline" translate="components.tournament.group.groupStatistic"></button>
-<button class="btn btn-primary" translate="components.tournament.group.playerStatistic"></button>
+<button class="btn btn-default btn-outline" translate="components.tournament.group.groupStatistic" ng-click="playerHistory.activePlayer=false;"></button>
+<button class="btn btn-primary" translate="components.tournament.group.playerStatistic" ng-click="playerHistory.activePlayer=true;"></button>
 <h3>User Thai</h3>
-<div class="table-responsive">          
+<div class="table-responsive" ng-show="playerHistory.activePlayer">
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -9,36 +9,36 @@
 				<th>
 					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'match';playerHistory.sortReverse = !playerHistory.sortReverse">
 						<span translate="components.tournament.group.table.match"></span>
-						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'match' && playerHistory.sortReverse"></i> 
-						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'match' && !playerHistory.sortReverse"></i>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'match' && !playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'match' && playerHistory.sortReverse"></i>
 					</a>
 				</th>
 				<th>
 					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'competitor';playerHistory.sortReverse = !playerHistory.sortReverse">
 						<span translate="components.tournament.group.table.competitor"></span>  
-						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'competitor' && playerHistory.sortReverse"></i> 
-						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'competitor' && !playerHistory.sortReverse"></i>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'competitor' && !playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'competitor' && playerHistory.sortReverse"></i>
 					</a>
 				</th>
 				<th>
 					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'Score';playerHistory.sortReverse = !playerHistory.sortReverse">
 						<span translate="components.tournament.group.table.score"></span>
-						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Score' && playerHistory.sortReverse"></i> 
-						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Score' && !playerHistory.sortReverse"></i>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Score' && !playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Score' && playerHistory.sortReverse"></i>
 					</a>
 				</th>
 				<th>
 					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'Expired';playerHistory.sortReverse = !playerHistory.sortReverse">
 						<span translate="components.tournament.group.table.expired"></span>
-						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Expired' && playerHistory.sortReverse"></i> 
-						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Expired' && !playerHistory.sortReverse"></i>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Expired' && !playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Expired' && playerHistory.sortReverse"></i>
 					</a>
 				</th>
 				<th>
 					<a href="javascript:void(0)" ng-click="playerHistory.sortType = 'Loss';playerHistory.sortReverse = !playerHistory.sortReverse">
 						<span translate="components.tournament.group.table.loss"></span>
-						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Loss' && playerHistory.sortReverse"></i> 
-						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Loss' && !playerHistory.sortReverse"></i>
+						<i class="fa fa-angle-down" ng-show="playerHistory.sortType == 'Loss' && !playerHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="playerHistory.sortType == 'Loss' && playerHistory.sortReverse"></i>
 					</a>
 				</th>
 			</tr>

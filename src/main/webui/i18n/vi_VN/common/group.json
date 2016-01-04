@@ -1,0 +1,14 @@
+{
+  "common": {
+      "group": {
+		"information": {
+			"name": "Tên nhóm",
+			"information": "Thông tin nhóm",
+			"moderator": "Người điều hành",
+			"editGroup": " Cập nhật",
+			"groupPlayers": "Người chơi",
+			"update-success": "Cập nhật thành công!!!"
+		}
+      }
+  }
+}
