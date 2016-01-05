@@ -2,6 +2,7 @@ package vn.kms.ngaythobet.domain.betting;
 
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,11 +55,9 @@ public class BettingPlayerService {
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
             bettingPlayer.setBetCompetitor(betCompetitor);
             bettingPlayerRepo.save(bettingPlayer);
-            if (comment != null) {
-                if (!comment.trim().isEmpty()) {
-                    bettingMatch.setComment(comment);
-                    bettingMatchRepo.save(bettingMatch);
-                }
+            if (StringUtils.isNotBlank(comment.trim())) {
+                bettingMatch.setComment(comment);
+                bettingMatchRepo.save(bettingMatch);
             }
         }
 
