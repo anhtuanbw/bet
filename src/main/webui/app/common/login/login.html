@@ -1,22 +1,22 @@
 <div class="row">
-	<h2>Log In</h2>
+	<h2 translate="common.login.title"></h2>
 	<div class="well">
 		<form name="loginForm">
 			<div class="form-group">
-				<label for="username" class="control-label">Username</label><span class="text-danger"> *</span>
+				<label for="username" class="control-label" translate="common.login.username"></label><span class="text-danger"> *</span>
 				<input type="text" class="form-control" ng-model="login.data.username" id="username" name="username" required>
 			</div>
 			<div class="form-group">
-				<label for="password" class="control-label">Password</label><span class="text-danger"> *</span>
+				<label for="password" class="control-label" translate="common.login.password"></label><span class="text-danger"> *</span>
 				<input type="password" class="form-control"  ng-model="login.data.password" id="password" name="password" required>
 				<span class="text-danger" ng-bind="login.data.error"></span>
 			</div>
 			<p class="pull-left">
 				<a ng-click="login.openForgotPassword()" href="javascript:void(0)">
-					<span>Forgot password?</span>
+					<span translate="common.login.forgotpassword"></span>
 				</a>
 			</p>
-			<button ng-click="login.login(login.data)" class="btn btn-primary pull-right">Log In</button>
+			<button ng-click="login.login(login.data)" class="btn btn-primary pull-right" translate="common.login.btnlogin"></button>
 			<p>&nbsp</p>
 		</form>
 	</div>
