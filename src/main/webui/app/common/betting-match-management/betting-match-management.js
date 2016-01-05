@@ -40,8 +40,10 @@ export default class BettingMatchController {
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
       for (var i = 0; i < response.data.length; i++) {
+        console.log('round ID: '+response.data[i].id);
         this.BettingService.getBettingMatchByRoundAndGroupId(response.data[i].id, this.groupID)
         .then(response => {
+          console.log('group ID: '+this.groupID);
           console.log(response.data);
         });
       }
@@ -57,11 +59,11 @@ export default class BettingMatchController {
     var fullDate = new Date(...date);
     var year = fullDate.getFullYear();
     var month = this.longTime(fullDate.getMonth());
-    var date = this.longTime(fullDate.getDate());
+    var dates = this.longTime(fullDate.getDate());
     var hour = this.longTime(fullDate.getHours());
     var minute = this.longTime(fullDate.getMinutes());
     var second = this.longTime(fullDate.getSeconds());
-    var dateTime = year+'/'+month+'/'+date+', '+hour+':'+minute+':'+second;
+    var dateTime = year+'/'+month+'/'+dates+', '+hour+':'+minute+':'+second;
     return dateTime;
   }
 
