@@ -37,7 +37,7 @@
             <label for="roundcompet" class="control-label">Competitor</label><span class="text-danger"> *</span>
             <ol>
               <li ng-repeat="item in round.data.competitorList">{{item}}
-                <span class="glyphicon glyphicon-remove-sign text-danger" ng-hide="round.data.hide" ng-click="round.close(round.data,$index)"></span>
+                <span class="glyphicon glyphicon-remove-sign text-danger" ng-hide="round.data.hide" ng-click="round.remove(round.data,$index)"></span>
               </li>
             </ol>
             <span class="text-danger" ng-bind="round.data.CompetitorError"></span>
