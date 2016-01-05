@@ -12,6 +12,7 @@ import vn.kms.ngaythobet.domain.tournament.Match;
 public interface BettingMatchRepository extends JpaRepository<BettingMatch, Long>{
     List<BettingMatch> findAllByOrderByCreatedAtDesc();
     List<BettingMatch> findByMatch(Match match);
+    List<BettingMatch> findByGroup(Group group);
     BettingMatch findByGroupAndMatch(Group group,Match match);
     Optional<BettingMatch> findByIdAndActivated(Long id, boolean activated);
 }
