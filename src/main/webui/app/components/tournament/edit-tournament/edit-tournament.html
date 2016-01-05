@@ -14,14 +14,14 @@
 				<div class="showTournament">
 					<div class="panel-heading panel-title">
 						<span><h4 class="padding-round bold" ng-bind="round.name"></h4></span>
-						<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-sort-desc fa-2x pull-right"></i></a>
+						<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-angle-down fa-2x pull-right"></i></a>
 						<div ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
 							<hr>
-							<div class="text-center">
-								<h4 class="text-danger padding-button">Match {{$index + 1}}</h4>
+							<div class="col-md-12">
+								<h4 class="text-danger padding-button col-md-7 text-right">Match {{$index + 1}}</h4>
 								<div class="pull-right">
-									<button class="btn btn-default" ng-click="editor.openUpdateScore(match.id)">Update score</button>
-									<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-sort-desc fa-2x"></i></a>
+									<button ng-show="editor.isAdmin" class="btn btn-default" ng-click="editor.openUpdateScore(match.id)">Update score</button>
+									<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-angle-down"></i></a>
 								</div>
 							</div>
 							<div class="row">

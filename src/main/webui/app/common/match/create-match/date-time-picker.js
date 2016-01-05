@@ -13,7 +13,7 @@ export default function () {
       };
 
       element.datetimepicker({
-        format: 'YYYY-MM-DD HH:mm'
+        format: 'YYYY/MM/DD HH:mm'
       });
 
       element.on('dp.change', function () {
