@@ -1,26 +1,44 @@
 {
-  "components": {
-    "tournament": {
-      "createTournament-success": "Thêm giải đấu thành công!!!",
-      "title": "Tạo giải đấu",
-      "competitors": "Các đội thi đấu",
-      "name": "Tên giải đấu",
-      "active": "Kích hoạt",
-      "activeSuccess": "Kích hoạt giải đấu thành công!!!",
-      "group": {
-        "groupStatistic": "Thống kê nhóm",
-        "playerStatistic": "Thống kê người chơi",
-        "table": {
-          "no": "STT",
-          "match": "Trận đấu",
-          "competitor": "Đối thủ",
-          "score": "Tỷ số",
-          "expired": "Thời gian hết hạn",
-          "loss": "Số trận thua"
-        },
-        "total": "Tổng số thua",
-        "unit": "VNĐ"
-      }
+    "components":{
+        "tournament":{
+            "createTournament-success":"Thêm giải đấu thành công!!!",
+            "title":"Tạo giải đấu",
+            "competitors":"Các đội thi đấu",
+            "name":"Tên giải đấu",
+            "active":"Kích hoạt",
+            "activeSuccess":"Kích hoạt giải đấu thành công!!!",
+            "history":{
+                "matchStatistic":"Thống kê trận đấu",
+                "groupStatistic":"Thống kê nhóm",
+                "playerStatistic":"Thống kê người chơi",
+                "player":{
+                    "table":{
+                        "no":"STT",
+                        "match":"Trận đấu",
+                        "competitor":"Đối thủ",
+                        "score":"Tỷ số",
+                        "expired":"Thời gian hết hạn",
+                        "loss":"Số trận thua"
+                    },
+                    "total":"Tổng số thua",
+                    "unit":"VNĐ"
+                },
+                "group": {
+                  "title": "Thống kê theo nhóm",
+                  "table": {
+                    "no": "STT",
+                    "player": "Người chơi",
+                    "notloss": "Số trận thắng",
+                    "losscount": "Số trận thua",
+                    "lossamount": "Số tiền thua",
+                    "notbetcount": "Số trận không đặt",
+                    "notbetamount": "Số tiền thua",
+                    "totalloss": "Tổng tiền thua"
+                  },
+                  "total": "Tổng tiền thua",
+                  "unit": "VNĐ"
+                }
+            }
+        }
     }
-  }
 }
