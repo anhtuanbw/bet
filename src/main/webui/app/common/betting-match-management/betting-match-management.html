@@ -2,13 +2,13 @@
 <br>
 <button class="btn btn-primary pull-right clearfix" ng-click="betting.add(betting.data)"><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
 <br><br><br>
-<div ng-init="betting.data.roundList = []; betting.loadRound(betting.data)">
+<div ng-init="betting.data.roundList = [];betting.data.matchList = []; betting.loadRound(betting.data)">
   <div ng-repeat="round in betting.data.roundList">
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="text-center">{{round}}</div>
       </div>
-      <div class="panel-body">
+      <div class="panel-body" ng-repeat="match in betting.data.matchList">
         <div class="col-md-5 text-right">
           <span>{{match.competitor1}}</span>
         </div>
@@ -33,8 +33,8 @@
 </div>
 </div>
 
-<div class="panel-body" ng-hide="!betting.data.hide" ng-init="betting.data.round = []">
-  <div ng-repeat="table in betting.data.round">
+<div class="panel-body" ng-hide="!betting.data.hide" ng-init="betting.data.match = []">
+  <div ng-repeat="table in betting.data.match">
     {{table.name}}
   	<table class="table table-striped">
   		<thead class="bg-primary">

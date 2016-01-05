@@ -24,31 +24,34 @@ export default class BettingMatchController {
 
   selectGroup(data){
     data.roundList = [];
-    data.round = [];
+    data.match = [];
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
       for (var i = 0; i < response.data.length; i++) {
         data.roundList.push(response.data[i].name);
-        data.round.push(response.data[i]);
+        data.match.push(response.data[i]);
       }
     });
-    this.loadMatch();
+    this.loadMatch(data);
   }
 
-  loadMatch(){
-    console.log('load match, tourID: '+this.tourID);
+  loadMatch(data){
+    var roundIdList = [];
+    var bettingMatchData = [];
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
       for (var i = 0; i < response.data.length; i++) {
-        console.log('round ID: '+response.data[i].id);
-        this.BettingService.getBettingMatchByRoundAndGroupId(response.data[i].id, this.groupID)
-        .then(response => {
-          console.log('group ID: '+this.groupID);
-          console.log(response.data);
-        });
+        roundIdList.push(response.data[i].id);
       }
-    });
 
+    for (var j = 0; j < roundIdList.length; j++) {
+      this.BettingService.getBettingMatchByRoundAndGroupId(roundIdList[j], this.groupID)
+          .then(response => {
+            bettingMatchData.push(response.data);
+      });
+      console.log(bettingMatchData);      
+    }
+    });
   }
 
   add(data){
