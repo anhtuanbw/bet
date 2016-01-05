@@ -64,9 +64,6 @@ export default class EditTournamentController {
         }
         this.checkNullScore();
         this.getTime();
-      })
-      .catch(response => {
-        // return error
       });
   }
 
