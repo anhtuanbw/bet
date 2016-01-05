@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -40,6 +41,7 @@ public class GroupServiceTest extends BaseTest {
         tournament.setActivated(true);
         tournament.setName("World Cup");
         tournament.setNumOfCompetitor((long) 32);
+        tournament.setGroups(Collections.emptyList());
         Tournament temp = tournamentRepo.save(tournament);
 
         user = getDefaultUser();
