@@ -14,7 +14,7 @@ import org.springframework.security.util.FieldUtils;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 
-public class ExpiredTimeValidValidator implements ConstraintValidator<ExpiredTimeValid, Object> {
+public class NotExpiredTimeValidator implements ConstraintValidator<NotExpiredTime, Object> {
 
     private Class<? extends AuditableEntity> entity;
     private String entityId;
@@ -25,7 +25,7 @@ public class ExpiredTimeValidValidator implements ConstraintValidator<ExpiredTim
     @PersistenceContext
     private EntityManager em;
 
-    public void initialize(ExpiredTimeValid annotation) {
+    public void initialize(NotExpiredTime annotation) {
         this.entity = annotation.type();
         entityId = annotation.entityId();
         targetField = annotation.targetField();

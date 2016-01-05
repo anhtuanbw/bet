@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.tournament.MatchRepository;
+import vn.kms.ngaythobet.domain.tournament.Round;
+import vn.kms.ngaythobet.domain.tournament.RoundRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.web.dto.ActiveBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
+import vn.kms.ngaythobet.web.dto.GetBettingMatchesByRoundAndGroupIdInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
 
 @Service
@@ -22,13 +27,15 @@ public class BettingMatchService {
     private final MatchRepository matchRepo;
     private final GroupRepository groupRepo;
     private final BettingMatchRepository bettingMatchRepo;
+    private final RoundRepository roundRepo;
 
     @Autowired
     public BettingMatchService(MatchRepository matchRepo, GroupRepository groupRepo,
-            BettingMatchRepository bettingMatchRepo) {
+            BettingMatchRepository bettingMatchRepo, RoundRepository roundRepo) {
         this.matchRepo = matchRepo;
         this.groupRepo = groupRepo;
         this.bettingMatchRepo = bettingMatchRepo;
+        this.roundRepo = roundRepo;
     }
 
     public boolean bettingMatchIsExisted(Long groupId, Long matchId) {
@@ -87,9 +94,27 @@ public class BettingMatchService {
         }
     }
 
+    public void activeBettingMatch(ActiveBettingMatchInfo activeBettingMatchInfo) {
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(activeBettingMatchInfo.getBettingMatchId());
+        bettingMatch.setActivated(true);
+        bettingMatchRepo.save(bettingMatch);
+    }
+
     public List<BettingMatch> getBettingMatchesByMatch(Long matchId) {
         Match match = matchRepo.getOne(matchId);
         return bettingMatchRepo.findByMatch(match);
+    }
+
+    public List<BettingMatch> getBettingMatchesByRoundAndGroupId(
+            GetBettingMatchesByRoundAndGroupIdInfo getBettingMatchesByRoundAndGroupIdInfo) {
+        List<BettingMatch> bettingMatches = new ArrayList<>();
+        Round round = roundRepo.getOne(getBettingMatchesByRoundAndGroupIdInfo.getRoundId());
+        Group group = groupRepo.getOne(getBettingMatchesByRoundAndGroupIdInfo.getGroupId());
+        List<Match> matches = matchRepo.findByRound(round);
+        for (Match match : matches) {
+            bettingMatches.add(bettingMatchRepo.findByGroupAndMatch(group, match));
+        }
+        return bettingMatches;
     }
 
     public BettingMatch getBettingMatchById(Long id) {

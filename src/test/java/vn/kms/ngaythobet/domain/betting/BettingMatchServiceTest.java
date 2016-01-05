@@ -29,7 +29,9 @@ import vn.kms.ngaythobet.domain.tournament.RoundRepository;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.tournament.TournamentRepository;
 import vn.kms.ngaythobet.domain.core.UserRepository;
+import vn.kms.ngaythobet.web.dto.ActiveBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
+import vn.kms.ngaythobet.web.dto.GetBettingMatchesByRoundAndGroupIdInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
 
 public class BettingMatchServiceTest extends BaseTest {
@@ -68,11 +70,9 @@ public class BettingMatchServiceTest extends BaseTest {
     private Group groupTemp;
     private BettingMatch bettingMatchTemp;
 
-    
     @Override
     protected void doStartUp() {
 
-        
         // create 2 users
         User user1 = createUser(true, "hieu1@abc.com", "hieu1", "123467", Role.USER, "hieu1");
         User user2 = createUser(true, "hieu2@abc.com", "hieu2", "123467", Role.USER, "hieu2");
@@ -118,7 +118,7 @@ public class BettingMatchServiceTest extends BaseTest {
 
     }
 
-    private User createUser(boolean active,String email, String name, String password,Role role,String userName){
+    private User createUser(boolean active, String email, String name, String password, Role role, String userName) {
         User user = new User();
         user.setActivated(active);
         user.setEmail(email);
@@ -128,7 +128,21 @@ public class BettingMatchServiceTest extends BaseTest {
         user.setUsername(userName);
         return user;
     }
-    
+
+    private BettingMatch createBettingMatch() {
+        BettingMatch bettingMatch = new BettingMatch();
+        bettingMatch.setActivated(false);
+        bettingMatch.setBalance1(new BigDecimal("0"));
+        bettingMatch.setBalance2(new BigDecimal("0"));
+        bettingMatch.setBetAmount(new BigDecimal("0"));
+        bettingMatch.setExpiredTime(LocalDateTime.now());
+        bettingMatch.setGroup(groupTemp);
+        bettingMatch.setMatch(matchTemp);
+        bettingMatch.setDescription("test");
+        bettingMatchTemp = bettingMatchRepo.save(bettingMatch);
+        return bettingMatchTemp;
+    }
+
     @Test
     public void testCreateBettingMatch() {
         CreateBettingMatchInfo createBettingMatchInfo = new CreateBettingMatchInfo();
@@ -148,30 +162,55 @@ public class BettingMatchServiceTest extends BaseTest {
     @Test
     public void testUpdateBettingMatch() {
         // create betting match
-        BettingMatch bettingMatch = new BettingMatch();
-        bettingMatch.setActivated(true);
-        bettingMatch.setBalance1(new BigDecimal("0"));
-        bettingMatch.setBalance2(new BigDecimal("0"));
-        bettingMatch.setBetAmount(new BigDecimal("0"));
-        bettingMatch.setExpiredTime(LocalDateTime.now());
-        bettingMatch.setGroup(groupTemp);
-        bettingMatch.setMatch(matchTemp);
-        bettingMatch.setDescription("test");
-        bettingMatchTemp = bettingMatchRepo.save(bettingMatch);
+        BettingMatch bettingMatch = createBettingMatch();
 
         UpdateBettingMatchInfo updateBettingMatchInfo = new UpdateBettingMatchInfo();
         updateBettingMatchInfo.setBalance1(new BigDecimal(1));
         updateBettingMatchInfo.setBalance2(new BigDecimal(0));
         updateBettingMatchInfo.setActivated(false);
         updateBettingMatchInfo.setBetAmount(new BigDecimal("999999"));
-        updateBettingMatchInfo.setBettingMatchId(bettingMatchTemp.getId());
+        updateBettingMatchInfo.setBettingMatchId(bettingMatch.getId());
         updateBettingMatchInfo.setDecription("test again");
         updateBettingMatchInfo.setExpiredTime(LocalDateTime.now());
         updateBettingMatchInfo.setGroupId(groupTemp.getId());
         updateBettingMatchInfo.setMatchId(matchTemp.getId());
         bettingMatchService.updateBettingMatch(updateBettingMatchInfo);
         assertThat(bettingMatchRepo.findAll().size(), equalTo(1));
-        assertThat(bettingMatchRepo.findOne(bettingMatchTemp.getId()).getDescription(), equalTo("test again"));
+        assertThat(bettingMatchRepo.findOne(bettingMatch.getId()).getDescription(), equalTo("test again"));
+    }
+
+    @Test
+    public void testActiveBettingMatch() {
+        BettingMatch bettingMatch = createBettingMatch();
+        ActiveBettingMatchInfo activeBettingMatchInfo = new ActiveBettingMatchInfo();
+        activeBettingMatchInfo.setBettingMatchId(bettingMatch.getId());
+        activeBettingMatchInfo.setGroupId(groupTemp.getId());
+        bettingMatchService.activeBettingMatch(activeBettingMatchInfo);
+        assertThat(bettingMatchRepo.findOne(bettingMatch.getId()).isActivated(), equalTo(true));
+    }
+
+    @Test
+    public void testGetBettingMatchesByGroupAndRoundId() {
+        BettingMatch bettingMatch = createBettingMatch();
+        GetBettingMatchesByRoundAndGroupIdInfo getBettingMatchesByRoundAndGroupIdInfo = new GetBettingMatchesByRoundAndGroupIdInfo();
+        getBettingMatchesByRoundAndGroupIdInfo.setGroupId(groupTemp.getId());
+        getBettingMatchesByRoundAndGroupIdInfo.setRoundId(roundTemp.getId());
+        List<BettingMatch> result = bettingMatchService
+                .getBettingMatchesByRoundAndGroupId(getBettingMatchesByRoundAndGroupIdInfo);
+        assertThat(result.size(), equalTo(1));
+    }
+
+    @Test
+    public void testBettingMatchisExisted() {
+        BettingMatch bettingMatch = createBettingMatch();
+        assertThat(bettingMatchService.bettingMatchIsExisted(groupTemp.getId(), matchTemp.getId()), equalTo(false));
+    }
+
+    @Test
+    public void testGetBettingMatchesByMatch() {
+        List<BettingMatch> result = bettingMatchService.getBettingMatchesByMatch(matchTemp.getId());
+        assertThat(result.size(), equalTo(0));
+
     }
 
     @After
@@ -184,6 +223,5 @@ public class BettingMatchServiceTest extends BaseTest {
         tournamentRepo.deleteAll();
         userRepo.deleteAll();
     }
-
 
 }
