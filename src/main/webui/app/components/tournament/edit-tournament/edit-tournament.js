@@ -3,15 +3,18 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
     this.mdDialog = $mdDialog;
     this.toaster = toaster;
     this.inforTournament = [];
+    this.accountService = AccountService;
     $rootScope.hideRound = true;
     $rootScope.hideInfo = true;
+    this.isAdmin = false;
+    this.authen();
     $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       if (tournamentInfo) {
         this.tournamentInfo = tournamentInfo;
@@ -133,6 +136,15 @@ export default class EditTournamentController {
         getMatchId: function () {
           return matchId;
         }
+      }
+    });
+  }
+  
+  authen() {
+    this.accountService.authen()
+    .then(response => {
+      if (response.data) {
+         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
       }
     });
   }
