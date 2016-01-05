@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.util.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
@@ -89,6 +91,17 @@ public class Tournament extends AuditableEntity {
 
     public void setRounds(List<Round> rounds) {
         this.rounds = rounds;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Tournament tournament = (Tournament) obj;
+        return this.getId().equals(tournament.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCode(this.getId());
     }
 
 }
