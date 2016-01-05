@@ -33,6 +33,7 @@ export default class CreateBettingController {
     };
     var expiredTime = data.time;
     if (data.time) {
+      expiredTime = expiredTime.replace(/\//g, '-');
       expiredTime = expiredTime.replace(' ', 'T');
       expiredTime+=':00.000';
     }

@@ -8,54 +8,49 @@ export default class BettingMatchController {
     this.BettingService = BettingService;
     this.tourID = 0;
     this.groupID = 0;
+    this.data = {};
     this.modal = $modal;
+    this.loadRound();
   }
 
-  loadRound(data){
+  loadRound(){
     this.rootScope.$on('tourID', (event, tournamentID, groupID) => {
       if (tournamentID) {
         this.tourID = tournamentID;
         this.groupID = groupID;
-        this.selectGroup(data);
-        data.hide = false;
+        this.selectGroup(this.data);
+        this.data.hide = false;
       }
     });
   }
 
-  selectGroup(data){
-    data.roundList = [];
-    data.match = [];
+  selectGroup(){
+    this.data.roundName = [];
+    this.data.match = [];
+    this.data.matchList = [];
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
       for (var i = 0; i < response.data.length; i++) {
-        data.roundList.push(response.data[i].name);
-        data.match.push(response.data[i]);
-      }
-    });
-    this.loadMatch(data);
-  }
-
-  loadMatch(data){
-    var roundIdList = [];
-    var bettingMatchData = [];
-    this.RoundService.getRoundInTournament(this.tourID)
-    .then(response => {
-      for (var i = 0; i < response.data.length; i++) {
-        roundIdList.push(response.data[i].id);
-      }
-
-    for (var j = 0; j < roundIdList.length; j++) {
-      this.BettingService.getBettingMatchByRoundAndGroupId(roundIdList[j], this.groupID)
+        this.data.roundName.push(response.data[i].name);
+        this.data.match.push(response.data[i]);
+        this.BettingService.getBettingMatchByRoundAndGroupId(response.data[i].id, this.groupID)
           .then(response => {
-            bettingMatchData.push(response.data);
-      });
-      console.log(bettingMatchData);      
-    }
+            var tempArray = [];
+            for (var j = 0; j < response.data.length; j++) {
+              if (response.data[j] !== null) {
+                tempArray.push(response.data[j]);
+              }
+            }
+            this.data.matchList.push(tempArray);
+            response.data = [];
+        });
+      }
     });
   }
 
-  add(data){
-    data.hide = true;
+
+  add(){
+    this.data.hide = true;
   }
 
   parseTime(date){
@@ -78,15 +73,15 @@ export default class BettingMatchController {
     }
   }
 
-  chooseMatch(data){
-    data.groupID = this.groupID;
+  chooseMatch(matchChoosedData){
+    matchChoosedData.groupID = this.groupID;
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
       controller: 'CreateBettingController',
       controllerAs: 'createBet',
       resolve: {
         matchInfo: function () {
-          return data;
+          return matchChoosedData;
         }
       }
     });
@@ -122,8 +117,8 @@ export default class BettingMatchController {
 
   }
 
-  update(data){
-    console.log('data: '+data.time);
+  update(){
+   
   }
 
   betMatch(){
