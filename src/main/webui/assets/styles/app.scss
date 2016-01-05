@@ -27,6 +27,11 @@ body {
     .glyphicon { font-size: 24px; }
   }
 }
+
+.wrapper {
+  min-height: 840px;
+}
+
 .nav-tabs {
   border-bottom: none;
 }
@@ -95,7 +100,6 @@ body {
 }
 
 footer {
-    position: fixed;
     bottom: 0;
     width: 100%;
     min-height: 40px;
