@@ -33,7 +33,7 @@ export default class ActivatorController {
     }
     this.timeout(function () {
       self.location.path('/home');
-    }, 5000);
+    }, 3000);
   }
 }
 

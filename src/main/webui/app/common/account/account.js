@@ -20,6 +20,7 @@ export default class AccountController {
         this.loginUser.username = response.data.name;
       } else {
         this.cacheService.remove('loginUser');
+        this.rootScope.$broadcast('logout');
         this.loginUser = {};
       }
     });
