@@ -1,3 +1,21 @@
+ngaythobet - v0.0.8 / 2016-01-04
+================================
+
+* [#55 API] Player Betting Match.
+* [#57 API] Player History (Not optimized)
+* [#60 UI] Adding members to the Group
+
+**Improvement**
+* [UI Side bar] Update autocomplete (Contain username and display name)
+
+**Bug**
+* [#81] Error message displays inconsistently when user enter tournament name with blank space in the begin and end (Fixed)
+* [#79] Allowing Moderator user to update score of match (Fixed)
+* [#72] System allows to create match with match's time before current time (Fixed)
+* [#71] Can not create match when Admin is moderator of 2 group (Fixed)
+* [#65] System allows create match when competitors do not belong to round (Fixed)
+
+
 ngaythobet - v0.0.6 / 2015-12-29
 ================================
 

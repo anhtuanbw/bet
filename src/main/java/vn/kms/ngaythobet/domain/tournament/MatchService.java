@@ -60,22 +60,6 @@ public class MatchService {
                     "exception.matchService.createMatch.competitor-not-belong-round");
         }
 
-        List<Match> matches = matchRepo.findByRound(round);
-        if (matches.size() != 0) {
-            for (Match match : matches) {
-                if ((match.getCompetitor1().getId().equals(competitor1.getId()))
-                        || (match.getCompetitor2().getId().equals(competitor2
-                                .getId()))
-                        || (match.getCompetitor1().getId().equals(competitor2
-                                .getId()))
-                        || (match.getCompetitor2().getId().equals(competitor1
-                                .getId()))) {
-                    throw new DataInvalidException(
-                            "exception.matchService.createMatch.not-same-time-for-same-competitor");
-                }
-            }
-        }
-
         if (competitor1.getTournament().getId().equals(tournament.getId())
                 && competitor2.getTournament().getId()
                         .equals(tournament.getId())) {

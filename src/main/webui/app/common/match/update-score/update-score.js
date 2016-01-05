@@ -25,7 +25,7 @@ export default class UpdateScoreController {
     };
 
     this.matchService.updateScore(this.data)
-      .then(response => {
+      .then(() => {
         
         // Success
         this.closeModal();

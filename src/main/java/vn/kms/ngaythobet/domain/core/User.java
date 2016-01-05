@@ -11,11 +11,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.util.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.tournament.Group;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -29,7 +29,6 @@ public class User extends AuditableEntity {
             return "ROLE_" + name();
         }
     }
-    
 
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
@@ -154,7 +153,7 @@ public class User extends AuditableEntity {
 
     public List<Group> getGroups() {
         return groups;
-}
+    }
 
     public void setGroups(List<Group> groups) {
         this.groups = groups;
@@ -164,5 +163,10 @@ public class User extends AuditableEntity {
     public boolean equals(Object obj) {
         User user = (User) obj;
         return user.getId().equals(this.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCode(this.getId());
     }
 }

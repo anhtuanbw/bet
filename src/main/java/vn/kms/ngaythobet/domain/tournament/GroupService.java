@@ -34,7 +34,7 @@ public class GroupService {
     private final UserRepository userRepo;
     private final TournamentRepository tournamentRepo;
     private final MailService mailService;
-    
+
     @Autowired
     public GroupService(GroupRepository groupRepo, UserRepository userRepo, TournamentRepository tournamentRepo,
             MailService mailService) {
@@ -46,25 +46,31 @@ public class GroupService {
 
     @Transactional
     public void createGroup(CreateGroupInfo createGroupInfo) {
-        User moderator = userRepo.findOne(createGroupInfo.getModerator());
-        Group group = new Group();
-        List<User> members = new ArrayList<>();
-        members.add(moderator);
-        group.setName(createGroupInfo.getName());
-        group.setModerator(moderator);
-        group.setTournament(tournamentRepo.getOne(createGroupInfo.getTournamentId()));
-        group.setMembers(members);
-        groupRepo.save(group);
-        mailService.sendMailToGroupModeratorAsync(moderator, group);
+        if (tournamentRepo.findOne(createGroupInfo.getTournamentId()).getGroups().stream().map(group -> group.getName())
+                .filter(name -> name.equals(createGroupInfo.getName())).count() == 0) {
+            User moderator = userRepo.findOne(createGroupInfo.getModerator());
+            Group group = new Group();
+            List<User> members = new ArrayList<>();
+            members.add(moderator);
+            group.setName(createGroupInfo.getName());
+            group.setModerator(moderator);
+            group.setTournament(tournamentRepo.getOne(createGroupInfo.getTournamentId()));
+            group.setMembers(members);
+            groupRepo.save(group);
+            mailService.sendMailToGroupModeratorAsync(moderator, group);
+        } else {
+            throw new DataInvalidException("validation.group.existName.message", createGroupInfo.getName());
+        }
     }
 
     @Transactional
     public void addMember(AddNewMemberInfo newNemberInfo) {
         Group group = groupRepo.findOne(newNemberInfo.getGroupId());
-        List<User> newMembers = newNemberInfo.getMemberIds().stream().map(id -> userRepo.getOne(id)).collect(Collectors.toList());
-        Set<User> members = new HashSet<>( group.getMembers());
-        for(User user : newMembers){
-            if(members.contains(user)){
+        List<User> newMembers = newNemberInfo.getMemberIds().stream().map(id -> userRepo.getOne(id))
+                .collect(Collectors.toList());
+        Set<User> members = new HashSet<>(group.getMembers());
+        for (User user : newMembers) {
+            if (members.contains(user)) {
                 throw new DataInvalidException("validation.list.user.not.new.message");
             }
         }
@@ -74,10 +80,10 @@ public class GroupService {
     }
 
     @Transactional(readOnly = true)
-    public void checkModeratorPermission(CheckModeratorInfo checkModeratorInfo){
+    public void checkModeratorPermission(CheckModeratorInfo checkModeratorInfo) {
         Optional<Group> group = groupRepo.findByIdAndModerator(checkModeratorInfo.getGroupId(),
                 userRepo.getOne(checkModeratorInfo.getUserId()));
-        if(!group.isPresent()){
+        if (!group.isPresent()) {
             throw new DataInvalidException("validation.moderator.access.deny.message");
         }
     }

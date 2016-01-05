@@ -14,12 +14,21 @@
 			<div class="panel-body">
 				<div class="tab-content">
 					<div id="matches" class="tab-pane fade in active">
-						<h3>Matches</h3>
 						<div betting></div>
 					</div>
 					<div id="statistics" class="tab-pane fade">
-						<div playerhistory></div>
-						<div comment></div>
+						<a href="javascript:void(0)" ng-class="{'btn btn-primary': tourGroup.activePlayer=='group', 'btn btn-default': tourGroup.activePlayer!='group'}" ng-click="tourGroup.activePlayer='group'">
+							<i class="fa fa-users"></i>
+							<span translate="components.tournament.history.groupStatistic"></span>
+						</a>
+						<a href="javascript:void(0)" ng-class="{'btn btn-primary': tourGroup.activePlayer=='player', 'btn btn-default': tourGroup.activePlayer!='player'}" ng-click="tourGroup.activePlayer='player'">
+							<i class="fa fa-user"></i>
+							<span translate="components.tournament.history.playerStatistic"></span>
+						</a>
+						
+						<div playerhistory ng-show="tourGroup.activePlayer=='player'"></div>
+						<div grouphistory ng-show="tourGroup.activePlayer=='group'"></div>
+						<div comment ng-show="tourGroup.activePlayer=='group'"></div>
 					</div>
 					<div id="information" class="tab-pane fade">
 						<div class="row">
@@ -33,7 +42,7 @@
 									</div>
 								</div>
 								<div class="panel-body">
-									<ul class="list-group">
+									<ul class="list-group information">
 										<li class="list-group-item">
 											<div class="row">
 												<span class="col-sm-4" translate="common.group.information.name"></span>
@@ -60,9 +69,9 @@
 									<strong class="panel-title pull-left text-muted font-size" translate="common.group.information.groupPlayers"></strong>
 								</div>
 								<div class="panel-body">
-									<ul class="list-group">
+									<ul class="list-group information">
 										<li class="list-group-item" ng-repeat="member in tourGroup.groupInfo.members" >
-											<i class="fa fa-user"></i> {{member.username}}
+											<i class="fa fa-user"></i> {{ member.username }}
 										</li>
 									</ul>
 								</div>

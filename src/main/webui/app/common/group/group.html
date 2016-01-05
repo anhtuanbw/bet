@@ -12,7 +12,7 @@
             </div>
             <div class="form-group" ng-class="{'has-error' : groupCtrl.error.tournamentId.length > 0}">
                 <label for="name" class="control-label" translate="common.group.tournament"></label>
-                <select class="form-control" ng-options="tournament.id as tournament.name for tournament in groupCtrl.groupData.tournaments" ng-model="groupCtrl.groupData.tournament">
+                <select class="form-control" ng-options="tournament.id as tournament.name for tournament in groupCtrl.groupData.tournaments" ng-model="groupCtrl.groupData.tournament" ng-disabled="groupCtrl.groupData.tournament !=-1">
                     <option value="" translate="common.group.marktournament"></option>
                 </select>
                 <span class="text-danger" ng-show="groupCtrl.error.tournamentId">{{ groupCtrl.error.tournamentId }}</span>
@@ -30,7 +30,7 @@
                     placeholder="Please select moderator!">
                     <md-item-template>
                         <i class="fa fa-user"></i>
-                        <span md-highlight-text="groupCtrl.searchText" md-highlight-flags="^i">{{ item.name }}</span>
+                        <span md-highlight-text="groupCtrl.searchText" md-highlight-flags="^i">{{ item.name }} ({{ item.username }})</span>
                     </md-item-template>
                     <md-not-found>
                         <span>No user matching "{{ groupCtrl.searchText }}" were found</span>

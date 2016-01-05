@@ -10,7 +10,9 @@ import DateTimePicker from './match/create-match/date-time-picker';
 import SideBar from './sidebar/sidebar';
 import Unauthorized from './unAuthorized/unAuthorized';
 import PlayerHistory from './player-history/player-history';
+import GroupHistory from './group-history/group-history';
 import Comment from './comment/comment';
+import InfoBettingMatch from './info-betting-match/info-betting-match';
 import betting from './betting-match-management/betting-match-management';
 import createBet from './create-betting-match/create-betting-match';
 
@@ -27,7 +29,9 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('sidebar', () => new SideBar())
 .directive('unauthorized', () => new Unauthorized())
 .directive('playerhistory', () => new PlayerHistory())
+.directive('grouphistory', () => new GroupHistory())
 .directive('comment', () => new Comment())
+.directive('infoBettingMatch', () => new InfoBettingMatch())
 .directive('dateTimePicker', DateTimePicker)
 .directive('betting', () => new betting())
 .directive('createBet', () => new createBet());
