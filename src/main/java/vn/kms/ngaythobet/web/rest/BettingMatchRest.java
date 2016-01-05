@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.betting.BettingMatchService;
+import vn.kms.ngaythobet.web.dto.ActiveBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
 
@@ -42,5 +43,15 @@ public class BettingMatchRest {
     @RequestMapping(value = "/getBettingMatchesInMatch/{matchId}", method = GET)
     public List<BettingMatch> getBettingMatchInMatch(@PathVariable("matchId") Long matchId) {
         return bettingMatchService.getBettingMatchesByMatch(matchId);
+    }
+
+    @RequestMapping(value = "/activeBettingMatch", method = POST)
+    public void activeBettingMatch(@Valid @RequestBody ActiveBettingMatchInfo activeBettingMatchInfo) {
+        bettingMatchService.activeBettingMatch(activeBettingMatchInfo);
+    }
+    
+    @RequestMapping(value = "/getBettingMatchesByRoundAndGroupId", method = POST)
+    public List<BettingMatch> getBettingMatchesByRoundId(long roundId,long groupId){
+        return bettingMatchService.getBettingMatchesByRoundAndGroupId(roundId, groupId);
     }
 }

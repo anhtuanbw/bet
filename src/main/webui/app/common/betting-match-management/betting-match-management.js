@@ -2,12 +2,12 @@
 
 export default class BettingMatchController {
   /* @ngInject */
-  constructor(RoundService, $rootScope, $modal){
+  constructor(RoundService, BettingService, $rootScope, $modal){
     this.rootScope = $rootScope;
     this.RoundService = RoundService;
+    this.BettingService = BettingService;
     this.tourID = 0;
     this.groupID = 0;
-    this.roundData = {};
     this.modal = $modal;
   }
 
@@ -27,12 +27,26 @@ export default class BettingMatchController {
     data.round = [];
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
-      this.roundData = response.data;
       for (var i = 0; i < response.data.length; i++) {
         data.roundList.push(response.data[i].name);
         data.round.push(response.data[i]);
       }
     });
+    this.loadMatch();
+  }
+
+  loadMatch(){
+    console.log('load match, tourID: '+this.tourID);
+    this.RoundService.getRoundInTournament(this.tourID)
+    .then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        this.BettingService.getBettingMatchByRoundAndGroupId(response.data[i].id, this.groupID)
+        .then(response => {
+          console.log(response.data);
+        });
+      }
+    });
+
   }
 
   add(data){
@@ -40,7 +54,23 @@ export default class BettingMatchController {
   }
 
   parseTime(date){
-    return String(new Date(...date));
+    var fullDate = new Date(...date);
+    var year = fullDate.getFullYear();
+    var month = this.longTime(fullDate.getMonth());
+    var date = this.longTime(fullDate.getDate());
+    var hour = this.longTime(fullDate.getHours());
+    var minute = this.longTime(fullDate.getMinutes());
+    var second = this.longTime(fullDate.getSeconds());
+    var dateTime = year+'/'+month+'/'+date+', '+hour+':'+minute+':'+second;
+    return dateTime;
+  }
+
+  longTime(time){
+    if(time < 10){
+      return '0'+time;
+    } else {
+      return time;
+    }
   }
 
   chooseMatch(data){

@@ -365,7 +365,7 @@ public class ValidationTest extends BaseTest {
         }
     }
 
-    @ExpiredTimeValid(entityId = "matchId", targetField = "expiredTime", fieldName = "matchTime", type = Match.class)
+    @NotExpiredTime(entityId = "matchId", targetField = "expiredTime", fieldName = "matchTime", type = Match.class)
     static class BettingMatchData {
         Long matchId;
         LocalDateTime expiredTime;

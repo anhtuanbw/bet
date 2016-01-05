@@ -16,9 +16,9 @@ import vn.kms.ngaythobet.domain.core.AuditableEntity;
 
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = ExpiredTimeValidValidator.class)
+@Constraint(validatedBy = NotExpiredTimeValidator.class)
 @Documented
-public @interface ExpiredTimeValid {
+public @interface NotExpiredTime {
 
     String message() default "{validation.expiredTime.message}";
 
