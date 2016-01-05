@@ -18,7 +18,7 @@ export default class PlayerBettingMatchController {
     this.namePlayerNotBet = [];
     this.getBettingMatchStatistics();
     this.getBettingMatchInfo();
-    // this.connect();
+    this.connect();
   }
 
   getBettingMatchInfo() {
@@ -104,12 +104,12 @@ export default class PlayerBettingMatchController {
     }
   }
 
-  sendComment() {
+  sendComment(comment) {
     var self = this;
     var token = this.cacheService.get('loginUser');
     var requestBody = {
       'bettingMatchId': 1,
-      'comment': '12312'
+      'comment': comment
     }
     console.log(token);
     self.stompClient.send('/app/betting-match/comment/1', { 'x-auth-token': token }, JSON.stringify(requestBody));

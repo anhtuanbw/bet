@@ -11,6 +11,7 @@ export default class ManagementController {
     this.selectedGroup = -1;
     this.selectedTour = -1;
     this.showView = {
+      isBetting: false,
       isCreate: true,
       isEdit: false,
       isGroup: false
@@ -31,6 +32,7 @@ export default class ManagementController {
     this.showView.isCreate = true;
     this.showView.isEdit = false;
     this.showView.isGroup = false;
+    this.showView.isBetting = false;
   }
 
   showGroup(index, tournament, group) {
@@ -38,11 +40,19 @@ export default class ManagementController {
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
+    this.showView.isBetting = false;
     this.rootScope.$broadcast('tourID', tournament.id, group.id);
     group.tournamentName = tournament.name;
     this.rootScope.$broadcast('selectGroup', group);
   }
-
+  
+  playerBetting() {
+    this.showView.isBetting = true;
+    this.showView.isCreate = false;
+    this.showView.isEdit = false;
+    this.showView.isGroup = false;
+  }
+  
   isAuthorized() {
     return this.cacheService.get('loginUser')!= null;
   }
@@ -59,7 +69,7 @@ export default class ManagementController {
     this.showView.isEdit = true;
     this.showView.isGroup = false;
     this.showView.isCreate = false;
-
+    this.showView.isBetting =false;
     for (var i in this.tournaments)
     {
       if (this.tournaments[i].id === tournamentId) {
