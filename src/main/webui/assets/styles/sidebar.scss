@@ -3,7 +3,7 @@
 }
 
 .content {
-    height: 1500px;
+    height: 1000px;
 }
 
 .sidenav {
@@ -97,4 +97,15 @@ li.active a {
 
 .arrow {
     display: inline;
+}
+
+.stylish-input-group .input-group-addon {
+    background: white !important; 
+}
+.stylish-input-group .form-control {
+    box-shadow: 0 0 0; 
+}
+.stylish-input-group button {
+    border: 0;
+    background: transparent;
 }

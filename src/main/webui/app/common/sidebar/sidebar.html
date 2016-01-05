@@ -1,16 +1,31 @@
-<div class="list-group">
+<div class="list-group" ng-init="showSearch = false;">
     <li class="list-group-item header" style="background:#2C6BA0;border-top-right-radius: 4px;" ng-click="showTours=!showTours">
         <div class="row" style="font-weight:bold;">
             <div class="col-xs-6 col-sm-12 col-md-6">
                 <span translate="common.sidebar.title"></span>
             </div>
-            <div class="col-xs-6 col-sm-12 col-md-6" ng-show="management.isAdmin">
-                <span class="pull-right" ng-click="management.createTournament();$event.stopPropagation();"  translate="common.sidebar.create"></span>
+            <div class="col-xs-6 col-sm-12 col-md-6 text-right" ng-show="management.isAdmin">
+                <span ng-click="management.createTournament();$event.stopPropagation();"  translate="common.sidebar.create"></span>
+                <span ng-click="showSearch = !showSearch; $event.stopPropagation();" style="padding-left: 10px;">
+                    <i class="fa fa-search"></i>
+                </span>
             </div>
         </div>
     </li>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group stylish-input-group" ng-show="showSearch && !showTours">
+                <input type="text" class="form-control" placeholder="Search tournaments" style="border-radius: 0;" ng-model="management.query">
+                <span class="input-group-addon" style="border-radius: 0;">
+                    <button type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>  
+                </span>
+            </div>
+        </div>
+    </div>
     <div ng-hide="showTours">
-        <li class="list-group-item child" ng-init="index = $index; havechild=tournament.groups.length>0" ng-repeat="tournament in management.tournaments" ng-click="management.changeTournament($index)" ng-class="{'choose':index == management.selectedTour}">
+        <li class="list-group-item child" ng-init="index = $index; havechild=tournament.groups.length>0" ng-repeat="tournament in management.tournaments | filter: management.query" ng-click="management.changeTournament($index)" ng-class="{'choose':index == management.selectedTour}">
             <a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)">
             <i class="fa fa-th-large"></i> {{ tournament.name }} 
             <span class="label label-info" ng-show="havechild" ng-bind="tournament.groups.length"></span>

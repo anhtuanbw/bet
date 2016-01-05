@@ -65,7 +65,7 @@ public class TournamentService {
         String username = SecurityUtil.getCurrentLogin();
         User user = userRepo.findOneByUsername(username).get();
         if (!user.getRole().equals(User.Role.ADMIN)) {
-            return user.getGroups().stream().map(group -> group.getTournament())
+            return user.getGroups().stream().map(group -> group.getTournament()).distinct()
                     .filter(tournament -> tournament.isActivated()).collect(Collectors.toList());
         }
         return tournamentRepo.findAll();

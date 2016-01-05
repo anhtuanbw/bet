@@ -21,6 +21,7 @@ export default class TournamentGroupController {
         this.checkMod();
       }
     });
+    this.activePlayer = 'group';
   }
   
   findById() {
