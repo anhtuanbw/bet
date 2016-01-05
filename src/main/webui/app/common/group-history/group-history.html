@@ -1,0 +1,79 @@
+<h3 translate="components.tournament.history.group.title"></h3>
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th translate="components.tournament.history.group.table.no"></th>
+				<th>
+					<a href="javascript:void(0)" ng-click="groupHistory.sortType = 'player'; groupHistory.sortReverse = !groupHistory.sortReverse">
+						<span translate="components.tournament.history.group.table.player"></span>
+						<i class="fa fa-angle-down" ng-show="groupHistory.sortType == 'player' && !groupHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="groupHistory.sortType == 'player' && groupHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="groupHistory.sortType = 'notloss';groupHistory.sortReverse = !groupHistory.sortReverse">
+						<span translate="components.tournament.history.group.table.notloss"></span>  
+						<i class="fa fa-angle-down" ng-show="groupHistory.sortType == 'notloss' && !groupHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="groupHistory.sortType == 'notloss' && groupHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="groupHistory.sortType = 'losscount'; groupHistory.sortReverse = !groupHistory.sortReverse">
+						<span translate="components.tournament.history.group.table.losscount"></span>
+						<i class="fa fa-angle-down" ng-show="groupHistory.sortType == 'losscount' && !groupHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="groupHistory.sortType == 'losscount' && groupHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="groupHistory.sortType = 'lossamount'; groupHistory.sortReverse = !groupHistory.sortReverse">
+						<span translate="components.tournament.history.group.table.lossamount"></span>
+						<i class="fa fa-angle-down" ng-show="groupHistory.sortType == 'lossamount' && !groupHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="groupHistory.sortType == 'lossamount' && groupHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="groupHistory.sortType = 'notbetcount'; groupHistory.sortReverse = !groupHistory.sortReverse">
+						<span translate="components.tournament.history.group.table.notbetcount"></span>
+						<i class="fa fa-angle-down" ng-show="groupHistory.sortType == 'notbetcount' && !groupHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="groupHistory.sortType == 'notbetcount' && groupHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="groupHistory.sortType = 'notbetamount'; groupHistory.sortReverse = !groupHistory.sortReverse">
+						<span translate="components.tournament.history.group.table.notbetamount"></span>
+						<i class="fa fa-angle-down" ng-show="groupHistory.sortType == 'notbetamount' && !groupHistory.sortReverse"></i> 
+						<i class="fa fa-angle-up" ng-show="groupHistory.sortType == 'notbetamount' && groupHistory.sortReverse"></i>
+					</a>
+				</th>
+				<th>
+					<a href="javascript:void(0)" ng-click="groupHistory.sortType = 'totalloss'; groupHistory.sortReverse = !groupHistory.sortReverse">
+						<span translate="components.tournament.history.group.table.totalloss"></span>
+						<i class="fa fa-angle-down" ng-show="groupHistory.sortType == 'totalloss' && !groupHistory.sortReverse"></i>
+						<i class="fa fa-angle-up" ng-show="groupHistory.sortType == 'totalloss' && groupHistory.sortReverse"></i>
+					</a>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="group in groupHistory.data | orderBy: groupHistory.sortType: groupHistory.sortReverse">
+				<td>{{ $index }}</td>
+				<td>{{ group.player }}</td>
+				<td>{{ group.notloss }}</td>
+				<td>{{ group.losscount }}</td>
+				<td>{{ group.lossamount }}</td>
+				<td>{{ group.notbetcount }}</td>
+				<td>{{ group.notbetamount }}</td>
+				<td>{{ group.totalloss }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="col-xs-4 col-xs-offset-8 col-sm-4 col-sm-offset-8 col-md-4 col-md-offset-8">
+		<div class="col-md-8">
+			<h4><strong translate="components.tournament.history.group.total"></strong></h4>
+		</div>
+		<div class="col-md-4">
+			<h5><strong>0 <span translate="components.tournament.history.group.unit"></span></strong></h5>
+		</div>
+	</div>
+</div>
