@@ -30,7 +30,6 @@ public class BettingMatch extends AuditableEntity {
     private Group group;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "match_id")
     private Match match;
