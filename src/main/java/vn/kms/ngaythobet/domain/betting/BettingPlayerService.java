@@ -59,7 +59,7 @@ public class BettingPlayerService {
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
             bettingPlayer.setBetCompetitor(betCompetitor);
             bettingPlayerRepo.save(bettingPlayer);
-            if (StringUtils.isNotBlank(comment.trim())) {
+            if (StringUtils.isNotBlank(comment)) {
                 bettingMatch.setComment(comment);
                 bettingMatchRepo.save(bettingMatch);
             }
