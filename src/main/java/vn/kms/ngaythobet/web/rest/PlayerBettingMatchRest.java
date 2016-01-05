@@ -88,14 +88,4 @@ public class PlayerBettingMatchRest {
         bettingPlayerService.addComment(comment);
         return changeLogService.getRecentComment(bettingMatchId);
     }
-
-    @MessageExceptionHandler
-    public void handleException(Throwable exception, SimpMessageHeaderAccessor headerAccessor) {
-        tokenProvider.setAuthenticationFromHeader(headerAccessor);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        if (username != null) {
-            messagingTemplate.convertAndSend("/topic/errors/" + username, exception.getMessage());
-        }
-    }
 }

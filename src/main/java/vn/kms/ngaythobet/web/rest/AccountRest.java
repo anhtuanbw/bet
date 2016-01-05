@@ -30,6 +30,7 @@ import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.infras.security.xauth.Token;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
 import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
+import vn.kms.ngaythobet.web.dto.LoginInfo;
 import vn.kms.ngaythobet.web.dto.RegisterUserInfo;
 import vn.kms.ngaythobet.web.dto.ResetPasswordInfo;
 import vn.kms.ngaythobet.web.dto.UpdateUserInfo;
@@ -68,13 +69,14 @@ public class AccountRest {
     }
 
     @RequestMapping(value = "/login", method = POST)
-    public Token login(@RequestParam String username, @RequestParam String password) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+    public Token login(@Valid @RequestBody LoginInfo loginInfo) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginInfo.getUsername(),
+                loginInfo.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails details = userDetailsService.loadUserByUsername(username);
+        UserDetails details = userDetailsService.loadUserByUsername(loginInfo.getUsername());
 
         return tokenProvider.createToken(details);
     }
@@ -112,7 +114,10 @@ public class AccountRest {
     @RequestMapping(value = "/account/change-password", method = POST)
     public Token changePassword(@Valid @RequestBody ChangePasswordInfo passwordInfo) {
         if (userService.changePassword(passwordInfo)) {
-            return login(SecurityUtil.getCurrentLogin(), passwordInfo.getPassword());
+            LoginInfo loginInfo = new LoginInfo();
+            loginInfo.setUsername(SecurityUtil.getCurrentLogin());
+            loginInfo.setPassword(passwordInfo.getPassword());
+            return login(loginInfo);
         } else {
             throw new DataInvalidException("exception.userService.currentPassword-invalid");
         }
