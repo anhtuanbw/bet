@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,11 +59,9 @@ public class BettingPlayerService {
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
             bettingPlayer.setBetCompetitor(betCompetitor);
             bettingPlayerRepo.save(bettingPlayer);
-            if (comment != null) {
-                if (!comment.trim().isEmpty()) {
-                    bettingMatch.setComment(comment);
-                    bettingMatchRepo.save(bettingMatch);
-                }
+            if (StringUtils.isNotBlank(comment)) {
+                bettingMatch.setComment(comment);
+                bettingMatchRepo.save(bettingMatch);
             }
         }
 

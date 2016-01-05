@@ -85,6 +85,7 @@ public class PlayerBettingMatchRest {
     @SendTo("/topic/comment/{bettingMatchId}")
     public CommentInfo comment(@Valid AddCommentInfo comment, @DestinationVariable Long bettingMatchId,
             SimpMessageHeaderAccessor headerAccessor) {
+        tokenProvider.setAuthenticationFromHeader(headerAccessor);
         bettingPlayerService.addComment(comment);
         return changeLogService.getRecentComment(bettingMatchId);
     }
