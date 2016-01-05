@@ -17,6 +17,7 @@ import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.betting.BettingMatchService;
 import vn.kms.ngaythobet.web.dto.ActiveBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
+import vn.kms.ngaythobet.web.dto.GetBettingMatchesByRoundAndGroupIdInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
 
 @RestController
@@ -51,7 +52,7 @@ public class BettingMatchRest {
     }
     
     @RequestMapping(value = "/getBettingMatchesByRoundAndGroupId", method = POST)
-    public List<BettingMatch> getBettingMatchesByRoundId(long roundId,long groupId){
-        return bettingMatchService.getBettingMatchesByRoundAndGroupId(roundId, groupId);
+    public List<BettingMatch> getBettingMatchesByRoundId(@Valid @RequestBody GetBettingMatchesByRoundAndGroupIdInfo getBettingMatchesByRoundAndGroupIdInfo){
+        return bettingMatchService.getBettingMatchesByRoundAndGroupId(getBettingMatchesByRoundAndGroupIdInfo);
     }
 }

@@ -17,6 +17,7 @@ import vn.kms.ngaythobet.domain.tournament.RoundRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.ActiveBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.CreateBettingMatchInfo;
+import vn.kms.ngaythobet.web.dto.GetBettingMatchesByRoundAndGroupIdInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
 
 @Service
@@ -104,17 +105,14 @@ public class BettingMatchService {
         return bettingMatchRepo.findByMatch(match);
     }
 
-    public List<BettingMatch> getBettingMatchesByRoundAndGroupId(long roundId, long groupId) {
+    public List<BettingMatch> getBettingMatchesByRoundAndGroupId(
+            GetBettingMatchesByRoundAndGroupIdInfo getBettingMatchesByRoundAndGroupIdInfo) {
         List<BettingMatch> bettingMatches = new ArrayList<>();
-        Round round = roundRepo.getOne(roundId);
-        Group group = groupRepo.getOne(groupId);
-        if (round != null && group != null) {
-            List<Match> matches = matchRepo.findByRound(round);
-            for (Match match : matches) {
-                bettingMatches.add(bettingMatchRepo.findByGroupAndMatch(group, match));
-            }
-        } else {
-            throw new DataInvalidException("exception.round.group.in.valid");
+        Round round = roundRepo.getOne(getBettingMatchesByRoundAndGroupIdInfo.getRoundId());
+        Group group = groupRepo.getOne(getBettingMatchesByRoundAndGroupIdInfo.getGroupId());
+        List<Match> matches = matchRepo.findByRound(round);
+        for (Match match : matches) {
+            bettingMatches.add(bettingMatchRepo.findByGroupAndMatch(group, match));
         }
         return bettingMatches;
     }
