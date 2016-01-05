@@ -1,0 +1,11 @@
+{
+  "common": {
+      "login": {
+          "title": "Đăng nhập",
+          "username": "Tên đăng nhập",
+          "password": "Mật khẩu",
+          "forgotpassword": "Quên mật khẩu?",
+          "btnlogin": "Đăng nhập"
+      }
+  }
+}

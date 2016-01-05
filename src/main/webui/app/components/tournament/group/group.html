@@ -6,9 +6,9 @@
 	</ol>
 	<div class="panel-body">
 		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#matches" href="javascript:void(0)">Matches</a></li>
-			<li><a data-toggle="tab" href="#statistics" href="javascript:void(0)">Statistics</a></li>
-			<li><a data-toggle="tab" href="#information" href="javascript:void(0)">Information</a></li>
+			<li class="active"><a data-toggle="tab" href="management/#matches" href="javascript:void(0)">Matches</a></li>
+			<li><a data-toggle="tab" href="management/#statistics" href="javascript:void(0)">Statistics</a></li>
+			<li><a data-toggle="tab" href="management/#information" href="javascript:void(0)">Information</a></li>
 		</ul>
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -26,8 +26,8 @@
 							<span translate="components.tournament.history.playerStatistic"></span>
 						</a>
 						
-						<div playerhistory ng-show="tourGroup.activePlayer=='player'"></div>
-						<div grouphistory ng-show="tourGroup.activePlayer=='group'"></div>
+						<div player-history ng-show="tourGroup.activePlayer=='player'"></div>
+						<div group-history ng-show="tourGroup.activePlayer=='group'"></div>
 						<div comment ng-show="tourGroup.activePlayer=='group'"></div>
 					</div>
 					<div id="information" class="tab-pane fade">

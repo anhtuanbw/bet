@@ -1,0 +1,11 @@
+{
+  "common": {
+      "login": {
+          "title": "Log In",
+          "username": "Username",
+          "password": "Password",
+          "forgotpassword": "Forgot password?",
+          "btnlogin": "Login"
+      }
+  }
+}
