@@ -17,7 +17,7 @@ import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
-import vn.kms.ngaythobet.web.dto.GetPlayerBettingMatchesByPlayerAndGroupInfo;
+import vn.kms.ngaythobet.web.dto.PlayerStatisticInfo;
 
 @Service
 @Transactional
@@ -37,13 +37,13 @@ public class PlayerStatisticService {
         this.bettingPlayerRepo = bettingPlayerRepo;
     }
 
-    public List<PlayerStatistic> getPlayerBettingMatchesByPlayerAndGroup(
-            GetPlayerBettingMatchesByPlayerAndGroupInfo getPlayerBettingMatchesByPlayerAndGroupInfo) {
+    public List<PlayerStatistic> playerStatistic(
+            PlayerStatisticInfo playerStatisticInfo) {
         String username = SecurityUtil.getCurrentLogin();
         User player = userRepo.findOneByUsername(username).get();
         List<PlayerStatistic> playerStatistics = new ArrayList<>();
         List<BettingMatch> bettingMatches = bettingMatchRepo
-                .findByGroup(groupRepo.getOne(getPlayerBettingMatchesByPlayerAndGroupInfo.getGroupId()));
+                .findByGroup(groupRepo.getOne(playerStatisticInfo.getGroupId()));
         List<BettingMatch> bettingMatchesPlayerDidnotJoin = new ArrayList<>();
         List<BettingPlayer> bettingPlayers = new ArrayList<>();
         for (BettingMatch bettingMatch : bettingMatches) {
@@ -68,7 +68,7 @@ public class PlayerStatisticService {
             playerStatistic.setCompetitor1Balance(bettingMatch.getBalance1().doubleValue());
             playerStatistic.setCompetitor2Balance(bettingMatch.getBalance2().doubleValue());
             playerStatistic.setBetCompetitorName(bettingPlayer.getBetCompetitor().getName());
-            playerStatistic.setLossAmount(CaculateLostAmount(match, bettingMatch, bettingPlayer.getBetCompetitor()));
+            playerStatistic.setLossAmount(CalculateLostAmount(match, bettingMatch, bettingPlayer.getBetCompetitor()));
             playerStatistics.add(playerStatistic);
         }
         // count lost amout when user didnot bet
@@ -91,7 +91,7 @@ public class PlayerStatisticService {
         return playerStatistics;
     }
 
-    private double CaculateLostAmount(Match match, BettingMatch bettingMatch, Competitor competitor) {
+    private double CalculateLostAmount(Match match, BettingMatch bettingMatch, Competitor competitor) {
         double lostAmount = 0;
         double diff1 = match.getScore1().doubleValue() + bettingMatch.getBalance1().doubleValue();
         double diff2 = match.getScore2().doubleValue() + bettingMatch.getBalance2().doubleValue();

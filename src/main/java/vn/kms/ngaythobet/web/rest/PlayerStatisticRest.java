@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.kms.ngaythobet.domain.statistic.PlayerStatistic;
 import vn.kms.ngaythobet.domain.statistic.PlayerStatisticService;
-import vn.kms.ngaythobet.web.dto.GetPlayerBettingMatchesByPlayerAndGroupInfo;
+import vn.kms.ngaythobet.web.dto.PlayerStatisticInfo;
 
 @RestController
 @RequestMapping("/api/")
@@ -22,9 +22,9 @@ public class PlayerStatisticRest {
     }
 
     @RequestMapping(value = "/playerStatistic", method = POST)
-    public List<PlayerStatistic> getPlayerBettingMatchesByPlayerAndGroupInfo(
-            @Valid @RequestBody GetPlayerBettingMatchesByPlayerAndGroupInfo getPlayerBettingMatchesByPlayerAndGroupInfo) {
-        return playerStatisticService.getPlayerBettingMatchesByPlayerAndGroup(getPlayerBettingMatchesByPlayerAndGroupInfo);
+    public List<PlayerStatistic> playerStatistic(
+            @Valid @RequestBody PlayerStatisticInfo playerStatisticInfo) {
+        return playerStatisticService.playerStatistic(playerStatisticInfo);
     }
 
 }

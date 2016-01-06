@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 
-public class GetPlayerBettingMatchesByPlayerAndGroupInfo {
+public class PlayerStatisticInfo {
 
     @EntityExist(type = Group.class)
     @NotNull
