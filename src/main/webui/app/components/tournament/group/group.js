@@ -16,7 +16,7 @@ export default class TournamentGroupController {
         if(groupInfo.tournamentName) {
           this.tournamentName = groupInfo.tournamentName;
         }
-        this.groupInfo = groupInfo;
+        this.groupInfo.id = groupInfo.id;
         this.findById();
         this.checkMod();
       }
