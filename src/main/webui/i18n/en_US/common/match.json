@@ -1,0 +1,15 @@
+{
+  "common": {
+      "match": {
+		"create": {
+			"title": "Create new match",
+			"select-round": "Select round",
+			"competitor1": "Competitor 1",
+			"competitor2": "Competitor 2",
+			"location": "Location",
+			"time": "Time",
+			"comment": "Comment"
+		}
+      }
+  }
+}
