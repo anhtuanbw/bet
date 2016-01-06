@@ -2,8 +2,9 @@
 
 class LanguageSelectController {
   /* @ngInject */
-  constructor($translate, CacheService, $rootScope) {
+  constructor($translate, CacheService, $rootScope, $cookies) {
     this.$translate = $translate;
+    this.cookies = $cookies;
     this.systemLanguage = this.$translate.use() || 'en_US';
     this.cacheService = CacheService;
     this.rootScope = $rootScope;
@@ -11,6 +12,7 @@ class LanguageSelectController {
   
   changeLanguage() {
     this.$translate.use(this.systemLanguage);
+    this.cookies.put('NG_TRANSLATE_LANG_KEY', this.systemLanguage);
     this.rootScope.$broadcast('changeLang', this.systemLanguage);
   }
 }
