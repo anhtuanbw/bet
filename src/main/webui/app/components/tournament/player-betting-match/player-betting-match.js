@@ -64,8 +64,9 @@ export default class PlayerBettingMatchController {
 
   getTime(timeArray) {
     var i;
+    var timeString = '';
     for (i = 0; i < timeArray.length; i++) {
-      var timeString = this.formatTime(timeArray[1].toString()) + '/' + this.formatTime(timeArray[2].toString()) + '/' + timeArray[0] +
+      timeString = this.formatTime(timeArray[1].toString()) + '/' + this.formatTime(timeArray[2].toString()) + '/' + timeArray[0] +
         ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ':00';
     }
     return timeString;
@@ -90,9 +91,8 @@ export default class PlayerBettingMatchController {
     this.stompClient = Stomp.over(socket);
 
     var self = this;
-    this.stompClient.connect({}, function (frame) {
-      self.stompClient.subscribe('/topic/comment/1', function (comment) {
-            console.log(comment);
+    this.stompClient.connect({}, function () {
+      self.stompClient.subscribe('/topic/comment/1', function () {
       });
     });
   }
@@ -110,8 +110,8 @@ export default class PlayerBettingMatchController {
     var requestBody = {
       'bettingMatchId': 1,
       'comment': '12312'
-    }
-    console.log(token);
+    };
+
     self.stompClient.send('/app/betting-match/comment/1', { 'x-auth-token': token }, JSON.stringify(requestBody));
   }
 }
