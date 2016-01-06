@@ -9,12 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
-import vn.kms.ngaythobet.domain.betting.BettingPlayer;
-import vn.kms.ngaythobet.domain.betting.BettingPlayerRepository;
-import vn.kms.ngaythobet.domain.core.User;
-import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
-import vn.kms.ngaythobet.domain.tournament.GroupRepository;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.PlayerStatisticInfo;
@@ -23,71 +18,51 @@ import vn.kms.ngaythobet.web.dto.PlayerStatisticInfo;
 @Transactional
 public class PlayerStatisticService {
 
-    private final UserRepository userRepo;
-    private final GroupRepository groupRepo;
     private final BettingMatchRepository bettingMatchRepo;
-    private final BettingPlayerRepository bettingPlayerRepo;
 
     @Autowired
-    public PlayerStatisticService(UserRepository userRepo, GroupRepository groupRepo,
-            BettingMatchRepository bettingMatchRepo, BettingPlayerRepository bettingPlayerRepo) {
-        this.userRepo = userRepo;
-        this.groupRepo = groupRepo;
+    public PlayerStatisticService(BettingMatchRepository bettingMatchRepo) {
         this.bettingMatchRepo = bettingMatchRepo;
-        this.bettingPlayerRepo = bettingPlayerRepo;
     }
 
-    public List<PlayerStatistic> playerStatistic(
-            PlayerStatisticInfo playerStatisticInfo) {
+    public List<PlayerStatistic> playerStatistic(PlayerStatisticInfo playerStatisticInfo) {
         String username = SecurityUtil.getCurrentLogin();
-        User player = userRepo.findOneByUsername(username).get();
         List<PlayerStatistic> playerStatistics = new ArrayList<>();
-        List<BettingMatch> bettingMatches = bettingMatchRepo
-                .findByGroup(groupRepo.getOne(playerStatisticInfo.getGroupId()));
-        List<BettingMatch> bettingMatchesPlayerDidnotJoin = new ArrayList<>();
-        List<BettingPlayer> bettingPlayers = new ArrayList<>();
-        for (BettingMatch bettingMatch : bettingMatches) {
-            BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(player, bettingMatch);
-            if (bettingPlayer != null) {
-                bettingPlayers.add(bettingPlayer);
-            } else {
-                bettingMatchesPlayerDidnotJoin.add(bettingMatch);
+        List<BettingMatch> bettingMatchs = bettingMatchRepo.findByGroupIdAndUsername(playerStatisticInfo.getGroupId(),
+                username);
+        for (BettingMatch bettingMatch : bettingMatchs) {
+            // count lost amount when user bet
+            if (!bettingMatch.getBettingPlayers().isEmpty()) {
+                PlayerStatistic playerStatistic = new PlayerStatistic();
+                Match match = bettingMatch.getMatch();
+                playerStatistic.setCompetitor1Name(match.getCompetitor1().getName());
+                playerStatistic.setCompetitor2Name(match.getCompetitor2().getName());
+                playerStatistic.setExpiredBetTime(bettingMatch.getExpiredTime());
+                playerStatistic.setCompetitor1Score(match.getScore1());
+                playerStatistic.setCompetitor2Score(match.getScore2());
+                playerStatistic.setCompetitor1Balance(bettingMatch.getBalance1().doubleValue());
+                playerStatistic.setCompetitor2Balance(bettingMatch.getBalance2().doubleValue());
+                Competitor betCompetitor = bettingMatch.getBettingPlayers().get(0).getBetCompetitor();
+                playerStatistic.setBetCompetitorName(betCompetitor.getName());
+                playerStatistic.setLossAmount(CalculateLostAmount(match, bettingMatch, betCompetitor));
+                playerStatistics.add(playerStatistic);
+            }
+            // count lost amount when user didnot bet
+            else {
+                PlayerStatistic playerStatistic = new PlayerStatistic();
+                Match match = bettingMatch.getMatch();
+                playerStatistic.setCompetitor1Name(match.getCompetitor1().getName());
+                playerStatistic.setCompetitor2Name(match.getCompetitor2().getName());
+                playerStatistic.setExpiredBetTime(bettingMatch.getExpiredTime());
+                playerStatistic.setCompetitor1Score(match.getScore1());
+                playerStatistic.setCompetitor2Score(match.getScore2());
+                playerStatistic.setCompetitor1Balance(bettingMatch.getBalance1().doubleValue());
+                playerStatistic.setCompetitor2Balance(bettingMatch.getBalance2().doubleValue());
+                playerStatistic.setBetCompetitorName("--");
+                playerStatistic.setLossAmount(bettingMatch.getBetAmount().doubleValue());
+                playerStatistics.add(playerStatistic);
             }
         }
-        // count lost amount when user bet
-        for (BettingPlayer bettingPlayer : bettingPlayers) {
-            PlayerStatistic playerStatistic = new PlayerStatistic();
-            BettingMatch bettingMatch = bettingPlayer.getBettingMatch();
-            Match match = bettingMatch.getMatch();
-            playerStatistic.setPlayer(username);
-            playerStatistic.setCompetitor1Name(match.getCompetitor1().getName());
-            playerStatistic.setCompetitor2Name(match.getCompetitor2().getName());
-            playerStatistic.setExpiredBetTime(bettingMatch.getExpiredTime());
-            playerStatistic.setCompetitor1Score(match.getScore1());
-            playerStatistic.setCompetitor2Score(match.getScore2());
-            playerStatistic.setCompetitor1Balance(bettingMatch.getBalance1().doubleValue());
-            playerStatistic.setCompetitor2Balance(bettingMatch.getBalance2().doubleValue());
-            playerStatistic.setBetCompetitorName(bettingPlayer.getBetCompetitor().getName());
-            playerStatistic.setLossAmount(CalculateLostAmount(match, bettingMatch, bettingPlayer.getBetCompetitor()));
-            playerStatistics.add(playerStatistic);
-        }
-        // count lost amout when user didnot bet
-        for (BettingMatch bettingMatch : bettingMatchesPlayerDidnotJoin) {
-            PlayerStatistic playerStatistic = new PlayerStatistic();
-            Match match = bettingMatch.getMatch();
-            playerStatistic.setCompetitor1Name(match.getCompetitor1().getName());
-            playerStatistic.setCompetitor2Name(match.getCompetitor2().getName());
-            playerStatistic.setPlayer(username);
-            playerStatistic.setExpiredBetTime(bettingMatch.getExpiredTime());
-            playerStatistic.setCompetitor1Score(match.getScore1());
-            playerStatistic.setCompetitor2Score(match.getScore2());
-            playerStatistic.setCompetitor1Balance(bettingMatch.getBalance1().doubleValue());
-            playerStatistic.setCompetitor2Balance(bettingMatch.getBalance2().doubleValue());
-            playerStatistic.setBetCompetitorName("--");
-            playerStatistic.setLossAmount(bettingMatch.getBetAmount().doubleValue());
-            playerStatistics.add(playerStatistic);
-        }
-
         return playerStatistics;
     }
 

@@ -4,7 +4,6 @@ package vn.kms.ngaythobet.domain.statistic;
 import java.time.LocalDateTime;
 
 public class PlayerStatistic {
-    private String player;
     private String competitor1Name;
     private String competitor2Name;
     private LocalDateTime expiredBetTime;
@@ -14,12 +13,7 @@ public class PlayerStatistic {
     private double competitor2Balance;
     private String betCompetitorName;
     private double lossAmount;
-    public String getPlayer() {
-        return player;
-    }
-    public void setPlayer(String player) {
-        this.player = player;
-    }
+
     public String getCompetitor1Name() {
         return competitor1Name;
     }
