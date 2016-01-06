@@ -21,6 +21,8 @@
       "reset-passwordSuccess": {
         "title": "Đổi mật khẩu",
         "mark": "Mật khẩu của bạn đã được thay đổi thành công, vui lòng đăng nhập lại!"
-      }
+      },
+      "unauthorized": "Session đã hết hạn. Vui lòng đăng nhập để tiếp tục!",
+      "redirect": "Tự động chuyển hướng về trang chủ hoặc click <a href='/home'>vào đây</a>"
   }
 }
