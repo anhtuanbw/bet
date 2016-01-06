@@ -2,8 +2,9 @@
 
 export default class CreateTournamentController {
   /* @ngInject */
-  constructor(TournamentService, toaster, $rootScope) {
+  constructor(TournamentService, toaster, $rootScope, $location) {
     this.rootScope = $rootScope;
+    this.location = $location;
     this.tournamentService = TournamentService;
     this.competitors = [];
     this.name = '';
@@ -37,7 +38,10 @@ export default class CreateTournamentController {
       this.rootScope.$broadcast('addTournament');
     })
     .catch(error => {
-       if (error.status === 400) {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
+      if (error.status === 400) {
         this.errorMessage = error.data.fieldErrors;
       }
       if (error.status === 403) {
