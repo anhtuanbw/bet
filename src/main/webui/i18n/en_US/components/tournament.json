@@ -7,6 +7,11 @@
          "name":"Tournament name",
          "active":"Active",
          "activeSuccess":"Active tournament successfully!!!",
+         "tab": {
+            "matches": "matches",
+            "statistics": "Statistics",
+            "information": "Information"
+          },
          "history": {
             "matchStatistic":"Match statistic",
             "groupStatistic":"Group statistic",

@@ -7,6 +7,11 @@
             "name":"Tên giải đấu",
             "active":"Kích hoạt",
             "activeSuccess":"Kích hoạt giải đấu thành công!!!",
+            "tab": {
+                "matches": "Trận đấu",
+                "statistics": "Thống kê",
+                "information": "Thông tin"
+            },
             "history":{
                 "matchStatistic":"Thống kê trận đấu",
                 "groupStatistic":"Thống kê nhóm",

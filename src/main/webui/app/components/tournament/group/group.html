@@ -1,14 +1,19 @@
 <div class="panel panel-default" ng-controller="TournamentGroupController as tourGroup">
 	<ol class="breadcrumb">
-		<li><a href="javascript:void(0)">Tournament</a></li>
-		<li><a href="javascript:void(0)">Group</a></li>
-		<li class="active">Group name</li>
+		<li><a href="javascript:void(0)">{{ tourGroup.tournamentName }}</a></li>
+		<li class="active"><a href="javascript:void(0)">{{ tourGroup.groupInfo.name }}</a></li>
 	</ol>
 	<div class="panel-body">
 		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="management/#matches" href="javascript:void(0)">Matches</a></li>
-			<li><a data-toggle="tab" href="management/#statistics" href="javascript:void(0)">Statistics</a></li>
-			<li><a data-toggle="tab" href="management/#information" href="javascript:void(0)">Information</a></li>
+			<li class="active">
+				<a data-toggle="tab" href="management/#matches" translate="components.tournament.tab.matches"></a>
+			</li>
+			<li>
+				<a data-toggle="tab" href="management/#statistics" translate="components.tournament.tab.statistics"></a>
+			</li>
+			<li>
+				<a data-toggle="tab" href="management/#information" translate="components.tournament.tab.information"></a>
+			</li>
 		</ul>
 		<div class="panel panel-default">
 			<div class="panel-body">
