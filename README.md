@@ -44,7 +44,7 @@ Visit [http://localhost:8888](http://localhost:8888) and enjoy!
     $ mvn clean package –Pprod -DskipTests
 
     # Run application
-    $ nohup java -jar target/ngaythobet-[VERSION].jar > /dev/null 2>&1 &
+    $ nohup java -jar target/ngaythobet-[VERSION].jar --spring.config.location=file:target/application.yml > /dev/null 2>&1 &
 
     # Check log server
     $ tail -f logs/ngaythobet.log
