@@ -20,6 +20,7 @@ import TournamentGroupController from './components/tournament/group/group';
 import ResetPasswordSuccessController from './common/reset-passwordSuccess/reset-passwordSuccess';
 import UpdateGroupController from './common/update-group/update-group';
 import CreateBettingController from './common/create-betting-match/create-betting-match';
+import UnAuthorizedController from './components/unAuthorized/unAuthorized';
 
 export default class AppController {
   /* @ngInject */
@@ -29,6 +30,7 @@ export default class AppController {
       { path: '/api/reset-password/finish', component: 'reset-passwordFinish' },
       { path: '/api/activate', component: 'activate' },
       { path: '/management', component: 'management' },
+      { path: '/unauthorized', component: 'unAuthorized' },
       { path: '/', redirectTo: '/home' }
     ]);
   }
@@ -64,6 +66,7 @@ angular.module('ngaythobet', [
 .controller('UpdateGroupController', UpdateGroupController)
 .controller('PlayerBettingMatchController', PlayerBettingMatchController)
 .controller('CreateBettingController', CreateBettingController)
+.controller('UnAuthorizedController', UnAuthorizedController)
 .config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
   // disables AngularJS debug info
   $compileProvider.debugInfoEnabled(false);

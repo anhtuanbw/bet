@@ -10,44 +10,75 @@ export default class BettingMatchController {
     this.groupID = 0;
     this.data = {};
     this.modal = $modal;
-    this.loadRound();
+    this.getTourAndGroupId();
+    this.roundIdAndName = [];
+    this.roundAndMatch = {};
   }
 
-  loadRound(){
+  getTourAndGroupId(){
     this.rootScope.$on('tourID', (event, tournamentID, groupID) => {
       if (tournamentID) {
         this.tourID = tournamentID;
         this.groupID = groupID;
-        this.selectGroup(this.data);
+        this.showMatch(this.data);
         this.data.hide = false;
       }
     });
   }
 
-  selectGroup(){
-    this.data.roundName = [];
+  showMatch(){
     this.data.match = [];
-    this.data.matchList = [];
+    this.roundIdAndName = [];
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
+      this.roundAndMatch = response.data;
       for (var i = 0; i < response.data.length; i++) {
-        this.data.roundName.push(response.data[i].name);
+        var roundInfo = {
+          'id': response.data[i].id,
+          'name': response.data[i].name
+        };
+        this.roundIdAndName.push(roundInfo);
         this.data.match.push(response.data[i]);
-        this.BettingService.getBettingMatchByRoundAndGroupId(response.data[i].id, this.groupID)
-          .then(response => {
-            var tempArray = [];
-            for (var j = 0; j < response.data.length; j++) {
-              if (response.data[j] !== null) {
-                tempArray.push(response.data[j]);
-              }
-            }
-            this.data.matchList.push(tempArray);
-            response.data = [];
-        });
       }
+      this.showBettingMatch(this.data);
     });
   }
 
+  showBettingMatch(){
+    this.data.bettingMatch = [];
+    for (var i = 0; i < this.roundIdAndName.length; i++) {
+      this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID)
+        .then(response => {
+          //remove null item
+          var tempArray = [];
+          for (var j = 0; j < response.data.length; j++) {
+            if (response.data[j] !== null) {
+              tempArray.push(response.data[j]);
+            }
+          }
+          //get round name
+          var roundName;
+          if (tempArray.length > 0) {
+            for (var k = 0; k < this.roundAndMatch.length; k++) {
+              for (var l = 0; l < this.roundAndMatch[k].matches.length; l++) {
+                if( this.roundAndMatch[k].matches[l].id === tempArray[0].match.id ){
+                  roundName = this.roundAndMatch[k].name;
+                }
+              }
+            }
+          }
+          //make one item in betting Match
+          var item = {
+            'round': roundName,
+            'bettingMatch': tempArray
+          };
+          // push into betting Match list
+          this.data.bettingMatch.push(item);
+          //reset data
+          response.data = [];
+      });
+    }
+  }
 
   add(){
     this.data.hide = true;
@@ -61,7 +92,7 @@ export default class BettingMatchController {
     var hour = this.longTime(fullDate.getHours());
     var minute = this.longTime(fullDate.getMinutes());
     var second = this.longTime(fullDate.getSeconds());
-    var dateTime = year+'/'+month+'/'+dates+', '+hour+':'+minute+':'+second;
+    var dateTime = month+'/'+dates+'/'+year+', '+hour+':'+minute+':'+second;
     return dateTime;
   }
 
@@ -121,8 +152,16 @@ export default class BettingMatchController {
    
   }
 
-  betMatch(){
-
+  betMatch(round, match){
+    var dataSend = {
+      'roundName': round.round,
+      'competitor1': match.match.competitor1.name,
+      'competitor2': match.match.competitor2.name,
+      'score1': match.match.score1,
+      'score2': match.match.score2,
+      'time': match.match.matchTime
+    };
+    this.rootScope.$broadcast('playerBettingMatch', dataSend);
   }
 
 }
