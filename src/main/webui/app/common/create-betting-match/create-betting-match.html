@@ -1,4 +1,4 @@
-<div class="modal-content" ng-init="createBet.loadData(createBet.data)">
+<div class="modal-content">
   <div class="modal-header">
   <button type="button" class="close" ng-click="createBet.closeModal()">&times;</button>
       <h4 class="modal-title" ng-hide="createBet.data.hide">Create Betting Match</h4>
@@ -28,7 +28,7 @@
     <p><strong>Expire time<span class="text-danger">*</span></strong></p>
     <div class="form-group">
         <div class="input-group date" date-time-picker ng-model="createBet.data.time">
-          <input type="text" class="form-control" ng-model="createBet.data.timeOld" />
+          <input type="text" class="form-control" ng-model="createBet.data.oldTime" />
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>

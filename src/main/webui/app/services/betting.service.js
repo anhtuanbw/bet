@@ -2,9 +2,10 @@
 
 export default class BettingService {
   /* @ngInject */
-	  constructor($http, CacheService){
+	  constructor($http, CacheService, AccountService){
 	  	this.$http = $http;
 	  	this.cacheService = CacheService;
+	  	this.accountService = AccountService;
 	  }
 
 	  create(data){
@@ -28,10 +29,7 @@ export default class BettingService {
 	    var config = {
 	      headers: { 'Accept': '*/*', 'x-auth-token': token }
 	    };
-	    var id = {
-  		'bettingMatchId': data
-		};
-	    return this.$http.post('api/activeBettingMatch', id, config);
+	    return this.$http.post('api/activeBettingMatch', data, config);
 	  }
 
 	  getBettingMatchByRoundAndGroupId(roundID, groupId){
@@ -44,6 +42,15 @@ export default class BettingService {
   		'groupId': groupId
 		};
 		return this.$http.post('api/getBettingMatchesByRoundAndGroupId', dataPost, config);
+	  }
+
+	  isAdmin(){
+	  	this.accountService.authen()
+	    .then(response => {
+	      if (response.data) {
+	         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+	      }
+	    });
 	  }
 
   }
