@@ -15,10 +15,12 @@
       <div class="form-inline text-center">
         <div class="col-md-1"></div>
         <div class="col-md-5">
-          <input type="number" class="form-control" ng-model="createBet.data.balance1">
+          <input type="number" class="form-control" ng-model="createBet.data.balance1" min="0">
+          <span class="text-danger" ng-bind="createBet.data.errorBal1"></span>
         </div>
         <div class="col-md-5">
-          <input type="number" class="form-control" ng-model="createBet.data.balance2">
+          <input type="number" class="form-control" ng-model="createBet.data.balance2" min="0">
+          <span class="text-danger" ng-bind="createBet.data.errorBal2"></span>
         </div>
       </div>
     </p>
@@ -27,15 +29,18 @@
     <div class="form-group">
         <div class="input-group date" date-time-picker ng-model="createBet.data.time">
           <input type="text" class="form-control" ng-model="createBet.data.timeOld" />
-          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
           </span>
         </div>
+        <span class="text-danger" ng-bind="createBet.data.errorTime"></span>
     </div>
     <p><strong>Bet amount<span class="text-danger">*</span></strong></p>
-    <input type="number" class="form-control" ng-model="createBet.data.amount">
+    <input type="number" class="form-control" ng-model="createBet.data.amount" min="0">
+    <span class="text-danger" ng-bind="createBet.data.errorBetAmount"></span>
     <br>
-    <p><strong>Description<span class="text-danger">*</span></strong></p>
-      <textarea class="form-control" rows="3" ng-model="createBet.data.description"></textarea>
+    <p><strong>Description</strong></p>
+      <textarea class="form-control" rows="3" ng-model="createBet.data.description" style="resize:none"></textarea>
     <br>
     <div class="checkbox">
       <label>

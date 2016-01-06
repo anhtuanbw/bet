@@ -17,7 +17,11 @@ export default class AccountService {
   }
 
   login(userpass) {
-    return this.$http.post(`api/login?username=${userpass.username}&password=${userpass.password}`);
+    var loginData = {
+      'username': userpass.username,
+      'password': userpass.password
+    };
+    return this.$http.post('api/login', loginData);
   }
 
   logout() {

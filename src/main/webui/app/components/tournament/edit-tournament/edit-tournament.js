@@ -100,10 +100,16 @@ export default class EditTournamentController {
   }
 
   openCreateRound() {
+    var self = this;
     this.modal.open({
       templateUrl: 'app/common/round-management/round-management.html',
       controller: 'RoundManController',
-      controllerAs: 'round'
+      controllerAs: 'round',
+      resolve: {
+        tourID: function () {
+          return self.tournamentInfo.id;
+        }
+      }
     });
   }
 

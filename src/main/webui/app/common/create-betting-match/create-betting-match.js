@@ -31,15 +31,19 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    data.time = data.time.replace(' ', 'T');
-    data.time+=':00.000';
+    var expiredTime = data.time;
+    if (data.time) {
+      expiredTime = expiredTime.replace(/\//g, '-');
+      expiredTime = expiredTime.replace(' ', 'T');
+      expiredTime+=':00.000';
+    }
     var betData = {
         'activated': data.active,
         'balance1': data.balance1,
         'balance2': data.balance2,
         'betAmount': data.amount,
         'decription': data.description,
-        'expiredTime': data.time,
+        'expiredTime': expiredTime,
         'groupId': this.matchData.groupID,
         'matchId': this.matchData.id
         };
@@ -49,6 +53,10 @@ export default class CreateBettingController {
       this.modalInstance.dismiss();
     }, function (response) {
       self.pop('error', self.popTitle, response.data.message);
+      data.errorBal1 = response.data.fieldErrors.balance1;
+      data.errorBal2 = response.data.fieldErrors.balance2;
+      data.errorBetAmount = response.data.fieldErrors.betAmount;
+      data.errorTime = response.data.fieldErrors.expiredTime;
     });
   }
 

@@ -23,4 +23,27 @@ export default class BettingService {
 	    return this.$http.post('api/updateBettingMatch', data, config);
 	  }
 
+	  active(data){
+	  	var token = this.cacheService.get('loginUser');
+	    var config = {
+	      headers: { 'Accept': '*/*', 'x-auth-token': token }
+	    };
+	    var id = {
+  		'bettingMatchId': data
+		};
+	    return this.$http.post('api/activeBettingMatch', id, config);
+	  }
+
+	  getBettingMatchByRoundAndGroupId(roundId, groupId){
+	  	var token = this.cacheService.get('loginUser');
+	    var config = {
+	      headers: { 'Accept': '*/*', 'x-auth-token': token }
+	    };
+	    var dataPost = {
+  		'roundId': roundId,
+  		'groupId': groupId
+		};
+	    return this.$http.post('api/getBettingMatchesByRoundAndGroupId', dataPost, config);
+	  }
+
   }

@@ -2,7 +2,7 @@
 
 export default class roundManController {
   /* @ngInject */
-  constructor($scope, RoundService, toaster, $modalInstance) {
+  constructor($scope, RoundService, toaster, tourID, $modalInstance) {
     this.scope = $scope;
     this.RoundService = RoundService;
     this.tourCompetitor = [];
@@ -13,9 +13,10 @@ export default class roundManController {
     this.roundID = 0;
     this.toaster = toaster;
     this.modalInstance = $modalInstance;
+    this.tourID = tourID;
   }
 
-  close(round,ind){
+  remove(round,ind){
     round.competitorList.splice(ind, 1);
     this.roundCompetitor.splice(ind, 1);
   }
@@ -69,8 +70,6 @@ export default class roundManController {
       this.loadRoundComboBox(round);
       round.roundSelected = '';
     });
-
-
   }
 
   addCompetitorToComboBox(round){
