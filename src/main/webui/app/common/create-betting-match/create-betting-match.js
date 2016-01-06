@@ -47,6 +47,7 @@ export default class CreateBettingController {
         'groupId': this.matchData.groupID,
         'matchId': this.matchData.id
         };
+    console.log(betData);
     this.BettingService.create(betData)
     .then(() => {
       self.pop('success', self.popTitle, successMessage);
