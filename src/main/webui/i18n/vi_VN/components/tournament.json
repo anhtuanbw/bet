@@ -7,6 +7,12 @@
             "name":"Tên giải đấu",
             "active":"Kích hoạt",
             "activeSuccess":"Kích hoạt giải đấu thành công!!!",
+            "edit-tournament": {
+                "btnActiveTour": "Kích hoạt",
+                "btnNewGroup": "<i class='fa fa-plus'></i> Tạo nhóm",
+                "btnNewMatch": "<i class='fa fa-plus'></i> Tạo trận đấu",
+                "btnNewRound": "<i class='fa fa-plus'></i> Tạo vòng đấu"
+            },
             "tab": {
                 "matches": "Trận đấu",
                 "statistics": "Thống kê",

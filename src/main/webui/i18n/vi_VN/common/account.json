@@ -10,7 +10,7 @@
       	"mark": "Những trường được đánh dấu <span class='text-danger'>(*)</span> yêu cầu phải nhập đầy đủ thông tin.",
       	"name": "Nhập tên nhóm <span class='text-danger'>*</span>",
       	"tournament": "Nhập tên giải đấu <span class='text-danger'>*</span>",
-      	"moderator": "Chọn user làm làm chủ <span class='text-danger'>*</span>",
+      	"moderator": "Chọn user làm chủ <span class='text-danger'>*</span>",
       	"marktournament": "Vui lòng chọn giải đấu",
         "create-success": "Tạo nhóm thành công!"
       },
