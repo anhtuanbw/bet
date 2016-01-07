@@ -1,6 +1,6 @@
 <div ng-hide="betting.data.hide">
 <br>
-<button class="btn btn-primary pull-right clearfix" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
+<button class="btn btn-primary pull-right clearfix" ng-hide="!betting.isAdmin" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
 <br><br><br>
 <div>
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
@@ -17,15 +17,25 @@
           <span>{{match.match.competitor2.name}}</span>
         </div>
         <div class="text-center">({{match.balance1}} - {{match.balance2}})</div>
-        <button type="button" class="btn btn-success">
-          <span class="glyphicon glyphicon-hand-right"></span>Activate
-        </button>
-        <button type="button" class="btn btn-default" ng-click="betting.openUpdate()">
-          <span class="glyphicon glyphicon-edit"></span>Update
-        </button>
-        <button type="button" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
-          <span class="glyphicon glyphicon-hand-right"></span>Bet match
-        </button>
+        <form class="form-inline">
+          <div class="text-right">
+            <div ng-hide="match.activated" class="form-group">
+              <button type="button" class="btn btn-success" ng-hide="!betting.isMod" ng-click="betting.activate(match)">
+                <span class="glyphicon glyphicon-hand-right"></span>Activate
+              </button>
+            </div>
+            <div ng-hide="match.activated" class="form-group">
+              <button type="button" class="btn btn-default" ng-hide="!betting.isMod" ng-click="betting.openUpdate(match)">
+                <span class="glyphicon glyphicon-edit"></span>Update
+              </button>
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
+                <span class="glyphicon glyphicon-hand-right"></span>Bet match
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <br>

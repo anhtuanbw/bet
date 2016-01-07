@@ -12,6 +12,7 @@ export default class CreateTournamentController {
     this.active = false;
     this.toaster = toaster;
   }
+  
   getNumOfCompetitors() {
     return this.competitors.length;
   }

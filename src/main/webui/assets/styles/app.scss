@@ -22,7 +22,7 @@ body {
     color: $color-gray;
   }
   .navbar-nav > li > a {
-    padding: 10px 15px;
+    padding: 11px 15px;
     position: relative;
     .glyphicon { font-size: 24px; }
   }
@@ -201,8 +201,17 @@ footer {
   padding-top: 40px;
 }
 
-.information .list-group-item {
-  background-color: #fff;
+.information {
+  .list-group-item {
+    background-color: #fff;
+    border-left: none;
+    border-right: none;
+  }
+  
+  .list-group-item:first-child {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+  }
 }
 
 .line-block {
