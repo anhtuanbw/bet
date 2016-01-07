@@ -34,16 +34,16 @@ export default class BettingService {
 	    return this.$http.post('api/activeBettingMatch', id, config);
 	  }
 
-	  getBettingMatchByRoundAndGroupId(roundId, groupId){
+	  getBettingMatchByRoundAndGroupId(roundID, groupId){
 	  	var token = this.cacheService.get('loginUser');
 	    var config = {
 	      headers: { 'Accept': '*/*', 'x-auth-token': token }
 	    };
 	    var dataPost = {
-  		'roundId': roundId,
+  		'roundId': roundID,
   		'groupId': groupId
 		};
-	    return this.$http.post('api/getBettingMatchesByRoundAndGroupId', dataPost, config);
+		return this.$http.post('api/getBettingMatchesByRoundAndGroupId', dataPost, config);
 	  }
 
   }

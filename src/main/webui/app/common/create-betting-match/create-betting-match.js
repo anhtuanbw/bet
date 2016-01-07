@@ -61,7 +61,7 @@ export default class CreateBettingController {
   }
 
   update(data){
-    console.log('data: '+data.time);
+    
   }
 
   cancel(){
