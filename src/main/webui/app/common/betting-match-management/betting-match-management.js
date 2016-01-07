@@ -2,17 +2,24 @@
 
 export default class BettingMatchController {
   /* @ngInject */
-  constructor(RoundService, BettingService, $rootScope, $modal){
+  constructor(RoundService, BettingService, AccountService, toaster, GroupService, $rootScope, $modal){
     this.rootScope = $rootScope;
     this.RoundService = RoundService;
     this.BettingService = BettingService;
+    this.accountService = AccountService;
+    this.groupService = GroupService;
+    this.isMod = false;
     this.tourID = 0;
     this.groupID = 0;
     this.data = {};
     this.modal = $modal;
+    this.authen();
     this.getTourAndGroupId();
     this.roundIdAndName = [];
     this.roundAndMatch = {};
+    this.toaster = toaster;
+    this.isAdmin = false;
+    this.checkAdmin();
   }
 
   getTourAndGroupId(){
@@ -20,7 +27,9 @@ export default class BettingMatchController {
       if (tournamentID) {
         this.tourID = tournamentID;
         this.groupID = groupID;
-        this.showMatch(this.data);
+        this.showMatch();
+        this.authen();
+        this.checkMod();
         this.data.hide = false;
       }
     });
@@ -73,7 +82,9 @@ export default class BettingMatchController {
             'bettingMatch': tempArray
           };
           // push into betting Match list
-          this.data.bettingMatch.push(item);
+          if (item.bettingMatch.length !== 0){
+            this.data.bettingMatch.push(item);
+          }
           //reset data
           response.data = [];
       });
@@ -87,7 +98,7 @@ export default class BettingMatchController {
   parseTime(date){
     var fullDate = new Date(...date);
     var year = fullDate.getFullYear();
-    var month = this.longTime(fullDate.getMonth());
+    var month = this.longTime(fullDate.getMonth()+1);
     var dates = this.longTime(fullDate.getDate());
     var hour = this.longTime(fullDate.getHours());
     var minute = this.longTime(fullDate.getMinutes());
@@ -118,19 +129,44 @@ export default class BettingMatchController {
     });
   }
 
-  openUpdate(){
+  authen() {
+    this.accountService.authen()
+    .then(response => {
+      if (response.data) {
+          this.currentUser = response.data;
+      }
+    });
+  }
+  
+  checkMod() {
+    var data = {};
+    data.groupId = this.groupID;
+    data.userId = this.currentUser.id;
+    this.groupService.isModerator(data)
+    .then(() => {
+      this.isMod = true;
+    })
+    .catch(() => {
+      this.isMod = false;
+    });
+  }
+  
+
+  openUpdate(match){
+    var time = this.parseTime(match.expiredTime);
     var data = {
-      'competitor1': {name: 'teamA'},
-      'competitor2': {name: 'teamB'},
-      'activated': true,
-      'balance1': 3,
-      'balance2': 1,
-      'betAmount': 200,
-      'decription': 'update emulator',
-      'expiredTime': '2015-12-15 10:35',
-      'groupId': 3,
+      'competitor1': match.match.competitor1,
+      'competitor2': match.match.competitor2,
+      'activated': match.activated,
+      'balance1': match.balance1,
+      'balance2': match.balance2,
+      'betAmount': match.betAmount,
+      'decription': match.description,
+      'expiredTime': time.substring(0, time.length-3),
+      'groupId': this.groupID,
       'hide': true,
-      'matchId': 5
+      'matchId': match.match.id,
+      'bettingMatchId': match.id
     };
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
@@ -144,13 +180,35 @@ export default class BettingMatchController {
     });
   }
 
-  activate(){
-
+  activate(match){
+    var self = this;
+    self.popTitle = 'Activate Betting Match';
+    var successMessage = 'Active Successfully !';
+    // Show alert message
+    self.pop = function (type, title, content) {
+      this.toaster.pop(type, title, content);
+    };
+    var activeData = {
+      'bettingMatchId': match.id,
+      'groupId': this.groupID
+    };
+    this.BettingService.active(activeData)
+    .then(() => {
+      self.pop('success', self.popTitle, successMessage);
+    }, function (response) {
+      self.pop('error', self.popTitle, response.data.message);
+    });
   }
 
-  update(){
-   
+  checkAdmin(){
+      this.accountService.authen()
+      .then(response => {
+        if (response.data.role === 'ADMIN') {
+            this.isAdmin = true;
+          }
+      });
   }
+
 
   betMatch(round, match){
     var dataSend = {
