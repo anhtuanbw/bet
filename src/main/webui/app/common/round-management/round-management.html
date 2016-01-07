@@ -1,43 +1,39 @@
 
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title">Round Management</h4>
+      <h4 class="modal-title" ng-hide="round.data.hide" translate="common.round.create.title"></h4>
+      <h4 class="modal-title" ng-hide="!round.data.hide" translate="common.round.create.title-update"></h4>
     </div>
     <div class="modal-body">
         <form name="roundform">
           <!-- Begin Tournament -->
           <div ng-class="form-group">
-            <label for="tournamentname" class="control-label">Tournament Name</label><span class="text-danger"> *</span>
-            <div ng-init="round.data.tourlist = []">
-              <select class="form-control" ng-change="round.selectTour(round.data)" ng-model="round.data.tour" ng-init="round.loadTour(round.data)" required>
-                <option ng-repeat="tour in round.data.tourlist">{{tour}}</option>
-              </select>
-            </div>
+            <label class="control-label" translate="common.round.create.tournament"></label><span class="text-danger">*</span>
+            <input type="text" class="form-control" ng-model="round.data.tournamentName" disabled required>
             <span class="text-danger" ng-bind="round.data.tourError"></span>
           </div>
           <!-- End Tournament -->
           <br>
           <!-- Begin Round -->
           <div ng-class="form-group" ng-hide="round.data.hide">
-            <label for="roundname" class="control-label">Round Name</label><span class="text-danger"> *</span>
+            <label class="control-label" translate="common.round.create.name"></label><span class="text-danger">*</span>
             <input type="text" class="form-control" ng-model="round.data.name" name="roundname" required>
             <span class="text-danger" ng-bind="round.data.roundError"></span>
           </div>
-          <div ng-class="form-group" ng-init="round.data.roundList = []" ng-hide="!round.data.hide">
-            <label for="roundname" class="control-label">Select Round Name</label><span class="text-danger"> *</span>
-            <select class="form-control" ng-change="round.selectRound(round.data)" ng-model="round.data.roundSelected" required>
-              <option ng-repeat="rounds in round.data.roundList">{{rounds}}</option>
-            </select>
-            <span class="text-danger" ng-bind="round.data.roundListError"></span>
+          <div ng-class="form-group" ng-hide="!round.data.hide">
+            <label class="control-label" translate="common.round.create.name"></label><span class="text-danger">*</span>
+            <input type="text" class="form-control" ng-model="round.data.name" name="roundname" disabled required>
+            <span class="text-danger" ng-bind="round.data.roundError"></span>
           </div>
           <!-- End Round -->
           <br>
           <!-- Begin Competitor -->
-          <div class="form-group" ng-init="round.data.competitorList = []">
-            <label for="roundcompet" class="control-label">Competitor</label><span class="text-danger"> *</span>
+          <div class="form-group" ng-init="round.data.competitorList = []; round.data.competitorOldList = []">
+            <label class="control-label" translate="common.round.create.competitor"></label><span class="text-danger">*</span>
             <ol>
+              <li ng-repeat="oldItem in round.data.competitorOldList">{{oldItem}}</li>
               <li ng-repeat="item in round.data.competitorList">{{item}}
-                <span class="glyphicon glyphicon-remove-sign text-danger" ng-hide="round.data.hide" ng-click="round.remove(round.data,$index)"></span>
+                <span class="glyphicon glyphicon-remove-sign text-danger" ng-click="round.remove(round.data,$index)"></span>
               </li>
             </ol>
             <span class="text-danger" ng-bind="round.data.CompetitorError"></span>
@@ -48,17 +44,17 @@
             <select class="form-control" ng-model="round.data.competitorSelected" required>
               <option ng-repeat="comp in round.data.competitorInComboBox">{{comp}}</option>
             </select>
-                <div class="input-group-addon" ng-click="round.addCompetitor(round.data)">Add</div>
+                <div class="input-group-addon" ng-click="round.addCompetitor(round.data)" translate="common.round.create.add"></div>
           </div>
 
           <br>
           <!-- End Combobox Competitor -->
           <!-- End Competitor -->
-          <div class="pull-right">
-            <button type="button" class="btn btn-primary" ng-click="round.saveData(round.data)">Save</button>
-            <button type="button" class="btn btn-primary" ng-click="round.cancel()">Cancel</button>
+          <div class="text-right">
+            <button type="button" class="btn btn-primary" ng-hide="round.data.hide" ng-click="round.saveData(round.data)" translate="common.round.create.save"></button>
+            <button type="button" class="btn btn-primary" ng-hide="!round.data.hide" ng-click="round.updateData()" translate="common.round.create.update"></button>
+            <button type="button" class="btn btn-default" ng-click="round.cancel()" translate="common.round.create.cancel"></button>
           </div>
-          <button type="button" class="btn btn-warning" ng-click="round.updateRound(round.data)">Update Round</button>
         </form>
     </div>
   </div>
