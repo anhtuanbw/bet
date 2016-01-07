@@ -1,14 +1,14 @@
 
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title" ng-hide="round.data.hide">Round Management</h4>
-      <h4 class="modal-title" ng-hide="!round.data.hide">Update Round</h4>
+      <h4 class="modal-title" ng-hide="round.data.hide" translate="common.round.create.title"></h4>
+      <h4 class="modal-title" ng-hide="!round.data.hide" translate="common.round.create.title-update"></h4>
     </div>
     <div class="modal-body">
         <form name="roundform">
           <!-- Begin Tournament -->
           <div ng-class="form-group">
-            <label for="tournamentname" class="control-label">Tournament Name</label><span class="text-danger"> *</span>
+            <label class="control-label" translate="common.round.create.tournament"></label><span class="text-danger">*</span>
             <input type="text" class="form-control" ng-model="round.data.tournamentName" disabled required>
             <span class="text-danger" ng-bind="round.data.tourError"></span>
           </div>
@@ -16,12 +16,12 @@
           <br>
           <!-- Begin Round -->
           <div ng-class="form-group" ng-hide="round.data.hide">
-            <label for="roundname" class="control-label">Round Name</label><span class="text-danger"> *</span>
+            <label class="control-label" translate="common.round.create.name"></label><span class="text-danger">*</span>
             <input type="text" class="form-control" ng-model="round.data.name" name="roundname" required>
             <span class="text-danger" ng-bind="round.data.roundError"></span>
           </div>
           <div ng-class="form-group" ng-hide="!round.data.hide">
-            <label for="roundname" class="control-label">Round Name</label><span class="text-danger"> *</span>
+            <label class="control-label" translate="common.round.create.name"></label><span class="text-danger">*</span>
             <input type="text" class="form-control" ng-model="round.data.name" name="roundname" disabled required>
             <span class="text-danger" ng-bind="round.data.roundError"></span>
           </div>
@@ -29,7 +29,7 @@
           <br>
           <!-- Begin Competitor -->
           <div class="form-group" ng-init="round.data.competitorList = []; round.data.competitorOldList = []">
-            <label for="roundcompet" class="control-label">Competitor</label><span class="text-danger"> *</span>
+            <label class="control-label" translate="common.round.create.competitor"></label><span class="text-danger">*</span>
             <ol>
               <li ng-repeat="oldItem in round.data.competitorOldList">{{oldItem}}</li>
               <li ng-repeat="item in round.data.competitorList">{{item}}
@@ -44,16 +44,16 @@
             <select class="form-control" ng-model="round.data.competitorSelected" required>
               <option ng-repeat="comp in round.data.competitorInComboBox">{{comp}}</option>
             </select>
-                <div class="input-group-addon" ng-click="round.addCompetitor(round.data)">Add</div>
+                <div class="input-group-addon" ng-click="round.addCompetitor(round.data)" translate="common.round.create.add"></div>
           </div>
 
           <br>
           <!-- End Combobox Competitor -->
           <!-- End Competitor -->
           <div class="text-right">
-            <button type="button" class="btn btn-primary" ng-hide="round.data.hide" ng-click="round.saveData(round.data)">Save</button>
-            <button type="button" class="btn btn-primary" ng-hide="!round.data.hide" ng-click="round.updateData()">Update</button>
-            <button type="button" class="btn btn-default" ng-click="round.cancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" ng-hide="round.data.hide" ng-click="round.saveData(round.data)" translate="common.round.create.save"></button>
+            <button type="button" class="btn btn-primary" ng-hide="!round.data.hide" ng-click="round.updateData()" translate="common.round.create.update"></button>
+            <button type="button" class="btn btn-default" ng-click="round.cancel()" translate="common.round.create.cancel"></button>
           </div>
         </form>
     </div>
