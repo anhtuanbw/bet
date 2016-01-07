@@ -14,7 +14,6 @@ export default class roundManController {
     this.selectedRound = selectedRound;
     this.data = {};
     this.loadTour();
-    this.addCompetitorToComboBox();
     this.oldCompetitor = [];
     this.roundID = 0;
   }
@@ -39,6 +38,7 @@ export default class roundManController {
           this.roundID = response.data[i].id;
         }
       }
+      this.addCompetitorToComboBox();
     });
   }
 
@@ -50,13 +50,23 @@ export default class roundManController {
       for (var j = 0; j < response.data.length; j++) {
         this.data.competitorInComboBox.push(response.data[j].name);
       }
+      this.removeExistCompetitor();
     });
   }
 
   loadOldCompetitorToList(oldCompetitor){
     for (var i = 0; i < oldCompetitor.length; i++) {
       this.data.competitorOldList.push(oldCompetitor[i].name);
-    };
+    }
+  }
+
+  removeExistCompetitor(){
+    for (var i = 0; i < this.oldCompetitor.length; i++) {
+      var ind = this.data.competitorInComboBox.indexOf(this.oldCompetitor[i].name);
+      if( ind !== -1) {
+        this.data.competitorInComboBox.splice(ind, 1); 
+      }
+    }
   }
 
   addCompetitor(round) {
