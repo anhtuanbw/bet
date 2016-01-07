@@ -14,6 +14,7 @@
 				<div class="showTournament">
 					<div class="panel-heading panel-title">
 						<span><h4 class="padding-round bold" ng-bind="round.name"></h4></span>
+						<span class="glyphicon glyphicon-edit text-danger" ng-click="editor.openUpdateRound(round)"></span>
 						<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-angle-down fa-2x pull-right"></i></a>
 						<div ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
 							<hr>

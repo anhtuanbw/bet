@@ -2,23 +2,61 @@
 
 export default class roundManController {
   /* @ngInject */
-  constructor($scope, RoundService, toaster, tourID, $modalInstance) {
+  constructor($scope, RoundService, toaster, tourID, selectedRound, $modalInstance) {
     this.scope = $scope;
     this.RoundService = RoundService;
     this.tourCompetitor = [];
-    this.tourID = 0;
     this.roundCompetitor = [];
-    this.roundListData = [];
     this.roundSave = {};
-    this.roundID = 0;
     this.toaster = toaster;
     this.modalInstance = $modalInstance;
     this.tourID = tourID;
+    this.selectedRound = selectedRound;
+    this.data = {};
+    this.loadTour();
+    this.addCompetitorToComboBox();
+    this.oldCompetitor = [];
+    this.roundID = 0;
   }
 
-  remove(round,ind){
-    round.competitorList.splice(ind, 1);
-    this.roundCompetitor.splice(ind, 1);
+  loadTour(){
+    this.RoundService.getAllTournament()
+    .then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        if (response.data[i].id === this.tourID) {
+          this.data.tournamentName = response.data[i].name;
+        }
+      }
+    });
+    this.data.hide = this.selectedRound.hide;
+    this.RoundService.getRoundInTournament(this.tourID)
+    .then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        if (response.data[i].id === this.selectedRound.roundId) {
+          this.oldCompetitor = response.data[i].competitors;
+          this.loadOldCompetitorToList(this.oldCompetitor);
+          this.data.name = response.data[i].name;
+          this.roundID = response.data[i].id;
+        }
+      }
+    });
+  }
+
+  addCompetitorToComboBox(){
+    this.data.competitorInComboBox = [];
+    this.RoundService.getAllCompetitor(this.tourID)
+    .then(response => {
+      this.tourCompetitor = response.data;
+      for (var j = 0; j < response.data.length; j++) {
+        this.data.competitorInComboBox.push(response.data[j].name);
+      }
+    });
+  }
+
+  loadOldCompetitorToList(oldCompetitor){
+    for (var i = 0; i < oldCompetitor.length; i++) {
+      this.data.competitorList.push(oldCompetitor[i].name);
+    };
   }
 
   addCompetitor(round) {
@@ -45,55 +83,12 @@ export default class roundManController {
     }
   }
 
-  selectTour(round){
-    //Load depend Competitor follow selected tour
-    //remove old Competitor list, comboBox and round name
-    round.competitorList = [];
-    round.competitorInComboBox = [];
-    round.roundList = [];
-    round.name = '';
-    round.roundError = '';
-    round.CompetitorError = '';
-    round.success = '';
-    //find tournament ID
-    this.RoundService.getAllTournament()
-    .then(response => {
-      var ind;
-      for (var i = 0; i < response.data.length; i++) {
-        if (response.data[i].name === round.tour){
-          ind = i;
-         this.tourID = response.data[i].id;
-        }
-      }
-      //add competitors to comboBox
-      this.addCompetitorToComboBox(round);
-      this.loadRoundComboBox(round);
-      round.roundSelected = '';
-    });
+  remove(round,ind){
+    round.competitorList.splice(ind, 1);
+    this.roundCompetitor.splice(ind, 1);
   }
 
-  addCompetitorToComboBox(round){
-    round.competitorInComboBox = [];
-    this.RoundService.getAllCompetitor(this.tourID)
-    .then(response => {
-      this.tourCompetitor = response.data;
-      for (var j = 0; j < response.data.length; j++) {
-        round.competitorInComboBox.push(response.data[j].name);
-      }
-    });
-  }
-
-  loadTour(round){
-    this.RoundService.getAllTournament()
-    .then(response => {
-      //success
-      for (var i = 0; i < response.data.length; i++) {
-          round.tourlist.push(response.data[i].name);
-      }
-    });
-  }
-
-  createRound(roundData){
+  saveData(roundData){
     var popTitle = 'Round Management';
     this.roundSave = {
       'name': roundData.name,
@@ -104,7 +99,7 @@ export default class roundManController {
     roundData.roundError = '';
     this.RoundService.create(this.roundSave)
     .then(() => {
-      this.toaster.pop('success', popTitle, 'Save Successfully !!!');
+      this.toaster.pop('success', popTitle, 'Create Round Successfully !!!');
       //remove all old data
       roundData.competitorList = [];
       roundData.competitorInComboBox = [];
@@ -117,71 +112,20 @@ export default class roundManController {
     });
   }
 
-  saveData(roundData){
-    var popTitle = 'Round Management';
-    roundData.roundListError = '';
-
-    if (roundData.hide === true) {
-      var dataUpdate = {
+  updateData(){
+    var popTitle = 'Update Round';
+    var dataUpdate = {
         'roundId': this.roundID,
         'competitorIds': this.roundCompetitor
-      };
-      this.RoundService.update(dataUpdate)
-      .then(() => {
-        //success
-        this.toaster.pop('success', popTitle, 'Update Successfully !!!');
-        roundData.competitorList = [];
-        roundData.roundSelected = '';
-        roundData.competitorSelected = '';
-        this.modalInstance.dismiss();
-      }, function(response){
-        roundData.roundListError = response.data.fieldErrors.roundId;
-      });
-    } else {
-      this.createRound(roundData);
-    }
-  }
-
-  updateRound(data){
-      data.hide = true;
-      data.tourError = '';
-      data.success = '';
-      data.competitorList = [];
-      //Load round to comboBox
-      this.loadRoundComboBox(data);
-  }
-
-  loadRoundComboBox(data){
-    data.roundList = [];
-    this.RoundService.getRoundInTournament(this.tourID)
-    .then(response => {
-      for (var i = 0; i < response.data.length; i++) {
-        data.roundList.push(response.data[i].name);
-      }
+    };
+    this.RoundService.update(dataUpdate)
+    .then(() => {
+      //success
+      this.toaster.pop('success', popTitle, 'Update Successfully !!!');
+      this.modalInstance.dismiss();
+    }, function(response){
+      this.toaster.pop('error', popTitle, response.data.fieldErrors);
     });
-  }
-
-  selectRound(data){
-    data.competitorList = [];
-    data.success = '';
-    this.RoundService.getRoundInTournament(this.tourID)
-    .then(response => {
-      this.roundListData = response.data;
-      this.loadOldCompetitorList(data);
-      this.addCompetitorToComboBox(data);
-      data.roundListError = '';
-    });
-  }
-
-  loadOldCompetitorList(data){
-    for (var i = 0; i < this.roundListData.length; i++) {
-      if(this.roundListData[i].name === data.roundSelected) {
-        this.roundID = this.roundListData[i].id;
-        for (var j = 0; j < this.roundListData[i].competitors.length; j++) {
-          data.competitorList.push(this.roundListData[i].competitors[j].name);
-        }
-      }
-    }
   }
 
   cancel(){

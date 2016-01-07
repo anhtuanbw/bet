@@ -28,6 +28,7 @@ export default class BettingMatchController {
         this.tourID = tournamentID;
         this.groupID = groupID;
         this.showMatch();
+        this.authen();
         this.checkMod();
         this.data.hide = false;
       }
@@ -81,7 +82,9 @@ export default class BettingMatchController {
             'bettingMatch': tempArray
           };
           // push into betting Match list
-          this.data.bettingMatch.push(item);
+          if (item.bettingMatch.length !== 0){
+            this.data.bettingMatch.push(item);
+          }
           //reset data
           response.data = [];
       });
@@ -198,7 +201,12 @@ export default class BettingMatchController {
   }
 
   checkAdmin(){
-    this.isAdmin = this.BettingService.isAdmin();
+      this.accountService.authen()
+      .then(response => {
+        if (response.data.role === 'ADMIN') {
+            this.isAdmin = true;
+          }
+      });
   }
 
 

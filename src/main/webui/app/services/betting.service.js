@@ -44,13 +44,4 @@ export default class BettingService {
 		return this.$http.post('api/getBettingMatchesByRoundAndGroupId', dataPost, config);
 	  }
 
-	  isAdmin(){
-	  	this.accountService.authen()
-	    .then(response => {
-	      if (response.data) {
-	         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
-	      }
-	    });
-	  }
-
   }
