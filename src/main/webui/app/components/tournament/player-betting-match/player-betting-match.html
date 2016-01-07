@@ -14,7 +14,7 @@
           <div class="col-sm-5 text-right">
             <strong>Liverpool <i class="fa fa-users"></i></strong>
             <div class="margin-choose">
-              <button type="button" class="btn btn-primary btn-lg raised" ng-click="player.isChooseCompetitor1()"><i class="fa fa-check" ng-show="player.chooseCompetitor1"></i> Choose Liverpool</button>
+              <button type="button" class="btn btn-primary btn-lg raised" ng-disabled="player.chooseCompetitor1" ng-click="player.isChooseCompetitor1()"><i class="fa fa-check" ng-show="player.chooseCompetitor1"></i> Choose Liverpool</button>
             </div>
           </div>
           <div class="col-sm-2 text-center">
@@ -25,12 +25,12 @@
           <div class="col-sm-5 text-left">
             <span><strong><i class="fa fa-users"></i> Chelsea</strong></span>
             <div class="margin-choose">
-              <button type="button" class="btn btn-primary btn-lg raised" ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i> Choose Chelsea</button>
+              <button type="button" class="btn btn-primary btn-lg raised" ng-disabled="player.chooseCompetitor2" ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i> Choose Chelsea</button>
             </div>
           </div>
           <div class="input-group padding-comment">
             <input type="text" ng-model="player.comment" class="form-control" placeholder="Please enter your comment for your competitor">
-            <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment(player.comment)" type="button">Comment</button></span>
+            <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()">Comment</button></span>
           </div>
           <div comment></div>
         </div>
