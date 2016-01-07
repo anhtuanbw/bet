@@ -46,15 +46,15 @@ public class MatchService {
         Tournament tournament = null;
         Round round = null;
 
-        if (competitor1.getTournament().getId() == competitor2.getTournament()
-                .getId()) {
+        if (competitor1.getTournament().getId()
+                .equals(competitor2.getTournament().getId())) {
             tournament = competitor1.getTournament();
         } else {
             throw new DataInvalidException(
                     "exception.competitor.not-exist-tournament");
         }
 
-        if (roundId == null || roundId == 0) {
+        if (roundId == null || roundId.equals(0)) {
             round = roundRepo.findByNameAndTournament(DEFAULT_ROUND_NAME,
                     tournament);
             if (round == null) {
@@ -77,9 +77,9 @@ public class MatchService {
 
             tournament = round.getTournament();
 
-            if (tournament.getId() != competitor1.getTournament().getId()
-                    || tournament.getId() != competitor2.getTournament()
-                            .getId()) {
+            if (!tournament.getId().equals(competitor1.getTournament().getId())
+                    || !tournament.getId().equals(
+                            competitor2.getTournament().getId())) {
                 throw new DataInvalidException(
                         "exception.competitor.not-exist-tournament");
             }

@@ -18,10 +18,7 @@ public interface BettingPlayerRepository extends JpaRepository<BettingPlayer, Lo
             @Param("username") String username,
             @Param("bettingMatchId") Long bettingMatchId);
 
-    @Query(value = "select bp from BettingPlayer bp "
-            + "join bp.player player "
-            + "where player.id = :playerId")
-    BettingPlayer findByPlayerId(@Param("playerId") Long playerId);
+    BettingPlayer findByPlayer(User user);
 
     List<BettingPlayer> findByBettingMatchIdAndBetCompetitorId(Long bettingMatchId, Long betCompetitorId);
 }

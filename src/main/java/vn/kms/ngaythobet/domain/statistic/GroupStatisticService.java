@@ -20,6 +20,7 @@ import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.domain.util.SecurityUtil;
 
 /**
  * 
@@ -53,12 +54,12 @@ public class GroupStatisticService {
             throw new DataInvalidException("exception.group.not-exist");
         }
 
-        User currentUser = userService.getUserInfo();
+        String username = SecurityUtil.getCurrentLogin();
+        Optional<User> optionalUser = group.getMembers().stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst();
 
-        Group groupOfcurrentUser = groupRepo.findByIdAndMembers(groupId,
-                currentUser);
-
-        if (groupOfcurrentUser == null) {
+        if (!optionalUser.isPresent()) {
             throw new DataInvalidException("exception.group.not-belong-group");
         }
 
@@ -82,7 +83,6 @@ public class GroupStatisticService {
                         .stream()
                         .filter(bettingPlayer -> bettingPlayer.getPlayer()
                                 .getId().equals(user.getId())).findFirst();
-
 
                 if (optionalBettingPlayer.isPresent()) {
                     BettingPlayer bp = optionalBettingPlayer.get();

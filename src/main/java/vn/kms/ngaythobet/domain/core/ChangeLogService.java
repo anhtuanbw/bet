@@ -108,7 +108,7 @@ public class ChangeLogService {
                 ChangeLog changelog = iteratorChangeLogs.next();
 
                 BettingPlayer bettingPlayer = bettingPlayerRepo
-                        .findByPlayerId(playerId);
+                        .findByPlayer(userRepo.getOne(playerId));
 
                 if (bettingPlayer == null)
                     continue;
