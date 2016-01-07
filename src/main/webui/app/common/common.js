@@ -8,7 +8,6 @@ import Login from './login/login';
 import Register from './register/register';
 import DateTimePicker from './match/create-match/date-time-picker';
 import SideBar from './sidebar/sidebar';
-import Unauthorized from './unAuthorized/unAuthorized';
 import PlayerHistory from './player-history/player-history';
 import GroupHistory from './group-history/group-history';
 import Comment from './comment/comment';
@@ -27,7 +26,6 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('login', () => new Login())
 .directive('register', () => new Register())
 .directive('sidebar', () => new SideBar())
-.directive('unauthorized', () => new Unauthorized())
 .directive('playerHistory', () => new PlayerHistory())
 .directive('groupHistory', () => new GroupHistory())
 .directive('comment', () => new Comment())

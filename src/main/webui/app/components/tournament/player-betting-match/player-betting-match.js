@@ -7,44 +7,47 @@ export default class PlayerBettingMatchController {
   constructor($rootScope, CacheService, BettingMatchService) {
     this.cacheService = CacheService;
     this.bettingMatchService = BettingMatchService;
-    this.dataBettingMatch = {};
-    this.dataBettingStatistics = {};
-    this.getComment = {};
-    this.commentArr = [];
-    this.comment = '';
-    this.stompClient = null;
-    this.chooseCompetitor1 = false;
-    this.chooseCompetitor2 = false;
-    this.currentBettingPlayer = {};
-    this.competitor1 = 2;
-    this.competitor2 = 3;
-    this.namePlayerBetCompetitor1 = [];
-    this.namePlayerBetCompetitor2 = [];
-    this.namePlayerNotBet = [];
-    this.getBettingMatchStatistics();
-    this.getBettingMatchInfo();
-    this.getComments();
-    this.disconnect();
-    this.connect();
-    this.getBettingPlayer();
+    this.dataInfoMatch = {};
+    $rootScope.$on('playerBettingMatch', (event, data) => {
+      this.dataInfoMatch = data;
+      this.dataBettingMatch = {};
+      this.dataBettingStatistics = {};
+      this.getComment = {};
+      this.commentArr = [];
+      this.comment = '';
+      this.stompClient = null;
+      this.chooseCompetitor1 = false;
+      this.chooseCompetitor2 = false;
+      this.currentBettingPlayer = {};
+      this.namePlayerBetCompetitor1 = [];
+      this.namePlayerBetCompetitor2 = [];
+      this.namePlayerNotBet = [];
+      this.getBettingMatchStatistics();
+      this.getBettingMatchInfo();
+      this.getComments();
+      this.disconnect();
+      this.connect();
+      this.getBettingPlayer();
+    });
+
   }
 
   getBettingMatchInfo() {
-    this.bettingMatchService.getBettingMatchInfo('1')
+    this.bettingMatchService.getBettingMatchInfo(this.dataInfoMatch.bettingMatchId)
       .then(response => {
         if (response.data) {
           this.dataBettingMatch.balance1 = response.data.balance1;
           this.dataBettingMatch.balance2 = response.data.balance2;
           this.dataBettingMatch.expiredTime = this.getTime(response.data.expiredTime);
-          this.dataBettingMatch.round = 'Play-off';
-          this.dataBettingMatch.startTime = this.getTime(response.data.expiredTime);
-          this.dataBettingMatch.comment = 'Hay qua xa';
+          this.dataBettingMatch.round = this.dataInfoMatch.roundName;
+          this.dataBettingMatch.startTime = this.getTime(this.dataInfoMatch.time);
+          this.dataBettingMatch.comment = response.data.description;
         }
       });
   }
 
   getBettingMatchStatistics() {
-    this.bettingMatchService.getBettingMatchStatistics('1')
+    this.bettingMatchService.getBettingMatchStatistics(this.dataInfoMatch.bettingMatchId)
       .then(response => {
         if (response.data) {
           this.dataBettingMatch.totalPlayer = response.data.totalBettingPlayers.length;
@@ -67,7 +70,7 @@ export default class PlayerBettingMatchController {
   }
 
   getBettingPlayer() {
-    this.bettingMatchService.getBettingPlayer('1')
+    this.bettingMatchService.getBettingPlayer(this.dataInfoMatch.bettingMatchId)
       .then(response => {
         if (response.data) {
           this.currentBettingPlayer.id = response.data.id;
@@ -88,7 +91,7 @@ export default class PlayerBettingMatchController {
     var i, timeString;
     for (i = 0; i < timeArray.length; i++) {
       timeString = this.formatTime(timeArray[1].toString()) + '/' + this.formatTime(timeArray[2].toString()) + '/' + timeArray[0] +
-      ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ':00';
+      ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ((timeArray[5]) ? ':' + this.formatTime(timeArray[5].toString()) : ':00');
     }
     return timeString;
   }
@@ -105,30 +108,26 @@ export default class PlayerBettingMatchController {
   isChooseCompetitor1() {
     this.chooseCompetitor1 = true;
     this.chooseCompetitor2 = false;
-    this.chooseBet(this.competitor1);
-    this.commentArr = [];
-    this.getComments();
+    this.chooseBet(this.dataInfoMatch.competitor1Id);
   }
 
   isChooseCompetitor2() {
     this.chooseCompetitor2 = true;
     this.chooseCompetitor1 = false;
-    this.chooseBet(this.competitor2);
-    this.commentArr = [];
-    this.getComments();
+    this.chooseBet(this.dataInfoMatch.competitor2Id);
   }
 
   isSelectedCompetitor() {
-    if (this.competitor1 === this.currentBettingPlayer.betCompetitorId) {
+    if (this.dataInfoMatch.competitor1Id === this.currentBettingPlayer.betCompetitorId) {
       this.chooseCompetitor1 = true;
     }
-    else if (this.competitor2 === this.currentBettingPlayer.betCompetitorId) {
+    else if (this.dataInfoMatch.competitor2Id === this.currentBettingPlayer.betCompetitorId) {
       this.chooseCompetitor2 = true;
     }
   }
 
   getComments() {
-    this.bettingMatchService.getComment('1')
+    this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId)
       .then(response => {
         if (response.data) {
           var i;
@@ -140,30 +139,33 @@ export default class PlayerBettingMatchController {
       });
   }
 
+  refreshBettingMatch() {
+    this.commentArr = [];
+    this.namePlayerBetCompetitor1 = [];
+    this.namePlayerBetCompetitor2 = [];
+    this.namePlayerNotBet = [];
+    this.getBettingPlayer();
+    this.getBettingMatchStatistics();
+    this.getComments();
+  }
+
   connect() {
     var socket = new SockJS('/betting-match');
     this.stompClient = Stomp.over(socket);
 
     var self = this;
     self.stompClient.connect({}, function () {
-      self.stompClient.subscribe('/topic/comment/1', function () {
+      self.stompClient.subscribe('/topic/comment/' + self.dataInfoMatch.bettingMatchId, function () {
         self.commentArr = [];
         self.getComments();
       });
 
-      self.stompClient.subscribe('/topic/playBet/1', function () {
-        self.namePlayerBetCompetitor1 = [];
-        self.namePlayerBetCompetitor2 = [];
-        self.namePlayerNotBet = [];
-        self.getBettingPlayer();
-        self.getBettingMatchStatistics();
+      self.stompClient.subscribe('/topic/playBet/' + self.dataInfoMatch.bettingMatchId, function () {
+        self.refreshBettingMatch();
       });
 
-      self.stompClient.subscribe('/topic/updatePlayBet/1', function () {
-        self.namePlayerBetCompetitor1 = [];
-        self.namePlayerBetCompetitor2 = [];
-        self.namePlayerNotBet = [];
-        self.getBettingMatchStatistics();
+      self.stompClient.subscribe('/topic/updatePlayBet/' + self.dataInfoMatch.bettingMatchId, function () {
+        self.refreshBettingMatch();
       });
     });
   }
@@ -179,11 +181,11 @@ export default class PlayerBettingMatchController {
     var self = this;
     var token = this.cacheService.get('loginUser');
     var requestBody = {
-      'bettingMatchId': 1,
+      'bettingMatchId': self.dataInfoMatch.bettingMatchId,
       'comment': self.comment
     };
 
-    self.stompClient.send('/app/betting-match/comment/1', { 'x-auth-token': token }, JSON.stringify(requestBody));
+    self.stompClient.send('/app/betting-match/comment/' + self.dataInfoMatch.bettingMatchId, { 'x-auth-token': token }, JSON.stringify(requestBody));
     self.comment = '';
   }
 
@@ -196,17 +198,17 @@ export default class PlayerBettingMatchController {
         'competitorId': competitorId
       };
 
-      self.stompClient.send('/app/betting-match/updatePlayBet/1', { 'x-auth-token': token }, JSON.stringify(requestBodyUpdate));
+      self.stompClient.send('/app/betting-match/updatePlayBet/' + self.dataInfoMatch.bettingMatchId, { 'x-auth-token': token }, JSON.stringify(requestBodyUpdate));
     }
     else {
 
       var requestBody = {
-        'bettingMatchId': 1,
+        'bettingMatchId': self.dataInfoMatch.bettingMatchId,
         'competitorId': competitorId,
         'comment': self.comment
       };
 
-      self.stompClient.send('/app/betting-match/playBet/1', { 'x-auth-token': token }, JSON.stringify(requestBody));
+      self.stompClient.send('/app/betting-match/playBet/' + self.dataInfoMatch.bettingMatchId, { 'x-auth-token': token }, JSON.stringify(requestBody));
     }
 
     self.comment = '';

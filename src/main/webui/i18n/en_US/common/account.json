@@ -21,6 +21,8 @@
       "reset-passwordSuccess": {
         "title": "Reset password success",
         "mark": "Your password has been changed successfully, Please login again!"
-      }
+      },
+      "unauthorized": "Your session is about expired. Please login to continue!",
+      "redirect": "Automatically redirect to Homepage in 3s or click <a href='#'>here</a>"
   }
 }

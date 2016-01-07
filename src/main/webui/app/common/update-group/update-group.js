@@ -2,8 +2,9 @@
 
 export default class UpdateGroupController {
   /* @ngInject */
-  constructor($modalInstance, toaster, groupInfo, $rootScope, UserService, GroupService) {
+  constructor($modalInstance, toaster, groupInfo, $rootScope, $location, UserService, GroupService) {
     this.rootScope = $rootScope;
+    this.location = $location;
     this.userService = UserService;
     this.groupService = GroupService;
     this.modalInstance = $modalInstance;
@@ -40,6 +41,9 @@ export default class UpdateGroupController {
       this.closeModal();
     })
     .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
       if (error.status === 400) {
         if (!error.data.message) {
           this.errorMessage = error.data.fieldErrors;
