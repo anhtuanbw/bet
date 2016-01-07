@@ -61,7 +61,7 @@ public class BettingMatchService {
         BettingMatch bettingMatch = new BettingMatch();
         Group group = groupRepo.findOne(createBettingMatchInfo.getGroupId());
         Match match = matchRepo.findOne(createBettingMatchInfo.getMatchId());
-        if (bettingMatchIsExisted(createBettingMatchInfo.getGroupId(), createBettingMatchInfo.getMatchId())) {
+        if (!bettingMatchIsExisted(createBettingMatchInfo.getGroupId(), createBettingMatchInfo.getMatchId())) {
             if (balanceIsValid(createBettingMatchInfo.getBalance1())
                     && balanceIsValid(createBettingMatchInfo.getBalance2())) {
                 if (isExistedInTournament(match, group)) {
