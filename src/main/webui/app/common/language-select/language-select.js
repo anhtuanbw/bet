@@ -5,7 +5,7 @@ class LanguageSelectController {
   constructor($translate, CacheService, $rootScope, $cookies) {
     this.$translate = $translate;
     this.cookies = $cookies;
-    this.systemLanguage = this.$translate.use() || 'en_US';
+    this.systemLanguage = this.$translate.use() || this.cookies.get('NG_TRANSLATE_LANG_KEY');
     this.cacheService = CacheService;
     this.rootScope = $rootScope;
   }
