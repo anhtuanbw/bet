@@ -6,7 +6,6 @@ export default class GroupHistoryController {
     this.groupService = GroupService;
     this.location = $location;
     this.statisticData = [];
-    this.getStatisticInfo();
     this.sortType = 'player';
     this.sortReverse = false;
     this.activePlayer = false;
@@ -15,6 +14,7 @@ export default class GroupHistoryController {
       if (groupInfo) {
         this.groupInfo = groupInfo;
       }
+      this.getStatisticInfo();
     });
   }
   
