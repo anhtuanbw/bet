@@ -1,0 +1,12 @@
+{
+  "common": {
+    "round": {
+      "create": {
+        "title": "Tạo vòng đấu",
+        "name": "Tên vòng đấu",
+        "select-tournament": "Select tournament",
+        "select-competitor": "Select competitors"
+      }
+    }
+  }
+}
