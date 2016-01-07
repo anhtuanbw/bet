@@ -10,7 +10,7 @@
       	"mark": "Những trường được đánh dấu <span class='text-danger'>(*)</span> yêu cầu phải nhập đầy đủ thông tin.",
       	"name": "Nhập tên nhóm <span class='text-danger'>*</span>",
       	"tournament": "Nhập tên giải đấu <span class='text-danger'>*</span>",
-      	"moderator": "Chọn user làm làm chủ <span class='text-danger'>*</span>",
+      	"moderator": "Chọn user làm chủ <span class='text-danger'>*</span>",
       	"marktournament": "Vui lòng chọn giải đấu",
         "create-success": "Tạo nhóm thành công!"
       },
@@ -21,6 +21,18 @@
       "reset-passwordSuccess": {
         "title": "Đổi mật khẩu",
         "mark": "Mật khẩu của bạn đã được thay đổi thành công, vui lòng đăng nhập lại!"
-      }
+      },
+      "change-password": {
+        "title": "Đổi mật khẩu",
+        "currentPwd": "Mật khẩu hiện tại",
+        "newPwd": "Mật khẩu mới",
+        "confirmNewPwd": "Nhập lại mật khẩu mới"
+      },
+      "form": {
+        "submit": "Gửi",
+        "cancel": "Thoát"
+      },
+      "unauthorized": "Session đã hết hạn. Vui lòng đăng nhập để tiếp tục!",
+      "redirect": "Tự động chuyển hướng về trang chủ hoặc click <a href='/home'>vào đây</a>"
   }
 }

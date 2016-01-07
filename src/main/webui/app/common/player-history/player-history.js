@@ -11,7 +11,6 @@ export default class PlayerHistoryController {
         ];
     this.sortType = 'match';
     this.sortReverse = false;
-    this.activePlayer = false;
   }
 }
 

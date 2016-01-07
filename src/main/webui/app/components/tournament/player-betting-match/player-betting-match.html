@@ -9,34 +9,81 @@
           </div>
           <hr>
           <div class="text-center">
-            <h4 class="text-muted">Round 3</h4>
+            <h4 class="text-muted">{{player.dataBettingMatch.round}}</h4>
           </div>
           <div class="col-sm-5 text-right">
-            <strong>Liverpool <i class="fa fa-users"></i></strong>
+            <strong>{{player.dataInfoMatch.competitor1Name}} <i class="fa fa-users"></i></strong>
             <div class="margin-choose">
-              <button type="button" class="btn btn-primary btn-lg raised"> Choose Liverpool</button>
+              <button type="button" class="btn btn-primary btn-lg raised" ng-disabled="player.chooseCompetitor1" ng-click="player.isChooseCompetitor1()"><i class="fa fa-check" ng-show="player.chooseCompetitor1"></i> Choose {{player.dataInfoMatch.competitor1Name}}</button>
             </div>
           </div>
           <div class="col-sm-2 text-center">
             <span>?</span>
-            <span class="space-line">-</span>
-            <span class="space-line">?</span>
+            <span class="space-competitor">-</span>
+            <span class="space-competitor">?</span>
           </div>
           <div class="col-sm-5 text-left">
-            <span><strong><i class="fa fa-users"></i> Chelsea</strong></span>
+            <span><strong><i class="fa fa-users"></i> {{player.dataInfoMatch.competitor2Name}}</strong></span>
             <div class="margin-choose">
-              <button type="button" class="btn btn-primary btn-lg raised"><i class="fa fa-check"></i> Choose Chelsea</button>
+              <button type="button" class="btn btn-primary btn-lg raised" ng-disabled="player.chooseCompetitor2" ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i> Choose {{player.dataInfoMatch.competitor2Name}}</button>
             </div>
           </div>
           <div class="input-group padding-comment">
-            <input type="text" ng-model="player.comment" class="form-control">
-            <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()" type="button">Comment</button></span>
+            <input type="text" ng-model="player.comment" class="form-control" placeholder="Please enter your comment for your competitor">
+            <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()" type="submit">Comment</button></span>
           </div>
           <div comment></div>
         </div>
         <div class="col-sm-6">
-          <h3 class="padding">Match Information</h3>
+          <h3 class="padding">Betting Match Information</h3>
           <hr>
+          <div info-betting-match></div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="badge">{{player.dataBettingStatistics.numberPlayerChoose1}}</div>
+              <span><strong> {{player.dataInfoMatch.competitor1Name}}</strong></span>
+            </div>
+            <div class="panel-body">
+              <div ng-repeat="betCompetitor1 in player.namePlayerBetCompetitor1 track by $index">
+                <i class="fa fa-user"></i><span> {{betCompetitor1}}</span>
+              </div>
+              <div class="progress margin-choose">
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                style="width:{{player.dataBettingStatistics.percentOfChoosingCompetitor1}}%">
+                  {{player.dataBettingStatistics.percentOfChoosingCompetitor1}}%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default margin-choose">
+            <div class="panel-heading">
+              <div class="badge">{{player.dataBettingStatistics.numberPlayerChoose2}}</div>
+              <span><strong> {{player.dataInfoMatch.competitor2Name}}</strong></span>
+            </div>
+            <div class="panel-body">
+              <div ng-repeat="betCompetitor2 in player.namePlayerBetCompetitor2 track by $index">
+                <i class="fa fa-user"></i><span> {{betCompetitor2}}</span>
+              </div>
+              <div class="progress margin-choose">
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                style="width:{{player.dataBettingStatistics.percentOfChoosingCompetitor2}}%">
+                  {{player.dataBettingStatistics.percentOfChoosingCompetitor2}}%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default margin-choose">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                Players not bet
+              </h4>
+            </div>
+            <div class="panel-body">
+              <div ng-repeat="notBet in player.namePlayerNotBet track by $index">
+                <i class="fa fa-user"></i><span> {{notBet}}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

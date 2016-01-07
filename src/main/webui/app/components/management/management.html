@@ -11,9 +11,9 @@
 				<div ng-show="management.showView.isCreate && management.isAdmin" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
 				<div ng-show="management.showView.isEdit" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
 				<div ng-show="management.showView.isGroup" ng-include src="'app/components/tournament/group/group.html'"></div>
+				<div ng-show="management.showView.isBetting" ng-include src="'app/components/tournament/player-betting-match/player-betting-match.html'"></div>
 			</div>
 		</div>
 	</div>
-	<div unauthorized ng-show="!management.isAuthorized()"></div>
 </div>
 <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>

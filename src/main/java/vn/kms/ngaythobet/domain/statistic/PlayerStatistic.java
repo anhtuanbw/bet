@@ -3,31 +3,31 @@ package vn.kms.ngaythobet.domain.statistic;
 
 import java.time.LocalDateTime;
 
-public class PlayerBettingStatistic {
-    private String player;
-    private String match;
+public class PlayerStatistic {
+    private String competitor1Name;
+    private String competitor2Name;
     private LocalDateTime expiredBetTime;
-    private int competitor1Score;
-    private int competitor2Score;
+    private long competitor1Score;
+    private long competitor2Score;
     private double competitor1Balance;
     private double competitor2Balance;
     private String betCompetitorName;
-    private long lossAmount;
+    private double lossAmount;
 
-    public String getPlayer() {
-        return player;
+    public String getCompetitor1Name() {
+        return competitor1Name;
     }
 
-    public void setPlayer(String player) {
-        this.player = player;
+    public void setCompetitor1Name(String competitor1Name) {
+        this.competitor1Name = competitor1Name;
     }
 
-    public String getMatch() {
-        return match;
+    public String getCompetitor2Name() {
+        return competitor2Name;
     }
 
-    public void setMatch(String match) {
-        this.match = match;
+    public void setCompetitor2Name(String competitor2Name) {
+        this.competitor2Name = competitor2Name;
     }
 
     public LocalDateTime getExpiredBetTime() {
@@ -38,19 +38,19 @@ public class PlayerBettingStatistic {
         this.expiredBetTime = expiredBetTime;
     }
 
-    public int getCompetitor1Score() {
+    public long getCompetitor1Score() {
         return competitor1Score;
     }
 
-    public void setCompetitor1Score(int competitor1Score) {
+    public void setCompetitor1Score(long competitor1Score) {
         this.competitor1Score = competitor1Score;
     }
 
-    public int getCompetitor2Score() {
+    public long getCompetitor2Score() {
         return competitor2Score;
     }
 
-    public void setCompetitor2Score(int competitor2Score) {
+    public void setCompetitor2Score(long competitor2Score) {
         this.competitor2Score = competitor2Score;
     }
 
@@ -78,11 +78,11 @@ public class PlayerBettingStatistic {
         this.betCompetitorName = betCompetitorName;
     }
 
-    public long getLossAmount() {
+    public double getLossAmount() {
         return lossAmount;
     }
 
-    public void setLossAmount(long lossAmount) {
+    public void setLossAmount(double lossAmount) {
         this.lossAmount = lossAmount;
     }
 }

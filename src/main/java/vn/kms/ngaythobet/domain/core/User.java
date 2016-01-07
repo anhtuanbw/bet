@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.util.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.betting.BettingPlayer;
@@ -174,5 +176,10 @@ public class User extends AuditableEntity {
     public boolean equals(Object obj) {
         User user = (User) obj;
         return user.getId().equals(this.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCode(this.getId());
     }
 }

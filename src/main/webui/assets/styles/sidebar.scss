@@ -2,19 +2,24 @@
     outline: 0;
 }
 
-.content {
-    height: 1500px;
-}
-
 .sidenav {
+    min-height: 1000px;
     background-color: #f1f1f1;
     height: 100%;
     padding: 0;
     box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
 }
 
+.sidenav .list-group-item:first-child {
+    border-top-right-radius: 0;
+}
+
 .list-group-item {
     background-color: #f1f1f1;
+}
+
+.group-item-color {
+    background-color: #fff;
 }
 
 li.header {
@@ -97,4 +102,15 @@ li.active a {
 
 .arrow {
     display: inline;
+}
+
+.stylish-input-group .input-group-addon {
+    background: white !important; 
+}
+.stylish-input-group .form-control {
+    box-shadow: 0 0 0; 
+}
+.stylish-input-group button {
+    border: 0;
+    background: transparent;
 }

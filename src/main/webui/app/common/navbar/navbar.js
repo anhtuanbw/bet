@@ -4,7 +4,7 @@ export default class NavBar {
   /* @ngInject */
   constructor() {
     return {
-      replace: true,
+      replace: false,
       templateUrl: 'app/common/navbar/navbar.html'
     };
   }

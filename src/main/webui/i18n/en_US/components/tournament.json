@@ -1,26 +1,55 @@
 {
-  "components": {
-    "tournament": {
-      "createTournament-success": "Creat tournament successfully!!!",
-      "title": "Create Tournament",
-      "competitors": "Competitors",
-      "name": "Tournament name",
-      "active": "Active",
-      "activeSuccess": "Active tournament successfully!!!",
-      "group": {
-        "groupStatistic": "Group statistic",
-        "playerStatistic": "Player statistic",
-        "table": {
-          "no": "No",
-          "match": "Match",
-          "competitor": "You choose competitor",
-          "score": "Score (Balance)",
-          "expired": "Expired bet time",
-          "loss": "Loss amount"
-        },
-        "total": "Total loss amount",
-        "unit": "USD"
+   "components": {
+      "tournament": {
+         "createTournament-success":"Creat tournament successfully!!!",
+         "title":"Create Tournament",
+         "competitors":"Competitors",
+         "name":"Tournament name",
+         "active":"Active",
+         "activeSuccess":"Active tournament successfully!!!",
+         "edit-tournament": {
+            "btnActiveTour": "Active tournament",
+            "btnNewGroup": "<i class='fa fa-plus'></i> New group",
+            "btnNewMatch": "<i class='fa fa-plus'></i> New match",
+            "btnNewRound": "<i class='fa fa-plus'></i> New round"
+          },
+         "tab": {
+            "matches": "Matches",
+            "statistics": "Statistics",
+            "information": "Information"
+          },
+         "history": {
+            "matchStatistic":"Match statistic",
+            "groupStatistic":"Group statistic",
+            "playerStatistic":"Player statistic",
+            "player": {
+               "table": {
+                  "no":"No",
+                  "match":"Match",
+                  "competitor":"You choose competitor",
+                  "score":"Score (Balance)",
+                  "expired":"Expired bet time",
+                  "loss":"Loss amount"
+               },
+               "total":"Total loss amount",
+               "unit":"USD"
+            },
+            "group": {
+              "title": "Group statistic",
+              "table": {
+                "no": "No",
+                "player": "Player",
+                "notloss": "Not loss count",
+                "losscount": "Loss count",
+                "lossamount": "Loss amount",
+                "notbetcount": "Not bet count",
+                "notbetamount": "Not bet amount",
+                "totalloss": "Total loss amount"
+              },
+              "total": "Total loss amount",
+              "unit": "USD"
+            }
+         }
       }
-    }
-  }
+   }
 }

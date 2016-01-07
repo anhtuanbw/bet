@@ -1,17 +1,16 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.betting;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import vn.kms.ngaythobet.domain.core.User;
 
-public interface BettingPlayerRepository extends
-        JpaRepository<BettingPlayer, Long> {
-    BettingPlayer findByPlayerAndBettingMatch(User player,
-            BettingMatch bettingMatch);
-
+public interface BettingPlayerRepository extends JpaRepository<BettingPlayer, Long> {
+    BettingPlayer findByPlayerAndBettingMatch(User player, BettingMatch bettingMatch);
     @Query(value = "select bp from BettingPlayer bp "
             + "join bp.bettingMatch bm " + "join bp.player player "
             + "where player.username = :username and bm.id = :bettingMatchId")
@@ -23,4 +22,6 @@ public interface BettingPlayerRepository extends
             + "join bp.player player "
             + "where player.id = :playerId")
     BettingPlayer findByPlayerId(@Param("playerId") Long playerId);
+
+    List<BettingPlayer> findByBettingMatchIdAndBetCompetitorId(Long bettingMatchId, Long betCompetitorId);
 }

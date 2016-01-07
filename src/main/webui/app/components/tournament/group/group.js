@@ -2,9 +2,10 @@
 
 export default class TournamentGroupController {
   /* @ngInject */
-  constructor($modal, $rootScope, GroupService, AccountService) {
+  constructor($modal, $rootScope, $location, GroupService, AccountService) {
     this.modal = $modal;
     this.rootScope = $rootScope;
+    this.location = $location;
     this.groupService = GroupService;
     this.accountService = AccountService;
     this.groupInfo = {};
@@ -16,11 +17,12 @@ export default class TournamentGroupController {
         if(groupInfo.tournamentName) {
           this.tournamentName = groupInfo.tournamentName;
         }
-        this.groupInfo = groupInfo;
+        this.groupInfo.id = groupInfo.id;
         this.findById();
         this.checkMod();
       }
     });
+    this.activePlayer = 'group';
   }
   
   findById() {
@@ -28,7 +30,11 @@ export default class TournamentGroupController {
     .then(response => {
       this.groupInfo = response.data;
     })
-    .catch();
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
+    });
   }
   
   authen() {

@@ -3,10 +3,10 @@
 		<div class="panel-heading panel-title has-minheight">
 			<strong class="panel-title pull-left text-muted font-size" ng-bind="editor.tournamentInfo.name"></strong>
 			<div class="text-right panel-title" ng-show="management.isAdmin">
-				<button class="btn btn-primary" ng-click="editor.activeTournament()" ng-show="!editor.tournamentInfo.activated">Active tournament</button>
-				<button class="btn btn-default" ng-click="editor.createGroup()"><i class="fa fa-plus"></i> New group</button>
-				<button class="btn btn-default" ng-click="editor.openCreateMatch()"><i class="fa fa-plus"></i> New match</button>
-				<button class="btn btn-default" ng-click="editor.openCreateRound()"><i class="fa fa-plus"></i> New round</button>
+				<button class="btn btn-primary" ng-click="editor.activeTournament()" ng-show="!editor.tournamentInfo.activated" translate="components.tournament.edit-tournament.btnActiveTour"></button>
+				<button class="btn btn-default" ng-click="editor.createGroup()" translate="components.tournament.edit-tournament.btnNewGroup"></button>
+				<button class="btn btn-default" ng-click="editor.openCreateMatch()" translate="components.tournament.edit-tournament.btnNewMatch"></button>
+				<button class="btn btn-default" ng-click="editor.openCreateRound()" translate="components.tournament.edit-tournament.btnNewRound"></button>
 			</div>
 		</div>
 		<div class="panel-body" ng-repeat="round in editor.inforTournament track by $index">
@@ -14,14 +14,15 @@
 				<div class="showTournament">
 					<div class="panel-heading panel-title">
 						<span><h4 class="padding-round bold" ng-bind="round.name"></h4></span>
-						<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-sort-desc fa-2x pull-right"></i></a>
+						<span class="glyphicon glyphicon-edit text-danger" ng-click="editor.openUpdateRound(round)"></span>
+						<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-angle-down fa-2x pull-right"></i></a>
 						<div ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
 							<hr>
-							<div class="text-center">
-								<h4 class="text-danger padding-button">Match {{$index + 1}}</h4>
+							<div class="col-md-12">
+								<h4 class="text-danger padding-button col-md-7 text-right">Match {{$index + 1}}</h4>
 								<div class="pull-right">
-									<button class="btn btn-default" ng-click="editor.openUpdateScore(match.id)">Update score</button>
-									<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-sort-desc fa-2x"></i></a>
+									<button ng-show="editor.isAdmin" class="btn btn-default" ng-click="editor.openUpdateScore(match.id)">Update score</button>
+									<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-angle-down"></i></a>
 								</div>
 							</div>
 							<div class="row">

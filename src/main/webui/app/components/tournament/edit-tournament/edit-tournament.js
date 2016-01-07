@@ -3,15 +3,18 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
     this.mdDialog = $mdDialog;
     this.toaster = toaster;
     this.inforTournament = [];
+    this.accountService = AccountService;
     $rootScope.hideRound = true;
     $rootScope.hideInfo = true;
+    this.isAdmin = false;
+    this.authen();
     $rootScope.$on('selectTournament', (event, tournamentInfo) => {
       if (tournamentInfo) {
         this.tournamentInfo = tournamentInfo;
@@ -44,6 +47,9 @@ export default class EditTournamentController {
         this.toaster.pop('success', null, 'app/components/tournament/edit-tournament/activeSuccess.html', null, 'template');
       })
       .catch(error => {
+        if (error.status === 401) {
+          this.location.path('/unauthorized');
+        }
         if (error.status === 403) {
           this.toaster.pop('error', 'Warning', error.data.message);
         }
@@ -61,9 +67,6 @@ export default class EditTournamentController {
         }
         this.checkNullScore();
         this.getTime();
-      })
-      .catch(response => {
-        // return error
       });
   }
 
@@ -97,10 +100,23 @@ export default class EditTournamentController {
   }
 
   openCreateRound() {
+    var self = this;
+    var roundOldData = {
+      'roundId': null,
+      'hide': false
+    };
     this.modal.open({
       templateUrl: 'app/common/round-management/round-management.html',
       controller: 'RoundManController',
-      controllerAs: 'round'
+      controllerAs: 'round',
+      resolve: {
+        selectedRound: function () {
+          return roundOldData;
+        },
+        tourID: function () {
+          return self.tournamentInfo.id;
+        }
+      }
     });
   }
 
@@ -127,6 +143,36 @@ export default class EditTournamentController {
         getMatchId: function () {
           return matchId;
         }
+      }
+    });
+  }
+
+  openUpdateRound(round){
+    var self = this;
+    var roundOldData = {
+      'roundId': round.id,
+      'hide': true
+    };
+    this.modal.open({
+      templateUrl: 'app/common/round-management/round-management.html',
+      controller: 'RoundManController',
+      controllerAs: 'round',
+      resolve: {
+        selectedRound: function () {
+          return roundOldData;
+        },
+        tourID: function () {
+          return self.tournamentInfo.id;
+        }
+      }
+    });
+  }
+  
+  authen() {
+    this.accountService.authen()
+    .then(response => {
+      if (response.data) {
+         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
       }
     });
   }

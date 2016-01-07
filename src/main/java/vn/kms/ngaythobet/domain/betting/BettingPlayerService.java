@@ -1,7 +1,10 @@
 package vn.kms.ngaythobet.domain.betting;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +13,12 @@ import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
+import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.AddCommentInfo;
+import vn.kms.ngaythobet.web.dto.BettingMatchStatisticsInfo;
 import vn.kms.ngaythobet.web.dto.PlayerBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdatePlayerBettingMatchInfo;
 
@@ -54,11 +59,9 @@ public class BettingPlayerService {
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
             bettingPlayer.setBetCompetitor(betCompetitor);
             bettingPlayerRepo.save(bettingPlayer);
-            if (comment != null) {
-                if (!comment.trim().isEmpty()) {
-                    bettingMatch.setComment(comment);
-                    bettingMatchRepo.save(bettingMatch);
-                }
+            if (StringUtils.isNotBlank(comment)) {
+                bettingMatch.setComment(comment);
+                bettingMatchRepo.save(bettingMatch);
             }
         }
 
@@ -104,5 +107,54 @@ public class BettingPlayerService {
     private boolean isBet(BettingMatch bettingMatch) {
         User player = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
         return (bettingPlayerRepo.findByPlayerAndBettingMatch(player, bettingMatch) != null);
+    }
+
+    public BettingMatchStatisticsInfo getBettingMatchStatistics(Long bettingMatchId) {
+        BettingMatch bettingMatch = bettingMatchRepo.findByIdAndActivated(bettingMatchId, true).get();
+        Match match = bettingMatch.getMatch();
+        List<BettingPlayer> bettingPlayersChoosingTeam1 = bettingPlayerRepo
+                .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor1().getId());
+        List<BettingPlayer> bettingPlayersChoosingTeam2 = bettingPlayerRepo
+                .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor2().getId());
+        Group group = bettingMatch.getGroup();
+        List<User> users = group.getMembers();
+        List<BettingPlayer> bettingPlayers = new ArrayList<BettingPlayer>();
+        bettingPlayers.addAll(bettingPlayersChoosingTeam1);
+        bettingPlayers.addAll(bettingPlayersChoosingTeam2);
+        BettingMatchStatisticsInfo info = new BettingMatchStatisticsInfo();
+        info.setBettingPlayersChooseCompetitor1(bettingPlayersChoosingTeam1);
+        info.setBettingPlayersChooseCompetitor2(bettingPlayersChoosingTeam2);
+        int percentOfChoosingCompetitor1 = bettingPlayersChoosingTeam1.size() * 100 / users.size();
+        int percentOfChoosingCompetitor2 = bettingPlayersChoosingTeam2.size() * 100 / users.size();
+        info.setPercentOfChoosingCompetitor1(percentOfChoosingCompetitor1);
+        info.setPercentOfChoosingCompetitor2(percentOfChoosingCompetitor2);
+        info.setTotalBettingPlayers(users);
+        List<User> userNotBet = getUsersNotBet(users, bettingPlayers);
+        info.setUserNotBet(userNotBet);
+        return info;
+    }
+
+    private List<User> getUsersNotBet(List<User> users, List<BettingPlayer> bettingPlayers) {
+        List<User> userNotBet = new ArrayList<User>();
+        for (User user : users) {
+            boolean isExist = false;
+            for (BettingPlayer bettingPlayer : bettingPlayers) {
+                if (bettingPlayer.getPlayer().getId() == user.getId()) {
+                    isExist = true;
+                    break;
+                }
+            }
+            if (!isExist) {
+                userNotBet.add(user);
+            }
+        }
+        return userNotBet;
+    }
+
+    public BettingPlayer getBettingPlayerOfCurrentUserByBettingMatchId(Long bettingMatchId) {
+        User user = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
+        BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(user, bettingMatch);
+        return bettingPlayer;
     }
 }

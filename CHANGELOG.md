@@ -1,3 +1,44 @@
+ngaythobet - v0.0.9 / 2016-01-05
+================================
+
+*[#63 API] Realtime Activity
+*[#88 UI] Group statistic
+
+**Improvement**
+* [Enhancement] Search tournaments on Side bar
+* [Enhancement] Support  multi-languages for login form
+
+**Bug Fixed**
+* [#107] System allows create betting match successfully when Group and Match do NOT belong to the same tournament
+* [#106] System return 'SERVER ERROR' when user create betting match with all fields empty
+* [#103] System should not be response error message with coding language when Moderator create betting match with invalid balance1 & balance2 
+* [#104] System return duplicate data when a user is moderator of multiple group
+* [#97] Can not create new group when name group is existed in another tournament
+* [#95] Home page should display "Login" and "Sign up" section when page is launched at the first time
+* [#86] System allows create betting match successfully when balance is not multiples of 0.25. Eg: 0.001111
+* [#80] Footer is override the other elements
+* [#76] Some elements/ message displays with correct language selected
+* [#63] Error msg display incorrectly when user login with username/password empty
+
+
+ngaythobet - v0.0.8 / 2016-01-04
+================================
+
+* [#55 API] Player Betting Match.
+* [#57 API] Player History (Not optimized)
+* [#60 UI] Adding members to the Group
+
+**Improvement**
+* [UI Side bar] Update autocomplete (Contain username and display name)
+
+**Bug**
+* [#81] Error message displays inconsistently when user enter tournament name with blank space in the begin and end (Fixed)
+* [#79] Allowing Moderator user to update score of match (Fixed)
+* [#72] System allows to create match with match's time before current time (Fixed)
+* [#71] Can not create match when Admin is moderator of 2 group (Fixed)
+* [#65] System allows create match when competitors do not belong to round (Fixed)
+
+
 ngaythobet - v0.0.6 / 2015-12-29
 ================================
 

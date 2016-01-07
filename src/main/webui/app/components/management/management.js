@@ -2,8 +2,9 @@
 
 export default class ManagementController {
   /* @ngInject */
-  constructor(TournamentService, CacheService, $rootScope, AccountService) {
+  constructor(TournamentService, CacheService, $rootScope, AccountService, $location) {
     this.rootScope = $rootScope;
+    this.location = $location;
     this.tournamentService = TournamentService;
     this.accountService = AccountService;
     this.tournaments = [];
@@ -11,6 +12,7 @@ export default class ManagementController {
     this.selectedGroup = -1;
     this.selectedTour = -1;
     this.showView = {
+      isBetting: false,
       isCreate: true,
       isEdit: false,
       isGroup: false
@@ -31,18 +33,27 @@ export default class ManagementController {
     this.showView.isCreate = true;
     this.showView.isEdit = false;
     this.showView.isGroup = false;
+    this.showView.isBetting = false;
   }
 
-  showGroup(index, data, groupID) {
+  showGroup(index, tournament, group) {
     this.selectedGroup = index;
     this.showView.isCreate = false;
     this.showView.isEdit = false;
     this.showView.isGroup = true;
+    this.showView.isBetting = false;
     this.rootScope.$broadcast('tourID', tournament.id, group.id);
     group.tournamentName = tournament.name;
     this.rootScope.$broadcast('selectGroup', group);
   }
-
+  
+  playerBetting() {
+    this.showView.isBetting = true;
+    this.showView.isCreate = false;
+    this.showView.isEdit = false;
+    this.showView.isGroup = false;
+  }
+  
   isAuthorized() {
     return this.cacheService.get('loginUser')!= null;
   }
@@ -52,16 +63,19 @@ export default class ManagementController {
     .then(response => {
       this.tournaments = response.data;
     })
-    .catch();
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
+    });
   }
 
   showTournamenDetail(tournamentId) {
     this.showView.isEdit = true;
     this.showView.isGroup = false;
     this.showView.isCreate = false;
-
-    for (var i in this.tournaments)
-    {
+    this.showView.isBetting =false;
+    for (var i in this.tournaments) {
       if (this.tournaments[i].id === tournamentId) {
         this.rootScope.$broadcast('selectTournament', this.tournaments[i]);
         break;
@@ -69,11 +83,11 @@ export default class ManagementController {
     }
   }
 
-   authen() {
+  authen() {
     this.accountService.authen()
     .then(response => {
       if (response.data) {
-         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+        this.isAdmin = response.data.role === 'ADMIN' ? true : false;
       }
     });
   }

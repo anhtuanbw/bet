@@ -28,14 +28,18 @@ import vn.kms.ngaythobet.web.dto.HistoryBetting;
 public class ChangeLogService {
 
     private final ChangeLogRepository changeLogRepo;
+    private final BettingMatchRepository bettingMatchRepo;
     private final BettingPlayerRepository bettingPlayerRepo;
+    private final UserRepository userRepo;
 
     @Autowired
     public ChangeLogService(ChangeLogRepository changeLogRepo,
-            BettingPlayerRepository bettingPlayerRepo,
-            BettingMatchRepository brepo) {
+            BettingMatchRepository bettingMatchRepo,
+            BettingPlayerRepository bettingPlayerRepo, UserRepository userRepo) {
         this.changeLogRepo = changeLogRepo;
+        this.bettingMatchRepo = bettingMatchRepo;
         this.bettingPlayerRepo = bettingPlayerRepo;
+        this.userRepo = userRepo;
     }
 
     @Transactional(readOnly = true)
@@ -139,5 +143,34 @@ public class ChangeLogService {
             }
         }
         return historyBettings;
+    }
+
+    @Transactional(readOnly = true)
+    public CommentInfo getRecentComment(Long bettingMatchId) {
+        ChangeLog changelog = changeLogRepo
+                .findFirst1ByEntityTypeAndEntityIdOrderByTimestampDesc(
+                        BettingMatch.class.getCanonicalName(), bettingMatchId);
+        CommentInfo commentInfo = null;
+        if (changelog != null) {
+            commentInfo = new CommentInfo();
+            commentInfo.setUsername(changelog.getUsername());
+            commentInfo.setTimestamp(changelog.getTimestamp());
+
+            User user = userRepo.findOneByUsername(changelog.getUsername())
+                    .get();
+            BettingMatch bettingMatch = bettingMatchRepo.findOne(changelog
+                    .getEntityId());
+
+            BettingPlayer bettingPlayer = bettingPlayerRepo
+                    .findByPlayerAndBettingMatch(user, bettingMatch);
+            commentInfo.setBetCompetitor(bettingPlayer.getBetCompetitor());
+
+            Map<String, Change> entityChange = changelog.getEntityChanges();
+            if (entityChange != null && entityChange.get("comment") != null) {
+                Change change = entityChange.get("comment");
+                commentInfo.setComment(change.getNewValue().toString());
+            }
+        }
+        return commentInfo;
     }
 }
