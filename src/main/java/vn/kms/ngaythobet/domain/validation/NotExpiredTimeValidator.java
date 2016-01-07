@@ -48,7 +48,7 @@ public class NotExpiredTimeValidator implements ConstraintValidator<NotExpiredTi
                         context.disableDefaultConstraintViolation();
                         context.buildConstraintViolationWithTemplate(message).addPropertyNode(targetField)
                                 .addConstraintViolation();
-                        return false;
+                        return false; 
                     }
                 }
             }

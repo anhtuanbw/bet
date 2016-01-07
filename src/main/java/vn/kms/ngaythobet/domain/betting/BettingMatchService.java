@@ -42,7 +42,7 @@ public class BettingMatchService {
         List<BettingMatch> bettingMatchs = new ArrayList<>();
         bettingMatchs = bettingMatchRepo.findAllByOrderByCreatedAtDesc();
         for (BettingMatch bettingMatch : bettingMatchs) {
-            if (bettingMatch.getGroup().getId() == groupId && bettingMatch.getMatch().getId() == matchId) {
+            if (bettingMatch.getGroup().getId().equals(groupId) && bettingMatch.getMatch().getId().equals(matchId)) {
                 return true;
             }
         }
@@ -86,7 +86,7 @@ public class BettingMatchService {
 
     public void updateBettingMatch(UpdateBettingMatchInfo updateBettingMatchInfo) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(updateBettingMatchInfo.getBettingMatchId());
-        if (bettingMatch.isActivated() == false) {
+        if (!bettingMatch.isActivated()) {
             Group group = groupRepo.findOne(updateBettingMatchInfo.getGroupId());
             Match match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
             if (updateBettingMatchInfo.getExpiredTime().isAfter(bettingMatch.getExpiredTime())) {
