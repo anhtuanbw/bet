@@ -22,6 +22,6 @@ public interface BettingMatchRepository extends JpaRepository<BettingMatch, Long
 
     Optional<BettingMatch> findByIdAndActivated(Long id, boolean activated);
 
-    @Query(value = "select bMatch from BettingMatch bMatch join bMatch.group gr join gr.members u left join bMatch.bettingPlayers bPlayer where gr.id = :groupId and u.username = :userName ")
+    @Query(value = "select bMatch from BettingMatch bMatch inner join bMatch.group gr inner join gr.members u where gr.id = :groupId and u.username = :userName ")
     List<BettingMatch> findByGroupIdAndUsername(@Param("groupId") Long groupId, @Param("userName") String userName);
 }
