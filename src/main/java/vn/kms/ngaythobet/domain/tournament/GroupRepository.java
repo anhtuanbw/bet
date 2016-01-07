@@ -9,6 +9,8 @@ import vn.kms.ngaythobet.domain.core.User;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findByModerator(User user);
-
     Optional<Group> findByIdAndModerator(Long groupId, User moderator);
+    List<Group> findByMembers(User user);
+    Group findByIdAndMembers(Long groupId, User user);
+    
 }

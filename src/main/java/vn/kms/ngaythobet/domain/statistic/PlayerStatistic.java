@@ -8,6 +8,7 @@ public class PlayerStatistic {
     private long lossAmount;
     private int notbetCount;
     private long notbetAmount;
+    private long totalLossAmount;
 
     public String getPlayer() {
         return player;
@@ -59,5 +60,9 @@ public class PlayerStatistic {
 
     public long getTotalLossAmount() {
         return lossAmount + notbetAmount;
+    }
+
+    public void setTotalLossAmount(long totalLossAmount) {
+        this.totalLossAmount = totalLossAmount;
     }
 }

@@ -6,8 +6,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 import vn.kms.ngaythobet.domain.core.MongoDbRef;
 import vn.kms.ngaythobet.domain.core.User;
@@ -17,19 +15,16 @@ import vn.kms.ngaythobet.domain.tournament.Competitor;
 @Table(name = "betting_players")
 public class BettingPlayer extends AuditableEntity {
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "betting_match_id")
     private BettingMatch bettingMatch;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User player;
 
     @MongoDbRef
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "competitor_id")
     private Competitor betCompetitor;
