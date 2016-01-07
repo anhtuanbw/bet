@@ -98,11 +98,18 @@ export default class EditTournamentController {
 
   openCreateRound() {
     var self = this;
+    var roundOldData = {
+      'roundId': null,
+      'hide': false
+    };
     this.modal.open({
       templateUrl: 'app/common/round-management/round-management.html',
       controller: 'RoundManController',
       controllerAs: 'round',
       resolve: {
+        selectedRound: function () {
+          return roundOldData;
+        },
         tourID: function () {
           return self.tournamentInfo.id;
         }
@@ -132,6 +139,27 @@ export default class EditTournamentController {
       resolve: {
         getMatchId: function () {
           return matchId;
+        }
+      }
+    });
+  }
+
+  openUpdateRound(round){
+    var self = this;
+    var roundOldData = {
+      'roundId': round.id,
+      'hide': true
+    };
+    this.modal.open({
+      templateUrl: 'app/common/round-management/round-management.html',
+      controller: 'RoundManController',
+      controllerAs: 'round',
+      resolve: {
+        selectedRound: function () {
+          return roundOldData;
+        },
+        tourID: function () {
+          return self.tournamentInfo.id;
         }
       }
     });
