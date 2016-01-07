@@ -9,21 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.util.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.tournament.Group;
 
 @Entity
 @Table(name = "users")
 public class User extends AuditableEntity {
     public enum Role {
-        ADMIN,
-        USER,
-        ANONYMOUS;
+        ADMIN, USER, ANONYMOUS;
 
         public String getAuthority() {
             return "ROLE_" + name();
@@ -34,6 +34,11 @@ public class User extends AuditableEntity {
     @JsonIgnore
     @MongoDbRef
     private List<Group> groups;
+
+    @MongoDbRef
+    @JsonIgnore
+    @OneToMany(mappedBy = "player")
+    private List<BettingPlayer> bettingPlayers;
 
     @Column
     private String username;
@@ -157,6 +162,14 @@ public class User extends AuditableEntity {
 
     public void setGroups(List<Group> groups) {
         this.groups = groups;
+    }
+
+    public List<BettingPlayer> getBettingPlayers() {
+        return bettingPlayers;
+    }
+
+    public void setBettingPlayers(List<BettingPlayer> bettingPlayers) {
+        this.bettingPlayers = bettingPlayers;
     }
 
     @Override

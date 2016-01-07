@@ -1,13 +1,11 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.web.dto;
 
-
 import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import vn.kms.ngaythobet.domain.tournament.Competitor;
-import vn.kms.ngaythobet.domain.tournament.Round;
 import vn.kms.ngaythobet.domain.validation.After;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 import vn.kms.ngaythobet.domain.validation.FieldNotMatch;
@@ -15,28 +13,26 @@ import vn.kms.ngaythobet.domain.validation.FieldNotMatch;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@FieldNotMatch(firstField="competitor1", secondField="competitor2", message="{validation.matches.fieldNotMatch.message}")
+@FieldNotMatch(firstField = "competitor1", secondField = "competitor2", message = "{validation.matches.fieldNotMatch.message}")
 public class CreateMatchInfo {
-    @NotNull
-    @EntityExist(type = Round.class, message="{validation.matches.existRoundEntity.message}")
     private Long round;
 
     @NotNull
-    @EntityExist(type = Competitor.class, message="{validation.matches.existCompetitorEntity.message}")
+    @EntityExist(type = Competitor.class, message = "{validation.matches.not-existCompetitorEntity.message}")
     private Long competitor1;
-    
+
     @NotNull
-    @EntityExist(type = Competitor.class, message="{validation.matches.existCompetitorEntity.message}")
+    @EntityExist(type = Competitor.class, message = "{validation.matches.not-existCompetitorEntity.message}")
     private Long competitor2;
-    
+
     @NotNull
     @After
     private LocalDateTime time;
-    
+
     @NotEmpty
     private String location;
-    
-    @Size(max=512)
+
+    @Size(max = 512)
     private String comment;
 
     public long getRound() {
