@@ -13,7 +13,6 @@ import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
 import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Match;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.PlayerStatisticInfo;
 
@@ -34,7 +33,6 @@ public class PlayerStatisticService {
         List<PlayerStatistic> playerStatistics = new ArrayList<>();
         List<BettingMatch> bettingMatchs = bettingMatchRepo.findByGroupIdAndUsername(playerStatisticInfo.getGroupId(),
                 username);
-
         if (bettingMatchs.size() != 0) {
             for (BettingMatch bettingMatch : bettingMatchs) {
                 Optional<BettingPlayer> bettingPlayer = bettingMatch.getBettingPlayers().stream()
@@ -50,6 +48,7 @@ public class PlayerStatisticService {
                 playerStatistic.setCompetitor1Balance(bettingMatch.getBalance1().doubleValue());
                 playerStatistic.setCompetitor2Balance(bettingMatch.getBalance2().doubleValue());
                 // count lost amount when user bet
+
                 if (bettingPlayer.isPresent()) {
                     Competitor betCompetitor = bettingPlayer.get().getBetCompetitor();
                     playerStatistic.setBetCompetitorName(betCompetitor.getName());
@@ -62,9 +61,8 @@ public class PlayerStatisticService {
                 }
                 playerStatistics.add(playerStatistic);
             }
-            return playerStatistics;
-        } else {
-            throw new DataInvalidException("exception.user.group.is.invalid");
+
         }
+        return playerStatistics;
     }
 }

@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.util.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
@@ -65,4 +67,20 @@ public class Competitor extends AuditableEntity {
         this.rounds = rounds;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Competitor))
+            return false;
+        Competitor competitor = (Competitor) obj;
+        return competitor.getId().equals(this.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCode(this.getId());
+    }
 }
