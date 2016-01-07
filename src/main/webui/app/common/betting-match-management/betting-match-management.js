@@ -213,8 +213,11 @@ export default class BettingMatchController {
   betMatch(round, match){
     var dataSend = {
       'roundName': round.round,
-      'competitor1': match.match.competitor1.name,
-      'competitor2': match.match.competitor2.name,
+      'bettingMatchId': match.id,
+      'competitor1Name': match.match.competitor1.name,
+      'competitor2Name': match.match.competitor2.name,
+      'competitor1Id': match.match.competitor1.id,
+      'competitor2Id': match.match.competitor2.id,
       'score1': match.match.score1,
       'score2': match.match.score2,
       'time': match.match.matchTime
