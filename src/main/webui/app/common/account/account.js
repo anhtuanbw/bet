@@ -19,6 +19,7 @@ export default class AccountController {
       if (response.data) {
         this.loginUser.username = response.data.name;
       } else {
+        this.loginUser = {};
         this.cacheService.remove('loginUser');
         this.rootScope.$broadcast('logout');
         this.loginUser = {};
@@ -31,7 +32,6 @@ export default class AccountController {
     this.accountService.login(cb)
     .then(() => {
       this.authen();
-      this.rootScope.$broadcast('updateCart');
       if (cb && typeof cb === 'function') { cb(); }
     });
   }
@@ -42,8 +42,11 @@ export default class AccountController {
       this.cacheService.remove('loginUser');
       this.loginUser = {};
       this.cacheService.remove('cartId');
-      this.rootScope.$broadcast('updateCart');
       this.rootScope.$broadcast('logout');
+      this.location.path('/');
+    })
+    .catch(() => {
+      this.loginUser = {};
       this.location.path('/');
     });
   }

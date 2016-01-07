@@ -2,8 +2,9 @@
 
 export default class ManagementController {
   /* @ngInject */
-  constructor(TournamentService, CacheService, $rootScope, AccountService) {
+  constructor(TournamentService, CacheService, $rootScope, AccountService, $location) {
     this.rootScope = $rootScope;
+    this.location = $location;
     this.tournamentService = TournamentService;
     this.accountService = AccountService;
     this.tournaments = [];
@@ -52,7 +53,11 @@ export default class ManagementController {
     .then(response => {
       this.tournaments = response.data;
     })
-    .catch();
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
+    });
   }
 
   showTournamenDetail(tournamentId) {
@@ -60,8 +65,7 @@ export default class ManagementController {
     this.showView.isGroup = false;
     this.showView.isCreate = false;
 
-    for (var i in this.tournaments)
-    {
+    for (var i in this.tournaments) {
       if (this.tournaments[i].id === tournamentId) {
         this.rootScope.$broadcast('selectTournament', this.tournaments[i]);
         break;
@@ -69,11 +73,11 @@ export default class ManagementController {
     }
   }
 
-   authen() {
+  authen() {
     this.accountService.authen()
     .then(response => {
       if (response.data) {
-         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+        this.isAdmin = response.data.role === 'ADMIN' ? true : false;
       }
     });
   }
