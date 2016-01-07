@@ -2,10 +2,15 @@
   "common": {
     "round": {
       "create": {
-        "title": "Tạo vòng đấu",
-        "name": "Tên vòng đấu",
-        "select-tournament": "Select tournament",
-        "select-competitor": "Select competitors"
+        "title": "Create round",
+        "title-update": "Update round",
+        "name": "Round name",
+        "tournament": "Tournament Name",
+        "competitor": "Competitors",
+        "add": "Add",
+        "save": "Save",
+        "cancel": "Cancel",
+        "update": "Update"
       }
     }
   }

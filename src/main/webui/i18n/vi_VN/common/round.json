@@ -2,10 +2,15 @@
 	"common": {
 		"round": {
 			"create": {
-				"title": "Create round",
+				"title": "Tạo vòng đấu",
+				"title-update": "Cập nhật vòng đấu",
 				"name": "Tên vòng đấu",
-				"select-tournament": "Chọn giải đấu",
-				"select-competitor": "Chọn đội thi đấu"
+				"tournament": "Tên giải đấu",
+				"competitor": "Các đội thi đấu",
+				"add": "Thêm",
+				"save": "Lưu",
+				"cancel": "Hủy",
+				"update": "Cập nhật"
 			}
 		}
 	}
