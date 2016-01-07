@@ -37,18 +37,21 @@ public class NotExpiredTimeValidator implements ConstraintValidator<NotExpiredTi
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         try {
             final Long entityIdValue = (Long) FieldUtils.getFieldValue(value, entityId);
+
             final LocalDateTime targetFieldValue = (LocalDateTime) FieldUtils.getFieldValue(value, targetField);
-            Query query = em
-                    .createQuery("select " + fieldName + " from " + entity.getName() + " where id=" + entityIdValue);
-            List<Object> resultList = query.getResultList();
-            if (!resultList.isEmpty()) {
-                if (!targetFieldValue.isBefore((LocalDateTime) resultList.get(0))) {
-                    context.disableDefaultConstraintViolation();
-                    context.buildConstraintViolationWithTemplate(message).addPropertyNode(targetField)
-                            .addConstraintViolation();
-                    return false;
+            if (targetFieldValue != null) {
+                Query query = em.createQuery(
+                        "select " + fieldName + " from " + entity.getName() + " where id=" + entityIdValue);
+                List<Object> resultList = query.getResultList();
+                if (!resultList.isEmpty()) {
+                    if (!targetFieldValue.isBefore((LocalDateTime) resultList.get(0))) {
+                        context.disableDefaultConstraintViolation();
+                        context.buildConstraintViolationWithTemplate(message).addPropertyNode(targetField)
+                                .addConstraintViolation();
+                        return false;
+                    }
                 }
-            } 
+            }
         } catch (Exception ex) {
             throw new RuntimeException("Could not compare field value of " + entityId + " and " + targetField, ex);
         }

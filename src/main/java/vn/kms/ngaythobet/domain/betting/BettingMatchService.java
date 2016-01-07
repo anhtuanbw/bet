@@ -43,10 +43,10 @@ public class BettingMatchService {
         bettingMatchs = bettingMatchRepo.findAllByOrderByCreatedAtDesc();
         for (BettingMatch bettingMatch : bettingMatchs) {
             if (bettingMatch.getGroup().getId() == groupId && bettingMatch.getMatch().getId() == matchId) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public boolean isExistedInTournament(Match match, Group group) {
@@ -64,7 +64,7 @@ public class BettingMatchService {
         if (bettingMatchIsExisted(createBettingMatchInfo.getGroupId(), createBettingMatchInfo.getMatchId())) {
             if (balanceIsValid(createBettingMatchInfo.getBalance1())
                     && balanceIsValid(createBettingMatchInfo.getBalance2())) {
-                if (isExistedInTournament(match,group)) {
+                if (isExistedInTournament(match, group)) {
                     bettingMatch.setBalance1(createBettingMatchInfo.getBalance1());
                     bettingMatch.setBalance2(createBettingMatchInfo.getBalance2());
                     bettingMatch.setExpiredTime(createBettingMatchInfo.getExpiredTime());
@@ -86,27 +86,33 @@ public class BettingMatchService {
 
     public void updateBettingMatch(UpdateBettingMatchInfo updateBettingMatchInfo) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(updateBettingMatchInfo.getBettingMatchId());
-        Group group = groupRepo.findOne(updateBettingMatchInfo.getGroupId());
-        Match match = matchRepo.getOne(updateBettingMatchInfo.getMatchId());
-        if (updateBettingMatchInfo.getExpiredTime().isAfter(bettingMatch.getExpiredTime())) {
-            if (balanceIsValid(updateBettingMatchInfo.getBalance1())
-                    && balanceIsValid(updateBettingMatchInfo.getBalance2())) {
-                if (isExistedInTournament(match, group)) {
-                    bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
-                    bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
-                    bettingMatch.setBetAmount(updateBettingMatchInfo.getBetAmount());
-                    bettingMatch.setMatch(matchRepo.getOne(updateBettingMatchInfo.getMatchId()));
-                    bettingMatch.setDescription(updateBettingMatchInfo.getDecription());
-                    bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
-                    bettingMatchRepo.save(bettingMatch);
+        if (bettingMatch.isActivated() == false) {
+            Group group = groupRepo.findOne(updateBettingMatchInfo.getGroupId());
+            Match match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
+            if (updateBettingMatchInfo.getExpiredTime().isAfter(bettingMatch.getExpiredTime())) {
+                if (balanceIsValid(updateBettingMatchInfo.getBalance1())
+                        && balanceIsValid(updateBettingMatchInfo.getBalance2())) {
+                    if (isExistedInTournament(match, group)) {
+                        bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
+                        bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
+                        bettingMatch.setExpiredTime(updateBettingMatchInfo.getExpiredTime());
+                        bettingMatch.setBetAmount(updateBettingMatchInfo.getBetAmount());
+                        bettingMatch.setMatch(match);
+                        bettingMatch.setGroup(group);
+                        bettingMatch.setDescription(updateBettingMatchInfo.getDecription());
+                        bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
+                        bettingMatchRepo.save(bettingMatch);
+                    } else {
+                        throw new DataInvalidException("exception.match.group.invalid");
+                    }
                 } else {
-                    throw new DataInvalidException("exception.match.group.invalid");
+                    throw new DataInvalidException("exception.balance.in.valid");
                 }
             } else {
-                throw new DataInvalidException("exception.balance.in.valid");
+                throw new DataInvalidException("exception.update.time.in.valid");
             }
         } else {
-            throw new DataInvalidException("exception.update.time.in.valid");
+            throw new DataInvalidException("exception.betting.match.is.actived");
         }
     }
 
