@@ -1,0 +1,17 @@
+{
+  "common": {
+    "round": {
+      "create": {
+        "title": "Create round",
+        "title-update": "Update round",
+        "name": "Round name",
+        "tournament": "Tournament Name",
+        "competitor": "Competitors",
+        "add": "Add",
+        "save": "Save",
+        "cancel": "Cancel",
+        "update": "Update"
+      }
+    }
+  }
+}

@@ -8,6 +8,7 @@ import TournamentService from './tournament.service';
 import RoundService from './round.service';
 import GroupService from './group.service';
 import UserService from './user.service';
+import BettingMatchService from './betting-match.service';
 import BettingService from './betting.service';
 
 export const services = angular
@@ -19,4 +20,5 @@ export const services = angular
     .service('RoundService', RoundService)
     .service('GroupService', GroupService)
     .service('UserService', UserService)
+    .service('BettingMatchService', BettingMatchService)
     .service('BettingService', BettingService);

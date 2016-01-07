@@ -1,46 +1,25 @@
 <div id="vertical-timeline" class="vertical-container light-timeline">
-	<div class="vertical-timeline-block">
+	<!--<div class="vertical-timeline-block">
 		<div class="vertical-timeline-icon navy-bg">
 			<i class="fa fa-comments"></i>
 		</div>
-
 		<div class="vertical-timeline-content">
-			<h4><span class="text-danger">vietvo</span></h4>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua.</p>
-			 <a class="btn">
-			  Choose <span class="badge">2</span>
-			</a>
+			<h4><span class="text-danger">System</span></h4>
+			<p>There are no activity in this match.</p>
 			<span class="vertical-date"><small>4/5/2015, 7:14:01 AM</small></span>
 		</div>
-	</div>
-
-	<div class="vertical-timeline-block">
+	</div>-->
+	<div class="vertical-timeline-block" ng-repeat="comment in player.commentArr track by $index">
 		<div class="vertical-timeline-icon lazur-bg">
-            <i class="fa fa-comments"></i>
-        </div>
-
+			<i class="fa fa-comments"></i>
+		</div>
 		<div class="vertical-timeline-content">
-			<h4><span class="text-danger">Thaihuynh</span></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
-			 <a class="btn">
-			  Choose <span class="badge">2</span>
+			<h4><span class="text-danger">{{comment.username}}</span></h4>
+			<p>{{comment.comment}}</p>
+			<a class="btn">
+			  Choose <span class="badge">{{comment.betCompetitor.name}}</span>
 			</a>
-			<span class="vertical-date"><small>4/5/2015, 7:14:01 AM</small></span>
+			<span class="vertical-date"><small>{{comment.timestamp}}</small></span>
 		</div>
 	</div>
-	<div class="vertical-timeline-block">
-        <div class="vertical-timeline-icon lazur-bg">
-            <i class="fa fa-comments"></i>
-        </div>
-
-        <div class="vertical-timeline-content">
-			<h4><span class="text-danger">longntran</span></h4>
-            <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
-            <a class="btn">
-			  Choose <span class="badge">2</span>
-			</a>
-			<span class="vertical-date"><small>4/5/2015, 7:14:01 AM</small></span>
-        </div>
-    </div>
 </div>

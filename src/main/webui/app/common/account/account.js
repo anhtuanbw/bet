@@ -23,6 +23,7 @@ export default class AccountController {
         this.cacheService.remove('loginUser');
         this.rootScope.$broadcast('logout');
         this.loginUser = {};
+        this.location.path('/home');
       }
     });
   }

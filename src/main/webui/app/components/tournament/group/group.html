@@ -1,14 +1,28 @@
 <div class="panel panel-default" ng-controller="TournamentGroupController as tourGroup">
 	<ol class="breadcrumb">
-		<li><a href="javascript:void(0)">Tournament</a></li>
-		<li><a href="javascript:void(0)">Group</a></li>
-		<li class="active">Group name</li>
+		<li><a href="javascript:void(0)">{{ tourGroup.tournamentName }}</a></li>
+		<li class="active">{{ tourGroup.groupInfo.name }}</li>
 	</ol>
 	<div class="panel-body">
 		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="management/#matches" href="javascript:void(0)">Matches</a></li>
-			<li><a data-toggle="tab" href="management/#statistics" href="javascript:void(0)">Statistics</a></li>
-			<li><a data-toggle="tab" href="management/#information" href="javascript:void(0)">Information</a></li>
+			<li class="active">
+				<a data-toggle="tab" href="management/#matches">
+					<i class="fa fa-television"></i>
+					<span translate="components.tournament.tab.matches"></span>
+				</a>
+			</li>
+			<li>
+				<a data-toggle="tab" href="management/#statistics">
+					<i class="fa fa-server"></i>
+					<span translate="components.tournament.tab.statistics"></span>
+				</a>
+			</li>
+			<li>
+				<a data-toggle="tab" href="management/#information">
+					<i class="fa fa-info-circle"></i>
+					<span translate="components.tournament.tab.information"></span>
+				</a>
+			</li>
 		</ul>
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -52,7 +66,7 @@
 										<li class="list-group-item">
 											<div class="row">
 												<span class="col-sm-4" translate="common.group.information.moderator"></span>
-												<span class="col-sm-8" ng-bind="tourGroup.groupInfo.moderator.username"></span>
+												<span class="col-sm-8" ng-bind="tourGroup.groupInfo.moderator.name"></span>
 											</div>
 										</li>
 										<li class="list-group-item">
@@ -71,7 +85,7 @@
 								<div class="panel-body">
 									<ul class="list-group information">
 										<li class="list-group-item" ng-repeat="member in tourGroup.groupInfo.members" >
-											<i class="fa fa-user"></i> {{ member.username }}
+											<i class="fa fa-user"></i> {{ member.name }}
 										</li>
 									</ul>
 								</div>
