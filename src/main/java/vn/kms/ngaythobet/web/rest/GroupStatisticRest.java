@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.statistic.GroupStatisticService;
-import vn.kms.ngaythobet.domain.statistic.PlayerStatistic;
+import vn.kms.ngaythobet.domain.statistic.GroupStatistic;
 
 @RestController
 @RequestMapping("/api/group")
@@ -24,7 +24,7 @@ public class GroupStatisticRest {
     }
 
     @RequestMapping(value = "/statistic/{groupId}", method = GET)
-    public List<PlayerStatistic> getGroupStatistic(@PathVariable Long groupId) {
+    public List<GroupStatistic> getGroupStatistic(@PathVariable Long groupId) {
         return groupStatisticService.getGroupStatistic(groupId);
     }
 }

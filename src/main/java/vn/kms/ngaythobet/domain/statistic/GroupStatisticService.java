@@ -45,8 +45,8 @@ public class GroupStatisticService {
     }
 
     @Transactional
-    public List<PlayerStatistic> getGroupStatistic(Long groupId) {
-        List<PlayerStatistic> playerStatistics = new ArrayList<PlayerStatistic>();
+    public List<GroupStatistic> getGroupStatistic(Long groupId) {
+        List<GroupStatistic> groupStatistics = new ArrayList<GroupStatistic>();
 
         Group group = groupRepo.findOne(groupId);
         if (group == null) {
@@ -64,8 +64,8 @@ public class GroupStatisticService {
 
         List<User> users = group.getMembers();
         for (User user : users) {
-            PlayerStatistic playerStatistic = new PlayerStatistic();
-            playerStatistic.setPlayer(user.getName());
+            GroupStatistic groupStatistic = new GroupStatistic();
+            groupStatistic.setPlayer(user.getName());
 
             List<BettingMatch> bettingMatches = bettingMatchRepo
                     .findByGroupIdAndUsername(groupId, user.getUsername());
@@ -132,15 +132,15 @@ public class GroupStatisticService {
                     notBetAmount += bettingMatch.getBetAmount().longValue();
                 }
             }
-            playerStatistic.setNotbetCount(notBetCount);
-            playerStatistic.setNotbetAmount(notBetAmount);
-            playerStatistic.setLossCount(lossCount);
-            playerStatistic.setLossAmount(lossAmount);
-            playerStatistic.setNotlossCount(notLossCount);
-            playerStatistic.setTotalLossAmount(playerStatistic
+            groupStatistic.setNotbetCount(notBetCount);
+            groupStatistic.setNotbetAmount(notBetAmount);
+            groupStatistic.setLossCount(lossCount);
+            groupStatistic.setLossAmount(lossAmount);
+            groupStatistic.setNotlossCount(notLossCount);
+            groupStatistic.setTotalLossAmount(groupStatistic
                     .getTotalLossAmount());
-            playerStatistics.add(playerStatistic);
+            groupStatistics.add(groupStatistic);
         }
-        return playerStatistics;
+        return groupStatistics;
     }
 }

@@ -1,7 +1,7 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.statistic;
 
-public class PlayerStatistic {
+public class GroupStatistic {
     private String player;
     private int notlossCount;
     private int lossCount;
