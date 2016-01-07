@@ -55,7 +55,7 @@ export default class roundManController {
 
   loadOldCompetitorToList(oldCompetitor){
     for (var i = 0; i < oldCompetitor.length; i++) {
-      this.data.competitorList.push(oldCompetitor[i].name);
+      this.data.competitorOldList.push(oldCompetitor[i].name);
     };
   }
 

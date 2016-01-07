@@ -28,11 +28,12 @@
           <!-- End Round -->
           <br>
           <!-- Begin Competitor -->
-          <div class="form-group" ng-init="round.data.competitorList = []">
+          <div class="form-group" ng-init="round.data.competitorList = []; round.data.competitorOldList = []">
             <label for="roundcompet" class="control-label">Competitor</label><span class="text-danger"> *</span>
             <ol>
+              <li ng-repeat="oldItem in round.data.competitorOldList">{{oldItem}}</li>
               <li ng-repeat="item in round.data.competitorList">{{item}}
-                <span class="glyphicon glyphicon-remove-sign text-danger" ng-hide="round.data.hide" ng-click="round.remove(round.data,$index)"></span>
+                <span class="glyphicon glyphicon-remove-sign text-danger" ng-click="round.remove(round.data,$index)"></span>
               </li>
             </ol>
             <span class="text-danger" ng-bind="round.data.CompetitorError"></span>
