@@ -1,6 +1,7 @@
 package vn.kms.ngaythobet.domain.betting;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,5 +147,12 @@ public class BettingMatchService {
     @Transactional(readOnly = true)
     public BettingMatch findActiveBettingMatchById(Long id) {
         return bettingMatchRepo.findByIdAndActivated(id, true).get();
+    }
+
+    public boolean isBettingMatchNotExpired(Long bettingMatchId) {
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
+        if (bettingMatch.getExpiredTime().isAfter(LocalDateTime.now()))
+            return true;
+        throw new DataInvalidException("exception.betting.match.is.expired");
     }
 }
