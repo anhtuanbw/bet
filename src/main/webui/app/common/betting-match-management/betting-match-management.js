@@ -192,6 +192,7 @@ export default class BettingMatchController {
     this.BettingService.active(activeData)
     .then(() => {
       self.pop('success', self.popTitle, successMessage);
+      match.activated = true;
     }, function (response) {
       self.pop('error', self.popTitle, response.data.message);
     });
