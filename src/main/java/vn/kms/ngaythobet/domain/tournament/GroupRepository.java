@@ -13,4 +13,11 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Optional<Group> findByIdAndModerator(Long groupId, User moderator);
 
     List<Group> findByMembers(User user);
+
+    Group findByIdAndMembers(Long groupId, User user);
+
+    List<Group> findByMembersAndTournament(User user, Tournament tournament);
+
+    List<Group> findByTournament(Tournament tournament);
+
 }

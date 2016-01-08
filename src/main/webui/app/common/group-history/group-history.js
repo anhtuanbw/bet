@@ -10,7 +10,7 @@ export default class GroupHistoryController {
     this.sortReverse = false;
     this.activePlayer = false;
     
-    this.rootScope.$on('selectGroup', (event, groupInfo) => {
+    $rootScope.$on('selectGroup', (event, groupInfo) => {
       if (groupInfo) {
         this.groupInfo = groupInfo;
       }

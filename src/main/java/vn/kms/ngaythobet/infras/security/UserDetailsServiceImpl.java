@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             }
 
             List<GrantedAuthority> authorities = singletonList(new SimpleGrantedAuthority(user.getRole().getAuthority()));
-            return new User(username, user.getPassword(), authorities);
+            return new CustomUserDetails(user, authorities);
         }).orElseThrow(() -> new UsernameNotFoundException("Authentication failed!"));
     }
 }

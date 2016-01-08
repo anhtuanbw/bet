@@ -2,16 +2,65 @@
 
 export default class PlayerHistoryController {
   /* @ngInject */
-  constructor() {
-    this.data =  [
-          { match: 'Ali Roll', competitor: 'Crab', Score: 2, Expired: '1992-3-4', Loss: 2 },
-          { match: 'Lorem ipsum dolor', competitor: 'dolore', Score: 4, Expired: '1992-3-4', Loss: 1 },
-          { match: ' Excepteur sint occaecat', competitor: 'Crab', Score: 2, Expired: '1992-3-4', Loss: 2 },
-          { match: 'Cali Roll 3', competitor: 'Crab 2', Score: 4, Expired: '1992-3-4', Loss: 0 }
-        ];
+  constructor(PlayerHistoryService, AccountService, $rootScope) {
+    this.playerHistoryService = PlayerHistoryService;
+    this.rootScope = $rootScope;
+    this.accountService = AccountService;
+
+    this.data = [];
+    this.player = null;
+    this.totalLoss = 0;
     this.sortType = 'match';
     this.sortReverse = false;
+    this.getUsername();
+    
+    this.rootScope.$on('playerStatistic', (event, groupId) => {
+       this.playerStatistic(groupId);
+    });
   }
+
+  getUsername() {
+    this.accountService.authen()
+    .then(response => {
+      if (response.data) {
+        this.player = response.data.name;
+      } 
+    });
+  }
+
+  getTime(timeArray) {
+    var i, timeString;
+    for (i = 0; i < timeArray.length; i++) {
+      timeString = this.formatTime(timeArray[1].toString()) + '/' + this.formatTime(timeArray[2].toString()) + '/' + timeArray[0] +
+      ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ((timeArray[5]) ? ':' + this.formatTime(timeArray[5].toString()) : ':00');
+    }
+    return timeString;
+  }
+
+  formatTime(time) {
+    return (time.length === 2 ? time : '0' + time[0]);
+  }
+
+  sumLoss() {
+    this.totalLoss = 0;
+    if(this.data !=null) {
+      var player;
+      for(player in this.data) {
+        this.totalLoss+= this.data[player].lossAmount;
+        this.data[player].expiredBetTime = this.getTime(this.data[player].expiredBetTime);
+      }
+    }
+  }
+
+  playerStatistic(groupId) {
+    var self = this;
+    self.playerHistoryService.playerStatistic(groupId)
+    .then(response => {
+        self.data = response.data;
+        self.sumLoss();
+    });
+  }
+
 }
 
 export default class PlayerHistory {

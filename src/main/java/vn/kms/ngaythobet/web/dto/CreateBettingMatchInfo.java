@@ -12,19 +12,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
-import vn.kms.ngaythobet.domain.validation.NotExpiredTime;
 import vn.kms.ngaythobet.domain.validation.ModeratorAccess;
+import vn.kms.ngaythobet.domain.validation.NotExpiredTime;
 
 @ModeratorAccess
 @NotExpiredTime(entityId = "matchId", targetField = "expiredTime", fieldName = "matchTime", type = Match.class, message = "{validation.bettingMatch.expritedTime.message}")
 public class CreateBettingMatchInfo {
 
     @NotNull
-    @Min(value = 0,message = "{validation.balance.invalid}")
+    @Min(value = 0, message = "{validation.balance.invalid}")
     private BigDecimal balance1;
 
     @NotNull
-    @Min(value = 0,message = "{validation.balance.invalid}")
+    @Min(value = 0, message = "{validation.balance.invalid}")
     private BigDecimal balance2;
 
     @NotNull
@@ -37,11 +37,11 @@ public class CreateBettingMatchInfo {
 
     @NotNull
     @EntityExist(type = Match.class, message = "{validation.existMatch.message}")
-    private long matchId;
+    private Long matchId;
 
     @NotNull
     @EntityExist(type = Group.class, message = "{validation.existGroup.message}")
-    private long groupId;
+    private Long groupId;
 
     @Size(min = 0, max = 512)
     private String decription;
@@ -112,5 +112,4 @@ public class CreateBettingMatchInfo {
         this.activated = activated;
     }
 
-    
 }

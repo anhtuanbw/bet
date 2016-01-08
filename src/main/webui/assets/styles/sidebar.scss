@@ -18,6 +18,10 @@
     background-color: #f1f1f1;
 }
 
+.group-item-color {
+    background-color: #fff;
+}
+
 li.header {
     color: #fff;
     border: none;
@@ -39,6 +43,30 @@ li.choose {
     font-weight: bold;
     background-color: #fff;
     border-left: 4px solid #19aa8d
+}
+
+li.choose .tour-group {
+    -webkit-transform: scaleY(1);
+    -o-transform: scaleY(1);
+    -ms-transform: scaleY(1);
+    transform: scaleY(1);
+}
+
+.tour-group {
+    -webkit-transform: scaleY(0);
+    -o-transform: scaleY(0);
+    -ms-transform: scaleY(0);
+    transform: scaleY(0);
+
+    -webkit-transform-origin: top;
+    -o-transform-origin: top;
+    -ms-transform-origin: top;
+    transform-origin: top;
+
+    -webkit-transition: -webkit-transform 0.5s ease-out;
+    -o-transition: -o-transform 0.5s ease;
+    -ms-transition: -ms-transform 0.5s ease;
+    transition: transform 0.5s ease;
 }
 
 li.choose .tour-group .list-group-item {
@@ -103,9 +131,11 @@ li.active a {
 .stylish-input-group .input-group-addon {
     background: white !important; 
 }
+
 .stylish-input-group .form-control {
     box-shadow: 0 0 0; 
 }
+
 .stylish-input-group button {
     border: 0;
     background: transparent;
