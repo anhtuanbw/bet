@@ -1,7 +1,6 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -53,8 +52,8 @@ public class ChangeLogService {
         Pageable pageable = new PageRequest(0, 10 * paging + 10, Direction.DESC, "timestamp");
         List<ChangeLog> changeLogs = changeLogRepo.findTop10ByEntityTypeAndEntityId(
                 BettingMatch.class.getCanonicalName(), bettingMatchId, pageable);
-        List<ChangeLog> changeLogsHistoryBetting = changeLogRepo.findTop10ByEntityTypeAndEntityId(
-                BettingPlayer.class.getCanonicalName(), bettingMatchId, pageable);
+        List<ChangeLog> changeLogsHistoryBetting = changeLogRepo.findTop10ByEntityType(
+                BettingPlayer.class.getCanonicalName(), pageable);
 
         if (changeLogs != null) {
             Iterator<ChangeLog> iteratorChangeLogs = changeLogs.iterator();

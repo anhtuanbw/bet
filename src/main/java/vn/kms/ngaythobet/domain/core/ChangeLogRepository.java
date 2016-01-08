@@ -14,6 +14,8 @@ public interface ChangeLogRepository extends MongoRepository<ChangeLog, String> 
     List<ChangeLog> findByEntityTypeAndUsername(String entityType, String username);
 
     List<ChangeLog> findByEntityType(String entityType);
+    
+    List<ChangeLog> findTop10ByEntityType(String entityType, Pageable pageable);
 
     ChangeLog findFirst1ByEntityTypeAndEntityIdOrderByTimestampDesc(String entityType, Long entityId);
 }
