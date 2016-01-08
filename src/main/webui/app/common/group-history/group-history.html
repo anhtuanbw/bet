@@ -1,6 +1,6 @@
 <h3 translate="components.tournament.history.group.title"></h3>
-<div class="table-responsive">
-	<table class="table table-hover">
+<div class="table-responsive" ng-init="groupHistory.totalLost = 0">
+	<table class="table table-hover" >
 		<thead>
 			<tr>
 				<th translate="components.tournament.history.group.table.no"></th>
@@ -57,14 +57,14 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="group in groupHistory.statisticData | orderBy: groupHistory.sortType: groupHistory.sortReverse">
-				<td>{{ $index }}</td>
+				<td>{{ $index + 1 }}</td>
 				<td>{{ group.player }}</td>
 				<td>{{ group.notlossCount }}</td>
 				<td>{{ group.lossCount }}</td>
 				<td>{{ group.lossAmount }}</td>
 				<td>{{ group.notbetCount }}</td>
 				<td>{{ group.notbetAmount }}</td>
-				<td>{{ group.totalLossAmount }}</td>
+				<td ng-init="groupHistory.totalLost = groupHistory.totalLost + group.totalLossAmount">{{ group.totalLossAmount }}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -73,7 +73,7 @@
 			<h4><strong translate="components.tournament.history.group.total"></strong></h4>
 		</div>
 		<div class="col-md-4">
-			<h5><strong>0 <span translate="components.tournament.history.group.unit"></span></strong></h5>
+			<h5><strong>{{ groupHistory.totalLost }} <span translate="components.tournament.history.group.unit"></span></strong></h5>
 		</div>
 	</div>
 </div>

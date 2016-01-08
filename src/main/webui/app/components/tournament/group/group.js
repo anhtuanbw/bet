@@ -58,6 +58,10 @@ export default class TournamentGroupController {
       this.isMod = false;
     });
   }
+
+  playerStatistic() {
+    this.rootScope.$broadcast('playerStatistic', this.groupInfo.id);
+  }
   
    openUpdateGroup() {
     var self = this;

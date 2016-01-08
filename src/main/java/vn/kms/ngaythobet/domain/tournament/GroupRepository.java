@@ -16,4 +16,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
     Group findByIdAndMembers(Long groupId, User user);
 
+    List<Group> findByMembersAndTournament(User user, Tournament tournament);
+
+    List<Group> findByTournament(Tournament tournament);
+
 }
