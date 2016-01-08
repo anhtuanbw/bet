@@ -21,7 +21,7 @@
     </div>
     <div ng-hide="showTours">
         <li class="list-group-item child" ng-init="havechild=tournament.groups.length>0" ng-repeat="tournament in management.tournaments | filter: search" ng-click="management.changeTournament($index)" ng-class="{'choose':$index == management.selectedTour}">
-            <a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)">
+            <a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)" class="uppercase">
             <i class="fa fa-th-large"></i> {{ tournament.name }} 
             <span class="label label-info" ng-show="havechild" ng-bind="tournament.groups.length"></span>
             </a>
