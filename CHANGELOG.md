@@ -1,4 +1,4 @@
-ngaythobet - v0.0.10 / 2016-01-07 
+ngaythobet - v0.0.10 / 2016-01-07
 ================================
 
 * [#63 UI] Realtime Activity
