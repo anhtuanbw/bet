@@ -56,15 +56,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="group in groupHistory.data | orderBy: groupHistory.sortType: groupHistory.sortReverse">
+			<tr ng-repeat="group in groupHistory.statisticData | orderBy: groupHistory.sortType: groupHistory.sortReverse">
 				<td>{{ $index }}</td>
 				<td>{{ group.player }}</td>
-				<td>{{ group.notloss }}</td>
-				<td>{{ group.losscount }}</td>
-				<td>{{ group.lossamount }}</td>
-				<td>{{ group.notbetcount }}</td>
-				<td>{{ group.notbetamount }}</td>
-				<td>{{ group.totalloss }}</td>
+				<td>{{ group.notlossCount }}</td>
+				<td>{{ group.lossCount }}</td>
+				<td>{{ group.lossAmount }}</td>
+				<td>{{ group.notbetCount }}</td>
+				<td>{{ group.notbetAmount }}</td>
+				<td>{{ group.totalLossAmount }}</td>
 			</tr>
 		</tbody>
 	</table>

@@ -201,6 +201,23 @@ footer {
   padding-top: 40px;
 }
 
-.information .list-group-item {
-  background-color: #fff;
+.information {
+  .list-group-item {
+    background-color: #fff;
+    border-left: none;
+    border-right: none;
+  }
+  
+  .list-group-item:first-child {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+  }
 }
+
+.line-block {
+  display: inline-block;
+}
+
+.space-competitor {
+  padding-left:5px;
+  }

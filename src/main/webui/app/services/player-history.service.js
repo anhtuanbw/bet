@@ -7,11 +7,12 @@ export default class PlayerHistoryService {
 		this.cacheService = CacheService;
 	}
 
-	getHistoryBetting() {
+	playerStatistic(groupId) {
 		var token = this.cacheService.get('loginUser');
 		return this.$http({
-			method: 'GET',
-			url: 'api/player/getHistoryBetting',
+			method: 'POST',
+			url: 'api/playerStatistic',
+			data: { 'groupId': groupId },
 			headers: {'Accept': '*/*', 'x-auth-token': token}
 		});
 	}

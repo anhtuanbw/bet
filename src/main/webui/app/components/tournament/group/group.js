@@ -2,9 +2,10 @@
 
 export default class TournamentGroupController {
   /* @ngInject */
-  constructor($modal, $rootScope, GroupService, AccountService) {
+  constructor($modal, $rootScope, $location, GroupService, AccountService) {
     this.modal = $modal;
     this.rootScope = $rootScope;
+    this.location = $location;
     this.groupService = GroupService;
     this.accountService = AccountService;
     this.groupInfo = {};
@@ -29,7 +30,11 @@ export default class TournamentGroupController {
     .then(response => {
       this.groupInfo = response.data;
     })
-    .catch();
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
+    });
   }
   
   authen() {
@@ -52,6 +57,10 @@ export default class TournamentGroupController {
     .catch(() => {
       this.isMod = false;
     });
+  }
+
+  playerStatistic() {
+    this.rootScope.$broadcast('playerStatistic', this.groupInfo.id);
   }
   
    openUpdateGroup() {

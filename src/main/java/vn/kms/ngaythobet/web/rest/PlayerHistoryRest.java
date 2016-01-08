@@ -2,8 +2,8 @@
 package vn.kms.ngaythobet.web.rest;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import java.util.List;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,13 +24,13 @@ public class PlayerHistoryRest {
         this.changeLogService = changeLogService;
     }
 
-    @RequestMapping(value = "/comments/{bettingMatchId}", method = GET)
-    public List<CommentInfo> getComments(@PathVariable Long bettingMatchId) {
-        return changeLogService.getComments(bettingMatchId);
+    @RequestMapping(value = "/comments/{bettingMatchId}/{paging}", method = GET)
+    public List<CommentInfo> getComments(@PathVariable Long bettingMatchId, @PathVariable Integer paging) {
+        return changeLogService.getComments(bettingMatchId, paging);
     }
     
-    @RequestMapping(value = "/getHistoryBetting", method = GET)
-    public List<HistoryBetting> getHistoryBetting() {
-        return changeLogService.getHistoryBetting();
+    @RequestMapping(value = "/getHistoryBetting/{playerId}", method = GET)
+    public List<HistoryBetting> getHistoryBetting(@PathVariable Long playerId) {
+        return changeLogService.getHistoryBetting(playerId);
     }
 }

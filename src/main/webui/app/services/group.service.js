@@ -45,5 +45,14 @@ export default class GroupService {
 			headers: {'Accept': '*/*', 'x-auth-token': token}
 		});
 	}
+	
+	getStatisticInfo(id) {
+		var token = this.cacheService.get('loginUser');
+		return this.$http({
+			method: 'GET',
+			url: '/api/group/statistic/' + id,
+			headers: {'Accept': '*/*', 'x-auth-token': token}
+		});
+	}
 
 }

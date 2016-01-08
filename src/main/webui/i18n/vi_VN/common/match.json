@@ -1,0 +1,15 @@
+{
+	"common": {
+		"match": {
+			"create": {
+				"title": "Tạo trận đấu",
+				"select-round": "Chọn vòng đấu",
+				"competitor1": "Đội 1",
+				"competitor2": "Đội 2",
+				"location": "Địa điểm",
+				"time": "Thời gian",
+				"comment": "Bình luận"
+			}
+		}
+	}
+}

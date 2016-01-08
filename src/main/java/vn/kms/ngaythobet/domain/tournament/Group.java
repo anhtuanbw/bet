@@ -8,10 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.core.AuditableEntity;
 import vn.kms.ngaythobet.domain.core.MongoDbRef;
 import vn.kms.ngaythobet.domain.core.User;
@@ -28,9 +30,13 @@ public class Group extends AuditableEntity {
 
     @MongoDbRef
     @ManyToMany(targetEntity = vn.kms.ngaythobet.domain.core.User.class)
-    @JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "user_id") })
+    @JoinTable(name = "group_user", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
     private List<User> members;
+
+    @MongoDbRef
+    @JsonIgnore
+    @OneToMany(mappedBy = "group")
+    private List<BettingMatch> bettingMatches;
 
     @MongoDbRef
     @JsonIgnore
@@ -70,4 +76,11 @@ public class Group extends AuditableEntity {
         this.tournament = tournament;
     }
 
+    public List<BettingMatch> getBettingMatches() {
+        return bettingMatches;
+    }
+
+    public void setBettingMatches(List<BettingMatch> bettingMatches) {
+        this.bettingMatches = bettingMatches;
+    }
 }

@@ -22,6 +22,16 @@
         "title": "Reset password success",
         "mark": "Your password has been changed successfully, Please login again!"
       },
+      "change-password": {
+        "title": "Change password",
+        "currentPwd": "Current password",
+        "newPwd": "New password",
+        "confirmNewPwd": "Confirm new password"
+      },
+      "form": {
+        "submit": "Submit",
+        "cancel": "Cancel"
+      },
       "unauthorized": "Your session is about expired. Please login to continue!",
       "redirect": "Automatically redirect to Homepage in 3s or click <a href='#'>here</a>"
   }

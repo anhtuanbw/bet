@@ -35,7 +35,7 @@
 							<i class="fa fa-users"></i>
 							<span translate="components.tournament.history.groupStatistic"></span>
 						</a>
-						<a href="javascript:void(0)" ng-class="{'btn btn-primary': tourGroup.activePlayer=='player', 'btn btn-default': tourGroup.activePlayer!='player'}" ng-click="tourGroup.activePlayer='player'">
+						<a href="javascript:void(0)" ng-class="{'btn btn-primary': tourGroup.activePlayer=='player', 'btn btn-default': tourGroup.activePlayer!='player'}" ng-click="tourGroup.activePlayer='player'; tourGroup.playerStatistic();">
 							<i class="fa fa-user"></i>
 							<span translate="components.tournament.history.playerStatistic"></span>
 						</a>
@@ -66,7 +66,7 @@
 										<li class="list-group-item">
 											<div class="row">
 												<span class="col-sm-4" translate="common.group.information.moderator"></span>
-												<span class="col-sm-8" ng-bind="tourGroup.groupInfo.moderator.username"></span>
+												<span class="col-sm-8" ng-bind="tourGroup.groupInfo.moderator.name"></span>
 											</div>
 										</li>
 										<li class="list-group-item">
@@ -85,7 +85,7 @@
 								<div class="panel-body">
 									<ul class="list-group information">
 										<li class="list-group-item" ng-repeat="member in tourGroup.groupInfo.members" >
-											<i class="fa fa-user"></i> {{ member.username }}
+											<i class="fa fa-user"></i> {{ member.name }}
 										</li>
 									</ul>
 								</div>

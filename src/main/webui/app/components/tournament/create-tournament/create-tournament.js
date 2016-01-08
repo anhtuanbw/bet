@@ -12,6 +12,7 @@ export default class CreateTournamentController {
     this.active = false;
     this.toaster = toaster;
   }
+  
   getNumOfCompetitors() {
     return this.competitors.length;
   }
@@ -34,6 +35,7 @@ export default class CreateTournamentController {
       this.toaster.pop('success', null, 'app/components/tournament/create-tournament/success.html', null, 'template');
       this.competitors = [];
       this.name = '';
+      this.active = false;
       this.errorMessage = {};
       this.rootScope.$broadcast('addTournament');
     })
