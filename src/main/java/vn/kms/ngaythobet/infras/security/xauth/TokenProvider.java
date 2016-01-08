@@ -17,6 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,7 @@ import com.google.common.cache.CacheBuilder;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.Constants;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.infras.security.CustomUserDetails;
 
 public class TokenProvider {
@@ -48,20 +50,9 @@ public class TokenProvider {
 
     public Token createToken(CustomUserDetails userDetails) {
         long expires = System.currentTimeMillis() + tokenValidity * 1000L;
-        String username = userDetails.getUsername();
         String token = userDetails.getUsername() + ":" + expires + ":" + computeSignature(userDetails, expires);
-        tokenCache.put(token, userDetails.getUsername());
-        tokenCache.put(username, userDetails.getUser());
+        tokenCache.put(token, userDetails.getUser());
         return new Token(token, expires);
-    }
-
-    public String getUsernameFromToken(String authToken) {
-        if (StringUtils.isEmpty(authToken)) {
-            return null;
-        }
-
-        String[] parts = authToken.split(":");
-        return parts[0];
     }
 
     public boolean validateToken(String authToken, UserDetails userDetails) {
@@ -120,20 +111,16 @@ public class TokenProvider {
 
     public void setAuthenticationFromToken(String authToken) {
         if (StringUtils.hasText(authToken)) {
-            String username = getUsernameFromToken(authToken);
-            CustomUserDetails details;
-            User user = (User) tokenCache.getIfPresent(username);
-            if (user == null) {
-                details = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
-            } else {
+            User user = (User) tokenCache.getIfPresent(authToken);
+            if (user != null) {
                 List<GrantedAuthority> authorities = singletonList(
                         new SimpleGrantedAuthority(user.getRole().getAuthority()));
-                details = new CustomUserDetails(user, authorities);
-            }
-            if (validateToken(authToken, details)) {
-                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(details,
-                        details.getPassword(), details.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(token);
+                CustomUserDetails details = new CustomUserDetails(user, authorities);
+                if (validateToken(authToken, details)) {
+                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(details,
+                            details.getPassword(), details.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(token);
+                }
             }
         }
     }

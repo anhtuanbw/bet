@@ -58,13 +58,4 @@ public class TokenProviderTest extends BaseTest {
         assertThat(isvalid, is(false));
 
     }
-
-    @Test
-    public void testgetUsernameFromToken() {
-        String username = tokenProvider.getUsernameFromToken(token.getToken());
-        assertThat(user.getUsername().equals(username), is(true));
-
-        username = "fail test";
-        assertThat(user.getUsername().equals(username), is(false));
-    }
 }
