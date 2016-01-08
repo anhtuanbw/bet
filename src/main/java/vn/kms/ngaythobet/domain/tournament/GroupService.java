@@ -7,8 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +15,7 @@ import vn.kms.ngaythobet.domain.core.MailService;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.AddNewMemberInfo;
 import vn.kms.ngaythobet.web.dto.CheckModeratorInfo;
 import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
@@ -28,8 +27,6 @@ import vn.kms.ngaythobet.web.dto.CreateGroupInfo;
  */
 @Service
 public class GroupService {
-    private static final Logger logger = LoggerFactory.getLogger(GroupService.class);
-
     private final GroupRepository groupRepo;
     private final UserRepository userRepo;
     private final TournamentRepository tournamentRepo;
@@ -86,5 +83,15 @@ public class GroupService {
         if (!group.isPresent()) {
             throw new DataInvalidException("validation.moderator.access.deny.message");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Group> getGroupByRole(Long tournamentId) {
+        Tournament tournament = tournamentRepo.getOne(tournamentId);
+        User user = SecurityUtil.getCurrentLoginUser();
+        if (!user.getRole().equals(User.Role.ADMIN)) {
+            return groupRepo.findByMembersAndTournament(user, tournament);
+        }
+        return groupRepo.findByTournament(tournament);
     }
 }
