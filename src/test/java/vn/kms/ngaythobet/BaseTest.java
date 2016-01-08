@@ -1,9 +1,11 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet;
 
+import static java.util.Collections.singletonList;
 import static vn.kms.ngaythobet.domain.core.User.Role.USER;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,6 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import vn.kms.ngaythobet.domain.core.ChangeLogRepository;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
+import vn.kms.ngaythobet.infras.security.CustomUserDetails;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,6 +62,12 @@ public abstract class BaseTest {
 
     protected void mockLoginUser(String username) {
         SecurityContextHolder.getContext().setAuthentication(new TestingAuthenticationToken(username, username));
+    }
+    
+    protected void mockLoginUser(User user) {
+        List<GrantedAuthority> authorities = singletonList(new SimpleGrantedAuthority(user.getRole().getAuthority()));
+        CustomUserDetails customUserDetails = new CustomUserDetails(user, authorities);
+        SecurityContextHolder.getContext().setAuthentication(new TestingAuthenticationToken(customUserDetails, user.getUsername()));
     }
 
     protected void doStartUp() {
