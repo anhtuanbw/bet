@@ -204,8 +204,8 @@ public class PlayerStatisticServiceTest extends BaseTest {
         bettingPlayerTemp = bettingPlayerRepo.save(bettingPlayer);
         BettingPlayer bettingPlayer2 = createBettingPlayer(bettingMatchTemp2, userTemp1, competitorTemp2);
         bettingPlayerTemp2 = bettingPlayerRepo.save(bettingPlayer2);
-        BettingPlayer bettingPlayer4 = createBettingPlayer(bettingMatchTemp4, userTemp1, competitorTemp1);
-        bettingPlayerTemp3 = bettingPlayerRepo.save(bettingPlayer4);
+        BettingPlayer bettingPlayer3 = createBettingPlayer(bettingMatchTemp3, userTemp1, competitorTemp1);
+        bettingPlayerTemp3 = bettingPlayerRepo.save(bettingPlayer3);
         List<BettingPlayer> bettingPlayers = new ArrayList<>();
         bettingPlayers.add(bettingPlayerTemp);
         bettingPlayers.add(bettingPlayerTemp2);
@@ -221,7 +221,28 @@ public class PlayerStatisticServiceTest extends BaseTest {
         TotalPlayerStatistic totalPlayerStatistic = playerStatisticService.playerStatistic(playerStatisticInfo);
         assertThat(totalPlayerStatistic.getTotalLossAmount(), equalTo(250.0));
     }
-
+    
+    @Test
+    public void testGetLostAmountByUser(){
+        mockLoginUser("user1");
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp.getId()), equalTo(0.0));
+    }
+    
+    @Test
+    public void testgetLossAmountByUserWithInvalidBettingMatch(){
+        mockLoginUser("user1");
+        exception.expectMessage("{exception.existMatchEntity.message}");
+        double lossAmount = playerStatisticService.getLostAmountByUser(bettingMatchTemp.getId()+ 5);
+        
+    }
+    
+    @Test
+    public void testLossAmountbyUserWithNullScore(){
+        mockLoginUser("user1");
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp2.getId()),equalTo(0.0));
+        
+    }
+    
     @After
     public void clearData() {
         bettingMatchRepo.deleteAll();
