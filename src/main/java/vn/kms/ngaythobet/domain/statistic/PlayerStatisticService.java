@@ -50,8 +50,9 @@ public class PlayerStatisticService {
                     playerStatistic.setCompetitor1Score(match.getScore1());
                     playerStatistic.setCompetitor2Score(match.getScore2());
                 } else {
-                    playerStatistic.setCompetitor1Score(-1);
-                    playerStatistic.setCompetitor2Score(-1);
+                  //doesn't have score here but Long - datatype auto set value = 0 if it null -> set it = -1 and UI will check it and show right data to user
+                    playerStatistic.setCompetitor1Score(-1); 
+                    playerStatistic.setCompetitor2Score(-1); 
                 }
                 // count lost amount when user bet
                 if (bettingPlayer.isPresent()) {
