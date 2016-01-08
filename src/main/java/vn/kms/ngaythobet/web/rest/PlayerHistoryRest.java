@@ -28,7 +28,7 @@ public class PlayerHistoryRest {
     public List<CommentInfo> getComments(@PathVariable Long bettingMatchId, @PathVariable Integer paging) {
         return changeLogService.getComments(bettingMatchId, paging);
     }
-    
+
     @RequestMapping(value = "/getHistoryBetting/{playerId}", method = GET)
     public List<HistoryBetting> getHistoryBetting(@PathVariable Long playerId) {
         return changeLogService.getHistoryBetting(playerId);

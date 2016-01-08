@@ -14,7 +14,8 @@
           <div class="col-sm-5 text-right">
             <strong>{{player.dataInfoMatch.competitor1Name}} <i class="fa fa-users"></i></strong>
             <div class="margin-choose">
-              <button type="button" class="btn btn-primary btn-lg raised" ng-disabled="player.chooseCompetitor1" ng-click="player.isChooseCompetitor1()"><i class="fa fa-check" ng-show="player.chooseCompetitor1"></i> Choose {{player.dataInfoMatch.competitor1Name}}</button>
+              <button type="button" class="btn btn-primary btn-lg raised" ng-show="!player.error" ng-disabled="player.chooseCompetitor1"
+              ng-click="player.isChooseCompetitor1()"><i class="fa fa-check" ng-show="player.chooseCompetitor1"></i> Choose {{player.dataInfoMatch.competitor1Name}}</button>
             </div>
           </div>
           <div class="col-sm-2 text-center">
@@ -25,10 +26,14 @@
           <div class="col-sm-5 text-left">
             <span><strong><i class="fa fa-users"></i> {{player.dataInfoMatch.competitor2Name}}</strong></span>
             <div class="margin-choose">
-              <button type="button" class="btn btn-primary btn-lg raised" ng-disabled="player.chooseCompetitor2" ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i> Choose {{player.dataInfoMatch.competitor2Name}}</button>
+              <button type="button" class="btn btn-primary btn-lg raised" ng-show="!player.error" ng-disabled="player.chooseCompetitor2"
+              ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i> Choose {{player.dataInfoMatch.competitor2Name}}</button>
             </div>
           </div>
-          <div class="input-group padding-comment">
+          <div class="text-center">
+            <h4 class="bg-danger" ng-show="player.error">{{player.messageError}}</h4>
+          </div>
+          <div class="input-group padding-comment" ng-show="!player.error">
             <input type="text" ng-model="player.comment" class="form-control" placeholder="Please enter your comment for your competitor">
             <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()" type="submit">Comment</button></span>
           </div>

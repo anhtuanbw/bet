@@ -35,11 +35,11 @@ public class CreateMatchInfo {
     @Size(max = 512)
     private String comment;
 
-    public long getRound() {
+    public Long getRound() {
         return round;
     }
 
-    public void setRound(long round) {
+    public void setRound(Long round) {
         this.round = round;
     }
 

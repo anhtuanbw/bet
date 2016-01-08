@@ -1,6 +1,6 @@
 <div ng-hide="betting.data.hide">
 <br>
-<button class="btn btn-primary pull-right clearfix" ng-hide="!betting.isAdmin" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
+<button class="btn btn-primary pull-right clearfix" ng-hide="!betting.isMod" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
 <br><br><br>
 <div>
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
@@ -17,7 +17,7 @@
           <span>{{match.match.competitor2.name}}</span>
         </div>
         <div class="text-center">({{match.balance1}} - {{match.balance2}})</div>
-        <form class="form-inline">
+        <form class="form-inline" ng-hide="betting.isAdmin">
           <div class="text-right">
             <div ng-hide="match.activated" class="form-group">
               <button type="button" class="btn btn-success" ng-hide="!betting.isMod" ng-click="betting.activate(match)">

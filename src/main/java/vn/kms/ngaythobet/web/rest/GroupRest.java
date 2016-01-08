@@ -3,6 +3,8 @@ package vn.kms.ngaythobet.web.rest;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +49,18 @@ public class GroupRest {
         groupService.checkModeratorPermission(checkModeratorInfo);
     }
 
+    @RequestMapping(value = "/isMember/{groupId}", method = GET)
+    public void checkMemberPermission(@PathVariable Long groupId) {
+        groupService.checkMemberPermission(groupId);
+    }
+
     @RequestMapping(value = "/{groupId}", method = GET)
     public Group getGroupById(@PathVariable String groupId) {
         return groupRepo.findOne(Long.parseLong(groupId));
+    }
+
+    @RequestMapping(value = "/findByRole/{tournamentId}", method = GET)
+    public List<Group> getGroupByRole(@PathVariable Long tournamentId) {
+        return groupService.getGroupByRole(tournamentId);
     }
 }

@@ -4,10 +4,11 @@
 
 export default class PlayerBettingMatchController {
   /* @ngInject */
-  constructor($rootScope, CacheService, BettingMatchService) {
+  constructor($rootScope, CacheService, BettingMatchService, AccountService) {
     this.cacheService = CacheService;
     this.bettingMatchService = BettingMatchService;
     this.dataInfoMatch = {};
+    this.accountService = AccountService;
     $rootScope.$on('playerBettingMatch', (event, data) => {
       this.dataInfoMatch = data;
       this.dataBettingMatch = {};
@@ -15,10 +16,12 @@ export default class PlayerBettingMatchController {
       this.getComment = {};
       this.commentArr = [];
       this.comment = '';
+      this.error = false;
       this.stompClient = null;
       this.chooseCompetitor1 = false;
       this.chooseCompetitor2 = false;
       this.checkLengthComments = false;
+      this.messageError = '';
       this.currentBettingPlayer = {};
       this.namePlayerBetCompetitor1 = [];
       this.namePlayerBetCompetitor2 = [];
@@ -29,6 +32,7 @@ export default class PlayerBettingMatchController {
       this.disconnect();
       this.connect();
       this.getBettingPlayer();
+      this.authen();
     });
 
   }
@@ -136,7 +140,7 @@ export default class PlayerBettingMatchController {
   }
 
   getComments() {
-    this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId)
+    this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId, 1)
       .then(response => {
         if (response.data.length) {
           this.commentArr = [];
@@ -158,6 +162,15 @@ export default class PlayerBettingMatchController {
     this.getComments();
   }
 
+  authen() {
+    this.accountService.authen()
+      .then(response => {
+        if (response.data) {
+          this.currentBettingPlayer.username = response.data.username;
+        }
+      });
+  }
+
   connect() {
     var socket = new SockJS('/betting-match');
     this.stompClient = Stomp.over(socket);
@@ -175,6 +188,13 @@ export default class PlayerBettingMatchController {
 
       self.stompClient.subscribe('/topic/updatePlayBet/' + self.dataInfoMatch.bettingMatchId, function () {
         self.refreshBettingMatch();
+      });
+
+      self.stompClient.subscribe('/topic/errors/' + self.currentBettingPlayer.username, function (message) {
+        if(message.body.length > 0) {
+          self.error = true;
+          self.messageError = message.body;
+        }
       });
     });
   }
