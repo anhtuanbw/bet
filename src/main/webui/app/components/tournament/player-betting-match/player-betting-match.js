@@ -194,6 +194,7 @@ export default class PlayerBettingMatchController {
         if(message.body.length > 0) {
           self.error = true;
           self.messageError = message.body;
+          console.log(self.messageError);
         }
       });
     });
