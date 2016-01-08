@@ -1,7 +1,10 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.core;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,7 @@ import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.betting.BettingPlayerRepository;
 import vn.kms.ngaythobet.domain.core.ChangeLog.Change;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
+import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
 import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.web.dto.CommentInfo;
 import vn.kms.ngaythobet.web.dto.HistoryBetting;
@@ -31,26 +35,26 @@ public class ChangeLogService {
     private final BettingMatchRepository bettingMatchRepo;
     private final BettingPlayerRepository bettingPlayerRepo;
     private final UserRepository userRepo;
+    private final CompetitorRepository competitorRepo;
 
     @Autowired
-    public ChangeLogService(ChangeLogRepository changeLogRepo,
-            BettingMatchRepository bettingMatchRepo,
-            BettingPlayerRepository bettingPlayerRepo, UserRepository userRepo) {
+    public ChangeLogService(ChangeLogRepository changeLogRepo, BettingMatchRepository bettingMatchRepo,
+            BettingPlayerRepository bettingPlayerRepo, UserRepository userRepo, CompetitorRepository competitorRepo) {
         this.changeLogRepo = changeLogRepo;
         this.bettingMatchRepo = bettingMatchRepo;
         this.bettingPlayerRepo = bettingPlayerRepo;
         this.userRepo = userRepo;
+        this.competitorRepo = competitorRepo;
     }
 
     @Transactional(readOnly = true)
     public List<CommentInfo> getComments(Long bettingMatchId, Integer paging) {
         List<CommentInfo> comments = new ArrayList<CommentInfo>();
-        Pageable pageable = new PageRequest(paging, 10, Direction.DESC,
-                "timestamp");
-        List<ChangeLog> changeLogs = changeLogRepo
-                .findTop10ByEntityTypeAndEntityId(
-                        BettingMatch.class.getCanonicalName(), bettingMatchId,
-                        pageable);
+        Pageable pageable = new PageRequest(0, 10 * paging + 10, Direction.DESC, "timestamp");
+        List<ChangeLog> changeLogs = changeLogRepo.findTop10ByEntityTypeAndEntityId(
+                BettingMatch.class.getCanonicalName(), bettingMatchId, pageable);
+        List<ChangeLog> changeLogsHistoryBetting = changeLogRepo.findTop10ByEntityTypeAndEntityId(
+                BettingPlayer.class.getCanonicalName(), bettingMatchId, pageable);
 
         if (changeLogs != null) {
             Iterator<ChangeLog> iteratorChangeLogs = changeLogs.iterator();
@@ -61,54 +65,59 @@ public class ChangeLogService {
                 commentInfo.setUsername(changelog.getUsername());
                 commentInfo.setTimestamp(changelog.getTimestamp());
 
-                BettingPlayer bettingPlayer = bettingPlayerRepo
-                        .findByUsernameAndBettingMatchId(
-                                changelog.getUsername(), bettingMatchId);
+                BettingPlayer bettingPlayer = bettingPlayerRepo.findByUsernameAndBettingMatchId(
+                        changelog.getUsername(), bettingMatchId);
 
                 if (bettingPlayer != null) {
-                    commentInfo.setBetCompetitor(bettingPlayer
-                            .getBetCompetitor());
+                    commentInfo.setBetCompetitor(bettingPlayer.getBetCompetitor());
                 }
-                Map<String, Change> entityChanges = changelog
-                        .getEntityChanges();
+                Map<String, Change> entityChanges = changelog.getEntityChanges();
                 if (entityChanges != null) {
                     Change change = entityChanges.get("comment");
                     if (change != null) {
                         commentInfo.setComment(change.getNewValue().toString());
                     }
                 }
-
-                List<ChangeLog> changelogs = changeLogRepo
-                        .findByEntityTypeAndUsername(
-                                BettingPlayer.class.getCanonicalName(),
-                                changelog.getUsername());
-
-                List<Map<String, Change>> competitorChanges = new ArrayList<Map<String, Change>>();
-
-                for (ChangeLog c : changelogs) {
-                    if (c.getEntityChanges() != null) {
-                        competitorChanges.add(c.getEntityChanges());
-                    }
-                }
-                commentInfo.setCompetitorChanges(competitorChanges);
                 comments.add(commentInfo);
             }
         }
+
+        for (ChangeLog c : changeLogsHistoryBetting) {
+            CommentInfo commentInfo = new CommentInfo();
+            commentInfo.setUsername(c.getUsername());
+            commentInfo.setTimestamp(c.getTimestamp());
+            Map<String, Change> entityChanges = c.getEntityChanges();
+            if (entityChanges != null) {
+                Change change = entityChanges.get("betCompetitor");
+                if (change != null) {
+                    Long competitorId = Long.parseLong(change.getNewValue().toString());
+                    commentInfo.setBetCompetitor(competitorRepo.findOne(competitorId));
+                }
+            }
+            comments.add(commentInfo);
+        }
+
+        Collections.sort(comments, new Comparator<CommentInfo>() {
+
+            @Override
+            public int compare(CommentInfo commentInfo1, CommentInfo commentInfo2) {
+                return commentInfo2.getTimestamp().compareTo(commentInfo1.getTimestamp());
+            }
+        });
+
         return comments;
     }
 
     @Transactional(readOnly = true)
     public List<HistoryBetting> getHistoryBetting(Long playerId) {
         List<HistoryBetting> historyBettings = new ArrayList<HistoryBetting>();
-        List<ChangeLog> changelogs = changeLogRepo
-                .findByEntityType(BettingPlayer.class.getCanonicalName());
+        List<ChangeLog> changelogs = changeLogRepo.findByEntityType(BettingPlayer.class.getCanonicalName());
         if (changelogs != null) {
             Iterator<ChangeLog> iteratorChangeLogs = changelogs.iterator();
             while (iteratorChangeLogs.hasNext()) {
                 ChangeLog changelog = iteratorChangeLogs.next();
 
-                BettingPlayer bettingPlayer = bettingPlayerRepo
-                        .findByPlayer(userRepo.getOne(playerId));
+                BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayer(userRepo.getOne(playerId));
 
                 if (bettingPlayer == null)
                     continue;
@@ -130,10 +139,8 @@ public class ChangeLogService {
 
                 historyBetting.setUsername(username);
                 historyBetting.setCompetitors(competitors);
-                historyBetting.setCurrentBetCompetitor(bettingPlayer
-                        .getBetCompetitor());
-                historyBetting.setCompetitorChanges(changelog
-                        .getEntityChanges());
+                historyBetting.setCurrentBetCompetitor(bettingPlayer.getBetCompetitor());
+                historyBetting.setCompetitorChanges(changelog.getEntityChanges());
                 historyBetting.setCompetitor1Score(match.getScore1());
                 historyBetting.setCompetitor2Score(match.getScore2());
                 historyBetting.setExpiredTime(bettingMatch.getExpiredTime());
@@ -147,22 +154,18 @@ public class ChangeLogService {
 
     @Transactional(readOnly = true)
     public CommentInfo getRecentComment(Long bettingMatchId) {
-        ChangeLog changelog = changeLogRepo
-                .findFirst1ByEntityTypeAndEntityIdOrderByTimestampDesc(
-                        BettingMatch.class.getCanonicalName(), bettingMatchId);
+        ChangeLog changelog = changeLogRepo.findFirst1ByEntityTypeAndEntityIdOrderByTimestampDesc(
+                BettingMatch.class.getCanonicalName(), bettingMatchId);
         CommentInfo commentInfo = null;
         if (changelog != null) {
             commentInfo = new CommentInfo();
             commentInfo.setUsername(changelog.getUsername());
             commentInfo.setTimestamp(changelog.getTimestamp());
 
-            User user = userRepo.findOneByUsername(changelog.getUsername())
-                    .get();
-            BettingMatch bettingMatch = bettingMatchRepo.findOne(changelog
-                    .getEntityId());
+            User user = userRepo.findOneByUsername(changelog.getUsername()).get();
+            BettingMatch bettingMatch = bettingMatchRepo.findOne(changelog.getEntityId());
 
-            BettingPlayer bettingPlayer = bettingPlayerRepo
-                    .findByPlayerAndBettingMatch(user, bettingMatch);
+            BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(user, bettingMatch);
             commentInfo.setBetCompetitor(bettingPlayer.getBetCompetitor());
 
             Map<String, Change> entityChange = changelog.getEntityChanges();

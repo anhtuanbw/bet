@@ -14,11 +14,9 @@ import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
 import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.core.User;
-import vn.kms.ngaythobet.domain.core.UserService;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
-import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 
@@ -35,20 +33,17 @@ public class GroupStatisticService {
 
     private final GroupRepository groupRepo;
     private final BettingMatchRepository bettingMatchRepo;
-    private final UserService userService;
 
     @Autowired
     public GroupStatisticService(GroupRepository groupRepo,
-            BettingMatchRepository bettingMatchRepo, UserService userService) {
+            BettingMatchRepository bettingMatchRepo) {
         this.groupRepo = groupRepo;
         this.bettingMatchRepo = bettingMatchRepo;
-        this.userService = userService;
     }
 
     @Transactional
     public List<GroupStatistic> getGroupStatistic(Long groupId) {
         List<GroupStatistic> groupStatistics = new ArrayList<GroupStatistic>();
-
         Group group = groupRepo.findOne(groupId);
         if (group == null) {
             throw new DataInvalidException("exception.group.not-exist");
@@ -71,9 +66,9 @@ public class GroupStatisticService {
             List<BettingMatch> bettingMatches = bettingMatchRepo
                     .findByGroupIdAndUsername(groupId, user.getUsername());
             int notBetCount = 0;
-            long notBetAmount = 0;
+            double notBetAmount = 0;
             int lossCount = 0;
-            long lossAmount = 0;
+            double lossAmount = 0;
             int notLossCount = 0;
 
             for (BettingMatch bettingMatch : bettingMatches) {
@@ -89,41 +84,14 @@ public class GroupStatisticService {
 
                     BettingMatch bm = bp.getBettingMatch();
                     Competitor betCompetitor = bp.getBetCompetitor();
-                    Match match = bm.getMatch();
 
-                    if (match.getScore1() == null || match.getScore2() == null) {
-                        continue;
-                    }
+                    double tempLossAmount = StatisticUtils.calculateLossAmount(
+                            bm, betCompetitor);
 
-                    Long competitor1Score = match.getScore1();
-                    Long competitor2Score = match.getScore2();
-
-                    Long balance1 = bm.getBalance1().longValue();
-                    Long balance2 = bm.getBalance2().longValue();
-
-                    Long totalScore1 = competitor1Score + balance1;
-                    Long totalScore2 = competitor2Score + balance2;
-
-                    double diff = 0;
-
-                    if (betCompetitor.getId().equals(
-                            match.getCompetitor1().getId())) {
-                        diff = totalScore1 - totalScore2;
+                    if (tempLossAmount > 0) {
+                        lossCount++;
+                        lossAmount += tempLossAmount;
                     } else {
-                        diff = totalScore2 - totalScore1;
-                    }
-
-                    if (diff > -0.5 && diff < 0.25) {
-                        lossCount++;
-                        lossAmount += bm.getBetAmount().longValue() / 2;
-                    }
-
-                    if (diff <= -0.5) {
-                        lossCount++;
-                        lossAmount += bm.getBetAmount().longValue();
-                    }
-
-                    if (diff >= 0.25) {
                         notLossCount++;
                     }
 

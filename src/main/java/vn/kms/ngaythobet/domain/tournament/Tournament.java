@@ -95,6 +95,14 @@ public class Tournament extends AuditableEntity {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+
         Tournament tournament = (Tournament) obj;
         return this.getId().equals(tournament.getId());
     }

@@ -6,9 +6,7 @@ import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +47,7 @@ public class MatchService {
             throw new DataInvalidException("exception.competitor.not-exist-tournament");
         }
 
-        if (roundId == null || roundId.equals(0)) {
+        if (roundId == null) {
             round = roundRepo.findByNameAndTournament(DEFAULT_ROUND_NAME, tournament);
             if (round == null) {
                 round = new Round();
@@ -139,5 +137,4 @@ public class MatchService {
         match.setScore2(updateScoreInfo.getCompetitor2Score());
         matchRepo.save(match);
     }
-
 }
