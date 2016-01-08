@@ -35,11 +35,12 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    var expiredTime = data.time;
+    var timeFormated = data.time;
     if (data.time) {
-      expiredTime = expiredTime.replace(/\//g, '-');
-      expiredTime = expiredTime.replace(' ', 'T');
-      expiredTime+=':00.000';
+      var dateAndTime = data.time.split(' ');
+      var monthDayYear = dateAndTime[0].split('/');
+      var hourMin = dateAndTime[1].split(':');
+      timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
     }
     if (!data.active) {
       data.active = false;
@@ -50,7 +51,7 @@ export default class CreateBettingController {
         'balance2': data.balance2,
         'betAmount': data.amount,
         'decription': data.description,
-        'expiredTime': expiredTime,
+        'expiredTime': timeFormated,
         'groupId': this.matchData.groupID,
         'matchId': this.matchData.id
         };
@@ -75,16 +76,22 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    var expiredTime;
+    var timeFormated;
+    var dateAndTime;
+    var monthDayYear;
+    var hourMin;
     if(data.time === ''){
-      expiredTime = data.oldTime;
+      data.time = data.oldTime;
+      dateAndTime = data.time.split(' ');
+      monthDayYear = dateAndTime[0].split('/');
+      hourMin = dateAndTime[1].split(':');
+      timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
     } else {
-      expiredTime = data.time;
+      dateAndTime = data.time.split(' ');
+      monthDayYear = dateAndTime[0].split('/');
+      hourMin = dateAndTime[1].split(':');
+      timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
     }
-      expiredTime = expiredTime.replace(/\//g, '-');
-      expiredTime = expiredTime.replace(' ', 'T');
-      expiredTime = expiredTime.replace(',', '');
-      expiredTime+=':00.000';
     
     var dataUpdate = {
       'activated': data.active,
@@ -93,7 +100,7 @@ export default class CreateBettingController {
       'betAmount': data.amount,
       'bettingMatchId': this.matchData.bettingMatchId,
       'decription': data.description,
-      'expiredTime': expiredTime,
+      'expiredTime': timeFormated,
       'groupId': this.matchData.groupId,
       'matchId': this.matchData.matchId
     };
@@ -124,7 +131,7 @@ export default class CreateBettingController {
     var dates = this.longTime(date[2]);
     var hour = this.longTime(date[3]);
     var minute = this.longTime(date[4]);
-    var dateTime = year+'/'+month+'/'+dates+', '+hour+':'+minute;
+    var dateTime = month+'/'+dates+'/'+year+' '+hour+':'+minute;
     return dateTime;
   }
 
