@@ -115,7 +115,6 @@ export default class BettingMatchController {
 
   chooseMatch(matchChoosedData){
     matchChoosedData.groupID = this.groupID;
-    console.log(matchChoosedData);
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
       controller: 'CreateBettingController',
