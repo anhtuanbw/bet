@@ -6,7 +6,7 @@ import vn.kms.ngaythobet.domain.tournament.Match;
 
 public class StatisticUtils {
 
-    public double calculateLossAmount(BettingMatch bettingMatch, Competitor competitor) {
+    public static double calculateLossAmount(BettingMatch bettingMatch, Competitor competitor) {
         double lostAmount = 0;
         double diff = 0;
         Match match = bettingMatch.getMatch();

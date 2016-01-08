@@ -49,6 +49,11 @@ public class GroupRest {
         groupService.checkModeratorPermission(checkModeratorInfo);
     }
 
+    @RequestMapping(value = "/isMember/{groupId}", method = GET)
+    public void checkMemberPermission(@PathVariable Long groupId) {
+        groupService.checkMemberPermission(groupId);
+    }
+
     @RequestMapping(value = "/{groupId}", method = GET)
     public Group getGroupById(@PathVariable String groupId) {
         return groupRepo.findOne(Long.parseLong(groupId));
