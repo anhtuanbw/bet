@@ -151,8 +151,9 @@ public class BettingMatchService {
 
     public boolean isBettingMatchNotExpired(Long bettingMatchId) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
-        if (bettingMatch.getExpiredTime().isAfter(LocalDateTime.now()))
+        if (bettingMatch.getExpiredTime().isAfter(LocalDateTime.now())) {
             return true;
+        }
         throw new DataInvalidException("exception.betting.match.is.expired");
     }
 }
