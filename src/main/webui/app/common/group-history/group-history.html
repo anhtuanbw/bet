@@ -57,7 +57,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="group in groupHistory.statisticData | orderBy: groupHistory.sortType: groupHistory.sortReverse">
-				<td>{{ $index }}</td>
+				<td>{{ $index +1 }}</td>
 				<td>{{ group.player }}</td>
 				<td>{{ group.notlossCount }}</td>
 				<td>{{ group.lossCount }}</td>
