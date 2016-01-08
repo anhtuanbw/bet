@@ -13,12 +13,13 @@ export default class CreateBettingController {
   }
 
   loadData(data){
+    this.matchData.expiredTime = this.parseTime(this.matchData.expiredTime);
     data.competitor1 = this.matchData.competitor1.name;
     data.competitor2 = this.matchData.competitor2.name;
     data.balance1 = this.matchData.balance1;
     data.balance2 = this.matchData.balance2;
     data.amount = this.matchData.betAmount;
-    data.description = this.matchData.decription;
+    data.description = this.matchData.description;
     data.oldTime = this.matchData.expiredTime;
     data.active = this.matchData.activated;
     data.hide = this.matchData.hide;
@@ -73,17 +74,10 @@ export default class CreateBettingController {
       this.toaster.pop(type, title, content);
     };
     var expiredTime = data.time;
-    if (data.time) {
       expiredTime = expiredTime.replace(/\//g, '-');
       expiredTime = expiredTime.replace(' ', 'T');
       expiredTime+=':00.000';
-    } else {
-      expiredTime = data.oldTime;
-      expiredTime = expiredTime.replace(/\//g, '-');
-      expiredTime = expiredTime.replace(' ', 'T');
-      expiredTime = expiredTime.replace(',', '');
-      expiredTime+=':00.000';
-    }
+    
     var dataUpdate = {
       'activated': data.active,
       'balance1': data.balance1,
@@ -114,6 +108,24 @@ export default class CreateBettingController {
 
   closeModal(){
     this.modalInstance.dismiss();
+  }
+
+  parseTime(date){
+    var year = date[0];
+    var month = this.longTime(date[1]);
+    var dates = this.longTime(date[2]);
+    var hour = this.longTime(date[3]);
+    var minute = this.longTime(date[4]);
+    var dateTime = year+'/'+month+'/'+dates+', '+hour+':'+minute;
+    return dateTime;
+  }
+
+  longTime(time){
+    if(time < 10){
+      return '0'+time;
+    } else {
+      return time;
+    }
   }
 }
 

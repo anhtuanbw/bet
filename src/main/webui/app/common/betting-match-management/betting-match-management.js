@@ -96,14 +96,12 @@ export default class BettingMatchController {
   }
 
   parseTime(date){
-    var fullDate = new Date(...date);
-    var year = fullDate.getFullYear();
-    var month = this.longTime(fullDate.getMonth()+1);
-    var dates = this.longTime(fullDate.getDate());
-    var hour = this.longTime(fullDate.getHours());
-    var minute = this.longTime(fullDate.getMinutes());
-    var second = this.longTime(fullDate.getSeconds());
-    var dateTime = month+'/'+dates+'/'+year+', '+hour+':'+minute+':'+second;
+    var year = date[0];
+    var month = this.longTime(date[1]);
+    var dates = this.longTime(date[2]);
+    var hour = this.longTime(date[3]);
+    var minute = this.longTime(date[4]);
+    var dateTime = month+'/'+dates+'/'+year+', '+hour+':'+minute+':00 ';
     return dateTime;
   }
 
@@ -153,7 +151,6 @@ export default class BettingMatchController {
   
 
   openUpdate(match){
-    var time = this.parseTime(match.expiredTime);
     var data = {
       'competitor1': match.match.competitor1,
       'competitor2': match.match.competitor2,
@@ -161,8 +158,8 @@ export default class BettingMatchController {
       'balance1': match.balance1,
       'balance2': match.balance2,
       'betAmount': match.betAmount,
-      'decription': match.description,
-      'expiredTime': time.substring(0, time.length-3),
+      'description': match.description,
+      'expiredTime': match.expiredTime,
       'groupId': this.groupID,
       'hide': true,
       'matchId': match.match.id,
