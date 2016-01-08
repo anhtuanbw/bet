@@ -16,7 +16,7 @@ export default class PlayerBettingMatchController {
       this.getComment = {};
       this.commentArr = [];
       this.comment = '';
-      this.error = false;
+      this.notError = false;
       this.stompClient = null;
       this.chooseCompetitor1 = false;
       this.chooseCompetitor2 = false;
@@ -29,8 +29,7 @@ export default class PlayerBettingMatchController {
       this.getBettingMatchStatistics();
       this.getBettingMatchInfo();
       this.getComments();
-      this.disconnect();
-      this.connect();
+      this.checkExpiredBettingMatch();
       this.getBettingPlayer();
       this.authen();
     });
@@ -94,6 +93,19 @@ export default class PlayerBettingMatchController {
           this.currentBettingPlayer.id = response.data.id;
           this.currentBettingPlayer.betCompetitorId = response.data.betCompetitor.id;
           this.isSelectedCompetitor();
+        }
+      });
+  }
+
+  checkExpiredBettingMatch() {
+    this.bettingMatchService.checkExpiredBettingMatch(this.dataInfoMatch.bettingMatchId)
+      .then(response => {
+        this.notError = response.data;
+        if (this.notError) {
+          this.disconnect();
+          this.connect();
+        } else {
+          this.messageError = 'The betting match is expired';
         }
       });
   }
@@ -190,13 +202,6 @@ export default class PlayerBettingMatchController {
         self.refreshBettingMatch();
       });
 
-      self.stompClient.subscribe('/topic/errors/' + self.currentBettingPlayer.username, function (message) {
-        if(message.body.length > 0) {
-          self.error = true;
-          self.messageError = message.body;
-          console.log(self.messageError);
-        }
-      });
     });
   }
 
