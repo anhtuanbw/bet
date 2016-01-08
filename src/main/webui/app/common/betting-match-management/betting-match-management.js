@@ -115,6 +115,7 @@ export default class BettingMatchController {
 
   chooseMatch(matchChoosedData){
     matchChoosedData.groupID = this.groupID;
+    console.log(matchChoosedData);
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
       controller: 'CreateBettingController',
@@ -192,6 +193,7 @@ export default class BettingMatchController {
     this.BettingService.active(activeData)
     .then(() => {
       self.pop('success', self.popTitle, successMessage);
+      match.activated = true;
     }, function (response) {
       self.pop('error', self.popTitle, response.data.message);
     });
