@@ -50,7 +50,7 @@ export default class GroupService {
 		var token = this.cacheService.get('loginUser');
 		return this.$http({
 			method: 'GET',
-			url: '/api/group/statistic' + id,
+			url: '/api/group/statistic/' + id,
 			headers: {'Accept': '*/*', 'x-auth-token': token}
 		});
 	}

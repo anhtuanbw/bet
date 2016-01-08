@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static vn.kms.ngaythobet.domain.util.Constants.*;
+
 @Service
 @Transactional
 public class MatchService {
@@ -34,47 +36,98 @@ public class MatchService {
 
     @Transactional
     public void createMatch(CreateMatchInfo createMatchInfo) {
-        Round round = roundRepo.findOne(createMatchInfo.getRound());
-        Tournament tournament = round.getTournament();
+        Long roundId = createMatchInfo.getRound();
 
         Competitor competitor1 = competitorRepo.findOne(createMatchInfo
                 .getCompetitor1());
         Competitor competitor2 = competitorRepo.findOne(createMatchInfo
                 .getCompetitor2());
 
-        List<Competitor> competitors = competitorRepo.findByRounds(round);
-        int countBelongRound = 0;
-        for (Competitor competitor : competitors) {
-            if (competitor.getId().equals(competitor1.getId())
-                    || competitor.getId().equals(competitor2.getId())) {
-                countBelongRound++;
-            }
+        Tournament tournament = null;
+        Round round = null;
 
-            if (countBelongRound == 2) {
-                break;
-            }
-        }
-
-        if (countBelongRound != 2) {
-            throw new DataInvalidException(
-                    "exception.matchService.createMatch.competitor-not-belong-round");
-        }
-
-        if (competitor1.getTournament().getId().equals(tournament.getId())
-                && competitor2.getTournament().getId()
-                        .equals(tournament.getId())) {
-            Match match = new Match();
-            match.setCompetitor1(competitor1);
-            match.setCompetitor2(competitor2);
-            match.setMatchTime(createMatchInfo.getTime());
-            match.setLocation(createMatchInfo.getLocation());
-            match.setComment(createMatchInfo.getComment());
-            match.setRound(round);
-            matchRepo.save(match);
+        if (competitor1.getTournament().getId()
+                .equals(competitor2.getTournament().getId())) {
+            tournament = competitor1.getTournament();
         } else {
             throw new DataInvalidException(
-                    "exception.matchService.createMatch.not-exist-tournament");
+                    "exception.competitor.not-exist-tournament");
         }
+
+        if (roundId == null || roundId.equals(0)) {
+            round = roundRepo.findByNameAndTournament(DEFAULT_ROUND_NAME,
+                    tournament);
+            if (round == null) {
+                round = new Round();
+                round.setName(DEFAULT_ROUND_NAME);
+                round.setTournament(tournament);
+
+                round = roundRepo.save(round);
+            }
+
+            matchRepo.save(createMatchWithInfo(competitor1, competitor2,
+                    createMatchInfo.getTime(), createMatchInfo.getLocation(),
+                    createMatchInfo.getComment(), round));
+        } else {
+            round = roundRepo.findOne(roundId);
+            if (round == null) {
+                throw new DataInvalidException(
+                        "exception.round.not-existed.message");
+            }
+
+            tournament = round.getTournament();
+
+            if (!tournament.getId().equals(competitor1.getTournament().getId())
+                    || !tournament.getId().equals(
+                            competitor2.getTournament().getId())) {
+                throw new DataInvalidException(
+                        "exception.competitor.not-exist-tournament");
+            }
+
+            List<Competitor> competitors = competitorRepo.findByRounds(round);
+            int countBelongRound = 0;
+            for (Competitor competitor : competitors) {
+                if (competitor.getId().equals(competitor1.getId())
+                        || competitor.getId().equals(competitor2.getId())) {
+                    countBelongRound++;
+                }
+
+                if (countBelongRound == 2) {
+                    break;
+                }
+            }
+
+            if (countBelongRound != 2) {
+                throw new DataInvalidException(
+                        "exception.matchService.createMatch.competitor-not-belong-round");
+            }
+
+            if (competitor1.getTournament().getId().equals(tournament.getId())
+                    && competitor2.getTournament().getId()
+                            .equals(tournament.getId())) {
+
+                matchRepo.save(createMatchWithInfo(competitor1, competitor2,
+                        createMatchInfo.getTime(),
+                        createMatchInfo.getLocation(),
+                        createMatchInfo.getComment(), round));
+            } else {
+                throw new DataInvalidException(
+                        "exception.matchService.createMatch.not-exist-tournament");
+            }
+        }
+    }
+
+    private Match createMatchWithInfo(Competitor competitor1,
+            Competitor competitor2, LocalDateTime time, String location,
+            String comment, Round round) {
+        Match match = new Match();
+        match.setCompetitor1(competitor1);
+        match.setCompetitor2(competitor2);
+        match.setMatchTime(time);
+        match.setLocation(location);
+        match.setComment(comment);
+        match.setRound(round);
+        return match;
     }
 
     @Transactional(readOnly = true)
