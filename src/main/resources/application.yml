@@ -12,6 +12,10 @@ ngaythobet:
         core-pool-size: 4
         max-pool-size: 64
         queue-capacity: 100000
+    websocket:
+        core-pool-size: 10
+        max-pool-size: 60
+        queue-capacity: 100000
     xauth:
         secret-key: 4b95309b6df87248328e1c3791e47793
         token-validity: 1800 # 30 mins
