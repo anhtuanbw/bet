@@ -7,6 +7,17 @@
          "name":"Tournament name",
          "active":"Active",
          "activeSuccess":"Active tournament successfully!!!",
+         "edit-tournament": {
+            "btnActiveTour": "Active tournament",
+            "btnNewGroup": "<i class='fa fa-plus'></i> New group",
+            "btnNewMatch": "<i class='fa fa-plus'></i> New match",
+            "btnNewRound": "<i class='fa fa-plus'></i> New round"
+          },
+         "tab": {
+            "matches": "Matches",
+            "statistics": "Statistics",
+            "information": "Information"
+          },
          "history": {
             "matchStatistic":"Match statistic",
             "groupStatistic":"Group statistic",

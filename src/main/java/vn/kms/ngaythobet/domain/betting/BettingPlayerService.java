@@ -3,6 +3,7 @@ package vn.kms.ngaythobet.domain.betting;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,27 +111,31 @@ public class BettingPlayerService {
     }
 
     public BettingMatchStatisticsInfo getBettingMatchStatistics(Long bettingMatchId) {
-        BettingMatch bettingMatch = bettingMatchRepo.findByIdAndActivated(bettingMatchId, true).get();
-        Match match = bettingMatch.getMatch();
-        List<BettingPlayer> bettingPlayersChoosingTeam1 = bettingPlayerRepo
-                .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor1().getId());
-        List<BettingPlayer> bettingPlayersChoosingTeam2 = bettingPlayerRepo
-                .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor2().getId());
-        Group group = bettingMatch.getGroup();
-        List<User> users = group.getMembers();
-        List<BettingPlayer> bettingPlayers = new ArrayList<BettingPlayer>();
-        bettingPlayers.addAll(bettingPlayersChoosingTeam1);
-        bettingPlayers.addAll(bettingPlayersChoosingTeam2);
-        BettingMatchStatisticsInfo info = new BettingMatchStatisticsInfo();
-        info.setBettingPlayersChooseCompetitor1(bettingPlayersChoosingTeam1);
-        info.setBettingPlayersChooseCompetitor2(bettingPlayersChoosingTeam2);
-        int percentOfChoosingCompetitor1 = bettingPlayersChoosingTeam1.size() * 100 / users.size();
-        int percentOfChoosingCompetitor2 = bettingPlayersChoosingTeam2.size() * 100 / users.size();
-        info.setPercentOfChoosingCompetitor1(percentOfChoosingCompetitor1);
-        info.setPercentOfChoosingCompetitor2(percentOfChoosingCompetitor2);
-        info.setTotalBettingPlayers(users);
-        List<User> userNotBet = getUsersNotBet(users, bettingPlayers);
-        info.setUserNotBet(userNotBet);
+        Optional<BettingMatch> bettingMatchOptional = bettingMatchRepo.findByIdAndActivated(bettingMatchId, true);
+        BettingMatchStatisticsInfo info = null;
+        if (bettingMatchOptional.isPresent()) {
+            BettingMatch bettingMatch = bettingMatchOptional.get();
+            Match match = bettingMatch.getMatch();
+            List<BettingPlayer> bettingPlayersChoosingTeam1 = bettingPlayerRepo
+                    .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor1().getId());
+            List<BettingPlayer> bettingPlayersChoosingTeam2 = bettingPlayerRepo
+                    .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor2().getId());
+            Group group = bettingMatch.getGroup();
+            List<User> users = userRepo.findByGroups(group);
+            List<BettingPlayer> bettingPlayers = new ArrayList<BettingPlayer>();
+            bettingPlayers.addAll(bettingPlayersChoosingTeam1);
+            bettingPlayers.addAll(bettingPlayersChoosingTeam2);
+            info = new BettingMatchStatisticsInfo();
+            info.setBettingPlayersChooseCompetitor1(bettingPlayersChoosingTeam1);
+            info.setBettingPlayersChooseCompetitor2(bettingPlayersChoosingTeam2);
+            int percentOfChoosingCompetitor1 = bettingPlayersChoosingTeam1.size() * 100 / users.size();
+            int percentOfChoosingCompetitor2 = bettingPlayersChoosingTeam2.size() * 100 / users.size();
+            info.setPercentOfChoosingCompetitor1(percentOfChoosingCompetitor1);
+            info.setPercentOfChoosingCompetitor2(percentOfChoosingCompetitor2);
+            info.setTotalBettingPlayers(users);
+            List<User> userNotBet = getUsersNotBet(users, bettingPlayers);
+            info.setUserNotBet(userNotBet);
+        }
         return info;
     }
 
@@ -139,7 +144,7 @@ public class BettingPlayerService {
         for (User user : users) {
             boolean isExist = false;
             for (BettingPlayer bettingPlayer : bettingPlayers) {
-                if (bettingPlayer.getPlayer().getId() == user.getId()) {
+                if (bettingPlayer.getPlayer().getId().equals(user.getId())) {
                     isExist = true;
                     break;
                 }
