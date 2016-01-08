@@ -5,10 +5,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import vn.kms.ngaythobet.BaseTest;
 import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.infras.security.CustomUserDetails;
 
 public class TokenProviderTest extends BaseTest {
 
@@ -16,16 +16,14 @@ public class TokenProviderTest extends BaseTest {
 
     private Token token;
 
-    private UserDetails user;
+    private CustomUserDetails user;
 
     @Override
     protected void doStartUp() {
         tokenProvider = new TokenProvider(Contants.SECRET_KEY,
                 Contants.TOKEN_VALIDITY);
         User defaultUser = getDefaultUser();
-        user = new org.springframework.security.core.userdetails.User(
-                defaultUser.getUsername(), defaultUser.getPassword(),
-                AuthorityUtils.NO_AUTHORITIES);
+        user = new CustomUserDetails(defaultUser, AuthorityUtils.NO_AUTHORITIES);
         token = tokenProvider.createToken(user);
     }
 

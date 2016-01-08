@@ -146,7 +146,7 @@ public class BettingPlayerServiceTest extends BaseTest {
 
     @Test
     public void testPlayBet() {
-        mockLoginUser("user1");
+        mockLoginUser(userTemp1);
         PlayerBettingMatchInfo playerBettingMatchInfo = new PlayerBettingMatchInfo();
         playerBettingMatchInfo.setComment("test");
         playerBettingMatchInfo.setCompetitorId(competitorTemp1.getId());
@@ -194,7 +194,7 @@ public class BettingPlayerServiceTest extends BaseTest {
 
     @Test
     public void testPlayBetWithBetMatch() {
-        mockLoginUser("user1");
+        mockLoginUser(userTemp1);
         PlayerBettingMatchInfo playerBettingMatchInfo = new PlayerBettingMatchInfo();
         playerBettingMatchInfo.setComment("test");
         playerBettingMatchInfo.setCompetitorId(competitorTemp1.getId());

@@ -53,7 +53,7 @@ public class BettingPlayerService {
             throw new DataInvalidException("exception.bettingPlayer.service.already-bet");
         } else {
             BettingPlayer bettingPlayer = new BettingPlayer();
-            User player = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
+            User player = SecurityUtil.getCurrentLoginUser();
             bettingPlayer.setPlayer(player);
             bettingPlayer.setBettingMatch(bettingMatch);
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
@@ -105,7 +105,7 @@ public class BettingPlayerService {
     }
 
     private boolean isBet(BettingMatch bettingMatch) {
-        User player = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
+        User player = SecurityUtil.getCurrentLoginUser();
         return (bettingPlayerRepo.findByPlayerAndBettingMatch(player, bettingMatch) != null);
     }
 
@@ -152,7 +152,7 @@ public class BettingPlayerService {
     }
 
     public BettingPlayer getBettingPlayerOfCurrentUserByBettingMatchId(Long bettingMatchId) {
-        User user = userRepo.findOneByUsername(SecurityUtil.getCurrentLogin()).get();
+        User user = SecurityUtil.getCurrentLoginUser();
         BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
         BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(user, bettingMatch);
         return bettingPlayer;
