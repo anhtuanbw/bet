@@ -5,10 +5,10 @@ public class GroupStatistic {
     private String player;
     private int notlossCount;
     private int lossCount;
-    private long lossAmount;
+    private double lossAmount;
     private int notbetCount;
-    private long notbetAmount;
-    private long totalLossAmount;
+    private double notbetAmount;
+    private double totalLossAmount;
 
     public String getPlayer() {
         return player;
@@ -34,11 +34,11 @@ public class GroupStatistic {
         this.lossCount = lossCount;
     }
 
-    public long getLossAmount() {
+    public double getLossAmount() {
         return lossAmount;
     }
 
-    public void setLossAmount(long lossAmount) {
+    public void setLossAmount(double lossAmount) {
         this.lossAmount = lossAmount;
     }
 
@@ -50,19 +50,19 @@ public class GroupStatistic {
         this.notbetCount = notbetCount;
     }
 
-    public long getNotbetAmount() {
+    public double getNotbetAmount() {
         return notbetAmount;
     }
 
-    public void setNotbetAmount(long notbetAmount) {
+    public void setNotbetAmount(double notbetAmount) {
         this.notbetAmount = notbetAmount;
     }
 
-    public long getTotalLossAmount() {
+    public double getTotalLossAmount() {
         return lossAmount + notbetAmount;
     }
 
-    public void setTotalLossAmount(long totalLossAmount) {
+    public void setTotalLossAmount(double totalLossAmount) {
         this.totalLossAmount = totalLossAmount;
     }
 }

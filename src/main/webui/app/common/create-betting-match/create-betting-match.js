@@ -13,14 +13,16 @@ export default class CreateBettingController {
   }
 
   loadData(data){
-    this.matchData.expiredTime = this.parseTime(this.matchData.expiredTime);
+    if (this.matchData.expiredTime) {
+      this.matchData.expiredTime = this.parseTime(this.matchData.expiredTime);
+      data.oldTime = this.matchData.expiredTime;
+    }
     data.competitor1 = this.matchData.competitor1.name;
     data.competitor2 = this.matchData.competitor2.name;
     data.balance1 = this.matchData.balance1;
     data.balance2 = this.matchData.balance2;
     data.amount = this.matchData.betAmount;
     data.description = this.matchData.description;
-    data.oldTime = this.matchData.expiredTime;
     data.active = this.matchData.activated;
     data.hide = this.matchData.hide;
   }

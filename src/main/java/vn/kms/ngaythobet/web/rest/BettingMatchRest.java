@@ -50,9 +50,14 @@ public class BettingMatchRest {
     public void activeBettingMatch(@Valid @RequestBody ActiveBettingMatchInfo activeBettingMatchInfo) {
         bettingMatchService.activeBettingMatch(activeBettingMatchInfo);
     }
-    
+
     @RequestMapping(value = "/getBettingMatchesByRoundAndGroupId", method = POST)
     public List<BettingMatch> getBettingMatchesByRoundId(@Valid @RequestBody GetBettingMatchesByRoundAndGroupIdInfo getBettingMatchesByRoundAndGroupIdInfo){
         return bettingMatchService.getBettingMatchesByRoundAndGroupId(getBettingMatchesByRoundAndGroupIdInfo);
+    }
+
+    @RequestMapping(value = "/checkBettingMatchNotExpired/{bettingMatchId}", method = GET)
+    public boolean isBettingMatchNotExpired(@PathVariable Long bettingMatchId) {
+        return bettingMatchService.isBettingMatchNotExpired(bettingMatchId);
     }
 }

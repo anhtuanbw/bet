@@ -14,6 +14,7 @@ export default class GroupHistoryController {
       if (groupInfo) {
         this.groupInfo = groupInfo;
       }
+      this.totalLost = 0;
       this.getStatisticInfo();
     });
   }
