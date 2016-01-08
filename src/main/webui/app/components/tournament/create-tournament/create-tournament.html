@@ -12,7 +12,7 @@
 				</div>
 				<div ng-class="(creator.errorMessage.competitors) ? 'form-group has-error' : 'form-group'">
 					<label class="control-label" translate="components.tournament.competitors"></label><span class="text-danger">(>1)</span><span class="badge">{{creator.getNumOfCompetitors()}}</span>
-					<tags-input min-length="0" replace-spaces-with-dashes="false" placeholder="Add a competitor" ng-model="creator.competitors"></tags-input>
+					<tags-input min-length="0" replace-spaces-with-dashes="false" ng-model="creator.competitors"></tags-input>
 					<span class="text-danger" ng-show="creator.errorMessage" ng-bind="creator.errorMessage.competitors"></span>
 				</div>
 				<div class="checkbox">
