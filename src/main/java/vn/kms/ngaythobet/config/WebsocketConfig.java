@@ -20,24 +20,18 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer im
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        Integer maxCore = propertyResolver.getProperty("core-pool-size", Integer.class,5);
-        Integer maxPool = propertyResolver.getProperty("max-pool-size", Integer.class,60);
-        Integer queueCapacity = propertyResolver.getProperty("queue-capacity", Integer.class,100000);
-        registration.taskExecutor()
-        .corePoolSize(maxCore)
-        .maxPoolSize(maxPool)
-        .queueCapacity(queueCapacity);
+        configChanel(registration);
     }
 
     @Override
     public void configureClientOutboundChannel(ChannelRegistration registration) {
-        Integer maxCore = propertyResolver.getProperty("core-pool-size", Integer.class,5);
-        Integer maxPool = propertyResolver.getProperty("max-pool-size", Integer.class,60);
-        Integer queueCapacity = propertyResolver.getProperty("queue-capacity", Integer.class,100000);
-        registration.taskExecutor()
-        .corePoolSize(maxCore)
-        .maxPoolSize(maxPool)
-        .queueCapacity(queueCapacity);
+        configChanel(registration);
+    }
+
+    private void configChanel(ChannelRegistration registration) {
+        registration.taskExecutor().corePoolSize(propertyResolver.getProperty("core-pool-size", Integer.class, 5));
+        registration.taskExecutor().maxPoolSize(propertyResolver.getProperty("max-pool-size", Integer.class, 60));
+        registration.taskExecutor().queueCapacity(propertyResolver.getProperty("queue-capacity", Integer.class, 10000));
     }
 
     @Override
