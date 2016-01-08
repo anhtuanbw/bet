@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import vn.kms.ngaythobet.domain.tournament.Group;
+
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
     User findOneByActivationKey(String activationKey);
 
@@ -19,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
     
     @Query("select u from User u where upper(u.name) like upper(?1) and u.activated = true")
     List<User> findTop10ByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    List<User> findByGroups(Group group);
 }

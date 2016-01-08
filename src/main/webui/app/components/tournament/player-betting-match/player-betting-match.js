@@ -18,6 +18,7 @@ export default class PlayerBettingMatchController {
       this.stompClient = null;
       this.chooseCompetitor1 = false;
       this.chooseCompetitor2 = false;
+      this.checkLengthComments = false;
       this.currentBettingPlayer = {};
       this.namePlayerBetCompetitor1 = [];
       this.namePlayerBetCompetitor2 = [];
@@ -42,14 +43,27 @@ export default class PlayerBettingMatchController {
           this.dataBettingMatch.round = this.dataInfoMatch.roundName;
           this.dataBettingMatch.startTime = this.getTime(this.dataInfoMatch.time);
           this.dataBettingMatch.comment = response.data.description;
+          this.dataBettingMatch.score1 = this.checkScore(response.data.match.score1);
+          this.dataBettingMatch.score2 = this.checkScore(response.data.match.score2);
+          this.dataBettingMatch.timeNow = new Date().getTime();
         }
       });
+  }
+
+  checkScore(score) {
+    if (score === null) {
+      score = '?';
+    }
+    return score;
   }
 
   getBettingMatchStatistics() {
     this.bettingMatchService.getBettingMatchStatistics(this.dataInfoMatch.bettingMatchId)
       .then(response => {
         if (response.data) {
+          this.namePlayerBetCompetitor1 = [];
+          this.namePlayerBetCompetitor2 = [];
+          this.namePlayerNotBet = [];
           this.dataBettingMatch.totalPlayer = response.data.totalBettingPlayers.length;
 
           this.dataBettingStatistics.numberPlayerChoose1 = response.data.bettingPlayersChooseCompetitor1.length;
@@ -100,11 +114,6 @@ export default class PlayerBettingMatchController {
     return (time.length === 2 ? time : '0' + time[0]);
   }
 
-  // getCurrentTime() {
-  //   var d = new Date();
-  //   var n = d.getTime();
-  // }
-
   isChooseCompetitor1() {
     this.chooseCompetitor1 = true;
     this.chooseCompetitor2 = false;
@@ -129,8 +138,12 @@ export default class PlayerBettingMatchController {
   getComments() {
     this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId)
       .then(response => {
-        if (response.data) {
+        if (response.data.length) {
+          this.commentArr = [];
           var i;
+          if (response.data.length === 1) {
+            this.checkLengthComments = true;
+          }
           for (i = 0; i < response.data.length; i++) {
             this.commentArr.push(response.data[i]);
             this.commentArr[i].timestamp = this.getTime(response.data[i].timestamp);
@@ -140,10 +153,6 @@ export default class PlayerBettingMatchController {
   }
 
   refreshBettingMatch() {
-    this.commentArr = [];
-    this.namePlayerBetCompetitor1 = [];
-    this.namePlayerBetCompetitor2 = [];
-    this.namePlayerNotBet = [];
     this.getBettingPlayer();
     this.getBettingMatchStatistics();
     this.getComments();
