@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import vn.kms.ngaythobet.BaseTest;
@@ -35,6 +37,8 @@ import vn.kms.ngaythobet.web.dto.GetBettingMatchesByRoundAndGroupIdInfo;
 import vn.kms.ngaythobet.web.dto.UpdateBettingMatchInfo;
 
 public class BettingMatchServiceTest extends BaseTest {
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Autowired
     private TournamentRepository tournamentRepo;
@@ -171,7 +175,7 @@ public class BettingMatchServiceTest extends BaseTest {
         updateBettingMatchInfo.setBetAmount(new BigDecimal("999999"));
         updateBettingMatchInfo.setBettingMatchId(bettingMatch.getId());
         updateBettingMatchInfo.setDecription("test again");
-        updateBettingMatchInfo.setExpiredTime(LocalDateTime.now());
+        updateBettingMatchInfo.setExpiredTime(LocalDateTime.now().plusDays(1));
         updateBettingMatchInfo.setGroupId(groupTemp.getId());
         updateBettingMatchInfo.setMatchId(matchTemp.getId());
         bettingMatchService.updateBettingMatch(updateBettingMatchInfo);
@@ -198,12 +202,6 @@ public class BettingMatchServiceTest extends BaseTest {
         List<BettingMatch> result = bettingMatchService
                 .getBettingMatchesByRoundAndGroupId(getBettingMatchesByRoundAndGroupIdInfo);
         assertThat(result.size(), equalTo(1));
-    }
-
-    @Test
-    public void testBettingMatchisExisted() {
-        BettingMatch bettingMatch = createBettingMatch();
-        assertThat(bettingMatchService.bettingMatchIsExisted(groupTemp.getId(), matchTemp.getId()), equalTo(false));
     }
 
     @Test

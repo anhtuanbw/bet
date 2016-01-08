@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vn.kms.ngaythobet.BaseTest;
 import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.User.Role;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.AddNewMemberInfo;
 import vn.kms.ngaythobet.web.dto.CheckModeratorInfo;
@@ -42,14 +43,10 @@ public class GroupServiceTest extends BaseTest {
         tournament.setName("World Cup");
         tournament.setNumOfCompetitor((long) 32);
         tournament.setGroups(Collections.emptyList());
-        Tournament temp = tournamentRepo.save(tournament);
+        tournamentRepo.save(tournament);
 
         user = getDefaultUser();
-        CreateGroupInfo createGroupInfo = new CreateGroupInfo();
-        createGroupInfo.setName("Launch 4");
-        createGroupInfo.setTournamentId(temp.getId());
-        createGroupInfo.setModerator(user.getId());
-        groupService.createGroup(createGroupInfo);
+        createGroup();
     }
 
     @Test
@@ -60,6 +57,12 @@ public class GroupServiceTest extends BaseTest {
         assertThat(groups.get(0).getName(), equalTo("Launch 4"));
         assertThat(groups.get(0).getModerator().getUsername(), equalTo(user.getUsername()));
         assertThat(groups.get(0).getTournament().getName(), equalTo(tournament.getName()));
+
+        try {
+            createGroup();
+        } catch (DataInvalidException exception) {
+            assertThat(exception.getMessage(), equalTo("{validation.group.existName.message}"));
+        }
     }
 
     @Test
@@ -107,10 +110,40 @@ public class GroupServiceTest extends BaseTest {
         }
     }
 
+    @Test
+    public void testCheckGroupByRole() {
+        User tester4 = makeUser("Tester4");
+        userRepo.save(tester4);
+        User admin = makeUser("admin");
+        admin.setRole(Role.ADMIN);
+        userRepo.save(admin);
+
+        mockLoginUser(user);
+        List<Group> groups = groupService.getGroupByRole(tournament.getId());
+        assertThat(1, equalTo(groups.size()));
+
+        mockLoginUser(tester4);
+        groups = groupService.getGroupByRole(tournament.getId());
+        assertThat(0, equalTo(groups.size()));
+
+        mockLoginUser(admin);
+        groups = groupService.getGroupByRole(tournament.getId());
+        assertThat(1, equalTo(groups.size()));
+
+    }
+
     @After
     public void deteleData() {
         groupRepo.deleteAll();
         tournamentRepo.deleteAll();
+    }
+
+    private void createGroup() {
+        CreateGroupInfo createGroupInfo = new CreateGroupInfo();
+        createGroupInfo.setName("Launch 4");
+        createGroupInfo.setTournamentId(tournament.getId());
+        createGroupInfo.setModerator(user.getId());
+        groupService.createGroup(createGroupInfo);
     }
 
 }

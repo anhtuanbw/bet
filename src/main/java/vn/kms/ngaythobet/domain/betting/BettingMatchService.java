@@ -38,18 +38,18 @@ public class BettingMatchService {
         this.roundRepo = roundRepo;
     }
 
-    public boolean bettingMatchIsExisted(Long groupId, Long matchId) {
+    private boolean bettingMatchIsExisted(Long groupId, Long matchId) {
         List<BettingMatch> bettingMatchs = new ArrayList<>();
         bettingMatchs = bettingMatchRepo.findAllByOrderByCreatedAtDesc();
         for (BettingMatch bettingMatch : bettingMatchs) {
             if (bettingMatch.getGroup().getId().equals(groupId) && bettingMatch.getMatch().getId().equals(matchId)) {
                 return true;
-            }
+            } 
         }
         return false;
     }
 
-    public boolean isExistedInTournament(Match match, Group group) {
+    private boolean isExistedInTournament(Match match, Group group) {
         return (group.getTournament().equals(match.getRound().getTournament()));
     }
 
