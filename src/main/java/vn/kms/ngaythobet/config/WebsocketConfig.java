@@ -29,9 +29,9 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer im
     }
 
     private void configChanel(ChannelRegistration registration) {
-        registration.taskExecutor().corePoolSize(propertyResolver.getProperty("core-pool-size", Integer.class, 5));
-        registration.taskExecutor().maxPoolSize(propertyResolver.getProperty("max-pool-size", Integer.class, 60));
-        registration.taskExecutor().queueCapacity(propertyResolver.getProperty("queue-capacity", Integer.class, 10000));
+        registration.taskExecutor().corePoolSize(propertyResolver.getProperty("core-pool-size", Integer.class, 5))
+                .maxPoolSize(propertyResolver.getProperty("max-pool-size", Integer.class, 60))
+                .queueCapacity(propertyResolver.getProperty("queue-capacity", Integer.class, 10000));
     }
 
     @Override
