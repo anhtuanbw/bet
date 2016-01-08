@@ -2,16 +2,29 @@
 
 export default class PlayerHistoryController {
   /* @ngInject */
-  constructor(PlayerHistoryService, $rootScope) {
+  constructor(PlayerHistoryService, AccountService, $rootScope) {
     this.playerHistoryService = PlayerHistoryService;
     this.rootScope = $rootScope;
+    this.accountService = AccountService;
 
     this.data = [];
+    this.player = null;
     this.totalLoss = 0;
     this.sortType = 'match';
     this.sortReverse = false;
+    this.getUsername();
+    
     this.rootScope.$on('playerStatistic', (event, groupId) => {
        this.playerStatistic(groupId);
+    });
+  }
+
+  getUsername() {
+    this.accountService.authen()
+    .then(response => {
+      if (response.data) {
+        this.player = response.data.name;
+      } 
     });
   }
 
