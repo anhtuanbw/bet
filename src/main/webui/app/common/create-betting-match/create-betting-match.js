@@ -73,9 +73,15 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    var expiredTime = data.time;
+    var expiredTime;
+    if(data.time === ''){
+      expiredTime = data.oldTime;
+    } else {
+      expiredTime = data.time;
+    }
       expiredTime = expiredTime.replace(/\//g, '-');
       expiredTime = expiredTime.replace(' ', 'T');
+      expiredTime = expiredTime.replace(',', '');
       expiredTime+=':00.000';
     
     var dataUpdate = {
