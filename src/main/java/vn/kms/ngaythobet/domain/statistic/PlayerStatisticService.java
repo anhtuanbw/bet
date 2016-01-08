@@ -35,7 +35,6 @@ public class PlayerStatisticService {
 
     public TotalPlayerStatistic playerStatistic(PlayerStatisticInfo playerStatisticInfo) {
         String username = SecurityUtil.getCurrentLogin();
-        StatisticUtils statisticUtils = new StatisticUtils();
         TotalPlayerStatistic totalPlayerStatistic = new TotalPlayerStatistic();
         List<PlayerStatistic> playerStatistics = new ArrayList<>();
         double totalLossAmount = 0;
@@ -66,12 +65,12 @@ public class PlayerStatisticService {
                 if (bettingPlayer.isPresent()) {
                     Competitor betCompetitor = bettingPlayer.get().getBetCompetitor();
                     playerStatistic.setBetCompetitorName(betCompetitor.getName());
-                    playerStatistic.setLossAmount(statisticUtils.calculateLossAmount(bettingMatch, betCompetitor));
+                    playerStatistic.setLossAmount(StatisticUtils.calculateLossAmount(bettingMatch, betCompetitor));
                 }
                 // count lost amount when user didnot bet
                 else {
                     playerStatistic.setBetCompetitorName("--");
-                    playerStatistic.setLossAmount(statisticUtils.calculateLossAmount(bettingMatch, null));
+                    playerStatistic.setLossAmount(StatisticUtils.calculateLossAmount(bettingMatch, null));
                 }
                 playerStatistics.add(playerStatistic);
                 totalLossAmount += playerStatistic.getLossAmount();

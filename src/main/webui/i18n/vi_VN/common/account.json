@@ -12,11 +12,18 @@
       	"tournament": "Nhập tên giải đấu <span class='text-danger'>*</span>",
       	"moderator": "Chọn user làm chủ <span class='text-danger'>*</span>",
       	"marktournament": "Vui lòng chọn giải đấu",
-        "create-success": "Tạo nhóm thành công!"
+        "create-success": "Tạo nhóm thành công!",
+        "placeModerator": "Vui long chon user!",
+        "btnSave": "Lưu",
+        "btnCancel": "Hủy",
+        "searchNotUser": "Không tìm thấy user \"{{ groupCtrl.searchText }}\""
       },
       "reset-password": {
         "title": "Quên mật khẩu",
-        "mark": "Vui lòng nhập email để khôi phục mật khẩu"
+        "mark": "Vui lòng nhập email để khôi phục mật khẩu",
+        "placeEmail": "Vui long nhap email",
+        "btnSubmit": "Gửi",
+        "btnCancel": "Hủy"
       },
       "reset-passwordSuccess": {
         "title": "Đổi mật khẩu",
