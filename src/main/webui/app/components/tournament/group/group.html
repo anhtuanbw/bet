@@ -35,7 +35,7 @@
 							<i class="fa fa-users"></i>
 							<span translate="components.tournament.history.groupStatistic"></span>
 						</a>
-						<a href="javascript:void(0)" ng-class="{'btn btn-primary': tourGroup.activePlayer=='player', 'btn btn-default': tourGroup.activePlayer!='player'}" ng-click="tourGroup.activePlayer='player'">
+						<a href="javascript:void(0)" ng-class="{'btn btn-primary': tourGroup.activePlayer=='player', 'btn btn-default': tourGroup.activePlayer!='player'}" ng-click="tourGroup.activePlayer='player'; tourGroup.playerStatistic();">
 							<i class="fa fa-user"></i>
 							<span translate="components.tournament.history.playerStatistic"></span>
 						</a>

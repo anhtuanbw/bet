@@ -7,8 +7,8 @@ ngaythobet - v0.0.10 / 2016-01-07
 
 **Improvement**
 
-**Bug Fixed**
-* [#117] Error message content is incorrect
+**Bug Fixed** 
+* [#117] Error message content is incorrect 
 * [#106] System return 'SERVER ERROR' when user create betting match with all fields empty
 
 
