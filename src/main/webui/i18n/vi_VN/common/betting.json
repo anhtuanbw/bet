@@ -1,0 +1,11 @@
+{
+  "common": {
+      "betting": {
+          "btnAdd": "Tạo kèo mới",
+          "btnActive": "Kích hoạt kèo",
+          "btnUpdate": "Cập nhật kèo",
+          "btnBet": "Đặt cược",
+          "btnChoose": "Chọn"
+      }
+  }
+}

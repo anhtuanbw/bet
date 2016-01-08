@@ -1,0 +1,11 @@
+{
+  "common": {
+      "betting": {
+          "btnAdd": "Add Betting Match",
+          "btnActive": "Activate",
+          "btnUpdate": "Update",
+          "btnBet": "Bet Match",
+          "btnChoose": "Choose"
+      }
+  }
+}

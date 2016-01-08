@@ -1,12 +1,12 @@
 <div ng-hide="betting.data.hide">
 <br>
-<button class="btn btn-primary pull-right clearfix" ng-hide="!betting.isMod" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span>Add Betting Match</button>
+<button class="btn btn-primary pull-right clearfix" ng-show="betting.isMod" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span><span translate="common.betting.btnAdd"></span></button>
 <br><br><br>
 <div>
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <div class="text-center">{{round.round}}</div>
+        <div class="text-center"><h4><strong>{{round.round}}</strong></h4></div>
       </div>
       <div class="panel-body" ng-repeat="match in round.bettingMatch">
         <div class="col-md-5 text-right">
@@ -17,21 +17,21 @@
           <span>{{match.match.competitor2.name}}</span>
         </div>
         <div class="text-center">({{match.balance1}} - {{match.balance2}})</div>
-        <form class="form-inline" ng-hide="betting.isAdmin">
+        <form class="form-inline">
           <div class="text-right">
             <div ng-hide="match.activated" class="form-group">
-              <button type="button" class="btn btn-success" ng-hide="!betting.isMod" ng-click="betting.activate(match)">
-                <span class="glyphicon glyphicon-hand-right"></span>Activate
+              <button type="button" ng-show="betting.isMod" class="btn btn-success" ng-click="betting.activate(match)">
+                <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnActive"></span>
               </button>
             </div>
             <div ng-hide="match.activated" class="form-group">
-              <button type="button" class="btn btn-default" ng-hide="!betting.isMod" ng-click="betting.openUpdate(match)">
-                <span class="glyphicon glyphicon-edit"></span>Update
+              <button type="button" ng-show="betting.isMod" class="btn btn-default" ng-click="betting.openUpdate(match)">
+                <span class="glyphicon glyphicon-edit"></span><span translate="common.betting.btnUpdate"></span>
               </button>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="betting.isMember">
               <button type="button" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
-                <span class="glyphicon glyphicon-hand-right"></span>Bet match
+                <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnBet"></span>
               </button>
             </div>
           </div>
@@ -60,7 +60,7 @@
           <td>{{row.competitor1.name}} - {{row.competitor2.name}}</td>
           <td>{{betting.parseTime(row.matchTime)}}</td>
           <td>{{row.location}}</td>
-  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch(row)">Choose</button></td>
+  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch(row)" translate="common.betting.btnChoose"></button></td>
   			</tr>
   		</tbody>
   	</table>
