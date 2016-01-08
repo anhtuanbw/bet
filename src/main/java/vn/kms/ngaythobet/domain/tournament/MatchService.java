@@ -116,7 +116,6 @@ public class MatchService {
     @Transactional(readOnly = true)
     public List<Competitor> getCompetitors(Long roundId) {
         Round round = roundRepo.getOne(roundId);
-        System.out.println(roundId + "=================");
         return competitorRepo.findByRounds(round);
     }
 
