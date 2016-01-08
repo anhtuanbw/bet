@@ -1,6 +1,7 @@
 package vn.kms.ngaythobet.domain.betting;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,18 +39,18 @@ public class BettingMatchService {
         this.roundRepo = roundRepo;
     }
 
-    public boolean bettingMatchIsExisted(Long groupId, Long matchId) {
+    private boolean bettingMatchIsExisted(Long groupId, Long matchId) {
         List<BettingMatch> bettingMatchs = new ArrayList<>();
         bettingMatchs = bettingMatchRepo.findAllByOrderByCreatedAtDesc();
         for (BettingMatch bettingMatch : bettingMatchs) {
             if (bettingMatch.getGroup().getId().equals(groupId) && bettingMatch.getMatch().getId().equals(matchId)) {
                 return true;
-            }
+            } 
         }
         return false;
     }
 
-    public boolean isExistedInTournament(Match match, Group group) {
+    private boolean isExistedInTournament(Match match, Group group) {
         return (group.getTournament().equals(match.getRound().getTournament()));
     }
 
@@ -146,5 +147,13 @@ public class BettingMatchService {
     @Transactional(readOnly = true)
     public BettingMatch findActiveBettingMatchById(Long id) {
         return bettingMatchRepo.findByIdAndActivated(id, true).get();
+    }
+
+    public boolean isBettingMatchNotExpired(Long bettingMatchId) {
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
+        if (bettingMatch.getExpiredTime().isAfter(LocalDateTime.now())) {
+            return true;
+        }
+        throw new DataInvalidException("exception.betting.match.is.expired");
     }
 }

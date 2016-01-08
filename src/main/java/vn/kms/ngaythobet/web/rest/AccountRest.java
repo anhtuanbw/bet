@@ -27,6 +27,7 @@ import vn.kms.ngaythobet.domain.core.UserService;
 import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
+import vn.kms.ngaythobet.infras.security.CustomUserDetails;
 import vn.kms.ngaythobet.infras.security.xauth.Token;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
 import vn.kms.ngaythobet.web.dto.ChangePasswordInfo;
@@ -76,7 +77,7 @@ public class AccountRest {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails details = userDetailsService.loadUserByUsername(loginInfo.getUsername());
+        CustomUserDetails details = (CustomUserDetails) userDetailsService.loadUserByUsername(loginInfo.getUsername());
 
         return tokenProvider.createToken(details);
     }

@@ -25,11 +25,11 @@ export default class BettingMatchService {
     });
   }
 
-  getComment(bettingMatchId) {
+  getComment(bettingMatchId, paging) {
     var token = this.cacheService.get('loginUser');
     return this.$http({
       method: 'GET',
-      url: '/api/player/comments/' + bettingMatchId,
+      url: '/api/player/comments/' + bettingMatchId + '/' + paging,
       headers: { 'Accept': '*/*', 'x-auth-token': token }
     });
   }
