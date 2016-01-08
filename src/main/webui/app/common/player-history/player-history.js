@@ -13,7 +13,6 @@ export default class PlayerHistoryController {
     this.sortType = 'match';
     this.sortReverse = false;
     this.getUsername();
-    
     this.rootScope.$on('playerStatistic', (event, groupId) => {
        this.playerStatistic(groupId);
     });
@@ -41,12 +40,10 @@ export default class PlayerHistoryController {
     return (time.length === 2 ? time : '0' + time[0]);
   }
 
-  sumLoss() {
-    this.totalLoss = 0;
+  convertDateToString() {
     if(this.data !=null) {
       var player;
       for(player in this.data) {
-        this.totalLoss+= this.data[player].lossAmount;
         this.data[player].expiredBetTime = this.getTime(this.data[player].expiredBetTime);
       }
     }
@@ -56,8 +53,9 @@ export default class PlayerHistoryController {
     var self = this;
     self.playerHistoryService.playerStatistic(groupId)
     .then(response => {
-        self.data = response.data;
-        self.sumLoss();
+        self.data = response.data.playerStatistics;
+        self.totalLoss = response.data.totalLossAmount;
+        self.convertDateToString();
     });
   }
 
