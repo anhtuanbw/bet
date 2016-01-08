@@ -14,7 +14,7 @@
         <tags-input min-length="0" display-property="name" key-property="id" replace-spaces-with-dashes="false" placeholder="Add a player" ng-model="updateGroup.players">
           <auto-complete min-length="1" template="inline-template" source="updateGroup.loadUsers($query)"></auto-complete>
           <script type="text/ng-template" id="inline-template">
-            <span>{{data.name}} ({{data.username}})</span>
+            <span><i class="fa fa-user"></i> {{data.name}} ({{data.username}})</span>
           </script>
         </tags-input>
         <span class="text-danger" ng-show="updateGroup.errorMessage" ng-bind="updateGroup.errorMessage.memberIds"></span>
