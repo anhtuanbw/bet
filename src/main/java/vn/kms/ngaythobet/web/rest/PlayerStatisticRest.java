@@ -1,14 +1,13 @@
 package vn.kms.ngaythobet.web.rest;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import vn.kms.ngaythobet.domain.statistic.PlayerStatistic;
 import vn.kms.ngaythobet.domain.statistic.PlayerStatisticService;
+import vn.kms.ngaythobet.domain.statistic.TotalPlayerStatistic;
 import vn.kms.ngaythobet.web.dto.PlayerStatisticInfo;
 
 @RestController
@@ -22,8 +21,7 @@ public class PlayerStatisticRest {
     }
 
     @RequestMapping(value = "/playerStatistic", method = POST)
-    public List<PlayerStatistic> playerStatistic(
-            @Valid @RequestBody PlayerStatisticInfo playerStatisticInfo) {
+    public TotalPlayerStatistic playerStatistic(@Valid @RequestBody PlayerStatisticInfo playerStatisticInfo) {
         return playerStatisticService.playerStatistic(playerStatisticInfo);
     }
 
