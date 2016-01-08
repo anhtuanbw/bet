@@ -13,7 +13,6 @@ import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
 import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Match;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.PlayerStatisticInfo;
 
@@ -33,6 +32,7 @@ public class PlayerStatisticService {
         StatisticUtils statisticUtils = new StatisticUtils();
         TotalPlayerStatistic totalPlayerStatistic = new TotalPlayerStatistic();
         List<PlayerStatistic> playerStatistics = new ArrayList<>();
+        double totalLossAmount = 0;
         List<BettingMatch> bettingMatchs = bettingMatchRepo.findByGroupIdAndUsername(playerStatisticInfo.getGroupId(),
                 username);
         if (bettingMatchs.size() != 0) {
@@ -49,32 +49,27 @@ public class PlayerStatisticService {
                 if (match.getScore1() != null || match.getScore2() != null) {
                     playerStatistic.setCompetitor1Score(match.getScore1());
                     playerStatistic.setCompetitor2Score(match.getScore2());
-                }
-                else {
+                } else {
                     playerStatistic.setCompetitor1Score(-1);
                     playerStatistic.setCompetitor2Score(-1);
                 }
-                    // count lost amount when user bet
-                    if (bettingPlayer.isPresent()) {
-                        Competitor betCompetitor = bettingPlayer.get().getBetCompetitor();
-                        playerStatistic.setBetCompetitorName(betCompetitor.getName());
-                        playerStatistic.setLossAmount(statisticUtils.calculateLossAmount(bettingMatch, betCompetitor));
-                    }
-                    // count lost amount when user didnot bet
-                    else {
-                        playerStatistic.setBetCompetitorName("--");
-                        playerStatistic.setLossAmount(statisticUtils.calculateLossAmount(bettingMatch, null));
-                    }
-                
+                // count lost amount when user bet
+                if (bettingPlayer.isPresent()) {
+                    Competitor betCompetitor = bettingPlayer.get().getBetCompetitor();
+                    playerStatistic.setBetCompetitorName(betCompetitor.getName());
+                    playerStatistic.setLossAmount(statisticUtils.calculateLossAmount(bettingMatch, betCompetitor));
+                }
+                // count lost amount when user didnot bet
+                else {
+                    playerStatistic.setBetCompetitorName("--");
+                    playerStatistic.setLossAmount(statisticUtils.calculateLossAmount(bettingMatch, null));
+                }
                 playerStatistics.add(playerStatistic);
+                totalLossAmount += playerStatistic.getLossAmount();
             }
 
         }
         totalPlayerStatistic.setPlayerStatistics(playerStatistics);
-        double totalLossAmount = 0;
-        for(PlayerStatistic playerStatistic : playerStatistics){
-            totalLossAmount += playerStatistic.getLossAmount();
-        }
         totalPlayerStatistic.setTotalLossAmount(totalLossAmount);
         return totalPlayerStatistic;
     }
