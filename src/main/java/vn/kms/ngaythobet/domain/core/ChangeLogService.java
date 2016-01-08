@@ -101,8 +101,7 @@ public class ChangeLogService {
 
             @Override
             public int compare(CommentInfo commentInfo1, CommentInfo commentInfo2) {
-                return (int) (commentInfo2.getTimestamp().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - commentInfo1
-                        .getTimestamp().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+                return commentInfo2.getTimestamp().toString().compareTo(commentInfo1.getTimestamp().toString());
             }
         });
 
