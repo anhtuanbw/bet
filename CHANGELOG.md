@@ -1,3 +1,20 @@
+ngaythobet - v1.0.0 / 2016-01-08
+================================
+
+* [#90 UI] Player Statistic
+
+**Improvement**
+* [API] Player Statistic
+* [API] Improve get current user without query each time to DB
+* [UI] Group statistic
+* [UI] Create betting match authorization
+
+**Bug Fixed** 
+* [#125] "No" column displays wrong ( "Total loss amount" does NOT work did not fixed )
+* [#123] Cannot displays user on user list when user search user by name
+* [#121] "Activate" button is checked when page is loaded after submitting tournament adding successfully
+
+
 ngaythobet - v0.0.10 / 2016-01-07
 ================================
 

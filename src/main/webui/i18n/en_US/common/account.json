@@ -12,11 +12,18 @@
       	"tournament": "Select one tournament <span class='text-danger'>*</span>",
       	"moderator": "Set moderator <span class='text-danger'>*</span>",
       	"marktournament": "-- Select tournaments --",
-        "create-success": "Create group success!"
+        "create-success": "Create group success!",
+        "placeModerator": "Please select moderator!",
+        "btnSave": "Save",
+        "btnCancel": "Cancel",
+        "searchNotUser": "No user matching \"{{ groupCtrl.searchText }}\" were found"
       },
       "reset-password": {
       	"title": "Forgot Password",
-      	"mark": "Please enter your email to reset password"
+      	"mark": "Please enter your email to reset password",
+        "placeEmail": "Please enter your email",
+        "btnSubmit": "Submit",
+        "btnCancel": "Cancel"
       },
       "reset-passwordSuccess": {
         "title": "Reset password success",
