@@ -4,7 +4,7 @@
     <groupId>vn.kms.launch</groupId>
     <artifactId>ngaythobet</artifactId>
     <name>ngaythobet</name>
-    <version>0.0.10-SNAPSHOT</version>
+    <version>0.0.11-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

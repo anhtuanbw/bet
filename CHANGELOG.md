@@ -1,8 +1,22 @@
+ngaythobet - v0.0.10 / 2016-01-07
+================================
+
+* [#63 UI] Realtime Activity
+* [#89 API] Player Statistic
+* [#88 UI] Group statistic
+
+**Improvement**
+
+**Bug Fixed**
+* [#117] Error message content is incorrect
+* [#106] System return 'SERVER ERROR' when user create betting match with all fields empty
+
+
 ngaythobet - v0.0.9 / 2016-01-05
 ================================
 
-*[#63 API] Realtime Activity
-*[#88 UI] Group statistic
+* [#63 API] Realtime Activity
+* [#88 UI] Group statistic
 
 **Improvement**
 * [Enhancement] Search tournaments on Side bar
