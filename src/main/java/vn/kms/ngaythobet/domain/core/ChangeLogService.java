@@ -101,7 +101,7 @@ public class ChangeLogService {
 
             @Override
             public int compare(CommentInfo commentInfo1, CommentInfo commentInfo2) {
-                return commentInfo2.getTimestamp().toString().compareTo(commentInfo1.getTimestamp().toString());
+                return commentInfo2.getTimestamp().compareTo(commentInfo1.getTimestamp());
             }
         });
 

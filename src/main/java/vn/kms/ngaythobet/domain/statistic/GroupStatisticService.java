@@ -44,7 +44,6 @@ public class GroupStatisticService {
     @Transactional
     public List<GroupStatistic> getGroupStatistic(Long groupId) {
         List<GroupStatistic> groupStatistics = new ArrayList<GroupStatistic>();
-        StatisticUtils statisticUtils = new StatisticUtils();
         Group group = groupRepo.findOne(groupId);
         if (group == null) {
             throw new DataInvalidException("exception.group.not-exist");
@@ -86,7 +85,7 @@ public class GroupStatisticService {
                     BettingMatch bm = bp.getBettingMatch();
                     Competitor betCompetitor = bp.getBetCompetitor();
 
-                    double tempLossAmount = statisticUtils.calculateLossAmount(
+                    double tempLossAmount = StatisticUtils.calculateLossAmount(
                             bm, betCompetitor);
 
                     if (tempLossAmount > 0) {
