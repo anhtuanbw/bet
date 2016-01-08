@@ -15,8 +15,8 @@ ngaythobet - v0.0.10 / 2016-01-07
 ngaythobet - v0.0.9 / 2016-01-05
 ================================
 
-*[#63 API] Realtime Activity
-*[#88 UI] Group statistic
+* [#63 API] Realtime Activity
+* [#88 UI] Group statistic
 
 **Improvement**
 * [Enhancement] Search tournaments on Side bar
