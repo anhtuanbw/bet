@@ -37,11 +37,11 @@ public class CreateBettingMatchInfo {
 
     @NotNull
     @EntityExist(type = Match.class, message = "{validation.existMatch.message}")
-    private long matchId;
+    private Long matchId;
 
     @NotNull
     @EntityExist(type = Group.class, message = "{validation.existGroup.message}")
-    private long groupId;
+    private Long groupId;
 
     @Size(min = 0, max = 512)
     private String decription;
