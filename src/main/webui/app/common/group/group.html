@@ -27,21 +27,21 @@
                     md-item-text="item.name"
                     md-min-length="0"
                     md-menu-class="autocomplete-custom-template"
-                    placeholder="Please select moderator!">
+                    placeholder="{{'common.group.placeModerator' | translate}}">
                     <md-item-template>
                         <i class="fa fa-user"></i>
                         <span md-highlight-text="groupCtrl.searchText" md-highlight-flags="^i">{{ item.name }} ({{ item.username }})</span>
                     </md-item-template>
                     <md-not-found>
-                        <span>No user matching "{{ groupCtrl.searchText }}" were found</span>
+                        <span translate="common.group.searchNotUser"></span>
                     </md-not-found>
                 </md-autocomplete>
                 <span class="text-danger" ng-show="groupCtrl.error.moderator">{{ groupCtrl.error.moderator }}</span>
             </div>
             <div class="form-group">
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary" ng-click="groupCtrl.save()">Save</button>
-                    <button type="button" class="btn btn-default" ng-click="groupCtrl.cancel()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" ng-click="groupCtrl.save()" translate="common.group.btnSave">Save</button>
+                    <button type="button" class="btn btn-default" ng-click="groupCtrl.cancel()" translate="common.group.btnCancel">Cancel</button>
                 </div>
             </div>
         </div>

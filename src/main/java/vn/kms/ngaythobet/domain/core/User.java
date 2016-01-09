@@ -174,6 +174,14 @@ public class User extends AuditableEntity {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+
         User user = (User) obj;
         return user.getId().equals(this.getId());
     }
