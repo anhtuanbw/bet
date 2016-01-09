@@ -2,7 +2,8 @@
   "common": {
     "sidebar": {
     	"title": "<i class='fa fa-bars'></i> Giải đấu",
-    	"create": "<i class='fa fa-plus-circle'></i> Tạo mới"
+    	"create": "<i class='fa fa-plus-circle'></i> Tạo mới",
+    	"placeSearch": "Tim kiem giai dau"
     }
   }
 }

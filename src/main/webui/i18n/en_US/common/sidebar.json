@@ -2,7 +2,8 @@
   "common": {
     "sidebar": {
     	"title": "<i class='fa fa-bars' data-toggle='tooltip' title='Colapse Tournament!'></i> Tournament",
-    	"create": "<i class='fa fa-plus-circle'></i> Create"
+    	"create": "<i class='fa fa-plus-circle'></i> Create",
+    	"placeSearch": "Search tournaments"
     }
   }
 }
