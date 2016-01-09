@@ -5,7 +5,18 @@
           "btnActive": "Kích hoạt kèo",
           "btnUpdate": "Cập nhật kèo",
           "btnBet": "Đặt cược",
-          "btnChoose": "Chọn"
+          "btnChoose": "Chọn",
+          "btnCreate": "Tạo",
+          "btnCancel": "Hủy",
+          "create": "Tạo cá cược",
+          "update": "Cập nhật cá cược",
+          "match": "Trận đấu",
+          "balance": "Tỉ lệ cược",
+          "expired": "Thời gian hết hạn",
+          "amount": "Số tiền cược",
+          "desc": "Ghi chú",
+          "active": "Kích hoạt",
+          "back": "Quay lại"
       }
   }
 }

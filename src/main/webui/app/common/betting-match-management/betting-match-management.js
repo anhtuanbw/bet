@@ -31,6 +31,7 @@ export default class BettingMatchController {
         this.authen();
         this.data.hide = false;
         this.isMember = false;
+        this.data.showBtnAdd = false;
       }
     });
   }
@@ -47,7 +48,10 @@ export default class BettingMatchController {
           'name': response.data[i].name
         };
         this.roundIdAndName.push(roundInfo);
-        this.data.match.push(response.data[i]);
+        if(response.data[i].matches.length !== 0) {
+          this.data.match.push(response.data[i]);
+          this.data.showBtnAdd = true;
+        }
       }
       this.showBettingMatch(this.data);
     });
@@ -95,6 +99,11 @@ export default class BettingMatchController {
 
   add(){
     this.data.hide = true;
+  }
+
+  goBack(){
+    this.showBettingMatch();
+    this.data.hide = false;
   }
 
   parseTime(date){
@@ -219,7 +228,6 @@ export default class BettingMatchController {
       }
     });
   }
-
 
   betMatch(round, match){
     var dataSend = {

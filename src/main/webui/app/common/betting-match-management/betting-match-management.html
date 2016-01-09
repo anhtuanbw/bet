@@ -1,9 +1,10 @@
 <div ng-hide="betting.data.hide">
-<br>
-<button class="btn btn-primary pull-right clearfix" ng-show="betting.isMod" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span><span translate="common.betting.btnAdd"></span></button>
-<br><br><br>
+<div class="text-right" ng-show="betting.data.showBtnAdd"> 
+  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span><span translate="common.betting.btnAdd"></span></button>
+</div>
 <div>
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
+    <br>
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="text-center"><h4><strong>{{round.round}}</strong></h4></div>
@@ -30,7 +31,7 @@
               </button>
             </div>
             <div class="form-group" ng-show="betting.isMember">
-              <button type="button" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
+              <button type="button" ng-hide="!match.activated" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
                 <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnBet"></span>
               </button>
             </div>
@@ -38,12 +39,14 @@
         </form>
       </div>
     </div>
-    <br>
   </div>
 </div>
 </div>
 
 <div class="panel-body" ng-hide="!betting.data.hide">
+<div class="text-right">
+  <button type="button" class="btn btn-default" ng-click="betting.goBack()" translate="common.betting.back"></button>
+</div>
   <div ng-repeat="table in betting.data.match">
     {{table.name}}
   	<table class="table table-striped">
@@ -55,12 +58,12 @@
   			<td></td>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="row in table.matches">
-          <td>{{row.id}}</td>
-          <td>{{row.competitor1.name}} - {{row.competitor2.name}}</td>
-          <td>{{betting.parseTime(row.matchTime)}}</td>
-          <td>{{row.location}}</td>
-  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch(row)" translate="common.betting.btnChoose"></button></td>
+  			<tr ng-repeat="match in table.matches">
+          <td>{{match.id}}</td>
+          <td>{{match.competitor1.name}} - {{match.competitor2.name}}</td>
+          <td>{{betting.parseTime(match.matchTime)}}</td>
+          <td>{{match.location}}</td>
+  				<td><button type="button" class="btn btn-success" ng-click="betting.chooseMatch(match)" translate="common.betting.btnChoose"></button></td>
   			</tr>
   		</tbody>
   	</table>

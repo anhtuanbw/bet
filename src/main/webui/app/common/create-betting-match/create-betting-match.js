@@ -9,22 +9,22 @@ export default class CreateBettingController {
     this.matchData = matchInfo;
     this.BettingService = BettingService;
     this.toaster = toaster;
-    this.loadData(this.data);
+    this.loadData();
   }
 
-  loadData(data){
+  loadData(){
     if (this.matchData.expiredTime) {
       this.matchData.expiredTime = this.parseTime(this.matchData.expiredTime);
-      data.oldTime = this.matchData.expiredTime;
+      this.data.oldTime = this.matchData.expiredTime;
     }
-    data.competitor1 = this.matchData.competitor1.name;
-    data.competitor2 = this.matchData.competitor2.name;
-    data.balance1 = this.matchData.balance1;
-    data.balance2 = this.matchData.balance2;
-    data.amount = this.matchData.betAmount;
-    data.description = this.matchData.description;
-    data.active = this.matchData.activated;
-    data.hide = this.matchData.hide;
+    this.data.competitor1 = this.matchData.competitor1.name;
+    this.data.competitor2 = this.matchData.competitor2.name;
+    this.data.balance1 = this.matchData.balance1;
+    this.data.balance2 = this.matchData.balance2;
+    this.data.amount = this.matchData.betAmount;
+    this.data.description = this.matchData.description;
+    this.data.active = this.matchData.activated;
+    this.data.hide = this.matchData.hide;
   }
 
   create(data){
@@ -35,12 +35,9 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    var timeFormated = data.time;
+    var timeFormated;
     if (data.time) {
-      var dateAndTime = data.time.split(' ');
-      var monthDayYear = dateAndTime[0].split('/');
-      var hourMin = dateAndTime[1].split(':');
-      timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
+      timeFormated = this.serverTimeFormat(data.time);
     }
     if (!data.active) {
       data.active = false;
@@ -77,20 +74,11 @@ export default class CreateBettingController {
       this.toaster.pop(type, title, content);
     };
     var timeFormated;
-    var dateAndTime;
-    var monthDayYear;
-    var hourMin;
     if(data.time === ''){
       data.time = data.oldTime;
-      dateAndTime = data.time.split(' ');
-      monthDayYear = dateAndTime[0].split('/');
-      hourMin = dateAndTime[1].split(':');
-      timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
+      timeFormated = this.serverTimeFormat(data.time);
     } else {
-      dateAndTime = data.time.split(' ');
-      monthDayYear = dateAndTime[0].split('/');
-      hourMin = dateAndTime[1].split(':');
-      timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
+      timeFormated = this.serverTimeFormat(data.time);
     }
     
     var dataUpdate = {
@@ -141,6 +129,18 @@ export default class CreateBettingController {
     } else {
       return time;
     }
+  }
+
+  serverTimeFormat(time){
+    var timeFormated;
+    var dateAndTime;
+    var monthDayYear;
+    var hourMin;
+    dateAndTime = time.split(' ');
+    monthDayYear = dateAndTime[0].split('/');
+    hourMin = dateAndTime[1].split(':');
+    timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
+    return timeFormated;
   }
 }
 

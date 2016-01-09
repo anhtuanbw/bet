@@ -5,7 +5,18 @@
           "btnActive": "Activate",
           "btnUpdate": "Update",
           "btnBet": "Bet Match",
-          "btnChoose": "Choose"
+          "btnChoose": "Choose",
+          "btnCreate": "Create",
+          "btnCancel": "Cancel",
+          "create": "Create betting match",
+          "update": "Update betting match",
+          "match": "Match",
+          "balance": "Balance",
+          "expired": "Expire time",
+          "amount": "Bet amount",
+          "desc": "Description",
+          "active": "Activate",
+          "back": "Back"
       }
   }
 }
