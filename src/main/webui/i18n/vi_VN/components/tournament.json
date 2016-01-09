@@ -18,6 +18,19 @@
                 "statistics": "Thống kê",
                 "information": "Thông tin"
             },
+            "matches": {
+                "btnAddBet": "Đặt cược",
+                "table": {
+                    "id": "Mã",
+                    "match": "Trận đấu",
+                    "startTime": "Thời gian bắt đầu",
+                    "location": "Địa điểm"
+                },
+                "btnChoose": "Chọn",
+                "btnActive": "Kích hoạt",
+                "btnUpdate": "Cập nhật",
+                "btnBetMatch": "Đặt cược"
+            },
             "history":{
                 "matchStatistic":"Thống kê trận đấu",
                 "groupStatistic":"Thống kê nhóm",
@@ -26,10 +39,10 @@
                     "table":{
                         "no":"STT",
                         "match":"Trận đấu",
-                        "competitor":"Đối thủ",
+                        "competitor":"Bạn chọn đội",
                         "score":"Tỷ số",
                         "expired":"Thời gian hết hạn",
-                        "loss":"Số trận thua"
+                        "loss":"Số tiền thua"
                     },
                     "total":"Tổng số thua",
                     "unit":"VNĐ"
