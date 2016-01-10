@@ -164,7 +164,6 @@ export default class PlayerBettingMatchController {
   setPaging() {
     this.paging += 1;
     this.getComments();
-    console.log(this.paging);
   }
 
   getComments() {
@@ -185,9 +184,7 @@ export default class PlayerBettingMatchController {
           this.commentArr.push(response.data.comments[i]);
           this.commentArr[i].timestamp = this.getTime(response.data.comments[i].timestamp);
         }
-        
-        console.log(this.checkPaging);
-        console.log(this.commentArr);
+       
       });
   }
 

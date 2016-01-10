@@ -2,13 +2,14 @@
 
 export default class CreateMatchController {
   /* @ngInject */
-  constructor(MatchService, CacheService, RoundService, $location, $modalInstance, toaster, editId, $rootScope) {
+  constructor(MatchService, CacheService, RoundService, $location, $modalInstance, toaster, editId, $rootScope, $modal) {
     this.rootScope = $rootScope;
     this.matchService = MatchService;
     this.cacheService = CacheService;
     this.RoundService = RoundService;
     this.location = $location;
     this.modalInstance = $modalInstance;
+    this.modal = $modal;
     this.toaster = toaster;
     this.data = {};
     this.dataRounds = [];
@@ -16,6 +17,7 @@ export default class CreateMatchController {
     this.tournamentId = editId;
     this.getRounds();
     this.checkRoundNull = false;
+    this.showModal = false;
   }
 
   createMatch() {
@@ -54,6 +56,7 @@ export default class CreateMatchController {
         // Success
         if (response.data.length === 0) {
           this.checkRoundNull = true;
+          this.showModal = true;
           this.getCompetitorsInTournament();
         }
         var i;
@@ -106,4 +109,9 @@ export default class CreateMatchController {
     this.modalInstance.dismiss();
     this.data = {};
   }
+
+  closeRoundEmptyModal() {
+    this.showModal = false;
+  }
+
 }
