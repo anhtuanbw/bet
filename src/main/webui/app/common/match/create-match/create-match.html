@@ -5,7 +5,7 @@
   </div>
   <div class="modal-body">
     <form name="form" method="post">
-      <div class="form-group">
+      <div class="form-group" ng-hide="createMatch.checkRoundNull">
         <div ng-class="(createMatch.errorMessage.round) ? 'form-group has-error' : 'form-group'">
           <label for="round" translate="common.match.create.select-round"></label><span class="text-danger"> *</span>
           <select class="form-control" ng-model="createMatch.data.round" ng-options="round.id as round.name for round in createMatch.dataRounds"

@@ -2,10 +2,11 @@
 
 export default class CreateMatchController {
   /* @ngInject */
-  constructor(MatchService, CacheService, $location, $modalInstance, toaster, editId, $rootScope) {
+  constructor(MatchService, CacheService, RoundService, $location, $modalInstance, toaster, editId, $rootScope) {
     this.rootScope = $rootScope;
     this.matchService = MatchService;
     this.cacheService = CacheService;
+    this.RoundService = RoundService;
     this.location = $location;
     this.modalInstance = $modalInstance;
     this.toaster = toaster;
@@ -14,6 +15,7 @@ export default class CreateMatchController {
     this.dataCompetitors = [];
     this.tournamentId = editId;
     this.getRounds();
+    this.checkRoundNull = false;
   }
 
   createMatch() {
@@ -50,6 +52,10 @@ export default class CreateMatchController {
     this.matchService.getRounds(this.tournamentId)
       .then(response => {
         // Success
+        if (response.data.length === 0) {
+          this.checkRoundNull = true;
+          this.getCompetitorsInTournament();
+        }
         var i;
         for (i = 0; i < response.data.length; i++) {
           this.dataRounds.push(response.data[i]);
@@ -63,6 +69,16 @@ export default class CreateMatchController {
       .then(response => {
 
         // Success
+        var i;
+        for (i = 0; i < response.data.length; i++) {
+          this.dataCompetitors.push(response.data[i]);
+        }
+      });
+  }
+
+  getCompetitorsInTournament() {
+    this.RoundService.getAllCompetitor(this.tournamentId)
+      .then(response => {
         var i;
         for (i = 0; i < response.data.length; i++) {
           this.dataCompetitors.push(response.data[i]);

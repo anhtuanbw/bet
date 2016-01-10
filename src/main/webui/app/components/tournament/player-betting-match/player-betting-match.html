@@ -34,8 +34,8 @@
               ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i> Choose {{player.dataInfoMatch.competitor2Name}}</button>
             </div>
           </div>
-          <div class="text-center bg-danger">
-            <h2 ng-show="!player.notError" class="text-danger">{{player.messageError}}</h2>
+          <div class="alert alert-danger" role="alert" ng-show="!player.notError">
+            <h2 class="text-center">{{player.messageError}}</h2>
           </div>
           <div class="input-group padding-comment" ng-show="player.notError">
             <input type="text" ng-model="player.comment" class="form-control" placeholder="Please enter your comment for your competitor">
