@@ -51,5 +51,14 @@ export default class BettingMatchService {
       headers: { 'Accept': '*/*', 'x-auth-token': token }
     });
   }
+  
+  getLostAmount(bettingMatchId) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: '/api/statistic/player/getLostAmount/' + bettingMatchId,
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    });
+  }
 
 }
