@@ -1,16 +1,21 @@
 <div class="modal-content">
   <div class="modal-header">
   <button type="button" class="close" ng-click="createBet.closeModal()">&times;</button>
-      <h4 class="modal-title" ng-hide="createBet.data.hide">Create Betting Match</h4>
-      <h4 class="modal-title" ng-hide="!createBet.data.hide">Update Betting Match</h4>
+      <h4 class="modal-title" ng-hide="createBet.data.hide" translate="common.betting.create"></h4>
+      <h4 class="modal-title" ng-hide="!createBet.data.hide" translate="common.betting.update"></h4>
   </div>
   <div class="modal-body">
-    <p><strong>Match</Strong></p>
+    <p><strong translate="common.betting.match"></Strong></p>
       <div class="text-center">
         <span ng-bind="createBet.data.competitor1"></span> - <span ng-bind="createBet.data.competitor2"></span>
       </div>
     <br>
-    <p><strong>Balance<span class="text-danger">*</span></strong></p>
+    <p>
+      <strong>
+        <span translate="common.betting.balance"></span>
+        <span class="text-danger">*</span>
+      </strong>
+    </p>
     <p>
       <div class="form-inline text-center">
         <div class="col-md-1"></div>
@@ -25,7 +30,12 @@
       </div>
     </p>
     <br><br><br>
-    <p><strong>Expire time<span class="text-danger">*</span></strong></p>
+    <p>
+      <strong>
+        <span translate="common.betting.expired"></span>
+        <span class="text-danger">*</span>
+      </strong>
+    </p>
     <div class="form-group">
         <div class="input-group date" date-time-picker ng-model="createBet.data.time">
           <input type="text" class="form-control" ng-model="createBet.data.oldTime" />
@@ -35,26 +45,27 @@
         </div>
         <span class="text-danger" ng-bind="createBet.data.errorTime"></span>
     </div>
-    <p><strong>Bet amount<span class="text-danger">*</span></strong></p>
+    <p>
+      <strong>
+        <span translate="common.betting.amount"></span>
+        <span class="text-danger">*</span>
+      </strong>
+    </p>
     <input type="number" class="form-control" ng-model="createBet.data.amount" min="0">
     <span class="text-danger" ng-bind="createBet.data.errorBetAmount"></span>
     <br>
-    <p><strong>Description</strong></p>
+    <p><strong translate="common.betting.desc"></strong></p>
       <textarea class="form-control" rows="3" ng-model="createBet.data.description" style="resize:none"></textarea>
-    <br>
     <div class="checkbox">
       <label>
-        <input type="checkbox" ng-model="createBet.data.active"> Activate
+        <input type="checkbox" ng-model="createBet.data.active"><span translate="common.betting.active"></span>
       </label>
     </div>
     <hr>
-    <div class="pull-right">
-      <button type="button" class="btn btn-primary" ng-hide="createBet.data.hide" ng-click="createBet.create(createBet.data)">Create</button>
-      <button type="button" class="btn btn-primary" ng-hide="!createBet.data.hide" ng-click="createBet.update(createBet.data)">Update</button>
-      <button type="button" class="btn btn-default" ng-click="createBet.cancel()">Cancel</button>
-    </div>
-    <br>
-    <br>
+    <div class="text-right">
+      <button type="button" class="btn btn-primary" ng-hide="createBet.data.hide" ng-click="createBet.create(createBet.data)" translate="common.betting.btnCreate"></button>
+      <button type="button" class="btn btn-primary" ng-hide="!createBet.data.hide" ng-click="createBet.update(createBet.data)" translate="common.betting.btnUpdate"></button>
+      <button type="button" class="btn btn-default" ng-click="createBet.cancel()" translate="common.betting.btnCancel"></button>
     </div>
   </div>
 </div>
