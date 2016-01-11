@@ -1,9 +1,11 @@
-<div ng-init="hide=true" ng-controller="ManagementController as management">
-	<div ng-show="management.isAuthorized()" class="row content" ng-init="showTours=false">
-		<div class="col-sm-3 sidenav">
-			<div sidebar></div>
-		</div>
-		<div class="col-sm-9" style="padding-top:0;">
+<div ng-init="hide=true" ng-controller="ManagementController as management" layout="row" class="layout-row" style="width: 100%;">
+	<div ng-show="management.isAuthorized()" ng-init="showTours=false;" style="width: 100%;">
+		<div sidebar style="float:left; margin-right: 10px;"></div>
+		<div flex layout="column" role="main" flex class="layout-column flex">
+	         <md-button ng-click="management.toggleLeft()" class="md-primary sidenav-toggle" hide-gt-sm>
+	            <span class="fa fa-bars fa-2x"> 
+	            </span>
+	         </md-button>
 			<div class="panel panel-default">
 				<div class="tour-banner">
 					<img ng-src="assets/images/banner-tournament.jpg">

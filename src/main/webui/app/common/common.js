@@ -13,6 +13,8 @@ import GroupHistory from './group-history/group-history';
 import Comment from './comment/comment';
 import InfoBettingMatch from './info-betting-match/info-betting-match';
 import betting from './betting-match-management/betting-match-management';
+import MenuLink from './menu/menu-link/menu-link';
+import MenuToggle from './menu/menu-toggle/menu-toggle';
 import createBet from './create-betting-match/create-betting-match';
 
 export const commonModule = angular.module('ngaythobet.common', [
@@ -32,4 +34,6 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('infoBettingMatch', () => new InfoBettingMatch())
 .directive('dateTimePicker', DateTimePicker)
 .directive('betting', () => new betting())
+.directive('menuLink', () => new MenuLink())
+.directive('menuToggle', () => new MenuToggle())
 .directive('createBet', () => new createBet());
