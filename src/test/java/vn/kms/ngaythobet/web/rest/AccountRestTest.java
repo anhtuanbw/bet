@@ -73,7 +73,7 @@ public class AccountRestTest extends BaseTest{
     }
 
     @Test
-    public void test() throws Exception {
+    public void testAuthenticate() throws Exception {
         mockMvc.perform(get("/api/authenticate"))
                 .andExpect(status().isOk()).andExpect(content().string(""));
 
