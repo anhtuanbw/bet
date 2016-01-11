@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.messaging.Message;
@@ -58,6 +60,10 @@ import vn.kms.ngaythobet.web.dto.PlayerBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdatePlayerBettingMatchInfo;
 
 public class PlayerBettingMatchRestTest extends BaseTest {
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Autowired
     private BettingPlayerService bettingPlayerService;
 
@@ -220,7 +226,7 @@ public class PlayerBettingMatchRestTest extends BaseTest {
         String token = generateToken(userTemp2);
         assertThat(bettingPlayerTemp.getBetCompetitor().getId(), equalTo(competitorTemp2.getId()));
         UpdatePlayerBettingMatchInfo updatePlayInfo = new UpdatePlayerBettingMatchInfo();
-        updatePlayInfo.setBettingPlayerId(competitorTemp1.getId());
+        updatePlayInfo.setBettingPlayerId(bettingPlayerTemp.getId());
         updatePlayInfo.setCompetitorId(bettingMatchTemp.getMatch().getCompetitor1().getId());
         String destination = "/app/betting-match/updatePlayBet/" + bettingMatchTemp.getId();
         sendToWebsocket(updatePlayInfo, destination, token);
