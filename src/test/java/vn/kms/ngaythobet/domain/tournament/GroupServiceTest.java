@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -130,6 +131,26 @@ public class GroupServiceTest extends BaseTest {
         groups = groupService.getGroupByRole(tournament.getId());
         assertThat(1, equalTo(groups.size()));
 
+    }
+
+    @Test
+    public void testCheckMemberPermission() {
+        User tester5 = makeUser("Tester5");
+        userRepo.save(tester5);
+
+        Group group = new Group();
+        group.setMembers(Arrays.asList(getDefaultUser()));
+        group.setModerator(tester5);
+        group.setName("Launch 4");
+        group.setTournament(tournament);
+        groupRepo.save(group);
+
+        mockLoginUser(tester5);
+        try {
+            groupService.checkMemberPermission(group.getId());
+        } catch (DataInvalidException exception) {
+            assertThat(exception.getMessage(), equalTo("{exception.unauthorized}"));
+        }
     }
 
     @After
