@@ -239,8 +239,11 @@ public class ChangeLogTest extends BaseTest {
 
         int size = 0;
         for (ChangeLog c : changelogsHistoryBetting) {
-            if (bettingPlayerRepo.findOne(c.getEntityId()).getBettingMatch().getId().equals(bettingMatchTemp.getId())) {
-                size++;
+            BettingMatch bm = bettingPlayerRepo.findOne(c.getEntityId()).getBettingMatch();
+            if (bm != null) {
+                if (bm.getId().equals(bettingMatchTemp.getId())) {
+                    size++;
+                }
             }
         }
 
@@ -259,7 +262,7 @@ public class ChangeLogTest extends BaseTest {
         bettingMatch.setMatch(matchTemp);
         bettingMatch.setDescription("test");
         bettingMatchTemp = bettingMatchRepo.save(bettingMatch);
-        
+
         bettingMatchTemp.setComment("abc");
         bettingMatchRepo.save(bettingMatchTemp);
 
