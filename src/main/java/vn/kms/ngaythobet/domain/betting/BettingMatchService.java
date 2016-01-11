@@ -150,6 +150,6 @@ public class BettingMatchService {
         if (bettingMatch.getExpiredTime().isAfter(LocalDateTime.now())) {
             return true;
         }
-        throw new DataInvalidException("exception.betting.match.is.expired");
+        return false;
     }
 }

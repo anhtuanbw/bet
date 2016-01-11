@@ -10,7 +10,19 @@
       "loss-amount-rules": "Cách tính tiền thua:",
       "loss-amount-rule1": "Kết quả hòa, cá bên nào cũng thua 1/2 số tiền.",
       "loss-amount-rule2": "Chấp 0.25 trái, kết quả hòa, bắt bên được chấp (0.25) thì không mất tiền, bắt bên chấp (0) thì mất 1/2 số tiền.",
-      "loss-amount-rule3": "Chấp 0.5 trái, kết quả hòa, bắt bên được chấp (0.5) thì không mất tiền, bắt bên chấp (0) thì mất trọn số tiền."
+      "loss-amount-rule3": "Chấp 0.5 trái, kết quả hòa, bắt bên được chấp (0.5) thì không mất tiền, bắt bên chấp (0) thì mất trọn số tiền.",
+      "loss-amount-regular": "Công thức:",
+      "loss-amount-regular-expression": "Diff = (your balance + your team score) – (opponent balance + opponent score)",
+      "loss-amount-regular-li-1": "-0.5 < Diff < 0.25: Bạn thua nửa số tiền cá của trận đó.",
+      "loss-amount-regular-li-2": "Diff <= -0.5: Bạn thua cả số tiền cá của trận đó.",
+      "loss-amount-regular-li-3": "Diff >= 0.25: Bạn không thua đồng nào. Chúc mừng.",
+      "loss-amount-example": "Ví dụ:",
+      "loss-amount-example-p": "VN vs. USA, tiền: 10k",
+      "loss-amount-example-li-1": "Chấp 0 : 0.5, Kết quả 0:0. Bạn cá VN. Diff = 0 - (0 + 0.5) = -0.5. Bạn thua hết 10k.",
+      "loss-amount-example-li-2": "Chấp 0 : 0.5, Kết quả 1:0. Bạn cá VN. Diff = 1 - (0 + 0.5) = 0.5. Bạn không thua đồng nào.",
+      "loss-amount-example-li-3": "Chấp 0 : 0.25, Kết quả 0:0. Bạn cá VN thì thua 5k, cá US thì không mất tiền",
+      "loss-amount-example-li-4": "Chấp 0 : 0, Kết quả 0:0. Bạn cá VN (hoặc US, sao cũng thua). Diff = (0) - (0) = 0. Bạn thua 1/2 số tiền (5k).",
+      "loss-amount-example-li-5": "Chấp 0 : 1, Kết quả 0:0. Bạn cá US. Diff = (0 + 1) - 0 = 1. Bạn không thua đồng nào."
     }
   }
 }

@@ -14,12 +14,10 @@ import static vn.kms.ngaythobet.domain.util.Constants.*;
 @FieldMatch(firstField = "password", secondField = "confirmPassword")
 public class RegisterUserInfo {
     @Pattern(regexp = "^[a-zA-Z0-9-_.]*$", message = "{validation.username.message}")
-    @NotEmpty
-    @Size(min = 6, max = 50)
+    @Size(min = 6, max = 50, message = "{validation.notEmpty.size}")
     @FieldUnique(field = "username", entity = User.class)
     private String username;
 
-    @NotEmpty
     @Pattern(regexp = PASSWORD_REGEX, message = "{validation.password.message}")
     private String password;
 
@@ -30,9 +28,8 @@ public class RegisterUserInfo {
     @NotEmpty
     private String name;
 
-    @NotEmpty
     @Email
-    @Size(min = 6, max = 100)
+    @Size(min = 6, max = 100, message = "{validation.notEmpty.size}")
     @FieldUnique(field = "email", entity = User.class)
     private String email;
 

@@ -1,23 +1,25 @@
 <md-dialog ng-cloak>
     <div class="modal-header">
-        <h2 class="modal-title"><small translate="common.group.title"></small></h2>
+        <h2 class="modal-title">
+            <small translate="common.group.title"></small>
+        </h2>
     </div>
     <md-dialog-content>
-        <div class="md-dialog-content">
+        <div class="md-dialog-content" style="padding-bottom: 0;">
             <p translate="common.group.mark"></p>
-            <div class="form-group" ng-class="{'has-error' : groupCtrl.error.name.length > 0}">
+            <div class="form-group" ng-class="{'has-error' : groupCtrl.error.name.length > 0 }">
                 <label for="name" class="control-label" translate="common.group.name"></label>
                 <input type="text" class="form-control" id="name" name="name" ng-model="groupCtrl.groupData.name" required>
                 <span class="text-danger" ng-show="groupCtrl.error.name">{{ groupCtrl.error.name }}</span>
             </div>
-            <div class="form-group" ng-class="{'has-error' : groupCtrl.error.tournamentId.length > 0}">
+            <div class="form-group" ng-class="{'has-error' : groupCtrl.error.tournamentId.length > 0 }">
                 <label for="name" class="control-label" translate="common.group.tournament"></label>
                 <select class="form-control" ng-options="tournament.id as tournament.name for tournament in groupCtrl.groupData.tournaments" ng-model="groupCtrl.groupData.tournament" ng-disabled="groupCtrl.groupData.tournament !=-1">
                     <option value="" translate="common.group.marktournament"></option>
                 </select>
                 <span class="text-danger" ng-show="groupCtrl.error.tournamentId">{{ groupCtrl.error.tournamentId }}</span>
             </div>
-            <div class="form-group" ng-class="{'has-error': group.error.moderator.length > 0}">
+            <div class="form-group" ng-class="{'has-error': group.error.moderator.length > 0 }">
                 <label for="moderator" class="control-label" translate="common.group.moderator"></label>
                 <md-autocomplete
                     md-selected-item="groupCtrl.selectedItem"
@@ -27,7 +29,7 @@
                     md-item-text="item.name"
                     md-min-length="0"
                     md-menu-class="autocomplete-custom-template"
-                    placeholder="{{'common.group.placeModerator' | translate}}">
+                    placeholder="{{ 'common.group.placeModerator' | translate }}">
                     <md-item-template>
                         <i class="fa fa-user"></i>
                         <span md-highlight-text="groupCtrl.searchText" md-highlight-flags="^i">{{ item.name }} ({{ item.username }})</span>
@@ -40,8 +42,8 @@
             </div>
             <div class="form-group">
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary" ng-click="groupCtrl.save()" translate="common.group.btnSave">Save</button>
-                    <button type="button" class="btn btn-default" ng-click="groupCtrl.cancel()" translate="common.group.btnCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" ng-click="groupCtrl.save()" translate="common.group.btnSave"></button>
+                    <button type="button" class="btn btn-default" ng-click="groupCtrl.cancel()" translate="common.group.btnCancel"></button>
                 </div>
             </div>
         </div>

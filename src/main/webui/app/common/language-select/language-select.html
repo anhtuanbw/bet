@@ -1,7 +1,6 @@
 <form class="navbar-form navbar-left">
-    <select class="form-control"
-            ng-options="lang.code as lang.name for lang in languageSelect.languages"
-            ng-model="languageSelect.systemLanguage"
-            ng-change="languageSelect.changeLanguage()">
-    </select>
+    <button type="button" class="btn languague" bs-options="lang.code as lang.name for lang in languageSelect.languages" ng-model="languageSelect.systemLanguage"
+    ng-change="languageSelect.changeLanguage()" data-html="1" bs-select>
+        Action <span class="caret"></span>
+    </button>
 </form>
