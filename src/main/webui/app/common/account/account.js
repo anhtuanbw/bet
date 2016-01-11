@@ -11,7 +11,7 @@ export default class AccountController {
     this.modal = $modal;
     this.authen();
     $rootScope.$on('login', (event, cb) => this.login(cb));
-    $rootScope.$on('authen', (event) => this.authen());
+    $rootScope.$on('authen', () => this.authen());
   }
 
   authen() {
@@ -47,6 +47,7 @@ export default class AccountController {
     })
     .catch(() => {
       this.loginUser = {};
+      this.cacheService.remove('loginUser');
       this.location.path('/');
     });
   }
