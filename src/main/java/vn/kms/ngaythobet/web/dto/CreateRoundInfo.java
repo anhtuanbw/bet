@@ -9,8 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
@@ -20,9 +18,8 @@ import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 @ListEntityJoinedValid(entityId = "tournamentId", fieldName = "competitors", entities = "competitorIds", type = Tournament.class, message = "{validation.competitor.is.not.joined}")
 public class CreateRoundInfo {
-    @NotEmpty
-    @Size(min = 6, max = 50)
-    @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.pattern.blankspace}")
+    @Size(min = 6, max = 50, message = "{validation.name.notEmpty.size.blankspace}")
+    @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.name.notEmpty.size.blankspace}")
     private String name;
 
     @EntityExist(type = Tournament.class, message = "{validation.existTournament.message}")
@@ -30,7 +27,7 @@ public class CreateRoundInfo {
     private Long tournamentId;
 
     @ListUnique(message = "{validation.competitors.unique.message}")
-    @ListEntityExist(type = Competitor.class, message = "{validation.competitors.existed.message}")
+    @ListEntityExist(type = Competitor.class, message = "{validation.competitor.is.not.joined}")
     private List<Long> competitorIds;
 
     public String getName() {

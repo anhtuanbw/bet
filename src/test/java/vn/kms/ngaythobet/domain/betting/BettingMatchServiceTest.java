@@ -16,8 +16,8 @@ import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.CreateData;
 import vn.kms.ngaythobet.domain.core.User;
-import vn.kms.ngaythobet.domain.core.User.Role;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
@@ -79,19 +79,14 @@ public class BettingMatchServiceTest extends BaseTest {
     protected void doStartUp() {
 
         // create 2 users
-        User user1 = createUser(true, "hieu1@abc.com", "hieu1", "123467", Role.USER, "hieu1");
-        User user2 = createUser(true, "hieu2@abc.com", "hieu2", "123467", Role.USER, "hieu2");
+        User user1 = CreateData.createUser(true, "hieu1@abc.com", "hieu1", "123467", "hieu1");
+        User user2 = CreateData.createUser(true, "hieu2@abc.com", "hieu2", "123467", "hieu2");
         userTemp1 = userRepo.save(user1);
         userTemp2 = userRepo.save(user2);
-        // create tournament
-        Tournament tournament1 = new Tournament();
-        tournament1.setActivated(false);
-        tournament1.setName("worldcup");
-        tournamentTemp1 = tournamentRepo.save(tournament1);
-        // create tournament2
-        Tournament tournament2 = new Tournament();
-        tournament2.setActivated(false);
-        tournament2.setName("worldcup");
+        // create 2 tournaments
+        Tournament tournament = CreateData.createTournament(false, "worldcup");
+        tournamentTemp1 = tournamentRepo.save(tournament);
+        Tournament tournament2 = CreateData.createTournament(false, "worldcup");
         tournamentTemp2 = tournamentRepo.save(tournament2);
         // create 2 competitors
         Competitor competitor1 = new Competitor(tournamentTemp1, "Spain");
@@ -103,50 +98,21 @@ public class BettingMatchServiceTest extends BaseTest {
         competitorTemp1 = competitorRepo.save(competitor1);
         competitorTemp2 = competitorRepo.save(competitor2);
         // create round
-        Round round = new Round();
-        round.setTournament(tournamentTemp1);
-        round.setName("final round");
+        Round round = CreateData.createRound(tournamentTemp1, "final round");
         roundTemp = roundRepo.save(round);
         // create match
-        Match match = new Match();
-        match.setCompetitor1(competitorTemp1);
-        match.setCompetitor2(competitorTemp2);
-        match.setLocation("location test");
-        match.setMatchTime(LocalDateTime.now().plusDays(30));
-        match.setRound(roundTemp);
+        Match match = CreateData.createMatch(competitorTemp1, competitorTemp2, "location test",
+                LocalDateTime.now().plusDays(30), roundTemp);
         matchTemp = matchRepo.save(match);
-
+        // create group
         List<User> members = new ArrayList<>();
         members.add(userTemp1);
         members.add(userTemp2);
-        List<User> members1 = new ArrayList<>();
-        members1.add(userTemp1);
-        // create group1
-        Group group1 = createGroup(members, userTemp1, "testGroup", tournamentTemp1);
+        Group group1 = CreateData.createGroup(userTemp1, "testGroup", tournamentTemp1, members);
         groupTemp1 = groupRepo.save(group1);
-        // create group2
-        Group group2 = createGroup(members1, userTemp1, "testGroup1", tournamentTemp2);
+        Group group2 = CreateData.createGroup(userTemp1, "testGroup1", tournamentTemp2, members);
         groupTemp2 = groupRepo.save(group2);
-    }
 
-    private Group createGroup(List<User> members, User moderator, String name, Tournament tournament) {
-        Group group = new Group();
-        group.setMembers(members);
-        group.setModerator(moderator);
-        group.setName(name);
-        group.setTournament(tournament);
-        return group;
-    }
-
-    private User createUser(boolean active, String email, String name, String password, Role role, String userName) {
-        User user = new User();
-        user.setActivated(active);
-        user.setEmail(email);
-        user.setName(name);
-        user.setPassword(password);
-        user.setRole(role);
-        user.setUsername(userName);
-        return user;
     }
 
     private BettingMatch createBettingMatch() {
@@ -342,7 +308,6 @@ public class BettingMatchServiceTest extends BaseTest {
         assertThat(bettingMatchRepo.findAll().size(), equalTo(1));
     }
 
-
     @Test
     public void testActiveBettingMatch() {
         BettingMatch bettingMatch = createBettingMatch();
@@ -402,7 +367,6 @@ public class BettingMatchServiceTest extends BaseTest {
         bettingMatchRepo.save(bettingMatchTemp);
         assertThat(bettingMatchService.isBettingMatchNotExpired(bettingMatchTemp.getId()), equalTo(true));
     }
-
 
     @After
     public void clearData() {
