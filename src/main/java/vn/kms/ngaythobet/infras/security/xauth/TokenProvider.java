@@ -104,7 +104,6 @@ public class TokenProvider {
         String token = null;
         if (nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME) != null
                 && !nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).isEmpty()) {
-            System.out.println(nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).getClass().getName());
             token = nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).get(0);
             setAuthenticationFromToken(token);
         }

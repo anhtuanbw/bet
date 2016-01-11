@@ -201,7 +201,6 @@ public class PlayerBettingMatchRestTest extends BaseTest {
         Message<byte[]> message = MessageBuilder.withPayload(payload).setHeaders(headers).build();
         this.annotationMethodHandler.handleMessage(message);
         BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchTemp.getId());
-        System.out.println(bettingMatch.getComment());
         assertThat(bettingMatch.getComment(), equalTo("test comment"));
     }
 
