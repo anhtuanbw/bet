@@ -16,6 +16,10 @@ export default class PlayerHistoryController {
     this.rootScope.$on('playerStatistic', (event, groupId) => {
        this.playerStatistic(groupId);
     });
+
+    this.rootScope.$on('selectGroup', (event, group) => {
+       this.playerStatistic(group.id);
+    });
   }
 
   getUsername() {

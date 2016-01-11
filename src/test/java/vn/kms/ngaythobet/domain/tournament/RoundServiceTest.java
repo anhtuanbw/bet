@@ -8,7 +8,9 @@ import java.util.List;
 
 
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import vn.kms.ngaythobet.BaseTest;
@@ -37,6 +39,8 @@ public class RoundServiceTest extends BaseTest {
     private Tournament tournamentTemp;
     private Round roundTemp;
     private List<Competitor> competitors;
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Override
     protected void doStartUp() {
@@ -69,6 +73,14 @@ public class RoundServiceTest extends BaseTest {
         createRoundInfo.setCompetitorIds(competitorIds);
         roundService.createRound(createRoundInfo);
         assertThat(roundRepo.findAllByOrderByCreatedAtDesc().size(), equalTo(1));
+        createRoundInfo.setName("final round 2");
+        createRoundInfo.setTournamentId(tournamentTemp.getId());
+        createRoundInfo.setCompetitorIds(null);
+        roundService.createRound(createRoundInfo);
+        assertThat(roundRepo.findAllByOrderByCreatedAtDesc().size(), equalTo(2));
+        
+        exception.expectMessage("{exception.round.existed.in.this.tournament}");
+        roundService.createRound(createRoundInfo);
     }
 
     @Test
@@ -86,7 +98,6 @@ public class RoundServiceTest extends BaseTest {
         updateRoundInfo.setCompetitorIds(competitorIds);
         roundService.updateRound(updateRoundInfo);
         assertThat(roundRepo.findAllByOrderByCreatedAtDesc().size(), equalTo(1));
-
     }
 
     @Test
