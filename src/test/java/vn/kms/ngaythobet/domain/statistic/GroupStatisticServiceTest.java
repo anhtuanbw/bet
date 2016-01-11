@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -142,6 +143,17 @@ public class GroupStatisticServiceTest extends BaseTest {
         bettingMatch1.setBalance2(balance2);
         bettingMatch1.setBetAmount(betAmount);
         return bettingMatch1;
+    }
+
+    @After
+    public void clearData() {
+        bettingMatchRepo.deleteAll();
+        matchRepo.deleteAll();
+        roundRepo.deleteAll();
+        groupRepo.deleteAll();
+        competitorRepo.deleteAll();
+        tournamentRepo.deleteAll();
+        userRepo.deleteAll();
     }
 
 }
