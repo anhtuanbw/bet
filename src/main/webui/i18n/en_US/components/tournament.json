@@ -18,6 +18,19 @@
             "statistics": "Statistics",
             "information": "Information"
           },
+         "matches": {
+            "btnAddBet": "Add Betting Match",
+            "table": {
+                "id": "ID",
+                "match": "Match",
+                "startTime": "Start time",
+                "location": "Location"
+            },
+            "btnChoose": "Choose",
+            "btnActive": "Active",
+            "btnUpdate": "Update",
+            "btnBetMatch": "Bet match"
+          },
          "history": {
             "matchStatistic":"Match statistic",
             "groupStatistic":"Group statistic",
