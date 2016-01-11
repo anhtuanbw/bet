@@ -1,41 +1,30 @@
-<div class="list-group">
-    <li class="list-group-item header" style="background:#2C6BA0;border-top-right-radius: 4px;" ng-click="showTours=!showTours">
-        <div class="row" style="font-weight:bold;">
-            <div class="col-xs-6 col-sm-7 col-md-7">
-                <span translate="common.sidebar.title"></span>
-            </div>
-            <div class="col-xs-6 col-sm-5 col-md-5 text-right">
-                <span ng-click="management.createTournament();$event.stopPropagation();" translate="common.sidebar.create" ng-show="management.isAdmin"></span>
-            </div>
-        </div>
-    </li>
-    <div class="row" ng-hide="showTours">
-        <div class="col-sm-12">
-            <div class="input-group stylish-input-group">
-                <input type="text" class="form-control" placeholder="Search tournaments" style="border-radius: 0;" ng-model="search.name">
-                <span class="input-group-addon" style="border-radius: 0; border-right: 0;">
-                    <span class="glyphicon glyphicon-search"></span>
-                </span>
-            </div>
-        </div>
+<section layout="row" flex>
+  <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+    <md-toolbar class="md-theme-blue" ng-click="showTours=!showTours">
+        <h1 class="md-toolbar-tools">
+            <i class='fa fa-bars' data-toggle='tooltip' title='Colapse Tournament!'></i> 
+            <span translate="common.sidebar.title" class="uppercase" class="pull-left" style="padding-left: 5px; width: 100%;"></span>
+            <span ng-click="management.createTournament();$event.stopPropagation();" translate="common.sidebar.create" ng-show="management.isAdmin" style="width:100%; text-align: right;"></span>
+        </h1>
+      </md-toolbar>
+    <div class="input-group stylish-input-group" ng-hide="showTours">
+        <input type="text" class="form-control" placeholder="{{'common.sidebar.placeSearch' | translate}}" style="border-radius: 0;" ng-model="search.name">
+        <span class="input-group-addon" style="border-radius: 0; border-right: 0;">
+            <span class="glyphicon glyphicon-search"></span>
+        </span>
     </div>
-    <div ng-hide="showTours">
-        <li class="list-group-item child" ng-init="havechild=tournament.groups.length>0" ng-repeat="tournament in management.tournaments | filter: search" ng-click="management.changeTournament($index)" ng-class="{'choose':$index == management.selectedTour}">
-            <a href="javascript:void(0)" ng-click="management.showTournamenDetail(tournament.id)">
-            <i class="fa fa-th-large"></i> {{ tournament.name }} 
-            <span class="label label-info" ng-show="havechild" ng-bind="tournament.groups.length"></span>
-            </a>
-            <div class="pull-right arrow" ng-show="havechild">
-                <i class="fa fa-angle-down" ng-show="($index == management.selectedTour)"></i>
-                <i class="fa fa-angle-left" ng-show="($index != management.selectedTour)"></i>
-            </div>
-            <div class="tour-group" ng-show="($index == management.selectedTour) && havechild">
-                <ul class="list-unstyled">
-                    <li class="list-group-item" ng-repeat="group in tournament.groups" ng-click="management.showGroup($index, tournament, group); $event.stopPropagation();" ng-class="{'selected': management.selectedGroup == $index}">
-                        <a href="javascript:void(0)"><i class="fa fa-users"></i> {{ group.name }}</a>
-                    </li>
-                </ul>
-            </div>
+    <md-content role="navigation" ng-hide="showTours">
+      <ul class="side-menu">
+        <li ng-repeat="section in management.tournaments | filter: search" class="parent-list-item"
+            ng-class="{'parentActive' : management.isSectionSelected(section)}">
+          <h2 class="menu-heading" ng-if="section.type === 'heading'"
+              id="heading_{{section.name}}">
+            {{section.name}}
+          </h2>
+            <menu-link section="section" ng-if="section.groups.length === 0"></menu-link>
+            <menu-toggle section="section" ng-if="section.groups.length>0"></menu-toggle>
         </li>
-    </div>
-</div>
+      </ul>
+    </md-content>
+  </md-sidenav>
+  </section>

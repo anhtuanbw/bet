@@ -40,7 +40,7 @@ import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
 import vn.kms.ngaythobet.infras.security.xauth.XAuthTokenFilter;
 import vn.kms.ngaythobet.web.dto.LoginInfo;
 
-public class AccountRestTest extends BaseTest{
+public class AccountRestTest extends BaseTest {
 
     @Autowired
     private UserRepository userRepo;
@@ -69,17 +69,15 @@ public class AccountRestTest extends BaseTest{
         userDetailsService = new UserDetailsServiceImpl(userRepo);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new AccountRest(userService, tokenProvider, authenticationManager, userDetailsService))
-                .addFilters(filter)
-                .build();
+                .addFilters(filter).build();
     }
 
     @Test
     public void testAuthenticate() throws Exception {
-        mockMvc.perform(get("/api/authenticate"))
-                .andExpect(status().isOk()).andExpect(content().string(""));
+        mockMvc.perform(get("/api/authenticate")).andExpect(status().isOk()).andExpect(content().string(""));
 
         int size = userRepo.findAll().size();
-        ObjectMapper ow =  new ObjectMapper();
+        ObjectMapper ow = new ObjectMapper();
         assertThat(size, equalTo(1));
         User registerUserInfo = createUser("email@yahoo.com", "user1", "123467", "user1");
         User user = userRepo.save(registerUserInfo);
@@ -88,10 +86,9 @@ public class AccountRestTest extends BaseTest{
         assertThat(size, equalTo(2));
         mockLoginUser(registerUserInfo);
         mockMvc.perform(get("/api/authenticate").header(Constants.XAUTH_TOKEN_HEADER_NAME, token.getToken()))
-                .andExpect(status().isOk()).andExpect(content().string(
-                        json));
+                .andExpect(status().isOk()).andExpect(content().string(json));
     }
-    
+
     @Test
     public void testLogout() throws Exception {
         User user = getDefaultUser();
@@ -106,7 +103,7 @@ public class AccountRestTest extends BaseTest{
         LoginInfo info = new LoginInfo();
         info.setPassword(user.getPassword());
         info.setUsername(user.getUsername());
-        ObjectMapper ow =  new ObjectMapper();
+        ObjectMapper ow = new ObjectMapper();
         String json = ow.writer().writeValueAsString(info);
         mockMvc.perform(post("/api/login").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());

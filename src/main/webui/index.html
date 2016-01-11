@@ -3,7 +3,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>ngaythobet</title>
-    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/png" href="assets/images/logo.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- build:css1 assets/styles/vendor.min.css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.min.css" />
@@ -16,14 +17,15 @@
     <link rel="stylesheet" href=".tmp/assets/styles/app.css" />
     <link rel="stylesheet" href=".tmp/assets/styles/sidebar.css" />
     <link rel="stylesheet" href=".tmp/assets/styles/comment.css" />
+    <link rel="stylesheet" href=".tmp/assets/styles/match.css" />
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <!-- endbuild -->
 </head>
 <body ng-app="ngaythobet">
     <div ng-strict-di ng-controller="AppController">
         <div navbar></div>
-        <div class="container-fluid wrapper">
-            <div ng-viewport></div>
+        <div class="container-fluid wrapper" layout="row">
+            <div ng-viewport style="width: 100%;"></div>
         </div>
         <footer>
             <div class="container">
@@ -54,6 +56,8 @@
     <script type="text/javascript" src="bower_components/angular-material/angular-material.js"></script>
     <script type="text/javascript" src="bower_components/sockjs/sockjs.js"></script>
     <script type="text/javascript" src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
+    <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <!-- endbuild -->
     <!-- build:js2 app/app.min.js -->
     <script type="text/javascript" src=".tmp/app.js"></script>

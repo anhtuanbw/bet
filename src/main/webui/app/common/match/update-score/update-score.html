@@ -8,17 +8,17 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-4 text-right">
-            <strong>{{updateScore.matchInfo.competitor1}}</strong>
+            <strong>{{updateScore.match.competitor1.name}}</strong>
           </div>
           <div class="col-md-4 text-center">
-            <span><input type="number" class="update-score " min="0" ng-model="updateScore.data.competitor1Score"></span>
+            <span><input type="number" class="update-score" min="0" ng-model="updateScore.data.competitor1Score"></span>
             <span class="space-line">-</span>
             <span class="space-line">
               <input type="number" class="update-score" min="0" ng-model="updateScore.data.competitor2Score">
             </span>
           </div>
           <div class="col-md-4 text-left">
-            <strong>{{updateScore.matchInfo.competitor2}}</strong>
+            <strong>{{updateScore.match.competitor2.name}}</strong>
           </div>
         </div>
       </div>

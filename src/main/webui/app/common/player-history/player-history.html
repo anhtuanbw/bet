@@ -46,9 +46,13 @@
 				<td class="text-left">{{ $index+1 }}</td>
 				<td>{{ player.competitor1Name }} - {{ player.competitor2Name }}</td>
 				<td>{{ player.betCompetitorName }}</td>
-				<td>
+				<td ng-if="player.competitor1Score>=0">
 					{{ player.competitor1Score }} - {{ player.competitor2Score }} <br/> 
-					({{ player.competitor1Balance }} - {{ player.competitor2Balance }})</td>
+					({{ player.competitor1Balance }} - {{ player.competitor2Balance }})
+				</td>
+				<td ng-if="player.competitor1Score<0">
+					<a data-toggle="tooltip" title="Do not have scored!">? - ?</a>
+				</td>
 				<td>{{ player.expiredBetTime }}</td>
 				<td>{{ player.lossAmount }}</td>
 			</tr>
