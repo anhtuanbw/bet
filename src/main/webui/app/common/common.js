@@ -14,6 +14,8 @@ import Comment from './comment/comment';
 import InfoBettingMatch from './info-betting-match/info-betting-match';
 import Betting from './betting-match-management/betting-match-management';
 import CreateBet from './create-betting-match/create-betting-match';
+import PlayerStatistics from './player-statistics/player-statistics';
+import RoundEmpty from './match/create-match/round-empty';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -32,4 +34,6 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('infoBettingMatch', () => new InfoBettingMatch())
 .directive('dateTimePicker', DateTimePicker)
 .directive('betting', () => new Betting())
-.directive('createBet', () => new CreateBet());
+.directive('createBet', () => new CreateBet())
+.directive('playerStatistics', () => new PlayerStatistics())
+.directive('roundEmpty', () => new RoundEmpty());

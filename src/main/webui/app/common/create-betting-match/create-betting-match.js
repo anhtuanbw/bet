@@ -9,22 +9,22 @@ export default class CreateBettingController {
     this.matchData = matchInfo;
     this.BettingService = BettingService;
     this.toaster = toaster;
-    this.loadData(this.data);
+    this.loadData();
   }
 
-  loadData(data){
+  loadData(){
     if (this.matchData.expiredTime) {
       this.matchData.expiredTime = this.parseTime(this.matchData.expiredTime);
-      data.oldTime = this.matchData.expiredTime;
+      this.data.oldTime = this.matchData.expiredTime;
     }
-    data.competitor1 = this.matchData.competitor1.name;
-    data.competitor2 = this.matchData.competitor2.name;
-    data.balance1 = this.matchData.balance1;
-    data.balance2 = this.matchData.balance2;
-    data.amount = this.matchData.betAmount;
-    data.description = this.matchData.description;
-    data.active = this.matchData.activated;
-    data.hide = this.matchData.hide;
+    this.data.competitor1 = this.matchData.competitor1.name;
+    this.data.competitor2 = this.matchData.competitor2.name;
+    this.data.balance1 = this.matchData.balance1;
+    this.data.balance2 = this.matchData.balance2;
+    this.data.amount = this.matchData.betAmount;
+    this.data.description = this.matchData.description;
+    this.data.active = this.matchData.activated;
+    this.data.hide = this.matchData.hide;
   }
 
   create(data){
@@ -35,11 +35,9 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    var expiredTime = data.time;
+    var timeFormated;
     if (data.time) {
-      expiredTime = expiredTime.replace(/\//g, '-');
-      expiredTime = expiredTime.replace(' ', 'T');
-      expiredTime+=':00.000';
+      timeFormated = this.serverTimeFormat(data.time);
     }
     if (!data.active) {
       data.active = false;
@@ -50,7 +48,7 @@ export default class CreateBettingController {
         'balance2': data.balance2,
         'betAmount': data.amount,
         'decription': data.description,
-        'expiredTime': expiredTime,
+        'expiredTime': timeFormated,
         'groupId': this.matchData.groupID,
         'matchId': this.matchData.id
         };
@@ -75,16 +73,13 @@ export default class CreateBettingController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    var expiredTime;
+    var timeFormated;
     if(data.time === ''){
-      expiredTime = data.oldTime;
+      data.time = data.oldTime;
+      timeFormated = this.serverTimeFormat(data.time);
     } else {
-      expiredTime = data.time;
+      timeFormated = this.serverTimeFormat(data.time);
     }
-      expiredTime = expiredTime.replace(/\//g, '-');
-      expiredTime = expiredTime.replace(' ', 'T');
-      expiredTime = expiredTime.replace(',', '');
-      expiredTime+=':00.000';
     
     var dataUpdate = {
       'activated': data.active,
@@ -93,7 +88,7 @@ export default class CreateBettingController {
       'betAmount': data.amount,
       'bettingMatchId': this.matchData.bettingMatchId,
       'decription': data.description,
-      'expiredTime': expiredTime,
+      'expiredTime': timeFormated,
       'groupId': this.matchData.groupId,
       'matchId': this.matchData.matchId
     };
@@ -124,7 +119,7 @@ export default class CreateBettingController {
     var dates = this.longTime(date[2]);
     var hour = this.longTime(date[3]);
     var minute = this.longTime(date[4]);
-    var dateTime = year+'/'+month+'/'+dates+', '+hour+':'+minute;
+    var dateTime = month+'/'+dates+'/'+year+' '+hour+':'+minute;
     return dateTime;
   }
 
@@ -134,6 +129,18 @@ export default class CreateBettingController {
     } else {
       return time;
     }
+  }
+
+  serverTimeFormat(time){
+    var timeFormated;
+    var dateAndTime;
+    var monthDayYear;
+    var hourMin;
+    dateAndTime = time.split(' ');
+    monthDayYear = dateAndTime[0].split('/');
+    hourMin = dateAndTime[1].split(':');
+    timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
+    return timeFormated;
   }
 }
 

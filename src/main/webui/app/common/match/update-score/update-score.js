@@ -2,23 +2,25 @@
 
 export default class UpdateScoreController {
   /* @ngInject */
-  constructor(MatchService, CacheService, $location, $modalInstance, toaster, getMatchId, $rootScope) {
+  
+  constructor(MatchService, CacheService, $location, $modalInstance, toaster, getMatch, $rootScope) {
     this.rootScope = $rootScope;
     this.matchService = MatchService;
     this.cacheService = CacheService;
     this.location = $location;
     this.modalInstance = $modalInstance;
     this.toaster = toaster;
-    this.matchId = getMatchId;
+    this.match = getMatch;
     this.data = {};
-    this.matchInfo = {};
     this.getMatchInfo();
   }
 
   updateScore() {
+
     var self = this;
     this.popTitle = 'Update score';
     var successMessage = 'Update score successfully!';
+    
     // Show alert message
     this.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
@@ -44,14 +46,10 @@ export default class UpdateScoreController {
   }
 
   getMatchInfo() {
-    this.data.matchId = this.matchId;
-    this.matchService.getMatchInfo(this.matchId)
-      .then(response => {
-        
-        // Success
-        this.matchInfo.competitor1 = response.data.competitor1.name;
-        this.matchInfo.competitor2 = response.data.competitor2.name;
-      });
+    this.data.matchId = this.match.id;
+    this.data.competitor1Score = this.match.score1 === '?' ? 0 : this.match.score1;
+    this.data.competitor2Score = this.match.score2 === '?' ? 0 : this.match.score2;
+    console.log(this.data);
   }
 
   closeModal() {

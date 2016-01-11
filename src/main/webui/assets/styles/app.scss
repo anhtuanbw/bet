@@ -129,26 +129,22 @@ footer {
 
 .left-space {
   padding-left:2em;
-  }
-  
-.space-line {
-  padding-left:1em;
-  }
+}
   
  .padding-button {
    display: inline-block;
    padding-right: 75px;
    margin: 5px 0 20px 0;
- }
+}
  
  .distane-top {
    margin-top: 3em;
- }
+}
  
  .padding-round {
    display: inline-block;
    margin: 10px 0 5px 0;
- }
+}
  
  .bold {
    font-weight: bold;
@@ -174,6 +170,7 @@ footer {
 .btn-primary.raised {
     box-shadow: 0 3px 0 0 #007299;
 }
+
 .btn-primary.raised:active, .btn-primary.raised.active {
     background: #33a6cc;
     box-shadow: none;
@@ -216,6 +213,10 @@ footer {
 
 .line-block {
   display: inline-block;
+}
+  
+ .margin-comment {
+   margin-top: 10px;
 }
 
 .space-competitor {
