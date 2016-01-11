@@ -15,8 +15,8 @@ import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.CreateData;
 import vn.kms.ngaythobet.domain.core.User;
-import vn.kms.ngaythobet.domain.core.User.Role;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.CompetitorRepository;
@@ -83,14 +83,12 @@ public class BettingPlayerServiceTest extends BaseTest {
     protected void doStartUp() {
         bettingPlayerService = new BettingPlayerService(bettingMatchRepo, bettingPlayerRepo, competitorRepo, userRepo);
         // add 2 users
-        User user1 = createUser(true, "email@yahoo.com", "user1", "123467", "user1");
-        User user2 = createUser(true, "email2@yahoo.com", "user2", "123467", "user2");
+        User user1 = CreateData.createUser(true, "email@yahoo.com", "user1", "123467", "user1");
+        User user2 = CreateData.createUser(true, "email2@yahoo.com", "user2", "123467", "user2");
         userTemp1 = userRepo.save(user1);
         userTemp2 = userRepo.save(user2);
         // add tournament
-        Tournament tournament = new Tournament();
-        tournament.setActivated(false);
-        tournament.setName("Euro");
+        Tournament tournament = CreateData.createTournament(false, "Euro");
         tournamentTemp = tournamentRepo.save(tournament);
         // add round
         Round round = new Round();
@@ -113,36 +111,35 @@ public class BettingPlayerServiceTest extends BaseTest {
         competitorTemp3 = competitorRepo.save(competitor3);
         competitorTemp4 = competitorRepo.save(competitor4);
         // add 3 matches
-        Match match = createMatch(competitorTemp1, competitorTemp2, "location test", LocalDateTime.now(), roundTemp);
+        Match match = CreateData.createMatch(competitorTemp1, competitorTemp2, "location test", LocalDateTime.now(),
+                roundTemp);
         matchTemp = matchRepo.save(match);
-        Match match2 = createMatch(competitorTemp3, competitorTemp4, "location test 2", LocalDateTime.now(), roundTemp);
+        Match match2 = CreateData.createMatch(competitorTemp3, competitorTemp4, "location test 2", LocalDateTime.now(),
+                roundTemp);
         matchTemp2 = matchRepo.save(match2);
-        Match match3 = createMatch(competitorTemp1, competitorTemp3, "location test 3", LocalDateTime.now(), roundTemp);
+        Match match3 = CreateData.createMatch(competitorTemp1, competitorTemp3, "location test 3", LocalDateTime.now(),
+                roundTemp);
         matchTemp3 = matchRepo.save(match3);
         // add group
-        Group group = new Group();
         List<User> members = new ArrayList<>();
         members.add(userTemp1);
         members.add(userTemp2);
-        group.setMembers(members);
-        group.setModerator(userTemp1);
-        group.setName("testGroup");
-        group.setTournament(tournamentTemp);
+        Group group = CreateData.createGroup(userTemp1, "testGroup", tournamentTemp, members);
         groupTemp = groupRepo.save(group);
         // add valid betting match
-        BettingMatch bettingMatch = createBettingMatch(true, matchTemp, groupTemp, LocalDateTime.now().plusDays(30));
+        BettingMatch bettingMatch = CreateData.createBettingMatch(true, matchTemp, groupTemp,
+                LocalDateTime.now().plusDays(30));
         bettingMatchTemp = bettingMatchRepo.save(bettingMatch);
         // add betting Match is expired
-        BettingMatch bettingMatch2 = createBettingMatch(true, matchTemp3, groupTemp, LocalDateTime.now().minusDays(30));
+        BettingMatch bettingMatch2 = CreateData.createBettingMatch(true, matchTemp3, groupTemp,
+                LocalDateTime.now().minusDays(30));
         expiredBettingMatch = bettingMatchRepo.save(bettingMatch2);
         // add betting Match is not active
-        BettingMatch bettingMatch3 = createBettingMatch(false, matchTemp2, groupTemp, LocalDateTime.now().plusDays(30));
+        BettingMatch bettingMatch3 = CreateData.createBettingMatch(false, matchTemp2, groupTemp,
+                LocalDateTime.now().plusDays(30));
         notActiveBettingMatch = bettingMatchRepo.save(bettingMatch3);
         // add player betting match
-        BettingPlayer bettingPlayer = new BettingPlayer();
-        bettingPlayer.setBetCompetitor(competitorTemp2);
-        bettingPlayer.setPlayer(userTemp2);
-        bettingPlayer.setBettingMatch(bettingMatchTemp);
+        BettingPlayer bettingPlayer = CreateData.createBettingPlayer(bettingMatchTemp, userTemp2, competitorTemp2);
         bettingPlayerTemp = bettingPlayerRepo.save(bettingPlayer);
     }
 
@@ -284,34 +281,4 @@ public class BettingPlayerServiceTest extends BaseTest {
         userRepo.deleteAll();
     }
 
-    private BettingMatch createBettingMatch(boolean active, Match match, Group group, LocalDateTime expiredTime) {
-        BettingMatch bettingMatch1 = new BettingMatch();
-        bettingMatch1.setActivated(active);
-        bettingMatch1.setMatch(match);
-        bettingMatch1.setGroup(group);
-        bettingMatch1.setExpiredTime(expiredTime);
-        return bettingMatch1;
-    }
-
-    private Match createMatch(Competitor competitor1, Competitor competitor2, String location, LocalDateTime matchTime,
-            Round round) {
-        Match match = new Match();
-        match.setCompetitor1(competitor1);
-        match.setCompetitor2(competitor2);
-        match.setLocation(location);
-        match.setMatchTime(matchTime);
-        match.setRound(round);
-        return match;
-    }
-
-    private User createUser(boolean active, String email, String name, String password, String username) {
-        User user = new User();
-        user.setActivated(active);
-        user.setEmail(email);
-        user.setName(name);
-        user.setPassword(password);
-        user.setRole(Role.USER);
-        user.setUsername(username);
-        return user;
-    }
 }
