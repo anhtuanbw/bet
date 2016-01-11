@@ -29,7 +29,7 @@ export default class PlayerBettingMatchController {
       this.namePlayerBetCompetitor1 = [];
       this.namePlayerBetCompetitor2 = [];
       this.namePlayerNotBet = [];
-      this.getBettingMatchStatistics();
+      this.getBettingMatchStatistics();            
       this.getBettingMatchInfo();
       this.getLostAmount();
       this.getComments();
@@ -105,9 +105,12 @@ export default class PlayerBettingMatchController {
       .then(response => {
         this.notError = response.data;
         if (this.notError) {
+          
           this.disconnect();
           this.connect();
+          
         } else {
+          
           this.messageError = 'The betting match is expired';
         }
       });
