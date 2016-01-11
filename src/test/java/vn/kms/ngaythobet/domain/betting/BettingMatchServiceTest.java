@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -210,6 +211,39 @@ public class BettingMatchServiceTest extends BaseTest {
         assertThat(result.size(), equalTo(0));
 
     }
+
+    @Test
+    public void testGetBettingMatchById() {
+        bettingMatchTemp = createBettingMatch();
+        BettingMatch result = bettingMatchService.getBettingMatchById(bettingMatchTemp.getId());
+        assertThat(result.getId(), equalTo(bettingMatchTemp.getId()));
+    }
+
+    @Test
+    public void testFindActiveBettingMatchById() {
+        bettingMatchTemp = createBettingMatch();
+        bettingMatchTemp.setActivated(true);
+        bettingMatchRepo.save(bettingMatchTemp);
+        BettingMatch result = bettingMatchService.findActiveBettingMatchById(bettingMatchTemp.getId());
+        assertThat(result.getId(), equalTo(bettingMatchTemp.getId()));
+    }
+
+    @Test
+    public void testIsBettingMatchNotExpired() {
+        bettingMatchTemp = createBettingMatch();
+        String pattern = "1986-04-08 12:30";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(pattern, formatter);
+        bettingMatchTemp.setExpiredTime(dateTime);
+        bettingMatchRepo.save(bettingMatchTemp);
+        assertThat(bettingMatchService.isBettingMatchNotExpired(bettingMatchTemp.getId()), equalTo(false));
+        pattern = "2016-04-08 12:30";
+        dateTime = LocalDateTime.parse(pattern, formatter);
+        bettingMatchTemp.setExpiredTime(dateTime);
+        bettingMatchRepo.save(bettingMatchTemp);
+        assertThat(bettingMatchService.isBettingMatchNotExpired(bettingMatchTemp.getId()), equalTo(true));
+    }
+
 
     @After
     public void clearData() {
