@@ -38,6 +38,7 @@ export default class AppController {
 
 angular.module('ngaythobet', [
   'ngNewRouter',
+  'mgcrea.ngStrap',
   'ngSanitize',
   'ngCookies',
   'ngTagsInput',
@@ -46,8 +47,7 @@ angular.module('ngaythobet', [
   'ngaythobet.common',
   'toaster',
   'ngAnimate',
-  'ngMaterial',
-  'mgcrea.ngStrap'
+  'ngMaterial'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
