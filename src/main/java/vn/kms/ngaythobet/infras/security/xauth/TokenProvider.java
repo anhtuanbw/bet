@@ -99,9 +99,6 @@ public class TokenProvider {
     }
 
     public void setAuthenticationFromHeader(SimpMessageHeaderAccessor headerAccessor) {
-//        String type = headerAccessor.getMessageHeaders()
-//                .get(StompHeaderAccessor.NATIVE_HEADERS, MultiValueMap.class).getClass().getName();
-        
         Map<String, List<String>> nativeHeaders = headerAccessor.getMessageHeaders()
                 .get(StompHeaderAccessor.NATIVE_HEADERS, Map.class);
         String token = null;
