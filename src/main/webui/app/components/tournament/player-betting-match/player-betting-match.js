@@ -172,20 +172,20 @@ export default class PlayerBettingMatchController {
   getComments() {
     this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId, this.paging)
       .then(response => {
-        this.numberComments = response.data.commentCount;
+        this.numberComments = response.data.length;
         this.commentArr = [];
         var i;
-        if (response.data.comments.length === 0) {
+        if (response.data.length === 0) {
           this.checkLengthComments = true;
         }
         
-        if (response.data.comments.length >= 10) {
+        if (response.data.length > 10) {
           this.checkPaging = true;
         }
         
-        for (i = 0; i < response.data.comments.length; i++) {
-          this.commentArr.push(response.data.comments[i]);
-          this.commentArr[i].timestamp = this.getTime(response.data.comments[i].timestamp);
+        for (i = 0; i < response.data.length; i++) {
+          this.commentArr.push(response.data[i]);
+          this.commentArr[i].timestamp = this.getTime(response.data[i].timestamp);
         }
        
       });
