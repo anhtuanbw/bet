@@ -36,7 +36,7 @@ export default class ManagementController {
     this.toggleLeft = this.buildDelayedToggler('left');
   }
 
-  debounce(func, wait, context) {
+  debounce(func, wait) {
       var timer;
       var self = this;
       return function debounced() {

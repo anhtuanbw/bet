@@ -14,8 +14,10 @@ import Comment from './comment/comment';
 import InfoBettingMatch from './info-betting-match/info-betting-match';
 import Betting from './betting-match-management/betting-match-management';
 import CreateBet from './create-betting-match/create-betting-match';
+import PlayerStatistics from './player-statistics/player-statistics';
 import MenuLink from './menu/menu-link/menu-link';
 import MenuToggle from './menu/menu-toggle/menu-toggle';
+import RoundEmpty from './match/create-match/round-empty';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -36,4 +38,6 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('betting', () => new Betting())
 .directive('createBet', () => new CreateBet())
 .directive('menuLink', () => new MenuLink())
-.directive('menuToggle', () => new MenuToggle());
+.directive('menuToggle', () => new MenuToggle())
+.directive('playerStatistics', () => new PlayerStatistics())
+.directive('roundEmpty', () => new RoundEmpty());

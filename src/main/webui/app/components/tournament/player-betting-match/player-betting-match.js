@@ -16,11 +16,14 @@ export default class PlayerBettingMatchController {
       this.getComment = {};
       this.commentArr = [];
       this.comment = '';
-      this.error = false;
+      this.numberComments = '';
+      this.paging = 0;
+      this.notError = false;
       this.stompClient = null;
       this.chooseCompetitor1 = false;
       this.chooseCompetitor2 = false;
       this.checkLengthComments = false;
+      this.checkPaging = false;
       this.messageError = '';
       this.currentBettingPlayer = {};
       this.namePlayerBetCompetitor1 = [];
@@ -28,11 +31,10 @@ export default class PlayerBettingMatchController {
       this.namePlayerNotBet = [];
       this.getBettingMatchStatistics();
       this.getBettingMatchInfo();
+      this.getLostAmount();
       this.getComments();
-      this.disconnect();
-      this.connect();
+      this.checkExpiredBettingMatch();
       this.getBettingPlayer();
-      this.authen();
     });
 
   }
@@ -98,6 +100,26 @@ export default class PlayerBettingMatchController {
       });
   }
 
+  checkExpiredBettingMatch() {
+    this.bettingMatchService.checkExpiredBettingMatch(this.dataInfoMatch.bettingMatchId)
+      .then(response => {
+        this.notError = response.data;
+        if (this.notError) {
+          this.disconnect();
+          this.connect();
+        } else {
+          this.messageError = 'The betting match is expired';
+        }
+      });
+  }
+
+  getLostAmount() {
+    this.bettingMatchService.getLostAmount(this.dataInfoMatch.bettingMatchId)
+      .then(response => {
+        this.currentBettingPlayer.loseBettingMatch = response.data;
+      });
+  }
+
   assigningData(data1, data2) {
     var i;
     for (i = 0; i < data1.length; i++) {
@@ -139,20 +161,30 @@ export default class PlayerBettingMatchController {
     }
   }
 
+  setPaging() {
+    this.paging += 1;
+    this.getComments();
+  }
+
   getComments() {
-    this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId, 1)
+    this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId, this.paging)
       .then(response => {
-        if (response.data.length) {
-          this.commentArr = [];
-          var i;
-          if (response.data.length === 1) {
-            this.checkLengthComments = true;
-          }
-          for (i = 0; i < response.data.length; i++) {
-            this.commentArr.push(response.data[i]);
-            this.commentArr[i].timestamp = this.getTime(response.data[i].timestamp);
-          }
+        this.numberComments = response.data.commentCount;
+        this.commentArr = [];
+        var i;
+        if (response.data.comments.length === 0) {
+          this.checkLengthComments = true;
         }
+        
+        if (response.data.comments.length >= 10) {
+          this.checkPaging = true;
+        }
+        
+        for (i = 0; i < response.data.comments.length; i++) {
+          this.commentArr.push(response.data.comments[i]);
+          this.commentArr[i].timestamp = this.getTime(response.data.comments[i].timestamp);
+        }
+       
       });
   }
 
@@ -162,15 +194,6 @@ export default class PlayerBettingMatchController {
     this.getComments();
   }
 
-  authen() {
-    this.accountService.authen()
-      .then(response => {
-        if (response.data) {
-          this.currentBettingPlayer.username = response.data.username;
-        }
-      });
-  }
-
   connect() {
     var socket = new SockJS('/betting-match');
     this.stompClient = Stomp.over(socket);
@@ -178,7 +201,6 @@ export default class PlayerBettingMatchController {
     var self = this;
     self.stompClient.connect({}, function () {
       self.stompClient.subscribe('/topic/comment/' + self.dataInfoMatch.bettingMatchId, function () {
-        self.commentArr = [];
         self.getComments();
       });
 
@@ -190,12 +212,6 @@ export default class PlayerBettingMatchController {
         self.refreshBettingMatch();
       });
 
-      self.stompClient.subscribe('/topic/errors/' + self.currentBettingPlayer.username, function (message) {
-        if(message.body.length > 0) {
-          self.error = true;
-          self.messageError = message.body;
-        }
-      });
     });
   }
 
@@ -207,6 +223,7 @@ export default class PlayerBettingMatchController {
   }
 
   sendComment() {
+    this.checkLengthComments = false;
     var self = this;
     var token = this.cacheService.get('loginUser');
     var requestBody = {
@@ -219,6 +236,7 @@ export default class PlayerBettingMatchController {
   }
 
   chooseBet(competitorId) {
+    this.checkLengthComments = false;
     var self = this;
     var token = this.cacheService.get('loginUser');
     if (self.currentBettingPlayer.betCompetitorId) {

@@ -188,6 +188,11 @@ h3.docs-logotype {
 
 .md-theme-blue {
   background-color: #2C6BA0 !important;
+  height: 50px !important;
+}
+
+md-toolbar {
+  min-height: 50px !important;
 }
 
 .sidenav-toggle {
