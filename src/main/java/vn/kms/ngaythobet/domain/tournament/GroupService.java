@@ -94,4 +94,13 @@ public class GroupService {
         }
         return groupRepo.findByTournament(tournament);
     }
+
+    @Transactional(readOnly = true)
+    public void checkMemberPermission(Long groupId) {
+        Group group = groupRepo.findOne(groupId);
+        User user = SecurityUtil.getCurrentLoginUser();
+        if (!group.getMembers().contains(user)) {
+            throw new DataInvalidException("exception.unauthorized");
+        }
+    }
 }

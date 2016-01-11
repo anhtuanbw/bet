@@ -12,8 +12,12 @@ import PlayerHistory from './player-history/player-history';
 import GroupHistory from './group-history/group-history';
 import Comment from './comment/comment';
 import InfoBettingMatch from './info-betting-match/info-betting-match';
-import betting from './betting-match-management/betting-match-management';
-import createBet from './create-betting-match/create-betting-match';
+import Betting from './betting-match-management/betting-match-management';
+import CreateBet from './create-betting-match/create-betting-match';
+import PlayerStatistics from './player-statistics/player-statistics';
+import MenuLink from './menu/menu-link/menu-link';
+import MenuToggle from './menu/menu-toggle/menu-toggle';
+import RoundEmpty from './match/create-match/round-empty';
 
 export const commonModule = angular.module('ngaythobet.common', [
   'ui.bootstrap.tpls',
@@ -31,5 +35,9 @@ export const commonModule = angular.module('ngaythobet.common', [
 .directive('comment', () => new Comment())
 .directive('infoBettingMatch', () => new InfoBettingMatch())
 .directive('dateTimePicker', DateTimePicker)
-.directive('betting', () => new betting())
-.directive('createBet', () => new createBet());
+.directive('betting', () => new Betting())
+.directive('createBet', () => new CreateBet())
+.directive('menuLink', () => new MenuLink())
+.directive('menuToggle', () => new MenuToggle())
+.directive('playerStatistics', () => new PlayerStatistics())
+.directive('roundEmpty', () => new RoundEmpty());

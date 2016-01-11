@@ -134,14 +134,14 @@ export default class EditTournamentController {
     });
   }
 
-  openUpdateScore(matchId) {
+  openUpdateScore(match) {
     this.modal.open({
       templateUrl: 'app/common/match/update-score/update-score.html',
       controller: 'UpdateScoreController',
       controllerAs: 'updateScore',
       resolve: {
-        getMatchId: function () {
-          return matchId;
+        getMatch: function () {
+          return match;
         }
       }
     });

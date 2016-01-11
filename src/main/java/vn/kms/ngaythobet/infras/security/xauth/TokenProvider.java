@@ -6,9 +6,11 @@ import static java.util.Collections.singletonList;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +19,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -28,7 +29,6 @@ import com.google.common.cache.CacheBuilder;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.util.Constants;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.infras.security.CustomUserDetails;
 
 public class TokenProvider {
@@ -99,8 +99,8 @@ public class TokenProvider {
     }
 
     public void setAuthenticationFromHeader(SimpMessageHeaderAccessor headerAccessor) {
-        MultiValueMap<String, String> nativeHeaders = headerAccessor.getMessageHeaders()
-                .get(StompHeaderAccessor.NATIVE_HEADERS, MultiValueMap.class);
+        Map<String, List<String>> nativeHeaders = headerAccessor.getMessageHeaders()
+                .get(StompHeaderAccessor.NATIVE_HEADERS, Map.class);
         String token = null;
         if (nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME) != null
                 && !nativeHeaders.get(Constants.XAUTH_TOKEN_HEADER_NAME).isEmpty()) {

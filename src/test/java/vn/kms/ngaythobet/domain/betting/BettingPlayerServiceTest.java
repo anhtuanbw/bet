@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Rule;
@@ -28,6 +29,7 @@ import vn.kms.ngaythobet.domain.tournament.RoundRepository;
 import vn.kms.ngaythobet.domain.tournament.Tournament;
 import vn.kms.ngaythobet.domain.tournament.TournamentRepository;
 import vn.kms.ngaythobet.web.dto.AddCommentInfo;
+import vn.kms.ngaythobet.web.dto.BettingMatchStatisticsInfo;
 import vn.kms.ngaythobet.web.dto.PlayerBettingMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdatePlayerBettingMatchInfo;
 
@@ -235,6 +237,26 @@ public class BettingPlayerServiceTest extends BaseTest {
         bettingPlayerService.updatePlayBet(updateInfo);
         assertThat(bettingPlayerRepo.findOne(bettingPlayerTemp.getId()).getBetCompetitor().getName(),
                 equalTo("France"));
+    }
+
+    @Test
+    public void testGetBettingMatchStatistics() {
+        mockLoginUser("user");
+        BettingMatchStatisticsInfo info = bettingPlayerService.getBettingMatchStatistics(bettingMatchTemp.getId());
+        assertThat(info.getBettingPlayersChooseCompetitor1().size(), equalTo(0)); 
+        assertThat(info.getBettingPlayersChooseCompetitor2().size(), equalTo(1));
+        assertThat(info.getUserNotBet().size(), equalTo(1));
+    }
+
+    @Test
+    public void testGetBettingPlayerOfCurrentUserByBettingMatchId() {
+        mockLoginUser(userTemp2);
+        Optional<User> userOptional = userRepo.findOneByUsername("user2");
+        BettingPlayer bettingPlayer = bettingPlayerService
+                .getBettingPlayerOfCurrentUserByBettingMatchId(bettingMatchTemp.getId());
+        BettingPlayer currentBettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(userOptional.get(),
+                bettingMatchTemp);
+        assertThat(bettingPlayer.getId(), equalTo(currentBettingPlayer.getId()));
     }
 
     @Test

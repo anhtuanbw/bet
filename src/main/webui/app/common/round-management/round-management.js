@@ -16,6 +16,9 @@ export default class roundManController {
     this.loadTour();
     this.oldCompetitor = [];
     this.roundID = 0;
+    this.data.competitorList = [];
+    this.data.competitorOldList = [];
+    this.data.competitorInComboBox = [];
   }
 
   loadTour(){
@@ -51,6 +54,10 @@ export default class roundManController {
         this.data.competitorInComboBox.push(response.data[j].name);
       }
       this.removeExistCompetitor();
+      if (this.data.competitorInComboBox.length === 0) {
+        this.data.hideCombobox = true;
+        this.data.CompetitorError = 'Maximum competitors, you can not update this round !';
+      }
     });
   }
 

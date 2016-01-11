@@ -8,7 +8,6 @@ export default class BettingMatchController {
     this.BettingService = BettingService;
     this.accountService = AccountService;
     this.groupService = GroupService;
-    this.isMod = false;
     this.tourID = 0;
     this.groupID = 0;
     this.data = {};
@@ -19,6 +18,7 @@ export default class BettingMatchController {
     this.roundAndMatch = {};
     this.toaster = toaster;
     this.isAdmin = false;
+    this.isMod = false;
     this.checkAdmin();
   }
 
@@ -29,8 +29,9 @@ export default class BettingMatchController {
         this.groupID = groupID;
         this.showMatch();
         this.authen();
-        this.checkMod();
         this.data.hide = false;
+        this.isMember = false;
+        this.data.showBtnAdd = false;
       }
     });
   }
@@ -47,13 +48,18 @@ export default class BettingMatchController {
           'name': response.data[i].name
         };
         this.roundIdAndName.push(roundInfo);
-        this.data.match.push(response.data[i]);
+        if(response.data[i].matches.length !== 0) {
+          this.data.match.push(response.data[i]);
+          this.data.showBtnAdd = true;
+        }
       }
       this.showBettingMatch(this.data);
     });
   }
 
   showBettingMatch(){
+    this.checkMember();
+    this.checkMod();
     this.data.bettingMatch = [];
     for (var i = 0; i < this.roundIdAndName.length; i++) {
       this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID)
@@ -93,6 +99,11 @@ export default class BettingMatchController {
 
   add(){
     this.data.hide = true;
+  }
+
+  goBack(){
+    this.showBettingMatch();
+    this.data.hide = false;
   }
 
   parseTime(date){
@@ -207,6 +218,16 @@ export default class BettingMatchController {
       });
   }
 
+  checkMember(){
+    this.groupService.findById(this.groupID)
+    .then(response => {
+      for (var i = 0; i < response.data.members.length; i++) {
+        if (response.data.members[i].id === this.currentUser.id) {
+          this.isMember = true;
+        }
+      }
+    });
+  }
 
   betMatch(round, match){
     var dataSend = {
