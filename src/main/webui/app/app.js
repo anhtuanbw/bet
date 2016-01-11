@@ -46,7 +46,8 @@ angular.module('ngaythobet', [
   'ngaythobet.common',
   'toaster',
   'ngAnimate',
-  'ngMaterial'
+  'ngMaterial',
+  'mgcrea.ngStrap'
 ])
 .controller('AppController', AppController)
 .controller('HomeController', HomeController)
