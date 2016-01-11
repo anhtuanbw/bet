@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -128,5 +129,10 @@ public class AccountRestTest extends BaseTest{
         SecurityContextHolder.getContext()
                 .setAuthentication(new TestingAuthenticationToken(customUserDetails, user.getUsername()));
         token = tokenProvider.createToken(customUserDetails);
+    }
+
+    @After
+    public void clearData() {
+        userRepo.deleteAll();
     }
 }
