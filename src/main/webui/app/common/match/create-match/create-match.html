@@ -4,8 +4,9 @@
     <h2 class="modal-title"><small translate="common.match.create.title">Create new match</small></h2>
   </div>
   <div class="modal-body">
-    <form name="form" method="post">
-      <div class="form-group">
+    <div round-empty ng-show="createMatch.showModal"></div>
+    <form name="form" method="post" ng-hide="createMatch.showModal">
+      <div class="form-group" ng-hide="createMatch.checkRoundNull">
         <div ng-class="(createMatch.errorMessage.round) ? 'form-group has-error' : 'form-group'">
           <label for="round" translate="common.match.create.select-round"></label><span class="text-danger"> *</span>
           <select class="form-control" ng-model="createMatch.data.round" ng-options="round.id as round.name for round in createMatch.dataRounds"
@@ -65,7 +66,7 @@
       </div>
       <div class="form-group">
         <label for="comment" translate="common.match.create.comment"></label>
-        <textarea class="form-control" rows="2" ng-model="createMatch.data.comment" name="createMatch.data.comment"></textarea>
+        <textarea class="form-control" rows="2" ng-model="createMatch.data.comment" name="createMatch.data.comment" style="resize: none;"></textarea>
       </div>
       <hr>
       <div class="text-right">
