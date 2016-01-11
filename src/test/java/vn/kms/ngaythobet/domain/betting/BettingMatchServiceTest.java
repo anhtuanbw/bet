@@ -342,12 +342,6 @@ public class BettingMatchServiceTest extends BaseTest {
         assertThat(bettingMatchRepo.findAll().size(), equalTo(1));
     }
 
-    @Test
-    public void testGetBettingMatchById() {
-        BettingMatch bettingMatch = createBettingMatch();
-        assertThat(bettingMatchService.getBettingMatchById(bettingMatch.getId()).getBetAmount().doubleValue(),
-                equalTo(0.0));
-    }
 
     @Test
     public void testActiveBettingMatch() {
