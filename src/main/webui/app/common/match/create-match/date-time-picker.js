@@ -13,19 +13,19 @@ export default function () {
       };
 
       element.datetimepicker({
-        format: 'YYYY/MM/DD HH:mm'
+        format: 'MM/DD/YYYY HH:mm'
       });
-
-      element.on('dp.change', function () {
-        scope.$apply(read);
-      });
-
+      
       function read() {
         var value = element.find('input').val();
         ngModel.$setViewValue(value);
       }
       
       read();
+      
+      element.on('dp.change', function () {
+        scope.$apply(read);
+      });
     }
   };
 }

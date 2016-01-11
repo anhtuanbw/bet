@@ -28,15 +28,13 @@ import vn.kms.ngaythobet.domain.util.SecurityUtil;
 
 @Service
 public class GroupStatisticService {
-    private static final Logger logger = LoggerFactory
-            .getLogger(GroupStatisticService.class);
+    private static final Logger logger = LoggerFactory.getLogger(GroupStatisticService.class);
 
     private final GroupRepository groupRepo;
     private final BettingMatchRepository bettingMatchRepo;
 
     @Autowired
-    public GroupStatisticService(GroupRepository groupRepo,
-            BettingMatchRepository bettingMatchRepo) {
+    public GroupStatisticService(GroupRepository groupRepo, BettingMatchRepository bettingMatchRepo) {
         this.groupRepo = groupRepo;
         this.bettingMatchRepo = bettingMatchRepo;
     }
@@ -50,8 +48,7 @@ public class GroupStatisticService {
         }
 
         String username = SecurityUtil.getCurrentLogin();
-        Optional<User> optionalUser = group.getMembers().stream()
-                .filter(user -> user.getUsername().equals(username))
+        Optional<User> optionalUser = group.getMembers().stream().filter(user -> user.getUsername().equals(username))
                 .findFirst();
 
         if (!optionalUser.isPresent()) {
@@ -63,8 +60,7 @@ public class GroupStatisticService {
             GroupStatistic groupStatistic = new GroupStatistic();
             groupStatistic.setPlayer(user.getName());
 
-            List<BettingMatch> bettingMatches = bettingMatchRepo
-                    .findByGroupIdAndUsername(groupId, user.getUsername());
+            List<BettingMatch> bettingMatches = bettingMatchRepo.findByGroupIdAndUsername(groupId, user.getUsername());
             int notBetCount = 0;
             double notBetAmount = 0;
             int lossCount = 0;
@@ -73,11 +69,8 @@ public class GroupStatisticService {
 
             for (BettingMatch bettingMatch : bettingMatches) {
 
-                Optional<BettingPlayer> optionalBettingPlayer = bettingMatch
-                        .getBettingPlayers()
-                        .stream()
-                        .filter(bettingPlayer -> bettingPlayer.getPlayer()
-                                .getId().equals(user.getId())).findFirst();
+                Optional<BettingPlayer> optionalBettingPlayer = bettingMatch.getBettingPlayers().stream()
+                        .filter(bettingPlayer -> bettingPlayer.getPlayer().getId().equals(user.getId())).findFirst();
 
                 if (optionalBettingPlayer.isPresent()) {
                     BettingPlayer bp = optionalBettingPlayer.get();
@@ -85,8 +78,7 @@ public class GroupStatisticService {
                     BettingMatch bm = bp.getBettingMatch();
                     Competitor betCompetitor = bp.getBetCompetitor();
 
-                    double tempLossAmount = StatisticUtils.calculateLossAmount(
-                            bm, betCompetitor);
+                    double tempLossAmount = StatisticUtils.calculateLossAmount(bm, betCompetitor);
 
                     if (tempLossAmount > 0) {
                         lossCount++;
@@ -105,8 +97,7 @@ public class GroupStatisticService {
             groupStatistic.setLossCount(lossCount);
             groupStatistic.setLossAmount(lossAmount);
             groupStatistic.setNotlossCount(notLossCount);
-            groupStatistic.setTotalLossAmount(groupStatistic
-                    .getTotalLossAmount());
+            groupStatistic.setTotalLossAmount(groupStatistic.getTotalLossAmount());
             groupStatistics.add(groupStatistic);
         }
         return groupStatistics;

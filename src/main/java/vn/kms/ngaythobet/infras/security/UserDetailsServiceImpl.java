@@ -19,8 +19,12 @@ import static java.util.Collections.singletonList;
 
 @Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    public UserDetailsServiceImpl(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
     @Transactional
