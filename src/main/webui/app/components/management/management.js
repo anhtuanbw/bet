@@ -2,7 +2,7 @@
 
 export default class ManagementController {
   /* @ngInject */
-  constructor(TournamentService, CacheService, $rootScope, AccountService, $location) {
+  constructor(TournamentService, CacheService, $rootScope, AccountService, MenuService, $location, $mdSidenav, $timeout) {
     this.rootScope = $rootScope;
     this.location = $location;
     this.tournamentService = TournamentService;
@@ -23,6 +23,68 @@ export default class ManagementController {
     $rootScope.$on('addTournament', () => {
       this.getAllTournament();
     });
+
+    this.menu = MenuService;
+    this.autoFocusContent = false;
+    this.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+
+    this.$mdSidenav = $mdSidenav;
+    this.$timeout = $timeout;
+    this.toggleLeft = this.buildDelayedToggler('left');
+  }
+
+  debounce(func, wait) {
+      var timer;
+      var self = this;
+      return function debounced() {
+        var context = this,
+            args = Array.prototype.slice.call(arguments);
+        self.$timeout.cancel(timer);
+        timer = self.$timeout(function() {
+          timer = undefined;
+          func.apply(context, args);
+        }, wait || 10);
+      };
+  }
+
+  buildDelayedToggler(navID) {
+      return this.debounce(function() {
+        this.$mdSidenav(navID)
+          .toggle()
+          .then(function () {
+          });
+      }, 200);
+  }
+
+  isOpen(section) {
+    return this.menu.isSectionSelected(section);
+  }
+
+  toggleOpen(section) {
+    this.menu.toggleSelectSection(section);
+  }
+
+  isSectionSelected(section) {
+    var selected = false;
+    var openedSection = this.menu.openedSection;
+    if(openedSection === section){
+      selected = true;
+    }
+    else if(section.children) {
+      section.children.forEach(function(childSection) {
+        if(childSection === openedSection){
+          selected = true;
+        }
+      });
+    }
+    return selected;
+  }
+
+  focusSection() {
+    this.autoFocusContent = true;
   }
 
   changeTournament(index) {
@@ -46,7 +108,7 @@ export default class ManagementController {
     group.tournamentName = tournament.name;
     this.rootScope.$broadcast('selectGroup', group);
   }
-  
+
   playerBetting() {
     this.showView.isBetting = true;
     this.showView.isCreate = false;

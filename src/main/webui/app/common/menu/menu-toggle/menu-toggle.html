@@ -1,0 +1,25 @@
+<md-button class="md-button-toggle"
+    ng-init="self=this;"
+    ng-click="management.toggleOpen(self); management.showTournamenDetail(section.id)"
+    aria-controls="side-menu-{{ section.name }}"
+    flex layout="row"
+    aria-expanded="{{ management.isOpen(this) }}">
+    <i class="fa fa-server"></i> 
+    <a href="javascript:void(0)">
+        {{ section.name }}
+    </a>
+    <span aria-hidden="true" class="pull-right fa fa-chevron-down md-toggle-icon"
+        ng-class="{'toggled' : management.isOpen(self)}"></span>
+</md-button>
+<ul ng-show="management.isOpen(this)" id="side-menu-{{ section.name }}" class="menu-toggle-list">
+    <li ng-repeat="group in section.groups" ng-click="management.changeTournament($index)" ng-class="{ 'selected': management.selectedGroup == $index }">
+        <md-button ng-class="{'{{ section.icon }}' : true}"
+            ng-click="management.focusSection(); management.showGroup($index, section, group)">
+            <span aria-hidden="true" class="fa fa-users md-toggle-icon"
+                ng-class="{'selected' : management.selectedGroup == $index }"></span>
+            <a href="javascript:void(0)">{{ group.name }}</a>
+            <span class="md-visually-hidden" ng-if="management.isSelected()">
+            </span>
+        </md-button>
+    </li>
+</ul>

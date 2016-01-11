@@ -3,7 +3,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>ngaythobet</title>
-    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/png" href="assets/images/logo.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- build:css1 assets/styles/vendor.min.css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.min.css" />
@@ -23,8 +24,8 @@
 <body ng-app="ngaythobet">
     <div ng-strict-di ng-controller="AppController">
         <div navbar></div>
-        <div class="container-fluid wrapper">
-            <div ng-viewport></div>
+        <div class="container-fluid wrapper" layout="row">
+            <div ng-viewport style="width: 100%;"></div>
         </div>
         <footer>
             <div class="container">
