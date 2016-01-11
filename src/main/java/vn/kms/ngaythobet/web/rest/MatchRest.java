@@ -48,6 +48,11 @@ public class MatchRest {
         return matchService.getRounds(tournamentId);
     }
     
+    @RequestMapping(value = "/check-rounds/{tournamentId}", method = GET)
+    public boolean checkRoundsByTournament(@PathVariable Long tournamentId) {
+        return matchService.checkRounds(tournamentId);
+    }
+    
     @RequestMapping(value = "/update-score", method = POST)
     public void updateScore(@Valid @RequestBody UpdateScoreInfo updateScoreInfo) {
         matchService.updateScore(updateScoreInfo);

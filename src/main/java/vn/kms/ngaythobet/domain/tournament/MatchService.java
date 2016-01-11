@@ -1,6 +1,7 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
+import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
 import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
@@ -120,6 +121,21 @@ public class MatchService {
     @Transactional(readOnly = true)
     public List<Round> getRounds(Long tournamentId) {
         return roundRepo.findByTournamentId(tournamentId);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean checkRounds(Long tournamentId) {
+        List<Round> rounds = roundRepo.findByTournamentId(tournamentId);
+        boolean checked = true;
+
+        if (rounds == null || rounds.size() == 0) {
+            checked = false;
+        } else if (rounds != null && rounds.size() == 1) {
+            if (rounds.get(0).getName().equals(Constants.DEFAULT_ROUND_NAME)) {
+                checked = false;
+            }
+        }
+        return checked;
     }
 
     @Transactional(readOnly = true)

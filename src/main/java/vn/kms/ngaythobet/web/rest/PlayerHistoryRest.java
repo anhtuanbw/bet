@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.kms.ngaythobet.domain.core.ChangeLogService;
 import vn.kms.ngaythobet.web.dto.CommentInfo;
-import vn.kms.ngaythobet.web.dto.HistoryBetting;
 
 @RestController
 @RequestMapping("/api/player")
@@ -29,8 +28,8 @@ public class PlayerHistoryRest {
         return changeLogService.getComments(bettingMatchId, paging);
     }
 
-    @RequestMapping(value = "/getHistoryBetting/{playerId}", method = GET)
-    public List<HistoryBetting> getHistoryBetting(@PathVariable Long playerId) {
-        return changeLogService.getHistoryBetting(playerId);
+    @RequestMapping(value = "/getCommentCount/{bettingMatchId}", method = GET)
+    public Integer getCommentCount(@PathVariable Long bettingMatchId) {
+        return changeLogService.getCommentCount(bettingMatchId);
     }
 }
