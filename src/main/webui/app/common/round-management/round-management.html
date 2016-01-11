@@ -40,11 +40,10 @@
           </div>
 
           <!-- Combobox Competitor -->
-          <div class="input-group" ng-hide="round.data.hideCombobox">
-            <select class="form-control" ng-model="round.data.competitorSelected" required>
+          <div class="form-group" ng-hide="round.data.hideCombobox">
+            <select class="form-control" ng-model="round.data.competitorSelected" ng-change="round.addCompetitor(round.data)" required>
               <option ng-repeat="comp in round.data.competitorInComboBox">{{comp}}</option>
             </select>
-                <div class="input-group-addon" ng-click="round.addCompetitor(round.data)" translate="common.round.create.add"></div>
           </div>
 
           <br>

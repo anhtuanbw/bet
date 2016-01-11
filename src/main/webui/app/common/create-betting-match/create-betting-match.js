@@ -142,5 +142,29 @@ export default class CreateBettingController {
     timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
     return timeFormated;
   }
+
+  validateBal1(){
+    if ( typeof this.data.balance1 === 'number' ) {
+      this.data.errorBal1 = '';
+    } else {
+      this.data.errorBal1 = 'invalid number !';
+    }
+  }
+
+  validateBal2(){
+    if ( typeof this.data.balance2 === 'number' ) {
+      this.data.errorBal2 = '';
+    } else {
+      this.data.errorBal2 = 'invalid number !';
+    }
+  }
+
+  validateAmount(){
+    if ( typeof this.data.amount === 'number' ) {
+      this.data.errorBetAmount = '';
+    } else {
+      this.data.errorBetAmount = 'invalid number !';
+    }
+  }
 }
 

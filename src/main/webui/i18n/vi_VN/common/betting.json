@@ -16,7 +16,9 @@
           "amount": "Số tiền cược",
           "desc": "Ghi chú",
           "active": "Kích hoạt",
-          "back": "Quay lại"
+          "back": "Quay lại",
+          "startTime": "Thời gian bắt đầu",
+          "location": "Địa điểm"
       }
   }
 }

@@ -99,6 +99,7 @@ export default class BettingMatchController {
 
   add(){
     this.data.hide = true;
+    //this.removeMatchBetted();
   }
 
   goBack(){
@@ -112,7 +113,7 @@ export default class BettingMatchController {
     var dates = this.longTime(date[2]);
     var hour = this.longTime(date[3]);
     var minute = this.longTime(date[4]);
-    var dateTime = month+'/'+dates+'/'+year+', '+hour+':'+minute+':00 ';
+    var dateTime = month+'/'+dates+'/'+year+', '+hour+':'+minute;
     return dateTime;
   }
 
@@ -126,6 +127,9 @@ export default class BettingMatchController {
 
   chooseMatch(matchChoosedData){
     matchChoosedData.groupID = this.groupID;
+    matchChoosedData.balance1 = 0;
+    matchChoosedData.balance2 = 0;
+    matchChoosedData.betAmount = 0;
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
       controller: 'CreateBettingController',
@@ -242,6 +246,31 @@ export default class BettingMatchController {
       'time': match.match.matchTime
     };
     this.rootScope.$broadcast('playerBettingMatch', dataSend);
+  }
+
+  removeMatchBetted(){
+    console.log('match');
+    console.log(this.data.match);
+    console.log('betting match');
+    console.log(this.data.bettingMatch);
+
+    //use for(...) to make a list betting match id
+    var bettingMatchId = [];
+    for (var i = 0; i < this.data.bettingMatch.length; i++) {
+      for (var j = 0; j < this.data.bettingMatch[i].bettingMatch.length; j++) {
+        bettingMatchId.push(this.data.bettingMatch[i].bettingMatch[j].match.id);
+      }
+    }
+    console.log(bettingMatchId);
+    //use for(...) to remove match have the same betting match id bettingMatch
+    for (var k = 0; k < this.data.match.length; k++) {
+      for (var l = 0; l < this.data.match[k].matches.length; l++) {
+        var existId = bettingMatchId.indexOf(this.data.match[k].matches[l].id);
+        if (existId !== -1) {
+          this.data.match[k].matches.splice(l, 1);
+        }
+      }
+    }
   }
 
 }

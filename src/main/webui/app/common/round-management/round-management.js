@@ -56,7 +56,7 @@ export default class roundManController {
       this.removeExistCompetitor();
       if (this.data.competitorInComboBox.length === 0) {
         this.data.hideCombobox = true;
-        this.data.CompetitorError = 'Maximum competitors, you can not update this round !';
+        this.data.CompetitorError = 'All competitors have been selected, you can not update this round !!!';
       }
     });
   }

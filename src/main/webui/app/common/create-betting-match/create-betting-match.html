@@ -18,13 +18,13 @@
     </p>
     <p>
       <div class="form-inline text-center">
-        <div class="col-md-1"></div>
-        <div class="col-md-5">
-          <input type="number" class="form-control" ng-model="createBet.data.balance1" min="0">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-5">
+          <input type="number" class="form-control" ng-change="createBet.validateBal1()" ng-model="createBet.data.balance1" min="0">
           <span class="text-danger" ng-bind="createBet.data.errorBal1"></span>
         </div>
-        <div class="col-md-5">
-          <input type="number" class="form-control" ng-model="createBet.data.balance2" min="0">
+        <div class="col-xs-5">
+          <input type="number" class="form-control" ng-change="createBet.validateBal2()" ng-model="createBet.data.balance2" min="0">
           <span class="text-danger" ng-bind="createBet.data.errorBal2"></span>
         </div>
       </div>
@@ -51,7 +51,7 @@
         <span class="text-danger">*</span>
       </strong>
     </p>
-    <input type="number" class="form-control" ng-model="createBet.data.amount" min="0">
+    <input type="number" class="form-control" ng-change="createBet.validateAmount()" ng-model="createBet.data.amount" min="0">
     <span class="text-danger" ng-bind="createBet.data.errorBetAmount"></span>
     <br>
     <p><strong translate="common.betting.desc"></strong></p>

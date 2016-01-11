@@ -16,7 +16,9 @@
           "amount": "Bet amount",
           "desc": "Description",
           "active": "Activate",
-          "back": "Back"
+          "back": "Back",
+          "startTime": "Start time",
+          "location": "Location"
       }
   }
 }
