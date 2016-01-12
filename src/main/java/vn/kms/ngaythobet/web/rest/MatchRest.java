@@ -19,6 +19,7 @@ import vn.kms.ngaythobet.domain.tournament.Match;
 import vn.kms.ngaythobet.domain.tournament.MatchService;
 import vn.kms.ngaythobet.domain.tournament.Round;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
+import vn.kms.ngaythobet.web.dto.MatchNotCreateBetInfo;
 import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 
@@ -61,5 +62,10 @@ public class MatchRest {
     @RequestMapping(value = "/getMatch/{matchId}", method = GET)
     public Match getMatch(@PathVariable Long matchId) {
         return matchService.getMatch(matchId);
+    }
+
+    @RequestMapping(value = "/getMatchNotCreateBettingMatch/{tournamentId}/{groupId}", method = GET)
+    public List<MatchNotCreateBetInfo> getMatchNotCreateBettingMatch(@PathVariable Long tournamentId,@PathVariable Long groupId) {
+        return matchService.getMatchNotCreatedBettingMatch(tournamentId, groupId);
     }
 }
