@@ -33,7 +33,7 @@ export default class EditTournamentController {
       targetEvent: $event,
       clickOutsideToClose: true,
       resolve: {
-        tournamentId: function() {
+        tournamentId: function () {
           return self.tournamentInfo.id;
         }
       }
@@ -90,7 +90,7 @@ export default class EditTournamentController {
       for (j = 0; j < this.inforTournament[i].matches.length; j++) {
         var timeString = this.inforTournament[i].matches[j].matchTime;
         this.inforTournament[i].matches[j].matchTime = this.formatTime(timeString[1].toString()) + '/' + this.formatTime(timeString[2].toString()) + '/' + timeString[0] +
-          ', ' + this.formatTime(timeString[3].toString()) + ':' + this.formatTime(timeString[4].toString()) + ':00';
+        ', ' + this.formatTime(timeString[3].toString()) + ':' + this.formatTime(timeString[4].toString());
       }
     }
   }
@@ -110,10 +110,10 @@ export default class EditTournamentController {
       controller: 'RoundManController',
       controllerAs: 'round',
       resolve: {
-        selectedRound: function() {
+        selectedRound: function () {
           return roundOldData;
         },
-        tourID: function() {
+        tourID: function () {
           return self.tournamentInfo.id;
         }
       }
@@ -127,7 +127,7 @@ export default class EditTournamentController {
       controller: 'CreateMatchController',
       controllerAs: 'createMatch',
       resolve: {
-        editId: function() {
+        editId: function () {
           return self.tournamentInfo.id;
         }
       }
@@ -140,14 +140,14 @@ export default class EditTournamentController {
       controller: 'UpdateScoreController',
       controllerAs: 'updateScore',
       resolve: {
-        getMatch: function() {
+        getMatch: function () {
           return match;
         }
       }
     });
   }
 
-  openUpdateRound(round) {
+  openUpdateRound(round){
     var self = this;
     var roundOldData = {
       'roundId': round.id,
@@ -158,22 +158,22 @@ export default class EditTournamentController {
       controller: 'RoundManController',
       controllerAs: 'round',
       resolve: {
-        selectedRound: function() {
+        selectedRound: function () {
           return roundOldData;
         },
-        tourID: function() {
+        tourID: function () {
           return self.tournamentInfo.id;
         }
       }
     });
   }
-
+  
   authen() {
     this.accountService.authen()
-      .then(response => {
-        if (response.data) {
-          this.isAdmin = response.data.role === 'ADMIN' ? true : false;
-        }
-      });
+    .then(response => {
+      if (response.data) {
+         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+      }
+    });
   }
 }
