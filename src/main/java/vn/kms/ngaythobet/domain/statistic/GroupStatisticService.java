@@ -52,12 +52,11 @@ public class GroupStatisticService {
             throw new DataInvalidException("exception.group.not-exist");
         }
 
-        String username = SecurityUtil.getCurrentLogin();
-        User currentUser = userRepo.findOneByUsername(username).get();
+        User currentUser = SecurityUtil.getCurrentLoginUser();
 
         if (!currentUser.getRole().equals(Role.ADMIN)) {
             Optional<User> optionalUser = group.getMembers().stream()
-                    .filter(user -> user.getUsername().equals(username)).findFirst();
+                    .filter(user -> user.getUsername().equals(currentUser.getUsername())).findFirst();
             if (!optionalUser.isPresent()) {
                 throw new DataInvalidException("exception.group.not-belong-group");
             }
