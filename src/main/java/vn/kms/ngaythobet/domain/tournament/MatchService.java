@@ -31,15 +31,16 @@ public class MatchService {
 
     private final BettingMatchRepository bettingMatchRepo;
 
-    private GroupRepository groupRepo;
+    private final GroupRepository groupRepo;
 
     @Autowired
     public MatchService(CompetitorRepository competitorRepo, RoundRepository roundRepo, MatchRepository matchRepo,
-            BettingMatchRepository bettingMatchRepo) {
+            BettingMatchRepository bettingMatchRepo, GroupRepository groupRepo) {
         this.competitorRepo = competitorRepo;
         this.roundRepo = roundRepo;
         this.matchRepo = matchRepo;
         this.bettingMatchRepo = bettingMatchRepo;
+        this.groupRepo = groupRepo;
     }
 
     @Transactional
@@ -168,7 +169,8 @@ public class MatchService {
     public List<MatchNotCreateBetInfo> getMatchNotCreatedBettingMatch(Long tournamentId, Long groupId) {
         List<Match> matches = matchRepo.findByTournament(tournamentId);
         List<MatchNotCreateBetInfo> matchesNotbet = new ArrayList<MatchNotCreateBetInfo>();
-        List<BettingMatch> bettingMatches = bettingMatchRepo.findByGroupId(groupId);
+        Group group = groupRepo.getOne(groupId);
+        List<BettingMatch> bettingMatches = bettingMatchRepo.findByGroup(group);
         for (Match match : matches) {
             boolean isExist = false;
             for (BettingMatch bettingMatch : bettingMatches) {
