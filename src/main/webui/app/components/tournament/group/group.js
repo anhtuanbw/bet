@@ -26,19 +26,19 @@ export default class TournamentGroupController {
     this.checkMod();
     this.activePlayer = 'group';
   }
-  
+
   findById() {
     this.groupService.findById(this.groupInfo.id)
-    .then(response => {
-      this.groupInfo = response.data;
-    })
-    .catch(error => {
-      if (error.status === 401) {
-        this.location.path('/unauthorized');
-      }
-    });
+      .then(response => {
+        this.groupInfo = response.data;
+      })
+      .catch(error => {
+        if (error.status === 401) {
+          this.location.path('/unauthorized');
+        }
+      });
   }
-  
+
   checkMod() {
     this.accountService.authen()
     .then(response => {
@@ -61,15 +61,15 @@ export default class TournamentGroupController {
   playerStatistic() {
     this.rootScope.$broadcast('playerStatistic', this.groupInfo.id);
   }
-  
-   openUpdateGroup() {
+
+  openUpdateGroup() {
     var self = this;
     this.modal.open({
       templateUrl: 'app/common/update-group/update-group.html',
       controller: 'UpdateGroupController',
       controllerAs: 'updateGroup',
       resolve: {
-        groupInfo: function () {
+        groupInfo: function() {
           return self.groupInfo;
         }
       }

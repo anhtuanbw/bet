@@ -214,6 +214,7 @@ public class ChangeLogTest extends BaseTest {
 
     @Test
     public void testGetCommentCount() {
+        changeLogRepo.deleteAll();
         BettingMatch bettingMatch = new BettingMatch();
         bettingMatch.setActivated(false);
         bettingMatch.setBalance1(new BigDecimal("0"));
@@ -243,8 +244,8 @@ public class ChangeLogTest extends BaseTest {
                 size++;
             }
         }
-
-        assertThat(changelogs.size() + size, equalTo(2));
+        
+        assertThat(changeLogService.getCommentCount(bettingMatchTemp.getId()), equalTo(2));
     }
 
     @Test

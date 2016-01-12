@@ -103,7 +103,7 @@ export default class EditTournamentController {
       for (j = 0; j < this.inforTournament[i].matches.length; j++) {
         var timeString = this.inforTournament[i].matches[j].matchTime;
         this.inforTournament[i].matches[j].matchTime = this.formatTime(timeString[1].toString()) + '/' + this.formatTime(timeString[2].toString()) + '/' + timeString[0] +
-        ', ' + this.formatTime(timeString[3].toString()) + ':' + this.formatTime(timeString[4].toString()) + ':00';
+        ', ' + this.formatTime(timeString[3].toString()) + ':' + this.formatTime(timeString[4].toString());
       }
     }
   }

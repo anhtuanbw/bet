@@ -10,7 +10,6 @@ export default class ManagementController {
     this.tournaments = [];
     this.getAllTournament();
     this.selectedGroup = -1;
-    this.selectedTour = -1;
     this.showView = {
       isBetting: false,
       isCreate: true,
@@ -89,10 +88,6 @@ export default class ManagementController {
 
   focusSection() {
     this.autoFocusContent = true;
-  }
-
-  changeTournament(index) {
-    this.selectedTour = (index == this.selectedTour ? -1 : index);
   }
 
   createTournament() {
