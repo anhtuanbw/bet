@@ -38,6 +38,9 @@ public class UserServiceTest extends BaseTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailService mailService;
+
     private UserService userService;
 
     @Override
@@ -50,14 +53,9 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void testExpriedActiveKey() {
+    public void testRegisterExpriedActiveKey() throws InterruptedException {
         String username = "test123";
-        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
-        registerUserInfo.setUsername(username);
-        registerUserInfo.setEmail("test123@test.local");
-        registerUserInfo.setLanguageTag("en");
-        registerUserInfo.setName("Test User");
-        registerUserInfo.setPassword("Test@123");
+        RegisterUserInfo registerUserInfo =createRegisterInfo(username);
 
         userService.registerUser(registerUserInfo);
 
@@ -68,17 +66,13 @@ public class UserServiceTest extends BaseTest {
         exception.expect(DataInvalidException.class);
         exception.expectMessage("{exception.userService.activation-key-expired}");
         userService.activateRegistration(activationKey, LocalDateTime.now().plusDays(7));
+        Thread.sleep(100);
     }
 
     @Test
-    public void testRegisterSuccessful() {
+    public void testRegisterWithValidKey() throws InterruptedException {
         String username = "test123";
-        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
-        registerUserInfo.setUsername(username);
-        registerUserInfo.setEmail("test123@test.local");
-        registerUserInfo.setLanguageTag("en");
-        registerUserInfo.setName("Test User");
-        registerUserInfo.setPassword("Test@123");
+        RegisterUserInfo registerUserInfo =createRegisterInfo(username);
 
         userService.registerUser(registerUserInfo);
 
@@ -90,28 +84,23 @@ public class UserServiceTest extends BaseTest {
         user = userRepo.findOneByUsername(username).get();
         assertThat(user.isActivated(), is(true));
         assertThat(user.getActivationKey(), nullValue());
-        
+        Thread.sleep(100);
         exception.expect(DataInvalidException.class);
         exception.expectMessage("{exception.userService.activation-key-invalid}");
         userService.activateRegistration(activationKey, LocalDateTime.now());
     }
 
     @Test
-    public void testRegisterUserWithWrongKey() {
+    public void testRegisterUserWithWrongKey() throws InterruptedException {
         String username = "test123";
-        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
-        registerUserInfo.setUsername(username);
-        registerUserInfo.setEmail("test123@test.local");
-        registerUserInfo.setLanguageTag("en");
-        registerUserInfo.setName("Test User");
-        registerUserInfo.setPassword("Test@123");
+        RegisterUserInfo registerUserInfo =createRegisterInfo(username);
 
         userService.registerUser(registerUserInfo);
-
         // verify activationKey was generated
         User user = userRepo.findOneByUsername(username).get();
         String activationKey = user.getActivationKey();
-
+//        mailService.sendActivationEmailAsync(user);
+//        Thread.sleep(5000);
         assertThat(activationKey, notNullValue());
         assertThat(user.isActivated(), is(false));
 
@@ -257,6 +246,16 @@ public class UserServiceTest extends BaseTest {
         assertThat(user.getName(), equalTo("tester User"));
         assertThat(user.getEmail(), equalTo("tester@test.local"));
         assertThat(user.getLanguageTag(), equalTo("en"));
+    }
+
+    public RegisterUserInfo createRegisterInfo(String username) {
+        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
+        registerUserInfo.setUsername(username);
+        registerUserInfo.setEmail("test123@test.local");
+        registerUserInfo.setLanguageTag("en");
+        registerUserInfo.setName("Test User");
+        registerUserInfo.setPassword("Test@123");
+        return registerUserInfo;
     }
 
     @After
