@@ -2,8 +2,7 @@
 
 export default class CommentController {
   /* @ngInject */
-  constructor() {
-  }
+  constructor() {}
 }
 
 export default class Comment {

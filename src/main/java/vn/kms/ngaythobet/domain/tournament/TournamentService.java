@@ -1,7 +1,7 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,9 +64,12 @@ public class TournamentService {
     public List<Tournament> findAllTournamentOfUser() {
         String username = SecurityUtil.getCurrentLogin();
         User user = userRepo.findOneByUsername(username).get();
+        List<Group> groups = user.getGroups();
         if (!user.getRole().equals(User.Role.ADMIN)) {
-            return user.getGroups().stream().map(group -> group.getTournament()).distinct()
+            List<Tournament> tournaments = user.getGroups().stream().map(group -> group.getTournament()).distinct()
                     .filter(tournament -> tournament.isActivated()).collect(Collectors.toList());
+            tournaments.forEach(tournament -> tournament.getGroups().retainAll(groups));
+            return tournaments;
         }
         return tournamentRepo.findAll();
     }

@@ -1,8 +1,8 @@
-<md-button ng-class="{'{{section.icon}}' : true}"
-    ng-click="management.focusSection(); management.showTournamenDetail(section.id)">
+<md-button ng-class="{'{{tournament.icon}}' : true}"
+    ng-click="management.focusSection(); management.showTournamenDetail(tournament.id)">
     <i class="fa fa-server"></i>
     <a href="javascript:void(0)">
-    	{{ section.name }}
+    	{{ tournament.name }}
     </a>
     <span class="md-visually-hidden" ng-if="management.isSelected()">
     </span>

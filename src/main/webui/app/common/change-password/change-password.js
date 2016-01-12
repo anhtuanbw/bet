@@ -17,13 +17,13 @@ export default class ChangePasswordController {
     self.popTitle = 'Change password';
     var successMessage = 'Your password have been changed!';
     // Show alert message
-    self.pop = function (type, title, content) {
+    self.pop = function(type, title, content) {
       this.toaster.pop(type, title, content);
     };
 
     this.accountService.changePassword(this.data)
       .then(response => {
-        
+
         // Success
         self.closeModal();
         self.pop('success', self.popTitle, successMessage);
@@ -31,13 +31,13 @@ export default class ChangePasswordController {
         successMessage = '';
         const token = response.data.token;
         if (token) {
-          
+
           // reset new token
           self.cacheService.set('loginUser', token);
         }
       })
       .catch(response => {
-        
+
         // return error
         if (response.data.message) {
           self.pop('error', self.popTitle, response.data.message);
