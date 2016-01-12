@@ -14,21 +14,14 @@ export default class ChangePasswordController {
 
   changePass() {
     var self = this;
-    self.popTitle = 'Change password';
-    var successMessage = 'Your password have been changed!';
-    // Show alert message
-    self.pop = function(type, title, content) {
-      this.toaster.pop(type, title, content);
-    };
 
     this.accountService.changePassword(this.data)
       .then(response => {
 
         // Success
         self.closeModal();
-        self.pop('success', self.popTitle, successMessage);
+        this.toaster.pop('success', null, 'app/common/change-password/success.html', null, 'template');
         self.data = {};
-        successMessage = '';
         const token = response.data.token;
         if (token) {
 

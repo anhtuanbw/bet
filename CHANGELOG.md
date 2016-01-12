@@ -1,3 +1,32 @@
+ngaythobet - v1.0.2 / 2016-01-12
+================================
+**Improvement**
+* [UI] Update tournament UI
+* [UI] Completed comment, translate language
+* [API] Updated role ADMIN can view any group statistic
+
+**Bug Fixed** 
+* [#122] Player can view ALL group in Tournament when they just join only group in this tournament
+* [#136[ System should not displayed 'add competitor' field in update round when all competitor have been selected in round
+
+
+ngaythobet - v1.0.1 / 2016-01-11
+================================
+**Improvement**
+* [UI] Support multi language for betting match
+* [UI] Update front-end about create new match, realtime, update-score, show match list
+* [UI] Enhance Add flag in language select
+* [API] Updated getComments API
+* [API] Fix expiredtime for update betting match
+
+**Bug Fixed** 
+* [#128] Activate' button is still displayed after Mod click active button in betting match
+* [#130] System does not allow Admin to bet if admin is player in group
+* [#131] Team's score displays null value when user selects that match to update score
+* [#132] Total loss amount is incremental when user clicks on betting group that user viewing
+* [#133] System translate from EN to VI language is not correct
+
+
 ngaythobet - v1.0.0 / 2016-01-08
 ================================
 

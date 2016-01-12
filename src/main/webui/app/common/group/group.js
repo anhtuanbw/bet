@@ -50,7 +50,7 @@ export default class GroupController {
     // Create group
     var self = this;
     var data = {
-      name: this.groupData.name,
+      name: this.groupData.name? this.groupData.name : 'null',
       tournamentId: this.groupData.tournament,
       moderator: this.selectedItem ? this.selectedItem.id : null
     };

@@ -126,7 +126,8 @@ public class GroupStatisticServiceTest extends BaseTest {
 
     @Test
     public void testGetGroupStatistic() {
-        mockLoginUser("user1");
+        User user = makeUser("user1");
+        mockLoginUser(user);
         List<GroupStatistic> groupStatistics = groupStatisticService.getGroupStatistic(groupTemp.getId());
         assertThat(groupStatistics.size(), equalTo(2));
         assertThat(groupStatistics.get(0).getNotbetCount(), equalTo(0));

@@ -1,4 +1,4 @@
-<md-dialog ng-cloak>
+<md-dialog ng-cloak style="min-width: 600px; max-width: 600px;">
     <div class="modal-header">
         <h2 class="modal-title">
             <small translate="common.group.title"></small>
@@ -42,7 +42,10 @@
             </div>
             <div class="form-group">
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary" ng-click="groupCtrl.save()" translate="common.group.btnSave"></button>
+                    <button type="submit" class="btn btn-primary" ng-click="groupCtrl.save()">
+                        <i class="fa fa-floppy-o"></i>
+                        <span translate="common.group.btnSave" class="bold"></span>
+                    </button>
                     <button type="button" class="btn btn-default" ng-click="groupCtrl.cancel()" translate="common.group.btnCancel"></button>
                 </div>
             </div>
