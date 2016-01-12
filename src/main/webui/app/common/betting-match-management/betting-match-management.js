@@ -28,33 +28,21 @@ export default class BettingMatchController {
       if (tournamentID) {
         this.tourID = tournamentID;
         this.groupID = groupID;
-        this.showMatch();
         this.authen();
         this.data.hide = false;
         this.isMember = false;
-        this.data.showBtnAdd = false;
+        this.data.showBtnAdd = true;
+        this.showBettingMatch();
       }
     });
   }
 
   showMatch(){
+    this.data.hide = true;
     this.data.match = [];
-    this.roundIdAndName = [];
-    this.RoundService.getRoundInTournament(this.tourID)
+    this.BettingService.getMatchNotCreateBettingMatch(this.tourID, this.groupID)
     .then(response => {
-      this.roundAndMatch = response.data;
-      for (var i = 0; i < response.data.length; i++) {
-        var roundInfo = {
-          'id': response.data[i].id,
-          'name': response.data[i].name
-        };
-        this.roundIdAndName.push(roundInfo);
-        if(response.data[i].matches.length !== 0) {
-          this.data.match.push(response.data[i]);
-          this.data.showBtnAdd = true;
-        }
-      }
-      this.showBettingMatch(this.data);
+      this.data.match = response.data;
     });
   }
 
@@ -63,8 +51,9 @@ export default class BettingMatchController {
     this.checkMod();
     this.data.bettingMatch = [];
     for (var i = 0; i < this.roundIdAndName.length; i++) {
-      this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID);
+      this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID)
         .then(response => {
+          console.log(response.data);
           //remove null item
           var tempArray = [];
           for (var j = 0; j < response.data.length; j++) {
@@ -96,11 +85,6 @@ export default class BettingMatchController {
           response.data = [];
       });
     }
-  }
-
-  add(){
-    this.data.hide = true;
-    this.removeMatchBetted();
   }
 
   goBack(){
@@ -247,28 +231,6 @@ export default class BettingMatchController {
       'time': match.match.matchTime
     };
     this.rootScope.$broadcast('playerBettingMatch', dataSend);
-  }
-
-  removeMatchBetted(){
-
-    //use for(...) to make a list betting match id
-    var bettingMatchId = [];
-    console.log(this.data.bettingMatch);
-    for (var i = 0; i < this.data.bettingMatch.length; i++) {
-      for (var j = 0; j < this.data.bettingMatch[i].bettingMatch.length; j++) {
-        bettingMatchId.push(this.data.bettingMatch[i].bettingMatch[j].match.id);
-      }
-    }
-    //use for(...) to remove match have the same match id in bettingMatch
-    console.log(this.data.match);
-    for (var k = 0; k < this.data.match.length; k++) {
-      for (var l = 0; l < this.data.match[k].matches.length; l++) {
-        var existId = bettingMatchId.indexOf(this.data.match[k].matches[l].id);
-        if (existId !== -1) {
-          this.data.match[k].matches[l].hide = true;
-        }
-      }
-    }
   }
 
 }

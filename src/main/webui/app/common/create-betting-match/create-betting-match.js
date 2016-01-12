@@ -10,6 +10,14 @@ export default class CreateBettingController {
     this.BettingService = BettingService;
     this.toaster = toaster;
     this.loadData();
+    this.data.errorBal1 = {};
+    this.data.errorBal2 = {};
+    this.data.errorBetAmount = {};
+    this.data.errorBal1.message = '';
+    this.data.errorBal2.message = '';
+    this.data.errorBetAmount.message = '';
+    this.data.hideCreate = false;
+    this.data.hideUpdate = false;
   }
 
   loadData(){
@@ -143,28 +151,17 @@ export default class CreateBettingController {
     return timeFormated;
   }
 
-  validateBal1(){
-    if ( typeof this.data.balance1 === 'number' ) {
-      this.data.errorBal1 = '';
+  validate(data, errorMsg){
+    if (typeof data === 'number') {
+      errorMsg.message = '';
+      this.data.hideCreate = false;
+      this.data.hideUpdate = false;
     } else {
-      this.data.errorBal1 = 'invalid number !';
+      errorMsg.message = 'invalid number';
+      this.data.hideCreate = true;
+      this.data.hideUpdate = true;
     }
   }
 
-  validateBal2(){
-    if ( typeof this.data.balance2 === 'number' ) {
-      this.data.errorBal2 = '';
-    } else {
-      this.data.errorBal2 = 'invalid number !';
-    }
-  }
-
-  validateAmount(){
-    if ( typeof this.data.amount === 'number' ) {
-      this.data.errorBetAmount = '';
-    } else {
-      this.data.errorBetAmount = 'invalid number !';
-    }
-  }
 }
 

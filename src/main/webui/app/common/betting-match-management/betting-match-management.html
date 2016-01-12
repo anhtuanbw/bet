@@ -1,6 +1,6 @@
 <div ng-hide="betting.data.hide">
 <div class="text-right" ng-show="betting.data.showBtnAdd"> 
-  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span><span translate="common.betting.btnAdd"></span></button>
+  <button class="btn btn-primary clearfix" ng-click="betting.showMatch()"><span class="glyphicon glyphicon-plus"></span><span translate="common.betting.btnAdd"></span></button>
 </div>
 <div>
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
@@ -50,9 +50,9 @@
 <div class="panel-body" ng-hide="!betting.data.hide">
 <div class="text-right">
   <button type="button" class="btn btn-default" ng-click="betting.goBack()" translate="common.betting.back"></button>
-</div>
-  <div ng-repeat="table in betting.data.match">
-    {{table.name}}
+</div><br>
+  <div ng-repeat="round in betting.data.match">
+    <h4>{{round.roundName}}</h4>
   	<table class="table table-striped">
   		<thead class="bg-primary">
   			<td>ID</td>
@@ -62,7 +62,7 @@
   			<td></td>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="match in table.matches" ng-hide="match.hide">
+  			<tr ng-repeat="match in round.matches">
           <td>{{match.id}}</td>
           <td>{{match.competitor1.name}} - {{match.competitor2.name}}</td>
           <td>{{betting.parseTime(match.matchTime)}}</td>
