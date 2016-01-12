@@ -99,7 +99,7 @@ export default class BettingMatchController {
 
   add(){
     this.data.hide = true;
-    //this.removeMatchBetted();
+    this.removeMatchBetted();
   }
 
   goBack(){
@@ -249,10 +249,6 @@ export default class BettingMatchController {
   }
 
   removeMatchBetted(){
-    console.log('match');
-    console.log(this.data.match);
-    console.log('betting match');
-    console.log(this.data.bettingMatch);
 
     //use for(...) to make a list betting match id
     var bettingMatchId = [];
@@ -261,13 +257,12 @@ export default class BettingMatchController {
         bettingMatchId.push(this.data.bettingMatch[i].bettingMatch[j].match.id);
       }
     }
-    console.log(bettingMatchId);
-    //use for(...) to remove match have the same betting match id bettingMatch
+    //use for(...) to remove match have the same match id in bettingMatch
     for (var k = 0; k < this.data.match.length; k++) {
       for (var l = 0; l < this.data.match[k].matches.length; l++) {
         var existId = bettingMatchId.indexOf(this.data.match[k].matches[l].id);
         if (existId !== -1) {
-          this.data.match[k].matches.splice(l, 1);
+          this.data.match[k].matches[l].hide = true;
         }
       }
     }

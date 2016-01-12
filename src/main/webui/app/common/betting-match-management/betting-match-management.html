@@ -62,7 +62,7 @@
   			<td></td>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="match in table.matches">
+  			<tr ng-repeat="match in table.matches" ng-hide="match.hide">
           <td>{{match.id}}</td>
           <td>{{match.competitor1.name}} - {{match.competitor2.name}}</td>
           <td>{{betting.parseTime(match.matchTime)}}</td>
