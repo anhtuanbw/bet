@@ -14,7 +14,7 @@ export default class TournamentGroupController {
     this.authen();
     this.rootScope.$on('selectGroup', (event, groupInfo) => {
       if (groupInfo) {
-        if(groupInfo.tournamentName) {
+        if (groupInfo.tournamentName) {
           this.tournamentName = groupInfo.tournamentName;
         }
         this.groupInfo.id = groupInfo.id;
@@ -24,53 +24,53 @@ export default class TournamentGroupController {
     });
     this.activePlayer = 'group';
   }
-  
+
   findById() {
     this.groupService.findById(this.groupInfo.id)
-    .then(response => {
-      this.groupInfo = response.data;
-    })
-    .catch(error => {
-      if (error.status === 401) {
-        this.location.path('/unauthorized');
-      }
-    });
+      .then(response => {
+        this.groupInfo = response.data;
+      })
+      .catch(error => {
+        if (error.status === 401) {
+          this.location.path('/unauthorized');
+        }
+      });
   }
-  
+
   authen() {
     this.accountService.authen()
-    .then(response => {
-      if (response.data) {
-         this.currentUser = response.data;
-      }
-    });
+      .then(response => {
+        if (response.data) {
+          this.currentUser = response.data;
+        }
+      });
   }
-  
+
   checkMod() {
     var data = {};
     data.groupId = this.groupInfo.id;
     data.userId = this.currentUser.id;
     this.groupService.isModerator(data)
-    .then(() => {
-      this.isMod = true;
-    })
-    .catch(() => {
-      this.isMod = false;
-    });
+      .then(() => {
+        this.isMod = true;
+      })
+      .catch(() => {
+        this.isMod = false;
+      });
   }
 
   playerStatistic() {
     this.rootScope.$broadcast('playerStatistic', this.groupInfo.id);
   }
-  
-   openUpdateGroup() {
+
+  openUpdateGroup() {
     var self = this;
     this.modal.open({
       templateUrl: 'app/common/update-group/update-group.html',
       controller: 'UpdateGroupController',
       controllerAs: 'updateGroup',
       resolve: {
-        groupInfo: function () {
+        groupInfo: function() {
           return self.groupInfo;
         }
       }

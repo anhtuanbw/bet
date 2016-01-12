@@ -12,8 +12,13 @@ export default class PlayerHistoryService {
 		return this.$http({
 			method: 'POST',
 			url: 'api/playerStatistic',
-			data: { 'groupId': groupId },
-			headers: {'Accept': '*/*', 'x-auth-token': token}
+			data: {
+				'groupId': groupId
+			},
+			headers: {
+				'Accept': '*/*',
+				'x-auth-token': token
+			}
 		});
 	}
 
