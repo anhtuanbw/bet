@@ -1,5 +1,6 @@
 package vn.kms.ngaythobet.domain.statistic;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -86,9 +87,11 @@ public class PlayerStatisticService {
         User player = SecurityUtil.getCurrentLoginUser();
         BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
         if (bettingMatch == null) {
-            throw new DataInvalidException("validation.existMatchEntity.message");
+            throw new DataInvalidException("exception.existMatchEntity.message");
         } else if (bettingMatch.getMatch().getScore1() == null || bettingMatch.getMatch().getScore2() == null) {
             return 0;
+        } else if (bettingMatch.getExpiredTime().isBefore(LocalDateTime.now())) {
+            return bettingMatch.getBetAmount().doubleValue();
         } else {
             BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(player, bettingMatch);
             if (bettingPlayer != null) {

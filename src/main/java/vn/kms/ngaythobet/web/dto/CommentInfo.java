@@ -1,10 +1,7 @@
 package vn.kms.ngaythobet.web.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
-import vn.kms.ngaythobet.domain.core.ChangeLog.Change;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 
 public class CommentInfo {

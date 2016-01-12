@@ -1,5 +1,5 @@
 <div ng-controller="EditTournamentController as editor">
-	<div class="panel panel-info">
+	<div class="panel panel-info" style="border: none;">
 		<div class="panel-heading panel-title has-minheight">
 			<strong class="panel-title pull-left text-muted font-size" ng-bind="editor.tournamentInfo.name"></strong>
 			<div class="text-right panel-title" ng-show="management.isAdmin">
@@ -11,49 +11,51 @@
 		</div>
 		<div class="panel-body" ng-repeat="round in editor.inforTournament track by $index">
 			<div class="panel panel-default">
-				<div class="showTournament">
-					<div class="panel-heading panel-title">
-						<span><h4 class="padding-round bold" ng-bind="round.name"></h4></span>
-						<span class="glyphicon glyphicon-edit text-danger" ng-show="management.isAdmin" ng-click="editor.openUpdateRound(round)"></span>
-						<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-angle-down fa-2x pull-right"></i></a>
-						<div ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
-							<hr>
-							<div class="col-md-12">
-								<h4 class="text-danger padding-button col-md-7 text-right">Match {{$index + 1}}</h4>
-								<div class="pull-right">
-									<button ng-show="editor.isAdmin" class="btn btn-default" ng-click="editor.openUpdateScore(match.id)">Update score</button>
-									<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-angle-down"></i></a>
-								</div>
+				<div class="panel-heading">
+					<span><h4 class="padding-round bold" ng-bind="round.name"></h4></span>
+					<span class="glyphicon glyphicon-edit text-danger" ng-show="management.isAdmin" ng-click="editor.openUpdateRound(round)"></span>
+					<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-angle-up fa-2x pull-right" ng-hide="hideRound = !hideRound"></i>
+					<i class="fa fa-angle-down fa-2x pull-right" ng-show="hideRound = !hideRound"></i></a>
+				</div>
+				<div class="panel-body" ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
+					<div class="row">
+						<div class="col-md-3">
+							<span><i class="fa fa-clock-o"></i> {{match.matchTime}}</span>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-5 text-competitor1">
+								<strong>{{match.competitor1.name}}</strong>
 							</div>
-							<div class="row">
-								<div class="col-md-5 text-right">
-									<strong>{{match.competitor1.name}}</strong>
-								</div>
-								<div class="col-md-2 text-center">
-									<span>{{match.score1}}</span>
-									<span class="space-line">-</span>
-									<span class="space-line">{{match.score2}}</span>
-								</div>
-								<div class="col-md-4 text-left">
-									<span><strong>{{match.competitor2.name}}</strong></span>
-								</div>
-								<div class="distane-top" ng-hide="hideInfo">
-									<div class="col-md-4">
-										<strong><i class="fa fa-clock-o"></i> Time: </strong>
-										<span>{{match.matchTime}}</span>
-									</div>
-									<div class="col-md-4">
-										<strong><i class="fa fa-map-marker"></i> Location: </strong>
-										<span>{{match.location}}</span>
-									</div>
-									<div class="col-md-4">
-										<strong><i class="fa fa-commenting-o"></i> Comment: </strong>
-										<span>{{match.comment}}</span>
-									</div>
-								</div>
+							<div class="col-md-2 text-center">
+								<span>{{match.score1}}</span>
+								<span class="space-line">-</span>
+								<span class="space-line">{{match.score2}}</span>
+							</div>
+							<div class="col-md-5 text-competitor2">
+								<span><strong>{{match.competitor2.name}}</strong></span>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="pull-right">
+								<button ng-show="editor.isAdmin" class="btn btn-default" ng-click="editor.openUpdateScore(match)">Update score</button>
+								<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-angle-up" ng-hide="hideInfo = !hideInfo"></i>
+								<i class="fa fa-angle-down" ng-show="hideInfo = !hideInfo"></i></a>
 							</div>
 						</div>
 					</div>
+					<div ng-hide="hideInfo">
+						<div class="row">
+							<div class="col-md-12">
+								<span><i class="fa fa-map-marker"></i> {{match.location}}</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12" ng-hide="match.comment === null">
+								<span><i class="fa fa-comments-o"></i> {{match.comment}}</span>
+							</div>
+						</div>
+					</div>
+					<hr>
 				</div>
 			</div>
 		</div>

@@ -40,6 +40,6 @@
         "cancel": "Thoát"
       },
       "unauthorized": "Session đã hết hạn. Vui lòng đăng nhập để tiếp tục!",
-      "redirect": "Tự động chuyển hướng về trang chủ hoặc click <a href='/home'>vào đây</a>"
+      "redirect": "Tự động chuyển hướng về trang chủ hoặc click <a href='/#'>vào đây</a>"
   }
 }

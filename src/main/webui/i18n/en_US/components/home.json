@@ -1,7 +1,28 @@
 {
   "components": {
     "home": {
-      "welcome-message": "Welcome to ngaythobet!!!"
+      "welcome-message": "Welcome to ngaythobet!!!",
+      "rules": "Betting rules:",
+      "rule1": "User picks a side before expire time of each betting match.",
+      "rule2": "No one wins money in Ngaythobet. All the losing money will be collected for teambuilding purpose.",
+      "rule3": "Balance is used for determining the final result of each player. A final score of a player is a sum of balance and score of chosen side.",
+      "rule4": "If a player does not join in a betting match, the result is automatically defined as lose and player must pay money.",
+      "loss-amount-rules": "How to calculate losing money:",
+      "loss-amount-rule1": "Draw: each side loses half of the betting money.",
+      "loss-amount-rule2": "Draw, give handicap of 0.25 points: players that give handicap lose half of the money, players who is given handicap do not lose money.",
+      "loss-amount-rule3": "Draw, give handicap of 0.5 points: players that give handicap lose all the money, players who is given handicap do not lose money.",
+      "loss-amount-regular": "Formula:",
+      "loss-amount-regular-expression": "Diff = (your balance + your team score) – (opponent balance + opponent score)",
+      "loss-amount-regular-li-1": "-0.5 < Diff < 0.25: player loses half of the money.",
+      "loss-amount-regular-li-2": "Diff <= -0.5: player loses all the money.",
+      "loss-amount-regular-li-3": "Diff >=0.25: player does not lose any money.",
+      "loss-amount-example": "For example:",
+      "loss-amount-example-p": "VN vs. USA, betting money: 10k",
+      "loss-amount-example-li-1": "Handicap 0: 0.5, result 0: 0. You place bet on VN. Diff = 0 - (0 + 0.5) = -0.5. You lose 10k.",
+      "loss-amount-example-li-2": "Handicap 0: 0.5, Result 1: 0. You place bet on VN. Diff = 1 - (0 + 0.5) = 0.5. You do not lose any money.",
+      "loss-amount-example-li-3": "Handicap 0: 0.25, result 0: 0. If your place bet on VN, you lose 5k. If you place bet on the US, you do not lose any money.",
+      "loss-amount-example-li-4": "Handicap 0: 0, the result 0: 0. You will lose whether you place bet on VN or the US. Diff = (0) - (0) = 0. You lose half the amount (5k).",
+      "loss-amount-example-li-5": "Handicap 0: 1, the result 0: 0. You place bet on the US. Diff = (0 + 1) - 0 = 1. You do not lose any money."
     }
   }
 }

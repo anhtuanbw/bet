@@ -45,7 +45,7 @@ public class BettingMatchService {
         for (BettingMatch bettingMatch : bettingMatchs) {
             if (bettingMatch.getGroup().getId().equals(groupId) && bettingMatch.getMatch().getId().equals(matchId)) {
                 return true;
-            } 
+            }
         }
         return false;
     }
@@ -90,27 +90,23 @@ public class BettingMatchService {
         if (!bettingMatch.isActivated()) {
             Group group = groupRepo.findOne(updateBettingMatchInfo.getGroupId());
             Match match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
-            if (updateBettingMatchInfo.getExpiredTime().isAfter(bettingMatch.getExpiredTime())) {
-                if (balanceIsValid(updateBettingMatchInfo.getBalance1())
-                        && balanceIsValid(updateBettingMatchInfo.getBalance2())) {
-                    if (isExistedInTournament(match, group)) {
-                        bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
-                        bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
-                        bettingMatch.setExpiredTime(updateBettingMatchInfo.getExpiredTime());
-                        bettingMatch.setBetAmount(updateBettingMatchInfo.getBetAmount());
-                        bettingMatch.setMatch(match);
-                        bettingMatch.setGroup(group);
-                        bettingMatch.setDescription(updateBettingMatchInfo.getDecription());
-                        bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
-                        bettingMatchRepo.save(bettingMatch);
-                    } else {
-                        throw new DataInvalidException("exception.match.group.invalid");
-                    }
+            if (balanceIsValid(updateBettingMatchInfo.getBalance1())
+                    && balanceIsValid(updateBettingMatchInfo.getBalance2())) {
+                if (isExistedInTournament(match, group)) {
+                    bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
+                    bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
+                    bettingMatch.setExpiredTime(updateBettingMatchInfo.getExpiredTime());
+                    bettingMatch.setBetAmount(updateBettingMatchInfo.getBetAmount());
+                    bettingMatch.setMatch(match);
+                    bettingMatch.setGroup(group);
+                    bettingMatch.setDescription(updateBettingMatchInfo.getDecription());
+                    bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
+                    bettingMatchRepo.save(bettingMatch);
                 } else {
-                    throw new DataInvalidException("exception.balance.in.valid");
+                    throw new DataInvalidException("exception.match.group.invalid");
                 }
             } else {
-                throw new DataInvalidException("exception.update.time.in.valid");
+                throw new DataInvalidException("exception.balance.in.valid");
             }
         } else {
             throw new DataInvalidException("exception.betting.match.is.actived");
@@ -154,6 +150,6 @@ public class BettingMatchService {
         if (bettingMatch.getExpiredTime().isAfter(LocalDateTime.now())) {
             return true;
         }
-        throw new DataInvalidException("exception.betting.match.is.expired");
+        return false;
     }
 }
