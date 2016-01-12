@@ -32,7 +32,7 @@ export default class BettingMatchController {
         this.data.hide = false;
         this.isMember = false;
         this.data.showBtnAdd = true;
-        this.showBettingMatch();
+        this.getRoundIdAndName();
       }
     });
   }
@@ -46,50 +46,44 @@ export default class BettingMatchController {
     });
   }
 
-  showBettingMatch(){
+  getRoundIdAndName(){
+    this.roundIdAndName = [];
+    this.RoundService.getRoundInTournament(this.tourID)
+    .then(response => {
+      this.roundAndMatch = response.data;
+      for (var i = 0; i < response.data.length; i++) {
+        var item = {
+          'id': response.data[i].id,
+          'name': response.data[i].name
+        };
+        this.roundIdAndName.push(item);
+      }
+      this.showRound();
+    });
+  }
+
+  showRound(){
     this.checkMember();
     this.checkMod();
-    this.data.bettingMatch = [];
-    for (var i = 0; i < this.roundIdAndName.length; i++) {
-      this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID)
-        .then(response => {
-          console.log(response.data);
-          //remove null item
-          var tempArray = [];
+    this.data.bettingMatch = this.roundIdAndName;
+  }
+
+  showBettingMatch(round){
+    this.BettingService.getBettingMatchByRoundAndGroupId(round.id, this.groupID)
+    .then(response => {
+      var tempArray = [];
           for (var j = 0; j < response.data.length; j++) {
             if (response.data[j] !== null) {
               tempArray.push(response.data[j]);
             }
           }
-          //get round name
-          var roundName;
-          if (tempArray.length > 0) {
-            for (var k = 0; k < this.roundAndMatch.length; k++) {
-              for (var l = 0; l < this.roundAndMatch[k].matches.length; l++) {
-                if( this.roundAndMatch[k].matches[l].id === tempArray[0].match.id ){
-                  roundName = this.roundAndMatch[k].name;
-                }
-              }
-            }
-          }
-          //make one item in betting Match
-          var item = {
-            'round': roundName,
-            'bettingMatch': tempArray
-          };
-          // push into betting Match list
-          if (item.bettingMatch.length !== 0){
-            this.data.bettingMatch.push(item);
-          }
-          //reset data
-          response.data = [];
-      });
-    }
+      round.bettingMatch = tempArray;
+    });
   }
 
   goBack(){
-    this.showBettingMatch();
     this.data.hide = false;
+    this.showBettingMatch();
   }
 
   parseTime(date){

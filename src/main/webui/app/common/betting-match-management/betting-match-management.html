@@ -6,8 +6,9 @@
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
     <br>
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="text-center"><h4><strong>{{round.round}}</strong></h4></div>
+      <div class="panel-heading" ng-click="betting.showBettingMatch(round)">
+        <div class="glyphicon glyphicon-chevron-down pull-right"></div>
+        <div class="text-center"><h4>{{round.name}}</h4></div>
       </div>
       <table class="table table-hover">
         <tr ng-repeat="match in round.bettingMatch">
