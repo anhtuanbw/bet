@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.messaging.Message;
@@ -54,8 +56,14 @@ import vn.kms.ngaythobet.infras.security.CustomUserDetails;
 import vn.kms.ngaythobet.infras.security.xauth.Contants;
 import vn.kms.ngaythobet.infras.security.xauth.TokenProvider;
 import vn.kms.ngaythobet.web.dto.AddCommentInfo;
+import vn.kms.ngaythobet.web.dto.PlayerBettingMatchInfo;
+import vn.kms.ngaythobet.web.dto.UpdatePlayerBettingMatchInfo;
 
 public class PlayerBettingMatchRestTest extends BaseTest {
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Autowired
     private BettingPlayerService bettingPlayerService;
 
@@ -186,13 +194,50 @@ public class PlayerBettingMatchRestTest extends BaseTest {
     @Test
     public void testAddComment() throws JsonProcessingException {
         User user = getDefaultUser();
+        String token = generateToken(user);
         AddCommentInfo commentInfo = new AddCommentInfo();
         commentInfo.setComment("test comment");
         commentInfo.setBettingMatchId(bettingMatchTemp.getId());
-        byte[] payload = new ObjectMapper().writeValueAsBytes(commentInfo);
+        assertThat(bettingMatchTemp.getComment(), equalTo("initalize comment"));
+        String destination = "/app/betting-match/comment/" + bettingMatchTemp.getId();
+        sendToWebsocket(commentInfo, destination, token);
+        BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchTemp.getId());
+        assertThat(bettingMatch.getComment(), equalTo("test comment"));
+    }
+
+    @Test
+    public void testPlayBet() throws JsonProcessingException {
+
+        User user = getDefaultUser();
         String token = generateToken(user);
+        PlayerBettingMatchInfo PlayBetInfo = new PlayerBettingMatchInfo();
+        PlayBetInfo.setComment("test play bet");
+        PlayBetInfo.setBettingMatchId(bettingMatchTemp.getId());
+        PlayBetInfo.setCompetitorId(bettingMatchTemp.getMatch().getCompetitor1().getId());
+        String destination = "/app/betting-match/playBet/" + bettingMatchTemp.getId();
+        sendToWebsocket(PlayBetInfo, destination, token);
+        List<BettingPlayer> bettingPlayers = bettingPlayerRepo.findByBettingMatchIdAndBetCompetitorId(
+                bettingMatchTemp.getId(), bettingMatchTemp.getMatch().getCompetitor1().getId());
+        assertThat(bettingPlayers.size(), equalTo(1));
+    }
+
+    @Test
+    public void testUpdateBet() throws JsonProcessingException {
+        String token = generateToken(userTemp2);
+        assertThat(bettingPlayerTemp.getBetCompetitor().getId(), equalTo(competitorTemp2.getId()));
+        UpdatePlayerBettingMatchInfo updatePlayInfo = new UpdatePlayerBettingMatchInfo();
+        updatePlayInfo.setBettingPlayerId(bettingPlayerTemp.getId());
+        updatePlayInfo.setCompetitorId(bettingMatchTemp.getMatch().getCompetitor1().getId());
+        String destination = "/app/betting-match/updatePlayBet/" + bettingMatchTemp.getId();
+        sendToWebsocket(updatePlayInfo, destination, token);
+        BettingPlayer result = bettingPlayerRepo.findOne(bettingPlayerTemp.getId());
+        assertThat(result.getBetCompetitor().getId(), equalTo(competitorTemp1.getId()));
+    }
+
+    private void sendToWebsocket(Object info,String destination,String token) throws JsonProcessingException {
+        byte[] payload = new ObjectMapper().writeValueAsBytes(info);
         StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
-        headers.setDestination("/app/betting-match/comment/1");
+        headers.setDestination(destination);
         headers.setSessionId("0");
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add(Constants.XAUTH_TOKEN_HEADER_NAME, token);
@@ -200,8 +245,6 @@ public class PlayerBettingMatchRestTest extends BaseTest {
         headers.setSessionAttributes(new HashMap<String, Object>());
         Message<byte[]> message = MessageBuilder.withPayload(payload).setHeaders(headers).build();
         this.annotationMethodHandler.handleMessage(message);
-        BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchTemp.getId());
-        assertThat(bettingMatch.getComment(), equalTo("test comment"));
     }
 
     private String generateToken(User user) {
@@ -244,9 +287,9 @@ public class PlayerBettingMatchRestTest extends BaseTest {
         match.setRound(round);
         return match;
     }
-    
+
     @After
-    public void clearData(){
+    public void clearData() {
         bettingPlayerRepo.deleteAll();
         bettingMatchRepo.deleteAll();
         matchRepo.deleteAll();

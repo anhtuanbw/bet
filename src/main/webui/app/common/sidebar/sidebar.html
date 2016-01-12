@@ -1,30 +1,26 @@
 <section layout="row" flex>
-  <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-    <md-toolbar class="md-theme-blue" ng-click="showTours=!showTours">
-        <h1 class="md-toolbar-tools">
-            <i class='fa fa-bars' data-toggle='tooltip' title='Colapse Tournament!'></i> 
-            <span translate="common.sidebar.title" class="uppercase" class="pull-left" style="padding-left: 5px; width: 100%;"></span>
-            <span ng-click="management.createTournament();$event.stopPropagation();" translate="common.sidebar.create" ng-show="management.isAdmin" style="width:100%; text-align: right;"></span>
-        </h1>
-      </md-toolbar>
-    <div class="input-group stylish-input-group" ng-hide="showTours">
-        <input type="text" class="form-control" placeholder="{{'common.sidebar.placeSearch' | translate}}" style="border-radius: 0;" ng-model="search.name">
-        <span class="input-group-addon" style="border-radius: 0; border-right: 0;">
-            <span class="glyphicon glyphicon-search"></span>
-        </span>
-    </div>
-    <md-content role="navigation" ng-hide="showTours">
-      <ul class="side-menu">
-        <li ng-repeat="section in management.tournaments | filter: search" class="parent-list-item"
-            ng-class="{'parentActive' : management.isSectionSelected(section)}">
-          <h2 class="menu-heading" ng-if="section.type === 'heading'"
-              id="heading_{{section.name}}">
-            {{section.name}}
-          </h2>
-            <menu-link section="section" ng-if="section.groups.length === 0"></menu-link>
-            <menu-toggle section="section" ng-if="section.groups.length>0"></menu-toggle>
-        </li>
-      </ul>
-    </md-content>
-  </md-sidenav>
-  </section>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+        <md-toolbar class="md-theme-blue">
+            <h1 class="md-toolbar-tools">
+                <i class='fa fa-bars' data-toggle='tooltip' title='Colapse Tournament!' ng-click="showTours=!showTours"></i> 
+                <span translate="common.sidebar.title" class="uppercase" class="pull-left" style="padding-left: 5px; width: 100%;"></span>
+                <span ng-click="management.createTournament(); $event.stopPropagation();" translate="common.sidebar.create" ng-show="management.isAdmin" style="width:100%; text-align: right;"></span>
+            </h1>
+        </md-toolbar>
+        <div class="input-group stylish-input-group" ng-hide="showTours">
+            <input type="text" class="form-control" placeholder="{{ 'common.sidebar.placeSearch' | translate }}" style="border-radius: 0;" ng-model="search.name">
+            <span class="input-group-addon" style="border-radius: 0; border-right: 0;">
+              <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+        <md-content role="navigation" ng-hide="showTours">
+            <ul class="side-menu">
+                <li ng-repeat="tournament in management.tournaments | filter: search" class="parent-list-item"
+                    ng-class="{'parentActive' : management.isSectionSelected(tournament)}">
+                    <menu-link section="section" ng-if="tournament.groups.length === 0"></menu-link>
+                    <menu-toggle section="section" ng-if="tournament.groups.length > 0"></menu-toggle>
+                </li>
+            </ul>
+        </md-content>
+    </md-sidenav>
+</section>

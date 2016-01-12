@@ -14,28 +14,28 @@ export default class PlayerHistoryController {
     this.sortReverse = false;
     this.getUsername();
     this.rootScope.$on('playerStatistic', (event, groupId) => {
-       this.playerStatistic(groupId);
+      this.playerStatistic(groupId);
     });
 
     this.rootScope.$on('selectGroup', (event, group) => {
-       this.playerStatistic(group.id);
+      this.playerStatistic(group.id);
     });
   }
 
   getUsername() {
     this.accountService.authen()
-    .then(response => {
-      if (response.data) {
-        this.player = response.data.name;
-      } 
-    });
+      .then(response => {
+        if (response.data) {
+          this.player = response.data.name;
+        }
+      });
   }
 
   getTime(timeArray) {
     var i, timeString;
     for (i = 0; i < timeArray.length; i++) {
       timeString = this.formatTime(timeArray[1].toString()) + '/' + this.formatTime(timeArray[2].toString()) + '/' + timeArray[0] +
-      ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ((timeArray[5]) ? ':' + this.formatTime(timeArray[5].toString()) : ':00');
+        ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ((timeArray[5]) ? ':' + this.formatTime(timeArray[5].toString()) : ':00');
     }
     return timeString;
   }
@@ -45,9 +45,9 @@ export default class PlayerHistoryController {
   }
 
   convertDateToString() {
-    if(this.data !=null) {
+    if (this.data != null) {
       var player;
-      for(player in this.data) {
+      for (player in this.data) {
         this.data[player].expiredBetTime = this.getTime(this.data[player].expiredBetTime);
       }
     }
@@ -56,11 +56,11 @@ export default class PlayerHistoryController {
   playerStatistic(groupId) {
     var self = this;
     self.playerHistoryService.playerStatistic(groupId)
-    .then(response => {
+      .then(response => {
         self.data = response.data.playerStatistics;
         self.totalLoss = response.data.totalLossAmount;
         self.convertDateToString();
-    });
+      });
   }
 
 }

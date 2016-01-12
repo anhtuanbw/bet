@@ -1,0 +1,24 @@
+{
+   "components": {
+      "playerbetting": {
+         "title": {
+					 "bettingmatch":"Betting Match",
+					 "infobettingmatch": "Betting Match Information"
+				 },
+         "choose":" Choose ",
+				 "choosecomment":"Choose ",
+				 "comment":" Comment",
+				 "comments":" comment(s)",
+         "balance":"Balance",
+				 "expired":"Expired at",
+				 "start":"Match start at",
+				 "round":"Round",
+         "total":"Total player",
+				 "lose": "You lose: ",
+				 "system": "System",
+				 "systemmess": "There are no activity in this betting match.",
+				 "showmore":"Show more >>",
+				 "isexpired":"This betting match is expired"
+      }
+   }
+}

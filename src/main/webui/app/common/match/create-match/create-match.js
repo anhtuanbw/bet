@@ -15,9 +15,9 @@ export default class CreateMatchController {
     this.dataRounds = [];
     this.dataCompetitors = [];
     this.tournamentId = editId;
-    this.getRounds();
     this.checkRoundNull = false;
     this.showModal = false;
+    this.getCompetitorInTournament();
   }
 
   createMatch() {
@@ -53,12 +53,8 @@ export default class CreateMatchController {
   getRounds() {
     this.matchService.getRounds(this.tournamentId)
       .then(response => {
+        
         // Success
-        if (response.data.length === 0) {
-          this.checkRoundNull = true;
-          this.showModal = true;
-          this.getCompetitorsInTournament();
-        }
         var i;
         for (i = 0; i < response.data.length; i++) {
           this.dataRounds.push(response.data[i]);
@@ -85,6 +81,21 @@ export default class CreateMatchController {
         var i;
         for (i = 0; i < response.data.length; i++) {
           this.dataCompetitors.push(response.data[i]);
+        }
+      });
+  }
+
+  getCompetitorInTournament() {
+    this.matchService.checkRound(this.tournamentId)
+      .then(response => {
+        this.checkRoundNull = response.data;
+        console.log(this.checkRoundNull);
+        if (this.checkRoundNull) {
+          this.getRounds();
+          
+        } else {
+          this.showModal = true;
+          this.getCompetitorsInTournament();
         }
       });
   }
