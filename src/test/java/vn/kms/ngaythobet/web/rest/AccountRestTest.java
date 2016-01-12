@@ -1,8 +1,6 @@
 package vn.kms.ngaythobet.web.rest;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -11,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -61,8 +58,8 @@ public class AccountRestTest extends BaseTest {
 
     private XAuthTokenFilter filter;
 
-    @Before
-    public void setup() {
+    @Override
+    public void doStartUp() {
         MockitoAnnotations.initMocks(this);
         tokenProvider = new TokenProvider(Contants.SECRET_KEY, Contants.TOKEN_VALIDITY);
         filter = new XAuthTokenFilter(userDetailsService, tokenProvider);
@@ -75,16 +72,9 @@ public class AccountRestTest extends BaseTest {
     @Test
     public void testAuthenticate() throws Exception {
         mockMvc.perform(get("/api/authenticate")).andExpect(status().isOk()).andExpect(content().string(""));
-
-        int size = userRepo.findAll().size();
         ObjectMapper ow = new ObjectMapper();
-        assertThat(size, equalTo(1));
-        User registerUserInfo = createUser("email@yahoo.com", "user1", "123467", "user1");
-        User user = userRepo.save(registerUserInfo);
-        size = userRepo.findAll().size();
-        String json = ow.writer().writeValueAsString(user);
-        assertThat(size, equalTo(2));
-        mockLoginUser(registerUserInfo);
+        String json = ow.writer().writeValueAsString(getDefaultUser());
+        mockLoginUser(getDefaultUser());
         mockMvc.perform(get("/api/authenticate").header(Constants.XAUTH_TOKEN_HEADER_NAME, token.getToken()))
                 .andExpect(status().isOk()).andExpect(content().string(json));
     }
