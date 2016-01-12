@@ -60,5 +60,14 @@ export default class BettingMatchService {
       headers: { 'Accept': '*/*', 'x-auth-token': token }
     });
   }
+  
+    getNumberComments(bettingMatchId) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: '/api/player/getCommentCount/' + bettingMatchId,
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    });
+  }
 
 }

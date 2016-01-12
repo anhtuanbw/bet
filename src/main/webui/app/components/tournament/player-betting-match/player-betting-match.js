@@ -8,6 +8,7 @@ export default class PlayerBettingMatchController {
     this.cacheService = CacheService;
     this.bettingMatchService = BettingMatchService;
     this.dataInfoMatch = {};
+    this.rootScope = $rootScope;
     this.accountService = AccountService;
     $rootScope.$on('playerBettingMatch', (event, data) => {
       this.dataInfoMatch = data;
@@ -24,14 +25,15 @@ export default class PlayerBettingMatchController {
       this.chooseCompetitor2 = false;
       this.checkLengthComments = false;
       this.checkPaging = false;
-      this.messageError = '';
       this.currentBettingPlayer = {};
       this.namePlayerBetCompetitor1 = [];
       this.namePlayerBetCompetitor2 = [];
       this.namePlayerNotBet = [];
-      this.getBettingMatchStatistics();            
+      this.getBettingMatchStatistics();
+
       this.getBettingMatchInfo();
       this.getLostAmount();
+      this.getNumberComments();
       this.getComments();
       this.checkExpiredBettingMatch();
       this.getBettingPlayer();
@@ -85,6 +87,11 @@ export default class PlayerBettingMatchController {
           for (i = 0; i < response.data.userNotBet.length; i++) {
             this.namePlayerNotBet.push(response.data.userNotBet[i].username);
           }
+
+          this.rootScope.percentOfCompetitor1 = this.dataBettingStatistics.percentOfChoosingCompetitor1;
+          this.rootScope.percent1 = { width: this.rootScope.percentOfCompetitor1 + '%' };
+          this.rootScope.percentOfCompetitor2 = this.dataBettingStatistics.percentOfChoosingCompetitor2;
+          this.rootScope.percent2 = { width: this.rootScope.percentOfCompetitor2 + '%' };
         }
       });
   }
@@ -105,13 +112,9 @@ export default class PlayerBettingMatchController {
       .then(response => {
         this.notError = response.data;
         if (this.notError) {
-          
+
           this.disconnect();
           this.connect();
-          
-        } else {
-          
-          this.messageError = 'The betting match is expired';
         }
       });
   }
@@ -134,7 +137,7 @@ export default class PlayerBettingMatchController {
     var i, timeString;
     for (i = 0; i < timeArray.length; i++) {
       timeString = this.formatTime(timeArray[1].toString()) + '/' + this.formatTime(timeArray[2].toString()) + '/' + timeArray[0] +
-      ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ((timeArray[5]) ? ':' + this.formatTime(timeArray[5].toString()) : ':00');
+      ', ' + this.formatTime(timeArray[3].toString()) + ':' + this.formatTime(timeArray[4].toString()) + ((timeArray[5]) ? ':' + this.formatTime(timeArray[5].toString()) : '');
     }
     return timeString;
   }
@@ -172,28 +175,34 @@ export default class PlayerBettingMatchController {
   getComments() {
     this.bettingMatchService.getComment(this.dataInfoMatch.bettingMatchId, this.paging)
       .then(response => {
-        this.numberComments = response.data.length;
         this.commentArr = [];
         var i;
         if (response.data.length === 0) {
           this.checkLengthComments = true;
         }
-        
-        if (response.data.length > 10) {
-          this.checkPaging = true;
-        }
-        
+
         for (i = 0; i < response.data.length; i++) {
           this.commentArr.push(response.data[i]);
           this.commentArr[i].timestamp = this.getTime(response.data[i].timestamp);
         }
-       
+      });
+  }
+
+  getNumberComments() {
+    this.bettingMatchService.getNumberComments(this.dataInfoMatch.bettingMatchId)
+      .then(response => {
+        this.numberComments = response.data - 1;
+        if (this.numberComments > 10) {
+          this.checkPaging = true;
+        }
       });
   }
 
   refreshBettingMatch() {
+    this.checkLengthComments = false;
     this.getBettingPlayer();
     this.getBettingMatchStatistics();
+    this.getNumberComments();
     this.getComments();
   }
 
@@ -204,6 +213,8 @@ export default class PlayerBettingMatchController {
     var self = this;
     self.stompClient.connect({}, function () {
       self.stompClient.subscribe('/topic/comment/' + self.dataInfoMatch.bettingMatchId, function () {
+        self.checkLengthComments = false;
+        self.getNumberComments();
         self.getComments();
       });
 
@@ -226,7 +237,6 @@ export default class PlayerBettingMatchController {
   }
 
   sendComment() {
-    this.checkLengthComments = false;
     var self = this;
     var token = this.cacheService.get('loginUser');
     var requestBody = {
@@ -239,7 +249,6 @@ export default class PlayerBettingMatchController {
   }
 
   chooseBet(competitorId) {
-    this.checkLengthComments = false;
     var self = this;
     var token = this.cacheService.get('loginUser');
     if (self.currentBettingPlayer.betCompetitorId) {
@@ -262,5 +271,6 @@ export default class PlayerBettingMatchController {
     }
 
     self.comment = '';
+
   }
 }

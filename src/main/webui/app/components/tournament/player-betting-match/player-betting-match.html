@@ -3,9 +3,9 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-6 border-right">
-          <h3 class="padding">Betting Match</h3>
+          <h3 class="padding" translate="components.playerbetting.title.bettingmatch"></h3>
           <div class="pull-right">
-            <button class="btn btn-danger">You lose: {{player.currentBettingPlayer.loseBettingMatch}} VND</button>
+            <button class="btn btn-danger"><span translate="components.playerbetting.lose"></span> {{player.currentBettingPlayer.loseBettingMatch}} VNĐ</button>
           </div>
           <hr>
           <div class="text-center">
@@ -27,24 +27,24 @@
           <div class="row">
             <div class="col-sm-6 margin-choose">
               <button type="button" class="btn btn-primary btn-lg raised btn-fill" ng-show="player.notError" ng-disabled="player.chooseCompetitor1"
-              ng-click="player.isChooseCompetitor1()"><i class="fa fa-check" ng-show="player.chooseCompetitor1"></i> Choose {{player.dataInfoMatch.competitor1Name}}</button>
+              ng-click="player.isChooseCompetitor1()"><i class="fa fa-check" ng-show="player.chooseCompetitor1"></i><span translate="components.playerbetting.choose"></span>{{player.dataInfoMatch.competitor1Name}}</button>
             </div>
             <div class="col-sm-6 margin-choose">
               <button type="button" class="btn btn-primary btn-lg raised btn-fill" ng-show="player.notError" ng-disabled="player.chooseCompetitor2"
-              ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i> Choose {{player.dataInfoMatch.competitor2Name}}</button>
+              ng-click="player.isChooseCompetitor2()"><i class="fa fa-check" ng-show="player.chooseCompetitor2"></i><span translate="components.playerbetting.choose"></span>{{player.dataInfoMatch.competitor2Name}}</button>
             </div>
           </div>
           <div class="alert alert-danger" role="alert" ng-show="!player.notError">
-            <h4 class="text-center">{{player.messageError}}</h4>
+            <h4 class="text-center" translate="components.playerbetting.isexpired"></h4>
           </div>
           <div class="input-group padding-comment" ng-show="player.notError">
-            <input type="text" ng-model="player.comment" class="form-control" placeholder="Please enter your comment for your competitor">
-            <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()">Comment</button></span>
+            <input type="text" ng-model="player.comment" class="form-control" placeholder="...">
+            <span class="input-group-btn"><button class="btn btn-primary" ng-click="player.sendComment()" translate="components.playerbetting.comment"></button></span>
           </div>
           <div comment></div>
         </div>
         <div class="col-sm-6">
-          <h3 class="padding">Betting Match Information</h3>
+          <h3 class="padding" translate="components.playerbetting.title.infobettingmatch"></h3>
           <hr>
           <div info-betting-match></div>
           <div player-statistics></div>
