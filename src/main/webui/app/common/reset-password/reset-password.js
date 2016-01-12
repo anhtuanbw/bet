@@ -17,23 +17,23 @@ export default class ResetPasswordController {
     vm.pop = function(type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    
-    this.accountService.resetPassword(email)
-    .then(response => {
-      // Success
-      if (response.status === 200) {
-        vm.closeModal();
-        vm.pop('success', vm.popTitle, 'Check your email for a link to reset your password.');
 
-        // Redirect to home page
-        vm.location.path('/home');
-      } else {
-        vm.pop('warning', vm.popTitle, response.data.message);
-      }
-    })
-    .catch(response => {
-      vm.pop('error', vm.popTitle, response.data.message);
-    });
+    this.accountService.resetPassword(email)
+      .then(response => {
+        // Success
+        if (response.status === 200) {
+          vm.closeModal();
+          vm.pop('success', vm.popTitle, 'Check your email for a link to reset your password.');
+
+          // Redirect to home page
+          vm.location.path('/home');
+        } else {
+          vm.pop('warning', vm.popTitle, response.data.message);
+        }
+      })
+      .catch(response => {
+        vm.pop('error', vm.popTitle, response.data.message);
+      });
   }
 
   closeModal() {
