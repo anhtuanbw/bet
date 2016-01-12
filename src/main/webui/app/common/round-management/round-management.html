@@ -17,12 +17,12 @@
           <!-- Begin Round -->
           <div ng-class="form-group" ng-hide="round.data.hide">
             <label class="control-label" translate="common.round.create.name"></label><span class="text-danger">*</span>
-            <input type="text" class="form-control" ng-model="round.data.name" name="roundname" required>
+            <input type="text" class="form-control" ng-change="round.enableCreate()" ng-model="round.data.name" required>
             <span class="text-danger" ng-bind="round.data.roundError"></span>
           </div>
           <div ng-class="form-group" ng-hide="!round.data.hide">
             <label class="control-label" translate="common.round.create.name"></label><span class="text-danger">*</span>
-            <input type="text" class="form-control" ng-model="round.data.name" name="roundname" disabled required>
+            <input type="text" class="form-control" ng-model="round.data.name" disabled required>
             <span class="text-danger" ng-bind="round.data.roundError"></span>
           </div>
           <!-- End Round -->
@@ -52,10 +52,10 @@
           <!-- End Competitor -->
             <div class="form-inline text-right"> 
               <div class="form-group">
-                <button type="button" class="btn btn-primary" ng-hide="round.data.hide" ng-click="round.saveData(round.data)" translate="common.round.create.save"></button>
+                <button type="button" class="btn btn-primary" ng-hide="round.data.hide" ng-disabled="round.data.disableCreate" ng-click="round.saveData(round.data)" translate="common.round.create.save"></button>
               </div>
               <div class="form-group" ng-hide="round.data.hideCombobox">
-                <button type="button" class="btn btn-primary" ng-hide="!round.data.hide" ng-click="round.updateData()" translate="common.round.create.update"></button>
+                <button type="button" class="btn btn-primary" ng-hide="!round.data.hide" ng-disabled="round.data.disableUpdate" ng-click="round.updateData()" translate="common.round.create.update"></button>
               </div>
               <div class="form-group">
                 <button type="button" class="btn btn-default" ng-click="round.cancel()" translate="common.round.create.cancel"></button>

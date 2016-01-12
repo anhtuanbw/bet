@@ -19,6 +19,8 @@ export default class roundManController {
     this.data.competitorList = [];
     this.data.competitorOldList = [];
     this.data.competitorInComboBox = [];
+    this.data.disableCreate = false;
+    this.data.disableUpdate = false;
   }
 
   loadTour(){
@@ -106,7 +108,11 @@ export default class roundManController {
   }
 
   saveData(roundData){
+    this.data.disableCreate = true;
     var popTitle = 'Round Management';
+    if (typeof roundData.name === 'undefined'){
+      roundData.name = '';
+    }
     this.roundSave = {
       'name': roundData.name,
       'tournamentId': this.tourID,
@@ -130,6 +136,7 @@ export default class roundManController {
   }
 
   updateData(){
+    this.data.disableUpdate = true;
     var popTitle = 'Update Round';
     var dataUpdate = {
         'roundId': this.roundID,
@@ -147,6 +154,10 @@ export default class roundManController {
 
   cancel(){
     this.modalInstance.dismiss();
+  }
+
+  enableCreate(){
+    this.data.disableCreate = false;
   }
 
 }

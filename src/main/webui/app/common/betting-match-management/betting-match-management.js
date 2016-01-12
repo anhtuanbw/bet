@@ -20,6 +20,7 @@ export default class BettingMatchController {
     this.isAdmin = false;
     this.isMod = false;
     this.checkAdmin();
+    this.flag = true;
   }
 
   getTourAndGroupId(){
@@ -62,7 +63,7 @@ export default class BettingMatchController {
     this.checkMod();
     this.data.bettingMatch = [];
     for (var i = 0; i < this.roundIdAndName.length; i++) {
-      this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID)
+      this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID);
         .then(response => {
           //remove null item
           var tempArray = [];
@@ -252,12 +253,14 @@ export default class BettingMatchController {
 
     //use for(...) to make a list betting match id
     var bettingMatchId = [];
+    console.log(this.data.bettingMatch);
     for (var i = 0; i < this.data.bettingMatch.length; i++) {
       for (var j = 0; j < this.data.bettingMatch[i].bettingMatch.length; j++) {
         bettingMatchId.push(this.data.bettingMatch[i].bettingMatch[j].match.id);
       }
     }
     //use for(...) to remove match have the same match id in bettingMatch
+    console.log(this.data.match);
     for (var k = 0; k < this.data.match.length; k++) {
       for (var l = 0; l < this.data.match[k].matches.length; l++) {
         var existId = bettingMatchId.indexOf(this.data.match[k].matches[l].id);
