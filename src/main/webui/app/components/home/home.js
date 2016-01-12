@@ -3,6 +3,7 @@
 export default class HomeController {
   /* @ngInject */
   constructor($rootScope, CacheService) { 
+    console.log('home');
   	this.isAuthorized = CacheService.get('loginUser')? true : false;
   	$rootScope.$on('login', (event, cb) => this.login(cb));
   	$rootScope.$on('logout', (event, cb) => this.logout(cb));

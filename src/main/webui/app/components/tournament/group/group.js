@@ -2,7 +2,7 @@
 
 export default class TournamentGroupController {
   /* @ngInject */
-  constructor($modal, $rootScope, $location, GroupService, AccountService) {
+  constructor($modal, $rootScope, $location, GroupService, AccountService, $stateParams) {
     this.modal = $modal;
     this.rootScope = $rootScope;
     this.location = $location;
@@ -11,17 +11,19 @@ export default class TournamentGroupController {
     this.groupInfo = {};
     this.tournamentName = '';
     this.isMod = false;
-    this.authen();
-    this.rootScope.$on('selectGroup', (event, groupInfo) => {
-      if (groupInfo) {
-        if(groupInfo.tournamentName) {
-          this.tournamentName = groupInfo.tournamentName;
-        }
-        this.groupInfo.id = groupInfo.id;
-        this.findById();
-        this.checkMod();
-      }
-    });
+    // this.rootScope.$on('selectGroup', (event, groupInfo) => {
+    //   if (groupInfo) {
+    //     if(groupInfo.tournamentName) {
+    //       this.tournamentName = groupInfo.tournamentName;
+    //     }
+    //     this.groupInfo.id = groupInfo.id;
+    //     this.findById();
+    //     this.checkMod();
+    //   }
+    // });
+    this.groupInfo.id = $stateParams.groupId;
+    this.findById();
+    this.checkMod();
     this.activePlayer = 'group';
   }
   
@@ -37,25 +39,22 @@ export default class TournamentGroupController {
     });
   }
   
-  authen() {
+  checkMod() {
     this.accountService.authen()
     .then(response => {
       if (response.data) {
-         this.currentUser = response.data;
+        this.currentUser = response.data;
+        var data = {};
+        data.groupId = this.groupInfo.id;
+        data.userId = this.currentUser.id;
+        this.groupService.isModerator(data)
+        .then(() => {
+          this.isMod = true;
+        })
+        .catch(() => {
+          this.isMod = false;
+        });
       }
-    });
-  }
-  
-  checkMod() {
-    var data = {};
-    data.groupId = this.groupInfo.id;
-    data.userId = this.currentUser.id;
-    this.groupService.isModerator(data)
-    .then(() => {
-      this.isMod = true;
-    })
-    .catch(() => {
-      this.isMod = false;
     });
   }
 

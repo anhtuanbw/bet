@@ -34,6 +34,10 @@ export default class ManagementController {
     this.$mdSidenav = $mdSidenav;
     this.$timeout = $timeout;
     this.toggleLeft = this.buildDelayedToggler('left');
+    // $router.config([
+    //   { path: '/home', component: 'home' },
+    //   { path: '/:id', component: 'home' },
+    // ]);
   }
 
   debounce(func, wait) {
@@ -100,13 +104,14 @@ export default class ManagementController {
 
   showGroup(index, tournament, group) {
     this.selectedGroup = index;
-    this.showView.isCreate = false;
-    this.showView.isEdit = false;
-    this.showView.isGroup = true;
-    this.showView.isBetting = false;
-    this.rootScope.$broadcast('tourID', tournament.id, group.id);
-    group.tournamentName = tournament.name;
-    this.rootScope.$broadcast('selectGroup', group);
+    // this.showView.isCreate = false;
+    // this.showView.isEdit = false;
+    // this.showView.isGroup = true;
+    // this.showView.isBetting = false;
+    // this.rootScope.$broadcast('tourID', tournament.id, group.id);
+    // group.tournamentName = tournament.name;
+    // this.rootScope.$broadcast('selectGroup', group);
+    this.location.path('/management/' + tournament.id + '/' + group.id);
   }
 
   playerBetting() {
@@ -133,16 +138,8 @@ export default class ManagementController {
   }
 
   showTournamenDetail(tournamentId) {
-    this.showView.isEdit = true;
-    this.showView.isGroup = false;
-    this.showView.isCreate = false;
-    this.showView.isBetting =false;
-    for (var i in this.tournaments) {
-      if (this.tournaments[i].id === tournamentId) {
-        this.rootScope.$broadcast('selectTournament', this.tournaments[i]);
-        break;
-      }
-    }
+    // thi
+    this.location.path('/management/' + tournamentId);
   }
 
   authen() {

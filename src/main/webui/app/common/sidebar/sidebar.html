@@ -4,7 +4,8 @@
         <h1 class="md-toolbar-tools">
             <i class='fa fa-bars' data-toggle='tooltip' title='Colapse Tournament!'></i> 
             <span translate="common.sidebar.title" class="uppercase" class="pull-left" style="padding-left: 5px; width: 100%;"></span>
-            <span ng-click="management.createTournament();$event.stopPropagation();" translate="common.sidebar.create" ng-show="management.isAdmin" style="width:100%; text-align: right;"></span>
+            <!--<span ng-click="management.createTournament();$event.stopPropagation();" translate="common.sidebar.create" ng-show="management.isAdmin" style="width:100%; text-align: right;"></span>-->
+             <span ui-sref="management.createtournament" ng-click="$event.stopPropagation();" translate="common.sidebar.create" style="width:100%; text-align: right;"></span>
         </h1>
       </md-toolbar>
     <div class="input-group stylish-input-group" ng-hide="showTours">

@@ -22,10 +22,10 @@
     <!-- endbuild -->
 </head>
 <body ng-app="ngaythobet">
-    <div ng-strict-di ng-controller="AppController">
+    <div ng-strict-di>
         <div navbar></div>
         <div class="container-fluid wrapper" layout="row">
-            <div ng-viewport style="width: 100%;"></div>
+            <div ui-view style="width: 100%;"></div>
         </div>
         <footer>
             <div class="container">
@@ -58,6 +58,7 @@
     <script type="text/javascript" src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <!-- endbuild -->
     <!-- build:js2 app/app.min.js -->
     <script type="text/javascript" src=".tmp/app.js"></script>
