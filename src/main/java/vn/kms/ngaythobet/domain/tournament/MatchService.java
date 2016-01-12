@@ -1,12 +1,16 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
+import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
 import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
+import vn.kms.ngaythobet.web.dto.MatchNotCreateBetInfo;
 import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +29,17 @@ public class MatchService {
 
     private final MatchRepository matchRepo;
 
+    private final BettingMatchRepository bettingMatchRepo;
+
+    private GroupRepository groupRepo;
+
     @Autowired
-    public MatchService(CompetitorRepository competitorRepo, RoundRepository roundRepo, MatchRepository matchRepo) {
+    public MatchService(CompetitorRepository competitorRepo, RoundRepository roundRepo, MatchRepository matchRepo,
+            BettingMatchRepository bettingMatchRepo) {
         this.competitorRepo = competitorRepo;
         this.roundRepo = roundRepo;
         this.matchRepo = matchRepo;
+        this.bettingMatchRepo = bettingMatchRepo;
     }
 
     @Transactional
@@ -152,5 +162,29 @@ public class MatchService {
         match.setScore1(updateScoreInfo.getCompetitor1Score());
         match.setScore2(updateScoreInfo.getCompetitor2Score());
         matchRepo.save(match);
+    }
+
+
+    public List<MatchNotCreateBetInfo> getMatchNotCreatedBettingMatch(Long tournamentId, Long groupId) {
+        List<Match> matches = matchRepo.findByTournament(tournamentId);
+        List<MatchNotCreateBetInfo> matchesNotbet = new ArrayList<MatchNotCreateBetInfo>();
+        List<BettingMatch> bettingMatches = bettingMatchRepo.findByGroupId(groupId);
+        for (Match match : matches) {
+            boolean isExist = false;
+            for (BettingMatch bettingMatch : bettingMatches) {
+                if (match.getId().equals(bettingMatch.getMatch().getId())) {
+                    isExist = true;
+                    break;
+                }
+            }
+            if (!isExist) {
+                MatchNotCreateBetInfo matchNotBet = new MatchNotCreateBetInfo();
+                matchNotBet.setRoundId(match.getRound().getId());
+                matchNotBet.setRoundName(match.getRound().getName());
+                matchNotBet.setMatch(match);
+                matchesNotbet.add(matchNotBet);
+            }
+        }
+        return matchesNotbet;
     }
 }
