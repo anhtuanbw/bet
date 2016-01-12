@@ -38,6 +38,7 @@ export default class AppController {
 
 angular.module('ngaythobet', [
   'ngNewRouter',
+  'mgcrea.ngStrap',
   'ngSanitize',
   'ngCookies',
   'ngTagsInput',

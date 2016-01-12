@@ -16,41 +16,40 @@ export default class AccountController {
 
   authen() {
     this.accountService.authen()
-      .then(response => {
-        if (response.data) {
-          this.loginUser.username = response.data.name;
-        } else {
-          this.loginUser = {};
-          this.cacheService.remove('loginUser');
-          this.rootScope.$broadcast('logout');
-          this.loginUser = {};
-        }
-      });
+    .then(response => {
+      if (response.data) {
+        this.loginUser.username = response.data.name;
+      } else {
+        this.loginUser = {};
+        this.cacheService.remove('loginUser');
+        this.rootScope.$broadcast('logout');
+        this.loginUser = {};
+      }
+    });
   }
 
   login(cb) {
     this.accountService.login(cb)
-      .then(() => {
-        this.authen();
-        if (cb && typeof cb === 'function') {
-          cb();
-        }
-      });
+    .then(() => {
+      this.authen();
+      if (cb && typeof cb === 'function') { cb(); }
+    });
   }
 
   logout() {
     this.accountService.logout()
-      .then(() => {
-        this.cacheService.remove('loginUser');
-        this.loginUser = {};
-        this.cacheService.remove('cartId');
-        this.rootScope.$broadcast('logout');
-        this.location.path('/');
-      })
-      .catch(() => {
-        this.loginUser = {};
-        this.location.path('/');
-      });
+    .then(() => {
+      this.cacheService.remove('loginUser');
+      this.loginUser = {};
+      this.cacheService.remove('cartId');
+      this.rootScope.$broadcast('logout');
+      this.location.path('/');
+    })
+    .catch(() => {
+      this.loginUser = {};
+      this.cacheService.remove('loginUser');
+      this.location.path('/');
+    });
   }
 
   openChangePassword() {
