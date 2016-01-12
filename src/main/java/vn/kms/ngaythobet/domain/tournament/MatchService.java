@@ -181,7 +181,7 @@ public class MatchService {
                 }
             }
             if (!isExist) {
-                if (current == -1 || matchesNotbet.get(current).getRoundId() != match.getRound().getId()) {
+                if (current == -1 || !matchesNotbet.get(current).getRoundId().equals(match.getRound().getId())) {
                     current++;
                     matchesNotbet.add(new MatchNotCreateBetInfo());
                     matchesNotbet.get(current).setRoundId(match.getRound().getId());

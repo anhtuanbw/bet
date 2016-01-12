@@ -99,8 +99,6 @@ public class UserServiceTest extends BaseTest {
         // verify activationKey was generated
         User user = userRepo.findOneByUsername(username).get();
         String activationKey = user.getActivationKey();
-//        mailService.sendActivationEmailAsync(user);
-//        Thread.sleep(5000);
         assertThat(activationKey, notNullValue());
         assertThat(user.isActivated(), is(false));
 
