@@ -1,5 +1,5 @@
 <div class="margin-choose">
-	<h5 class="text-primary">{{player.numberComments}}<span> commen{{player.numberComments > 1 ? 'ts' : 't'}}</span></h5>
+	<h5 class="text-primary">{{player.numberComments}}<span translate="components.playerbetting.comments"></span></h5>
 </div>
 <hr class="margin-comment">
 <div id="vertical-timeline" class="vertical-container light-timeline">
@@ -8,8 +8,8 @@
 			<i class="fa fa-comments"></i>
 		</div>
 		<div class="vertical-timeline-content">
-			<h4><span class="text-danger">System</span></h4>
-			<p>There are no activity in this match.</p>
+			<h4><span class="text-danger" translate="components.playerbetting.system"></span></h4>
+			<p translate="components.playerbetting.systemmess"></p>
 			<span class="vertical-date"><small>{{player.dataBettingMatch.timeNow | date:'yyyy-MM-dd HH:mm:ss'}}</small></span>
 		</div>
 	</div>
@@ -21,16 +21,15 @@
 			<div class="vertical-timeline-content">
 				<h4><span class="text-danger">{{comment.username}}</span></h4>
 				<p class="text-info" ng-hide="comment.betCompetitor === null">
-					Choose <span class="badge">{{comment.betCompetitor.name}}</span>
+					<span translate="components.playerbetting.choosecomment"></span><span class="badge">{{comment.betCompetitor.name}}</span>
 				</p>
 				<p>{{comment.comment}}</p>
 				<span class="vertical-date"><small>{{comment.timestamp}}</small></span>
 			</div>
 		</div>
 	</div>
-	<div class="pull-right" ng-show="player.checkPaging">
-		<a class="btn" href="javascript:void(0)" ng-click="player.setPaging()">
-			Show more >>
+	<div class="pull-right" ng-show="player.checkPaging" >
+		<a class="btn" href="javascript:void(0)" ng-click="player.setPaging()" translate="components.playerbetting.showmore">
 		</a>
 	</div>
 </div>
