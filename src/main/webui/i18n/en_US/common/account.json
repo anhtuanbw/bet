@@ -33,7 +33,8 @@
         "title": "Change password",
         "currentPwd": "Current password",
         "newPwd": "New password",
-        "confirmNewPwd": "Confirm new password"
+        "confirmNewPwd": "Confirm new password",
+        "successMessage":"Your password have been changed!"
       },
       "form": {
         "submit": "Submit",
