@@ -33,7 +33,8 @@
         "title": "Đổi mật khẩu",
         "currentPwd": "Mật khẩu hiện tại",
         "newPwd": "Mật khẩu mới",
-        "confirmNewPwd": "Nhập lại mật khẩu mới"
+        "confirmNewPwd": "Nhập lại mật khẩu mới",
+        "successMessage":"Mật khẩu của bạn đã thay đổi thành công! Bạn có thể sử dụng tiếp tục các chức năng hoặc có thể login lại."
       },
       "form": {
         "submit": "Gửi",
