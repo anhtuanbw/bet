@@ -14,6 +14,8 @@ import vn.kms.ngaythobet.domain.betting.BettingMatch;
 import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
 import vn.kms.ngaythobet.domain.betting.BettingPlayer;
 import vn.kms.ngaythobet.domain.core.User;
+import vn.kms.ngaythobet.domain.core.UserRepository;
+import vn.kms.ngaythobet.domain.core.User.Role;
 import vn.kms.ngaythobet.domain.tournament.Competitor;
 import vn.kms.ngaythobet.domain.tournament.Group;
 import vn.kms.ngaythobet.domain.tournament.GroupRepository;
@@ -32,11 +34,14 @@ public class GroupStatisticService {
 
     private final GroupRepository groupRepo;
     private final BettingMatchRepository bettingMatchRepo;
+    private final UserRepository userRepo;
 
     @Autowired
-    public GroupStatisticService(GroupRepository groupRepo, BettingMatchRepository bettingMatchRepo) {
+    public GroupStatisticService(GroupRepository groupRepo, BettingMatchRepository bettingMatchRepo,
+            UserRepository userRepo) {
         this.groupRepo = groupRepo;
         this.bettingMatchRepo = bettingMatchRepo;
+        this.userRepo = userRepo;
     }
 
     @Transactional
@@ -48,13 +53,16 @@ public class GroupStatisticService {
         }
 
         String username = SecurityUtil.getCurrentLogin();
-        Optional<User> optionalUser = group.getMembers().stream().filter(user -> user.getUsername().equals(username))
-                .findFirst();
+        User currentUser = userRepo.findOneByUsername(username).get();
 
-        if (!optionalUser.isPresent()) {
-            throw new DataInvalidException("exception.group.not-belong-group");
+        if (!currentUser.getRole().equals(Role.ADMIN)) {
+            Optional<User> optionalUser = group.getMembers().stream()
+                    .filter(user -> user.getUsername().equals(username)).findFirst();
+            if (!optionalUser.isPresent()) {
+                throw new DataInvalidException("exception.group.not-belong-group");
+            }
+
         }
-
         List<User> users = group.getMembers();
         for (User user : users) {
             GroupStatistic groupStatistic = new GroupStatistic();

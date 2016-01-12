@@ -233,21 +233,6 @@ public class ChangeLogTest extends BaseTest {
 
         bettingPlayerTemp = bettingPlayerRepo.save(bettingPlayer);
 
-        List<ChangeLog> changelogs = changeLogRepo.findByEntityTypeAndEntityId(BettingMatch.class.getCanonicalName(),
-                bettingMatchTemp.getId());
-        List<ChangeLog> changelogsHistoryBetting = changeLogRepo.findByEntityType(BettingPlayer.class
-                .getCanonicalName());
-
-        int size = 0;
-        for (ChangeLog c : changelogsHistoryBetting) {
-            BettingMatch bm = bettingPlayerRepo.findOne(c.getEntityId()).getBettingMatch();
-            if (bm != null) {
-                if (bm.getId().equals(bettingMatchTemp.getId())) {
-                    size++;
-                }
-            }
-        }
-        
         assertThat(changeLogService.getCommentCount(bettingMatchTemp.getId()), equalTo(2));
     }
 
