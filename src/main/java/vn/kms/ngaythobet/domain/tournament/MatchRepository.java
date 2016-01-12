@@ -13,6 +13,6 @@ public interface MatchRepository extends JpaRepository<Match, Long>{
     @Query("select m from Tournament t "
             + "inner join t.rounds r "
             + "inner join r.matches m "
-            + "where t.id = :tournamentId order by m.id")
+            + "where t.id = :tournamentId order by r.id")
     List<Match> findByTournament(@Param("tournamentId") Long tournamentId);
 }

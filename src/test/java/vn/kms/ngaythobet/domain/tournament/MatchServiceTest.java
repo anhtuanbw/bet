@@ -290,6 +290,12 @@ public class MatchServiceTest extends BaseTest {
         assertThat(matchesNotBet.size(), equalTo(1));
     }
 
+    @Test
+    public void testcheckRounds() {
+        boolean isCircle = matchService.checkRounds(tournamentTemp.getId());
+        assertThat(isCircle, equalTo(true));
+    }
+
     @After
     public void clearData() {
         bettingMatchRepo.deleteAll();

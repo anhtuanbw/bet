@@ -231,7 +231,17 @@ footer {
   color: #000;
 }  
 
+.btn-fill {
+	width: 100%;
+	white-space: normal;
+}
+
+.alert h4 {
+  margin-top: 10px;
+  color: inherit;
+}
+
 .full-width {
-  width: 100%; 
+  width: 100%;
   margin-bottom: 80px;
 }

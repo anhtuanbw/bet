@@ -9,9 +9,9 @@
          "activeSuccess":"Active tournament successfully!!!",
          "edit-tournament": {
             "btnActiveTour": "Active tournament",
-            "btnNewGroup": "<i class='fa fa-plus'></i> New group",
-            "btnNewMatch": "<i class='fa fa-plus'></i> New match",
-            "btnNewRound": "<i class='fa fa-plus'></i> New round"
+            "btnNewGroup": "New group",
+            "btnNewMatch": "New match",
+            "btnNewRound": "New round"
           },
          "tab": {
             "matches": "Matches",

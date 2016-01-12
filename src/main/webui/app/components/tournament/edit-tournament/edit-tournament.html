@@ -4,9 +4,18 @@
 			<strong class="panel-title pull-left text-muted font-size" ng-bind="editor.tournamentInfo.name"></strong>
 			<div class="text-right panel-title" ng-show="management.isAdmin">
 				<button class="btn btn-primary" ng-click="editor.activeTournament()" ng-show="!editor.tournamentInfo.activated" translate="components.tournament.edit-tournament.btnActiveTour"></button>
-				<button class="btn btn-default" ng-click="editor.createGroup()" translate="components.tournament.edit-tournament.btnNewGroup"></button>
-				<button class="btn btn-default" ng-click="editor.openCreateMatch()" translate="components.tournament.edit-tournament.btnNewMatch"></button>
-				<button class="btn btn-default" ng-click="editor.openCreateRound()" translate="components.tournament.edit-tournament.btnNewRound"></button>
+				<button class="btn btn-default" ng-click="editor.createGroup()">
+					<i class="fa fa-plus"></i>
+					<span class="bold" translate="components.tournament.edit-tournament.btnNewGroup"></span>
+				</button>
+				<button class="btn btn-default" ng-click="editor.openCreateMatch()">
+					<i class="fa fa-plus"></i>
+					<span class="bold" translate="components.tournament.edit-tournament.btnNewMatch"></span>
+				</button>
+				<button class="btn btn-default" ng-click="editor.openCreateRound()">
+					<i class="fa fa-plus"></i>
+					<span class="bold" translate="components.tournament.edit-tournament.btnNewRound"></span>
+				</button>
 			</div>
 		</div>
 		<div class="panel-body" ng-repeat="round in editor.inforTournament track by $index">
