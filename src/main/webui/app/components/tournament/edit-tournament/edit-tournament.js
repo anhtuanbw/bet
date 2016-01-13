@@ -74,7 +74,6 @@ export default class EditTournamentController {
     this.matchService.checkRound(this.state.tournamentId)
       .then(response => {
         this.checkRoundNull = response.data;
-        console.log(this.checkRoundNull);
       });
   }
 
