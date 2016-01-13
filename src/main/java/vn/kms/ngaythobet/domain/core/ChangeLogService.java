@@ -78,8 +78,6 @@ public class ChangeLogService {
                     if (change != null) {
                         commentInfo.setComment(change.getNewValue().toString());
                         comments.add(commentInfo);
-                    } else {
-
                     }
                 }
             }
