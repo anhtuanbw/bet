@@ -22,7 +22,6 @@ export default class BettingMatchController {
     this.isAdmin = false;
     this.isMod = false;
     this.checkAdmin();
-    this.flag = true;
   }
 
   getTourAndGroupId(){
@@ -166,23 +165,20 @@ export default class BettingMatchController {
   }
 
   activate(match){
-    var self = this;
-    self.popTitle = 'Activate Betting Match';
-    var successMessage = 'Active Successfully !';
-    // Show alert message
-    self.pop = function (type, title, content) {
-      this.toaster.pop(type, title, content);
-    };
+    var titleToaster = 'Active Betting Match';
+    var templateUrl = 'app/common/betting-match-management/activeSuccess.html';
     var activeData = {
       'bettingMatchId': match.id,
       'groupId': this.groupID
     };
     this.BettingService.active(activeData)
-    .then(() => {
-      self.pop('success', self.popTitle, successMessage);
+    .then(response => {
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       match.activated = true;
     }, function (response) {
-      self.pop('error', self.popTitle, response.data.message);
+      this.toaster.pop('error', titleToaster, response.data.message);
     });
   }
 

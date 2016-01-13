@@ -18,7 +18,13 @@
           "active": "Activate",
           "back": "Back",
           "startTime": "Start time",
-          "location": "Location"
+          "location": "Location",
+          "errorBal1": "Invalid number",
+          "errorBal2": "Invalid number",
+          "errorBetAmount": "Invalid number",
+          "activeSuccess": "Activate successful !",
+          "createSuccess": "Create successful !",
+          "updateSuccess": "Update successful !"
       }
   }
 }

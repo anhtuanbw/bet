@@ -109,7 +109,8 @@ export default class roundManController {
 
   saveData(roundData){
     this.data.disableCreate = true;
-    var popTitle = 'Round Management';
+    var titleToaster = 'Create Round';
+    var templateUrl = 'app/common/round-management/createSuccess.html';
     if (typeof roundData.name === 'undefined'){
       roundData.name = '';
     }
@@ -121,8 +122,10 @@ export default class roundManController {
     roundData.CompetitorError = '';
     roundData.roundError = '';
     this.RoundService.create(this.roundSave)
-    .then(() => {
-      this.toaster.pop('success', popTitle, 'Create Round Successfully !!!');
+    .then(response => {
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       //remove all old data
       roundData.competitorList = [];
       roundData.competitorInComboBox = [];
@@ -137,18 +140,21 @@ export default class roundManController {
 
   updateData(){
     this.data.disableUpdate = true;
-    var popTitle = 'Update Round';
+    var titleToaster = 'Update Round';
+    var templateUrl = 'app/common/round-management/updateSuccess.html';
     var dataUpdate = {
         'roundId': this.roundID,
         'competitorIds': this.roundCompetitor
     };
     this.RoundService.update(dataUpdate)
-    .then(() => {
+    .then(response => {
       //success
-      this.toaster.pop('success', popTitle, 'Update Successfully !!!');
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       this.modalInstance.dismiss();
     }, function(response){
-      this.toaster.pop('error', popTitle, response.data.fieldErrors);
+      this.toaster.pop('error', titleToaster, response.data.fieldErrors);
     });
   }
 
