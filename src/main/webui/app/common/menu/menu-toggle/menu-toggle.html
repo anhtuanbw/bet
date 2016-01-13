@@ -6,7 +6,8 @@
     aria-expanded="{{ management.isOpen(this) }}">
     <i class="fa fa-server"></i> 
     <a href="javascript:void(0)">
-        {{ tournament.name }}
+        <span ng-show="tournament.name.length<=25">{{ tournament.name }}</span>
+        <span ng-show="tournament.name.length>25">{{ tournament.name | limitTo:25 }} ...</span>
     </a>
     <span aria-hidden="true" class="pull-right fa fa-chevron-down md-toggle-icon" ng-class="{'toggled' : management.isOpen(self)}">
     </span>
