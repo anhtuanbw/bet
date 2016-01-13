@@ -12,14 +12,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ParseData {
-    @Autowired
-    static TournamentRepository tournamentRepo;
-    static RoundRepository roundRepo;
-    static MatchRepository matchRepo;
-
     public static List<Tournament> parseTournamentFromLiveScore() {
         List<Tournament> tournaments = new ArrayList<>();
         String baseUrl = "http://www.livescore.com";
