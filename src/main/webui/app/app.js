@@ -84,6 +84,12 @@ angular.module('ngaythobet', [
       controller: ActivatorController,
       controllerAs: 'activator'
     })
+    .state('reset-password', {
+      url: '/api/reset-password/finish',
+      templateUrl: 'app/components/reset-passwordFinish/reset-passwordFinish.html',
+      controller: ResetPasswordFinishController,
+      controllerAs: 'resetPassword'
+    })
     .state('management', {
       abstract: true,
       url: '/management',
