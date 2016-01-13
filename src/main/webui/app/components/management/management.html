@@ -1,7 +1,7 @@
-<div ng-init="hide=true" ng-controller="ManagementController as management" layout="row" class="layout-row" style="width: 100%;">
-	<div ng-show="management.isAuthorized()" ng-init="showTours=false;" style="width: 100%;">
+<div ng-init="hide=true" layout="row" class="layout-row" style="width: 100%;">
+	<div  ng-init="showTours=false;" style="width: 100%;">
 		<div sidebar style="float:left; margin-right: 10px;"></div>
-		<div flex layout="column" role="main" flex class="layout-column flex" style="max-height: 800px; overflow-y: scroll;">
+		<div flex layout="column" role="main" flex class="layout-column flex" style="max-height: 800px; min-height: 800px;">
 	         <md-button ng-click="management.toggleLeft()" class="md-primary sidenav-toggle" hide-gt-sm>
 	            <span class="fa fa-bars fa-2x"></span>
 	         </md-button>
@@ -9,10 +9,7 @@
 				<div class="tour-banner">
 					<img ng-src="assets/images/banner-tournament.jpg">
 				</div>
-				<div ng-show="management.showView.isCreate && management.isAdmin" ng-include src="'app/components/tournament/create-tournament/create-tournament.html'"></div>
-				<div ng-show="management.showView.isEdit" ng-include src="'app/components/tournament/edit-tournament/edit-tournament.html'"></div>
-				<div ng-show="management.showView.isGroup" ng-include src="'app/components/tournament/group/group.html'"></div>
-				<div ng-show="management.showView.isBetting" ng-include src="'app/components/tournament/player-betting-match/player-betting-match.html'"></div>
+				<div ui-view></div>
 			</div>
 		</div>
 	</div>

@@ -2,18 +2,20 @@
 
 export default class BettingMatchController {
   /* @ngInject */
-  constructor(RoundService, BettingService, AccountService, toaster, GroupService, $rootScope, $modal){
+  constructor(RoundService, BettingService, AccountService, toaster, GroupService, $rootScope, $modal, $stateParams, $location){
     this.rootScope = $rootScope;
     this.RoundService = RoundService;
     this.BettingService = BettingService;
     this.accountService = AccountService;
     this.groupService = GroupService;
+    this.location = $location;
     this.tourID = 0;
     this.groupID = 0;
     this.data = {};
     this.modal = $modal;
-    this.authen();
+    this.params = $stateParams;
     this.getTourAndGroupId();
+    this.checkMod();
     this.roundIdAndName = [];
     this.roundAndMatch = {};
     this.toaster = toaster;
@@ -23,86 +25,62 @@ export default class BettingMatchController {
   }
 
   getTourAndGroupId(){
-    this.rootScope.$on('tourID', (event, tournamentID, groupID) => {
-      if (tournamentID) {
-        this.tourID = tournamentID;
-        this.groupID = groupID;
-        this.showMatch();
-        this.authen();
-        this.data.hide = false;
-        this.isMember = false;
-        this.data.showBtnAdd = false;
+    this.tourID = this.params.tournamentId;
+    this.groupID = this.params.groupId;
+    this.showMatch();
+    this.data.hide = false;
+    this.isMember = false;
+    this.showBtnAdd = false;
+	  this.getRoundIdAndName();
+  }
+
+  showMatch(){
+    this.data.hide = true;
+    this.data.match = [];
+    this.BettingService.getMatchNotCreateBettingMatch(this.tourID, this.groupID)
+    .then(response => {
+      this.data.match = response.data;
+      if (response.data.length !== 0) {
+        this.showBtnAdd = true;
       }
     });
   }
 
-  showMatch(){
-    this.data.match = [];
+  getRoundIdAndName(){
     this.roundIdAndName = [];
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
       this.roundAndMatch = response.data;
       for (var i = 0; i < response.data.length; i++) {
-        var roundInfo = {
+        var item = {
           'id': response.data[i].id,
           'name': response.data[i].name
         };
-        this.roundIdAndName.push(roundInfo);
-        if(response.data[i].matches.length !== 0) {
-          this.data.match.push(response.data[i]);
-          this.data.showBtnAdd = true;
-        }
+        this.roundIdAndName.push(item);
       }
-      this.showBettingMatch(this.data);
+      this.showRound();
     });
   }
 
-  showBettingMatch(){
+  showRound(){
     this.checkMember();
-    this.checkMod();
-    this.data.bettingMatch = [];
-    for (var i = 0; i < this.roundIdAndName.length; i++) {
-      this.BettingService.getBettingMatchByRoundAndGroupId(this.roundIdAndName[i].id, this.groupID)
-        .then(response => {
-          //remove null item
-          var tempArray = [];
+    this.data.bettingMatch = this.roundIdAndName;
+  }
+
+  showBettingMatch(round){
+    this.BettingService.getBettingMatchByRoundAndGroupId(round.id, this.groupID)
+    .then(response => {
+      var tempArray = [];
           for (var j = 0; j < response.data.length; j++) {
             if (response.data[j] !== null) {
               tempArray.push(response.data[j]);
             }
           }
-          //get round name
-          var roundName;
-          if (tempArray.length > 0) {
-            for (var k = 0; k < this.roundAndMatch.length; k++) {
-              for (var l = 0; l < this.roundAndMatch[k].matches.length; l++) {
-                if( this.roundAndMatch[k].matches[l].id === tempArray[0].match.id ){
-                  roundName = this.roundAndMatch[k].name;
-                }
-              }
-            }
-          }
-          //make one item in betting Match
-          var item = {
-            'round': roundName,
-            'bettingMatch': tempArray
-          };
-          // push into betting Match list
-          if (item.bettingMatch.length !== 0){
-            this.data.bettingMatch.push(item);
-          }
-          //reset data
-          response.data = [];
-      });
-    }
-  }
-
-  add(){
-    this.data.hide = true;
+      round.bettingMatch = tempArray;
+    });
   }
 
   goBack(){
-    this.showBettingMatch();
     this.data.hide = false;
   }
 
@@ -112,7 +90,7 @@ export default class BettingMatchController {
     var dates = this.longTime(date[2]);
     var hour = this.longTime(date[3]);
     var minute = this.longTime(date[4]);
-    var dateTime = month+'/'+dates+'/'+year+', '+hour+':'+minute+':00 ';
+    var dateTime = month+'/'+dates+'/'+year+', '+hour+':'+minute;
     return dateTime;
   }
 
@@ -126,6 +104,9 @@ export default class BettingMatchController {
 
   chooseMatch(matchChoosedData){
     matchChoosedData.groupID = this.groupID;
+    matchChoosedData.balance1 = 0;
+    matchChoosedData.balance2 = 0;
+    matchChoosedData.betAmount = 0;
     this.modal.open({
       templateUrl: 'app/common/create-betting-match/create-betting-match.html',
       controller: 'CreateBettingController',
@@ -138,25 +119,22 @@ export default class BettingMatchController {
     });
   }
 
-  authen() {
+  checkMod() {
     this.accountService.authen()
     .then(response => {
       if (response.data) {
-          this.currentUser = response.data;
+        this.currentUser = response.data;
+        var data = {};
+        data.groupId = this.groupID;
+        data.userId = this.currentUser.id;
+        this.groupService.isModerator(data)
+        .then(() => {
+          this.isMod = true;
+        })
+        .catch(() => {
+          this.isMod = false;
+        });
       }
-    });
-  }
-  
-  checkMod() {
-    var data = {};
-    data.groupId = this.groupID;
-    data.userId = this.currentUser.id;
-    this.groupService.isModerator(data)
-    .then(() => {
-      this.isMod = true;
-    })
-    .catch(() => {
-      this.isMod = false;
     });
   }
   
@@ -190,22 +168,20 @@ export default class BettingMatchController {
 
   activate(match){
     var self = this;
-    self.popTitle = 'Activate Betting Match';
-    var successMessage = 'Active Successfully !';
-    // Show alert message
-    self.pop = function (type, title, content) {
-      this.toaster.pop(type, title, content);
-    };
+    var titleToaster = 'Active Betting Match';
+    var templateUrl = 'app/common/betting-match-management/activeSuccess.html';
     var activeData = {
       'bettingMatchId': match.id,
       'groupId': this.groupID
     };
     this.BettingService.active(activeData)
-    .then(() => {
-      self.pop('success', self.popTitle, successMessage);
+    .then(response => {
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       match.activated = true;
     }, function (response) {
-      self.pop('error', self.popTitle, response.data.message);
+      self.toaster.pop('error', titleToaster, response.data.message);
     });
   }
 
@@ -230,20 +206,8 @@ export default class BettingMatchController {
   }
 
   betMatch(round, match){
-    var dataSend = {
-      'roundName': round.round,
-      'bettingMatchId': match.id,
-      'competitor1Name': match.match.competitor1.name,
-      'competitor2Name': match.match.competitor2.name,
-      'competitor1Id': match.match.competitor1.id,
-      'competitor2Id': match.match.competitor2.id,
-      'score1': match.match.score1,
-      'score2': match.match.score2,
-      'time': match.match.matchTime
-    };
-    this.rootScope.$broadcast('playerBettingMatch', dataSend);
+    this.location.path('/management/'+ this.params.tournamentId + '/' + this.params.groupId + '/' + match.id);
   }
-
 }
 
 export default class betting {

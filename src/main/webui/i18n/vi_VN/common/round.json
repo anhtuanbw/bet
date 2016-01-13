@@ -10,7 +10,9 @@
 				"add": "Thêm",
 				"save": "Lưu",
 				"cancel": "Hủy",
-				"update": "Cập nhật"
+				"update": "Cập nhật",
+				"createSuccess": "Tạo vòng đấu thành công !",
+				"updateSuccess": "Cập nhật vòng đấu thành công"
 			}
 		}
 	}

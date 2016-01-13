@@ -22,22 +22,8 @@ import UpdateGroupController from './common/update-group/update-group';
 import CreateBettingController from './common/create-betting-match/create-betting-match';
 import UnAuthorizedController from './components/unAuthorized/unAuthorized';
 
-export default class AppController {
-  /* @ngInject */
-  constructor($router) {
-    $router.config([
-      { path: '/home', component: 'home' },
-      { path: '/api/reset-password/finish', component: 'reset-passwordFinish' },
-      { path: '/api/activate', component: 'activate' },
-      { path: '/management', component: 'management' },
-      { path: '/unauthorized', component: 'unAuthorized' },
-      { path: '/', redirectTo: '/home' }
-    ]);
-  }
-}
-
 angular.module('ngaythobet', [
-  'ngNewRouter',
+  'ui.router',
   'mgcrea.ngStrap',
   'ngSanitize',
   'ngCookies',
@@ -49,7 +35,6 @@ angular.module('ngaythobet', [
   'ngAnimate',
   'ngMaterial'
 ])
-.controller('AppController', AppController)
 .controller('HomeController', HomeController)
 .controller('UpdateScoreController', UpdateScoreController)
 .controller('ResetPasswordController', ResetPasswordController)
@@ -68,17 +53,77 @@ angular.module('ngaythobet', [
 .controller('PlayerBettingMatchController', PlayerBettingMatchController)
 .controller('CreateBettingController', CreateBettingController)
 .controller('UnAuthorizedController', UnAuthorizedController)
-.config(/* @ngInject */($compileProvider, $componentLoaderProvider, $translateProvider) => {
+.config(/* @ngInject */($compileProvider, $translateProvider, $stateProvider, $urlRouterProvider) => {
   // disables AngularJS debug info
-  $compileProvider.debugInfoEnabled(false);
-
-  // set templates path
-  $componentLoaderProvider.setTemplateMapping(name => `app/components/${name}/${name}.html`);
-
+   $compileProvider.debugInfoEnabled(false);
+   
   // Angular Translate
   $translateProvider
       .useSanitizeValueStrategy('sanitize')
       .useMissingTranslationHandlerLog()
       .useStaticFilesLoader({ prefix: 'i18n/', suffix: '.json' })
       .preferredLanguage('en_US');
+      
+  $urlRouterProvider.otherwise('/home');
+  $stateProvider
+    .state('home', {
+      url: '/home',
+      templateUrl: 'app/components/home/home.html',
+      controller: HomeController,
+      controllerAs: 'home'
+    })
+    .state('unauthorized', {
+      url: '/unauthorized',
+      templateUrl: 'app/components/unAuthorized/unAuthorized.html',
+      controller: UnAuthorizedController,
+      controllerAs: 'unauthorized'
+    })
+    .state('activate', {
+      url: '/api/activate',
+      templateUrl: 'app/components/activate/activate.html',
+      controller: ActivatorController,
+      controllerAs: 'activator'
+    })
+    .state('reset-password', {
+      url: '/api/reset-password/finish',
+      templateUrl: 'app/components/reset-passwordFinish/reset-passwordFinish.html',
+      controller: ResetPasswordFinishController,
+      controllerAs: 'resetPassword'
+    })
+    .state('management', {
+      abstract: true,
+      url: '/management',
+      templateUrl: 'app/components/management/management.html',
+      controller: ManagementController,
+      controllerAs: 'management',
+      redirectTo: 'management.home',
+    })
+    .state('management.home', {
+      url: '',
+      templateUrl: 'app/components/home/rules.html'
+    })
+    .state('management.createtournament', {
+      url: '/create-tournament',
+      templateUrl: 'app/components/tournament/create-tournament/create-tournament.html',
+      controller: CreateTournamentController,
+      controllerAs: 'creator'
+    })
+    .state('management.tournament', {
+      url: '/:tournamentId',
+      templateUrl: 'app/components/tournament/edit-tournament/edit-tournament.html',
+      controller: EditTournamentController,
+      controllerAs: 'editor'
+    })
+    .state('management.group', {
+      url: '/:tournamentId/:groupId',
+      templateUrl: 'app/components/tournament/group/group.html',
+      controller: TournamentGroupController,
+      controllerAs: 'tourGroup'
+    })
+    .state('management.match', {
+      url: '/:tournamentId/:groupId/:matchId',
+      templateUrl: 'app/components/tournament/player-betting-match/player-betting-match.html',
+      controller: PlayerBettingMatchController,
+      controllerAs: 'player'
+    });
 });

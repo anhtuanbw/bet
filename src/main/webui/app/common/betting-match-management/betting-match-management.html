@@ -1,6 +1,6 @@
 <div ng-hide="betting.data.hide">
-<div class="text-right" ng-show="betting.data.showBtnAdd"> 
-  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.add()">
+<div class="text-right" ng-show="betting.showBtnAdd"> 
+  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.showMatch()">
     <i class="fa fa-plus-circle"></i>
     <span translate="common.betting.btnAdd"></span>
   </button>
@@ -9,38 +9,43 @@
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
     <br>
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="text-center"><h4><strong>{{round.round}}</strong></h4></div>
+      <div class="panel-heading" ng-click="betting.showBettingMatch(round)">
+        <div class="glyphicon glyphicon-chevron-down pull-right"></div>
+        <div class="text-center"><h4>{{round.name}}</h4></div>
       </div>
-      <div class="panel-body" ng-repeat="match in round.bettingMatch">
-        <div class="col-md-5 text-right">
-          <span>{{match.match.competitor1.name}}</span>
-        </div>
-        <div class="col-md-2 text-center">{{match.match.score1}} - {{match.match.score2}}</div>
-        <div class="col-md-5">
-          <span>{{match.match.competitor2.name}}</span>
-        </div>
-        <div class="text-center">({{match.balance1}} - {{match.balance2}})</div>
-        <form class="form-inline">
-          <div class="text-right">
-            <div ng-hide="match.activated" class="form-group">
-              <button type="button" ng-show="betting.isMod" class="btn btn-success" ng-click="betting.activate(match)">
-                <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnActive"></span>
-              </button>
-            </div>
-            <div ng-hide="match.activated" class="form-group">
-              <button type="button" ng-show="betting.isMod" class="btn btn-default" ng-click="betting.openUpdate(match)">
-                <span class="glyphicon glyphicon-edit"></span><span translate="common.betting.btnUpdate"></span>
-              </button>
-            </div>
-            <div class="form-group" ng-show="betting.isMember">
-              <button type="button" ng-hide="!match.activated" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
-                <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnBet"></span>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+        <table class="table table-hover">
+          <tr ng-repeat="match in round.bettingMatch">
+            <td>
+              <div class="col-xs-5 text-right">
+                <span><strong>{{match.match.competitor1.name}}</strong></span>
+              </div>
+              <div class="col-xs-2 text-center">{{match.match.score1}} - {{match.match.score2}}</div>
+              <div class="col-xs-5">
+                <span><strong>{{match.match.competitor2.name}}</strong></span>
+              </div>
+              <div class="text-center" id="betScore{{match.id}}">({{match.balance1}} - {{match.balance2}})</div>
+              <form class="form-inline">
+                <div class="text-right">
+                  <div ng-hide="match.activated" class="form-group">
+                    <button type="button" ng-show="betting.isMod" class="btn btn-success" ng-click="betting.activate(match)">
+                      <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnActive"></span>
+                    </button>
+                  </div>
+                  <div ng-hide="match.activated" class="form-group">
+                    <button type="button" ng-show="betting.isMod" class="btn btn-default" ng-click="betting.openUpdate(match)">
+                      <span class="glyphicon glyphicon-edit"></span><span translate="common.betting.btnUpdate"></span>
+                    </button>
+                  </div>
+                  <div class="form-group" ng-show="betting.isMember">
+                    <button type="button" ng-hide="!match.activated" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
+                      <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnBet"></span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </td>
+          </tr>
+        </table>
     </div>
   </div>
 </div>
@@ -49,19 +54,19 @@
 <div class="panel-body" ng-hide="!betting.data.hide">
 <div class="text-right">
   <button type="button" class="btn btn-default" ng-click="betting.goBack()" translate="common.betting.back"></button>
-</div>
-  <div ng-repeat="table in betting.data.match">
-    {{table.name}}
+</div><br>
+  <div ng-repeat="round in betting.data.match">
+    <h4>{{round.roundName}}</h4>
   	<table class="table table-striped">
   		<thead class="bg-primary">
   			<td>ID</td>
-  			<td>Match</td>
-  			<td>Start time</td>
-  			<td>Location</td>
+  			<td translate="common.betting.match"></td>
+  			<td translate="common.betting.startTime"></td>
+  			<td translate="common.betting.location"></td>
   			<td></td>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="match in table.matches">
+  			<tr ng-repeat="match in round.matches">
           <td>{{match.id}}</td>
           <td>{{match.competitor1.name}} - {{match.competitor2.name}}</td>
           <td>{{betting.parseTime(match.matchTime)}}</td>

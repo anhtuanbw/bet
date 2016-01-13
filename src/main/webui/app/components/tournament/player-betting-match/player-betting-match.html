@@ -1,10 +1,10 @@
-<div ng-controller="PlayerBettingMatchController as player">
+<div>
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-6 border-right">
           <h3 class="padding" translate="components.playerbetting.title.bettingmatch"></h3>
-          <div class="pull-right">
+          <div class="text-lose">
             <button class="btn btn-danger"><span translate="components.playerbetting.lose"></span> {{player.currentBettingPlayer.loseBettingMatch}} VNĐ</button>
           </div>
           <hr>
@@ -16,9 +16,7 @@
               <strong>{{player.dataInfoMatch.competitor1Name}} <i class="fa fa-users"></i></strong>
             </div>
             <div class="col-sm-2 text-center">
-              <span>{{player.dataBettingMatch.score1}}</span>
-              <span class="space-competitor">-</span>
-              <span class="space-competitor">{{player.dataBettingMatch.score2}}</span>
+              <span>{{player.dataBettingMatch.score1}} - {{player.dataBettingMatch.score2}}</span>
             </div>
             <div class="col-sm-5 text-center">
               <span><strong><i class="fa fa-users"></i> {{player.dataInfoMatch.competitor2Name}}</strong></span>

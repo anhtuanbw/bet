@@ -1,9 +1,9 @@
-<div ng-controller="ActivatorController as activator" ng-show="activator.show" class="row">
+<div ng-show="activator.show" class="row">
     <div class="col-sm-4 col-sm-offset-4">
         <div ng-class="activator.statusCSS">
             <h2 translate="common.register.activate" ng-if="activator.success"></h2>
             <h2 ng-if="!activator.success" ng-bind="activator.message"></h2>
-            <p translate="common.redirect"></p>
+            <p translate="common.redirect"></p><a href="#/home" translate="common.redirectAtag"></a>
         </div>
     </div>
 </div>

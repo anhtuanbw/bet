@@ -2,7 +2,8 @@
     ng-click="management.focusSection(); management.showTournamenDetail(tournament.id)">
     <i class="fa fa-server"></i>
     <a href="javascript:void(0)">
-    	{{ tournament.name }}
+    	<span ng-show="tournament.name.length<=25">{{ tournament.name }}</span>
+    	<span ng-show="tournament.name.length>25">{{ tournament.name | limitTo:25}} ...</span>
     </a>
     <span class="md-visually-hidden" ng-if="management.isSelected()">
     </span>

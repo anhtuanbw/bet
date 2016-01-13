@@ -2,67 +2,68 @@
 
 export default class TournamentGroupController {
   /* @ngInject */
-  constructor($modal, $rootScope, $location, GroupService, AccountService) {
+  constructor($modal, $rootScope, $location, GroupService, AccountService, $stateParams, TournamentService) {
     this.modal = $modal;
     this.rootScope = $rootScope;
     this.location = $location;
     this.groupService = GroupService;
     this.accountService = AccountService;
+    this.tournamentService = TournamentService;
     this.groupInfo = {};
     this.tournamentName = '';
-    this.tournamentId = -1;
+    this.tournamentId = $stateParams.tournamentId;
     this.isMod = false;
-    this.authen();
-    this.rootScope.$on('selectGroup', (event, groupInfo) => {
-      if (groupInfo) {
-        if (groupInfo.tournamentName) {
-          this.tournamentName = groupInfo.tournamentName;
-        }
-        this.groupInfo.id = groupInfo.id;
-        this.findById();
-        this.checkMod();
+    this.groupInfo.id = $stateParams.groupId;
+    this.getTournamentById(this.tournamentId);
+    this.findById();
+    this.checkMod();
+    this.activePlayer = 'group';
+    $rootScope.$on('updateGroup', () => {
+      this.findById();
+    });
+  }
+  
+  getTournamentById(tournamentId) {
+    this.tournamentService.getById(tournamentId)
+    .then(response => {
+      this.tournamentName = response.data.name;
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
       }
     });
-
-    this.rootScope.$on('selectTournament', (event, tournament) => {
-        this.tournamentId = tournament.id;
-    });
-
-    this.activePlayer = 'group';
   }
-
+  
   findById() {
     this.groupService.findById(this.groupInfo.id)
-      .then(response => {
-        this.groupInfo = response.data;
-      })
-      .catch(error => {
-        if (error.status === 401) {
-          this.location.path('/unauthorized');
-        }
-      });
-  }
-
-  authen() {
-    this.accountService.authen()
-      .then(response => {
-        if (response.data) {
-          this.currentUser = response.data;
-        }
-      });
+    .then(response => {
+      this.groupInfo = response.data;
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized').search({ lastUrl: this.location.path() }); 
+      }
+    });
   }
 
   checkMod() {
-    var data = {};
-    data.groupId = this.groupInfo.id;
-    data.userId = this.currentUser.id;
-    this.groupService.isModerator(data)
-      .then(() => {
-        this.isMod = true;
-      })
-      .catch(() => {
-        this.isMod = false;
-      });
+    this.accountService.authen()
+    .then(response => {
+      if (response.data) {
+        this.currentUser = response.data;
+        var data = {};
+        data.groupId = this.groupInfo.id;
+        data.userId = this.currentUser.id;
+        this.groupService.isModerator(data)
+        .then(() => {
+          this.isMod = true;
+        })
+        .catch(() => {
+          this.isMod = false;
+        });
+      }
+    });
   }
 
   playerStatistic() {

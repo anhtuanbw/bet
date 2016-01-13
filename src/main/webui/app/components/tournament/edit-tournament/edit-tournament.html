@@ -1,4 +1,4 @@
-<div ng-controller="EditTournamentController as editor">
+<div>
 	<div class="panel panel-info" style="border: none;">
 		<div class="panel-heading panel-title has-minheight">
 			<strong class="panel-title pull-left text-muted font-size" ng-bind="editor.tournamentInfo.name"></strong>
@@ -12,7 +12,7 @@
 					<i class="fa fa-plus-circle"></i>
 					<span class="bold" translate="components.tournament.edit-tournament.btnNewMatch"></span>
 				</button>
-				<button class="btn btn-default" ng-click="editor.openCreateRound()">
+				<button ng-show="editor.checkRoundNull" class="btn btn-default" ng-click="editor.openCreateRound()">
 					<i class="fa fa-plus-circle"></i>
 					<span class="bold" translate="components.tournament.edit-tournament.btnNewRound"></span>
 				</button>
@@ -36,9 +36,7 @@
 								<strong>{{match.competitor1.name}}</strong>
 							</div>
 							<div class="col-md-2 text-center">
-								<span>{{match.score1}}</span>
-								<span class="space-line">-</span>
-								<span class="space-line">{{match.score2}}</span>
+								<span id="{{match.id}}">{{match.score1}} - {{match.score2}}</span>
 							</div>
 							<div class="col-md-5 text-competitor2">
 								<span><strong>{{match.competitor2.name}}</strong></span>

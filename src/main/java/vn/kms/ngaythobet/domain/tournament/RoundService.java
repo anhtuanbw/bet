@@ -99,4 +99,9 @@ public class RoundService {
         return roundRepo.findByTournamentId(tournamentId);
     }
 
+    @Transactional(readOnly = true)
+    public Round findByBettingMatchId(Long bettingMatchId) {
+        return roundRepo.findByBettingMatchId(bettingMatchId);
+    }
+
 }
