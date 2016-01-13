@@ -1,10 +1,7 @@
 package vn.kms.ngaythobet.web.dto;
 
-import static vn.kms.ngaythobet.domain.util.Constants.WHITE_SPACE_REGEX;
-
 import java.util.List;
 
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import vn.kms.ngaythobet.domain.tournament.Tournament;
@@ -12,9 +9,8 @@ import vn.kms.ngaythobet.domain.validation.FieldUnique;
 import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 public class CreateTournamentInfo {
-    @Size(min = 6, max = 50, message = "{validation.name.notEmpty.size.blankspace}")
+    @Size(min = 6, max = 50, message = "{validation.notEmpty.size}")
     @FieldUnique(entity = Tournament.class, field = "name", message = "{validation.tournament.name.unique.message}")
-    @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.name.notEmpty.size.blankspace}")
     private String name;
 
     @Size(min = 2, message = "{validation.competitors.min.message}")
@@ -28,7 +24,7 @@ public class CreateTournamentInfo {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
     public List<String> getCompetitors() {
