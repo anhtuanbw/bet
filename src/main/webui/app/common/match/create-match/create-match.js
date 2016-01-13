@@ -89,7 +89,6 @@ export default class CreateMatchController {
     this.matchService.checkRound(this.tournamentId)
       .then(response => {
         this.checkRoundNull = response.data;
-        console.log(this.checkRoundNull);
         if (this.checkRoundNull) {
           this.getRounds();
 

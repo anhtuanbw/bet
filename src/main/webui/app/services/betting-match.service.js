@@ -78,12 +78,21 @@ export default class BettingMatchService {
       }
     });
   }
-  
-    getNumberComments(bettingMatchId) {
+
+  getNumberComments(bettingMatchId) {
     var token = this.cacheService.get('loginUser');
     return this.$http({
       method: 'GET',
       url: '/api/player/getCommentCount/' + bettingMatchId,
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    });
+  }
+
+  getRoundNameByBettingMatch(bettingMatchId) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: '/api/getRoundNameByBettingMatchId/' + bettingMatchId,
       headers: { 'Accept': '*/*', 'x-auth-token': token }
     });
   }
