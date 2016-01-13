@@ -3,6 +3,24 @@
   margin-top: -35px;
 }
 
+.text-competitor1 {
+  text-align: right;
+}
+
+.text-competitor2 {
+  text-align: left;
+}
+
+@media screen and (max-width: 1000px) {
+  .text-competitor1 {
+    text-align: center;
+  }
+
+  .text-competitor2 {
+    text-align: center;
+  }
+}
+
 @media screen and (min-width:950px) and (max-width: 1000px) {
   .text-lose {
    text-align: left;
