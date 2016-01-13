@@ -151,7 +151,7 @@ public class BettingMatchServiceTest extends BaseTest {
         createBettingMatchInfo.setBalance2(new BigDecimal("0.5"));
         createBettingMatchInfo.setBetAmount(new BigDecimal("1000"));
         createBettingMatchInfo.setDecription("test");
-        createBettingMatchInfo.setExpiredTime(LocalDateTime.now());
+        createBettingMatchInfo.setExpiredTime(LocalDateTime.now().plusDays(1));
         createBettingMatchInfo.setGroupId(groupTemp1.getId());
         createBettingMatchInfo.setMatchId(matchTemp.getId());
         bettingMatchService.createBettingMatch(createBettingMatchInfo);
@@ -167,12 +167,11 @@ public class BettingMatchServiceTest extends BaseTest {
         createBettingMatchInfo.setBalance2(new BigDecimal("0.5"));
         createBettingMatchInfo.setBetAmount(new BigDecimal("1000"));
         createBettingMatchInfo.setDecription("test");
-        createBettingMatchInfo.setExpiredTime(LocalDateTime.now());
+        createBettingMatchInfo.setExpiredTime(LocalDateTime.now().plusDays(1));
         createBettingMatchInfo.setGroupId(groupTemp2.getId());
         createBettingMatchInfo.setMatchId(matchTemp.getId());
         exception.expectMessage("{exception.match.group.invalid}");
         bettingMatchService.createBettingMatch(createBettingMatchInfo);
-        ;
         assertThat(bettingMatchRepo.findAll().size(), equalTo(1));
     }
 
@@ -184,7 +183,7 @@ public class BettingMatchServiceTest extends BaseTest {
         createBettingMatchInfo.setBalance2(new BigDecimal("0.1111"));
         createBettingMatchInfo.setBetAmount(new BigDecimal("1000"));
         createBettingMatchInfo.setDecription("test");
-        createBettingMatchInfo.setExpiredTime(LocalDateTime.now());
+        createBettingMatchInfo.setExpiredTime(LocalDateTime.now().plusDays(1l));
         createBettingMatchInfo.setGroupId(groupTemp2.getId());
         createBettingMatchInfo.setMatchId(matchTemp.getId());
         exception.expectMessage("{exception.balance.in.valid}");
@@ -242,7 +241,7 @@ public class BettingMatchServiceTest extends BaseTest {
         updateBettingMatchInfo.setBetAmount(new BigDecimal("999999"));
         updateBettingMatchInfo.setBettingMatchId(bettingMatch.getId());
         updateBettingMatchInfo.setDecription("test again");
-        updateBettingMatchInfo.setExpiredTime(LocalDateTime.now().plusDays(1));
+        updateBettingMatchInfo.setExpiredTime(LocalDateTime.now().plusDays(2));
         updateBettingMatchInfo.setGroupId(groupTemp2.getId());
         updateBettingMatchInfo.setMatchId(matchTemp.getId());
         exception.expectMessage("{exception.match.group.invalid}");
