@@ -12,9 +12,6 @@ public interface RoundRepository extends JpaRepository<Round, Long> {
     List<Round> findAllByOrderByCreatedAtDesc();
     List<Round> findByTournamentId(Long tournament_id);
     Round findByNameAndTournament(String name, Tournament tournament);
-    @Query("select r from BettingMatch bm "
-            + "inner join bm.match m "
-            + "inner join m.round r "
-            + "where bm.id = :bettingMatchId")
+    @Query("select bm.match.round from BettingMatch bm where bm.id = :bettingMatchId")
     Round findByBettingMatchId(@Param("bettingMatchId") Long bettingMatchId);
 }
