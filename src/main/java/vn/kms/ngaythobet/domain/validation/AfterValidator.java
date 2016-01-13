@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class AfterValidator implements
-        ConstraintValidator<After, LocalDateTime> {
+public class AfterValidator implements ConstraintValidator<After, LocalDateTime> {
 
     @Override
     public void initialize(After constraintAnnotation) {
@@ -15,9 +14,11 @@ public class AfterValidator implements
     }
 
     @Override
-    public boolean isValid(LocalDateTime time,
-            ConstraintValidatorContext context) {
+    public boolean isValid(LocalDateTime time, ConstraintValidatorContext context) {
 
+        if (time == null) {
+            return false;
+        }
         return time.isBefore(LocalDateTime.now()) ? false : true;
     }
 }

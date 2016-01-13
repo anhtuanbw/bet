@@ -197,7 +197,7 @@ public class PlayerStatisticServiceTest extends BaseTest {
         bettingMatchTemp2 = bettingMatchRepo.save(bettingMatch2);
         BettingMatch bettingMatch3 = createBettingMatch(true, matchTemp3, groupTemp, LocalDateTime.now().plusDays(30),new BigDecimal(1), new BigDecimal(0), new BigDecimal(100));
         bettingMatchTemp3 = bettingMatchRepo.save(bettingMatch3);
-        BettingMatch bettingMatch4 = createBettingMatch(true, matchTemp4, groupTemp, LocalDateTime.now().plusDays(30),new BigDecimal(0), new BigDecimal(1), new BigDecimal(100));
+        BettingMatch bettingMatch4 = createBettingMatch(true, matchTemp4, groupTemp, LocalDateTime.now().minusDays(30),new BigDecimal(0), new BigDecimal(1), new BigDecimal(100));
         bettingMatchTemp4 = bettingMatchRepo.save(bettingMatch4);
         // add 4 players betting match
         BettingPlayer bettingPlayer = createBettingPlayer(bettingMatchTemp, userTemp1, competitorTemp2);
@@ -226,6 +226,7 @@ public class PlayerStatisticServiceTest extends BaseTest {
     public void testGetLostAmountByUser(){
         mockLoginUser("user1");
         assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp.getId()), equalTo(0.0));
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp4.getId()), equalTo(100.0));
     }
     
     @Test

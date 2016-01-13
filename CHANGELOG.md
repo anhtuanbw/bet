@@ -4,6 +4,7 @@ ngaythobet - v1.0.2 / 2016-01-12
 * [UI] Update tournament UI
 * [UI] Completed comment, translate language
 * [API] Updated role ADMIN can view any group statistic
+* [API] Group statistic - udpate getComment 
 
 **Bug Fixed** 
 * [#122] Player can view ALL group in Tournament when they just join only group in this tournament

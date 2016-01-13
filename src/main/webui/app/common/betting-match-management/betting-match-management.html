@@ -1,6 +1,9 @@
 <div ng-hide="betting.data.hide">
 <div class="text-right" ng-show="betting.data.showBtnAdd"> 
-  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.add()"><span class="glyphicon glyphicon-plus"></span><span translate="common.betting.btnAdd"></span></button>
+  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.add()">
+    <i class="fa fa-plus-circle"></i>
+    <span translate="common.betting.btnAdd"></span>
+  </button>
 </div>
 <div>
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
@@ -31,7 +34,7 @@
               </button>
             </div>
             <div class="form-group" ng-show="betting.isMember">
-              <button type="button" ng-hide="!match.activated" class="btn btn-default" ng-click="betting.betMatch(round, match); management.playerBetting()">
+              <button type="button" ng-hide="!match.activated" class="btn btn-default" ng-click="betting.betMatch(round, match)">
                 <span class="glyphicon glyphicon-hand-right"></span><span translate="common.betting.btnBet"></span>
               </button>
             </div>
