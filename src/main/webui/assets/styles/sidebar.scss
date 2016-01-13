@@ -101,6 +101,10 @@ span.selected {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+.menu-toggle-list li.selected {
+  background-color: #f1f1f1;
+}
+
 .md-button-toggle .md-toggle-icon.toggled {
   transform: rotateZ(180deg);
   -webkit-transform: rotateZ(180deg);
