@@ -63,23 +63,27 @@ public class BettingMatchService {
         Group group = groupRepo.findOne(createBettingMatchInfo.getGroupId());
         Match match = matchRepo.findOne(createBettingMatchInfo.getMatchId());
         if (!bettingMatchIsExisted(createBettingMatchInfo.getGroupId(), createBettingMatchInfo.getMatchId())) {
-            if (balanceIsValid(createBettingMatchInfo.getBalance1())
-                    && balanceIsValid(createBettingMatchInfo.getBalance2())) {
-                if (isExistedInTournament(match, group)) {
-                    bettingMatch.setBalance1(createBettingMatchInfo.getBalance1());
-                    bettingMatch.setBalance2(createBettingMatchInfo.getBalance2());
-                    bettingMatch.setExpiredTime(createBettingMatchInfo.getExpiredTime());
-                    bettingMatch.setBetAmount(createBettingMatchInfo.getBetAmount());
-                    bettingMatch.setMatch(match);
-                    bettingMatch.setGroup(group);
-                    bettingMatch.setDescription(createBettingMatchInfo.getDecription());
-                    bettingMatch.setActivated(createBettingMatchInfo.isActivated());
-                    bettingMatchRepo.save(bettingMatch);
+            if (createBettingMatchInfo.getExpiredTime().isAfter(LocalDateTime.now())) {
+                if (balanceIsValid(createBettingMatchInfo.getBalance1())
+                        && balanceIsValid(createBettingMatchInfo.getBalance2())) {
+                    if (isExistedInTournament(match, group)) {
+                        bettingMatch.setBalance1(createBettingMatchInfo.getBalance1());
+                        bettingMatch.setBalance2(createBettingMatchInfo.getBalance2());
+                        bettingMatch.setExpiredTime(createBettingMatchInfo.getExpiredTime());
+                        bettingMatch.setBetAmount(createBettingMatchInfo.getBetAmount());
+                        bettingMatch.setMatch(match);
+                        bettingMatch.setGroup(group);
+                        bettingMatch.setDescription(createBettingMatchInfo.getDecription());
+                        bettingMatch.setActivated(createBettingMatchInfo.isActivated());
+                        bettingMatchRepo.save(bettingMatch);
+                    } else {
+                        throw new DataInvalidException("exception.match.group.invalid");
+                    }
                 } else {
-                    throw new DataInvalidException("exception.match.group.invalid");
+                    throw new DataInvalidException("exception.balance.in.valid");
                 }
             } else {
-                throw new DataInvalidException("exception.balance.in.valid");
+                throw new DataInvalidException("exception.expiredTime.invalid");
             }
         } else
             throw new DataInvalidException("exception.bettingMatch.is.existed");
@@ -88,25 +92,29 @@ public class BettingMatchService {
     public void updateBettingMatch(UpdateBettingMatchInfo updateBettingMatchInfo) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(updateBettingMatchInfo.getBettingMatchId());
         if (!bettingMatch.isActivated()) {
-            Group group = groupRepo.findOne(updateBettingMatchInfo.getGroupId());
-            Match match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
-            if (balanceIsValid(updateBettingMatchInfo.getBalance1())
-                    && balanceIsValid(updateBettingMatchInfo.getBalance2())) {
-                if (isExistedInTournament(match, group)) {
-                    bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
-                    bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
-                    bettingMatch.setExpiredTime(updateBettingMatchInfo.getExpiredTime());
-                    bettingMatch.setBetAmount(updateBettingMatchInfo.getBetAmount());
-                    bettingMatch.setMatch(match);
-                    bettingMatch.setGroup(group);
-                    bettingMatch.setDescription(updateBettingMatchInfo.getDecription());
-                    bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
-                    bettingMatchRepo.save(bettingMatch);
+            if (updateBettingMatchInfo.getExpiredTime().isAfter(LocalDateTime.now())) {
+                Group group = groupRepo.findOne(updateBettingMatchInfo.getGroupId());
+                Match match = matchRepo.findOne(updateBettingMatchInfo.getMatchId());
+                if (balanceIsValid(updateBettingMatchInfo.getBalance1())
+                        && balanceIsValid(updateBettingMatchInfo.getBalance2())) {
+                    if (isExistedInTournament(match, group)) {
+                        bettingMatch.setBalance1(updateBettingMatchInfo.getBalance1());
+                        bettingMatch.setBalance2(updateBettingMatchInfo.getBalance2());
+                        bettingMatch.setExpiredTime(updateBettingMatchInfo.getExpiredTime());
+                        bettingMatch.setBetAmount(updateBettingMatchInfo.getBetAmount());
+                        bettingMatch.setMatch(match);
+                        bettingMatch.setGroup(group);
+                        bettingMatch.setDescription(updateBettingMatchInfo.getDecription());
+                        bettingMatch.setActivated(updateBettingMatchInfo.isActivated());
+                        bettingMatchRepo.save(bettingMatch);
+                    } else {
+                        throw new DataInvalidException("exception.match.group.invalid");
+                    }
                 } else {
-                    throw new DataInvalidException("exception.match.group.invalid");
+                    throw new DataInvalidException("exception.balance.in.valid");
                 }
             } else {
-                throw new DataInvalidException("exception.balance.in.valid");
+                throw new DataInvalidException("exception.expiredTime.invalid");
             }
         } else {
             throw new DataInvalidException("exception.betting.match.is.actived");

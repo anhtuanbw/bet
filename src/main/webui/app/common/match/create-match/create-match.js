@@ -22,12 +22,13 @@ export default class CreateMatchController {
 
   createMatch() {
     var self = this;
-    this.popTitle = 'Create new match';
-    var successMessage = 'Create match successfully!';
+    self.popTitle = 'Create new match';
+    
     // Show alert message
-    this.pop = function (type, title, content) {
+    self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
+
     var time = this.data.time;
     this.data.time = this.formatTime(this.data.time);
     this.matchService.createMatch(this.data)
@@ -35,9 +36,8 @@ export default class CreateMatchController {
 
         // Success
         this.closeModal();
-        this.pop('success', this.popTitle, successMessage);
+        this.toaster.pop('success', null, 'app/common/match/create-match/success.html', null, 'template');
         this.data = {};
-        successMessage = '';
         this.rootScope.$broadcast('selectTournament');
       })
       .catch(response => {
@@ -92,7 +92,7 @@ export default class CreateMatchController {
         console.log(this.checkRoundNull);
         if (this.checkRoundNull) {
           this.getRounds();
-          
+
         } else {
           this.showModal = true;
           this.getCompetitorsInTournament();

@@ -11,6 +11,7 @@ export default class TournamentGroupController {
     this.tournamentService = TournamentService;
     this.groupInfo = {};
     this.tournamentName = '';
+    this.tournamentId = -1;
     this.isMod = false;
     this.groupInfo.id = $stateParams.groupId;
     this.getTournamentById($stateParams.tournamentId);

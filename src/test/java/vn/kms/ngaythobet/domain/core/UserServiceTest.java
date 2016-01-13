@@ -15,6 +15,7 @@ import static vn.kms.ngaythobet.domain.core.User.Role.USER;
 
 import java.time.LocalDateTime;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -37,6 +38,9 @@ public class UserServiceTest extends BaseTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailService mailService;
+
     private UserService userService;
 
     @Override
@@ -49,14 +53,9 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void testRegisterUser() {
+    public void testRegisterExpriedActiveKey() throws InterruptedException {
         String username = "test123";
-        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
-        registerUserInfo.setUsername(username);
-        registerUserInfo.setEmail("test123@test.local");
-        registerUserInfo.setLanguageTag("en");
-        registerUserInfo.setName("Test User");
-        registerUserInfo.setPassword("Test@123");
+        RegisterUserInfo registerUserInfo =createRegisterInfo(username);
 
         userService.registerUser(registerUserInfo);
 
@@ -64,6 +63,42 @@ public class UserServiceTest extends BaseTest {
         User user = userRepo.findOneByUsername(username).get();
         String activationKey = user.getActivationKey();
 
+        exception.expect(DataInvalidException.class);
+        exception.expectMessage("{exception.userService.activation-key-expired}");
+        userService.activateRegistration(activationKey, LocalDateTime.now().plusDays(7));
+        Thread.sleep(100);
+    }
+
+    @Test
+    public void testRegisterWithValidKey() throws InterruptedException {
+        String username = "test123";
+        RegisterUserInfo registerUserInfo =createRegisterInfo(username);
+
+        userService.registerUser(registerUserInfo);
+
+        // verify activationKey was generated
+        User user = userRepo.findOneByUsername(username).get();
+        String activationKey = user.getActivationKey();
+
+        userService.activateRegistration(activationKey, LocalDateTime.now());
+        user = userRepo.findOneByUsername(username).get();
+        assertThat(user.isActivated(), is(true));
+        assertThat(user.getActivationKey(), nullValue());
+        Thread.sleep(100);
+        exception.expect(DataInvalidException.class);
+        exception.expectMessage("{exception.userService.activation-key-invalid}");
+        userService.activateRegistration(activationKey, LocalDateTime.now());
+    }
+
+    @Test
+    public void testRegisterUserWithWrongKey() throws InterruptedException {
+        String username = "test123";
+        RegisterUserInfo registerUserInfo =createRegisterInfo(username);
+
+        userService.registerUser(registerUserInfo);
+        // verify activationKey was generated
+        User user = userRepo.findOneByUsername(username).get();
+        String activationKey = user.getActivationKey();
         assertThat(activationKey, notNullValue());
         assertThat(user.isActivated(), is(false));
 
@@ -73,25 +108,6 @@ public class UserServiceTest extends BaseTest {
         exception.expectMessage("{exception.userService.activation-key-invalid}");
         userService.activateRegistration(activationKey + "123", now);
 
-        // do activation after 7 days, it must be failed
-        now = LocalDateTime.now().plusDays(7);
-        exception.expect(DataInvalidException.class);
-        exception.expectMessage("{exception.userService.activation-key-expired}");
-        userService.activateRegistration(activationKey, now);
-
-        // do activation with correct key and time, it must be passed (no
-        // exception)
-        now = LocalDateTime.now();
-        userService.activateRegistration(activationKey, now);
-        user = userRepo.findOneByUsername(username).get();
-        assertThat(user.isActivated(), is(true));
-        assertThat(user.getActivationKey(), nullValue());
-
-        // do activation again, it must be failed
-        now = LocalDateTime.now();
-        exception.expect(DataInvalidException.class);
-        exception.expectMessage("{exception.userService.activation-key-invalid}");
-        userService.activateRegistration(activationKey, now);
     }
 
     @Test
@@ -228,5 +244,20 @@ public class UserServiceTest extends BaseTest {
         assertThat(user.getName(), equalTo("tester User"));
         assertThat(user.getEmail(), equalTo("tester@test.local"));
         assertThat(user.getLanguageTag(), equalTo("en"));
+    }
+
+    public RegisterUserInfo createRegisterInfo(String username) {
+        RegisterUserInfo registerUserInfo = new RegisterUserInfo();
+        registerUserInfo.setUsername(username);
+        registerUserInfo.setEmail("test123@test.local");
+        registerUserInfo.setLanguageTag("en");
+        registerUserInfo.setName("Test User");
+        registerUserInfo.setPassword("Test@123");
+        return registerUserInfo;
+    }
+
+    @After
+    public void clearData() {
+        userRepo.deleteAll();
     }
 }
