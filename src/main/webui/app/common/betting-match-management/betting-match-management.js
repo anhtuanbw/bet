@@ -203,7 +203,7 @@ export default class BettingMatchController {
   }
 
   betMatch(round, match){
-    this.location.path('/management/'+ this.params.tournamentId + '/' + this.params.groupId + '/' +match.id);
+    this.location.path('/management/'+ this.params.tournamentId + '/' + this.params.groupId + '/' + match.id);
   }
 }
 

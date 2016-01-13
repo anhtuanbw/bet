@@ -43,4 +43,10 @@ public class RoundRest {
         List<Round> rounds = roundService.getRoundByTournamentId(tournament_id);
         return rounds;
     }
+
+    @RequestMapping(value = "/getRoundNameByBettingMatchId/{bettingMatchId}", method = GET)
+    public String getRoundNameByBettingMatchId(@PathVariable("bettingMatchId") Long bettingMatchId) {
+        return roundService.findByBettingMatchId(bettingMatchId).getName();
+         
+    }
 }
