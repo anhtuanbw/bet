@@ -10,6 +10,14 @@ export default class CreateBettingController {
     this.BettingService = BettingService;
     this.toaster = toaster;
     this.loadData();
+    this.validateBal1 = {};
+    this.validateBal2 = {};
+    this.validateAmount = {};
+    this.validateBal1.show = false;
+    this.validateBal2.show = false;
+    this.validateAmount.show = false;
+    this.data.hideCreate = false;
+    this.data.hideUpdate = false;
   }
 
   loadData(){
@@ -28,13 +36,8 @@ export default class CreateBettingController {
   }
 
   create(data){
-    var self = this;
-    self.popTitle = 'Create Betting Match';
-    var successMessage = 'Betting Successfully !';
-    // Show alert message
-    self.pop = function (type, title, content) {
-      this.toaster.pop(type, title, content);
-    };
+    var titleToaster = 'Create Betting Match';
+    var templateUrl = 'app/common/create-betting-match/createSuccess.html';
     var timeFormated;
     if (data.time) {
       timeFormated = this.serverTimeFormat(data.time);
@@ -53,11 +56,13 @@ export default class CreateBettingController {
         'matchId': this.matchData.id
         };
     this.BettingService.create(betData)
-    .then(() => {
-      self.pop('success', self.popTitle, successMessage);
+    .then(response => {
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       this.modalInstance.dismiss();
     }, function (response) {
-      self.pop('error', self.popTitle, response.data.message);
+      this.toaster.pop('error', titleToaster, response.data.message);
       data.errorBal1 = response.data.fieldErrors.balance1;
       data.errorBal2 = response.data.fieldErrors.balance2;
       data.errorBetAmount = response.data.fieldErrors.betAmount;
@@ -66,13 +71,8 @@ export default class CreateBettingController {
   }
 
   update(data){
-    var self = this;
-    self.popTitle = 'Update Betting Match';
-    var successMessage = 'Update Successfully !';
-    // Show alert message
-    self.pop = function (type, title, content) {
-      this.toaster.pop(type, title, content);
-    };
+    var titleToaster = 'Update Betting Match';
+    var templateUrl = 'app/common/create-betting-match/updateSuccess.html';
     var timeFormated;
     if(data.time === ''){
       data.time = data.oldTime;
@@ -93,11 +93,16 @@ export default class CreateBettingController {
       'matchId': this.matchData.matchId
     };
     this.BettingService.update(dataUpdate)
-    .then(() => {
-      self.pop('success', self.popTitle, successMessage);
+    .then(response => {
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       this.modalInstance.dismiss();
+      //update balance
+      var balance = '('+data.balance1+' - '+data.balance2+')';
+      document.getElementById('betScore'+this.matchData.bettingMatchId).innerHTML = balance;
     }, function (response) {
-      self.pop('error', self.popTitle, response.data.message);
+      this.toaster.pop('error', titleToaster, response.data.message);
       data.errorBal1 = response.data.fieldErrors.balance1;
       data.errorBal2 = response.data.fieldErrors.balance2;
       data.errorBetAmount = response.data.fieldErrors.betAmount;
@@ -142,5 +147,18 @@ export default class CreateBettingController {
     timeFormated = monthDayYear[2]+'-'+monthDayYear[0]+'-'+monthDayYear[1]+'T'+hourMin[0]+':'+hourMin[1]+':00.000';
     return timeFormated;
   }
+
+  validate(data, message){
+    if (typeof data === 'number' && (data%0.25) == 0) {
+      message.show = false;
+      this.data.hideCreate = false;
+      this.data.hideUpdate = false;
+    } else {
+      message.show = true;
+      this.data.hideCreate = true;
+      this.data.hideUpdate = true;
+    }
+  }
+
 }
 

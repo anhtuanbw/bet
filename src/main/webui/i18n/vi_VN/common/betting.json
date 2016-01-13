@@ -16,7 +16,15 @@
           "amount": "Số tiền cược",
           "desc": "Ghi chú",
           "active": "Kích hoạt",
-          "back": "Quay lại"
+          "back": "Quay lại",
+          "startTime": "Thời gian bắt đầu",
+          "location": "Địa điểm",
+          "errorBal1": "Tỉ lệ cược không hợp lệ",
+          "errorBal2": "Tỉ lệ cược không hợp lệ",
+          "errorBetAmount": "Số tiền đặt không hợp lệ",
+          "activeSuccess": "Kích hoạt thành công !",
+          "createSuccess": "Tạo kèo thành công !",
+          "updateSuccess": "Cập nhật kèo thành công !"
       }
   }
 }
