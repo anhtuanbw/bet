@@ -17,15 +17,14 @@ import javax.validation.constraints.Size;
 public class CreateMatchInfo {
     private Long round;
 
-    @NotNull
+    @NotNull(message = "{validation.matches.not-existCompetitorEntity.message}")
     @EntityExist(type = Competitor.class, message = "{validation.matches.not-existCompetitorEntity.message}")
     private Long competitor1;
 
-    @NotNull
+    @NotNull(message = "{validation.matches.not-existCompetitorEntity.message}")
     @EntityExist(type = Competitor.class, message = "{validation.matches.not-existCompetitorEntity.message}")
     private Long competitor2;
 
-    @NotNull
     @After
     private LocalDateTime time;
 

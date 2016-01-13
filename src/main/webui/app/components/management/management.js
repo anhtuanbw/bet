@@ -87,28 +87,12 @@ export default class ManagementController {
   }
 
   createTournament() {
-    this.showView.isCreate = true;
-    this.showView.isEdit = false;
-    this.showView.isGroup = false;
-    this.showView.isBetting = false;
+    this.location.path('/management/create-tournament');
   }
 
   showGroup(index, tournament, group) {
     this.selectedGroup = index;
-    this.showView.isCreate = false;
-    this.showView.isEdit = false;
-    this.showView.isGroup = true;
-    this.showView.isBetting = false;
-    this.rootScope.$broadcast('tourID', tournament.id, group.id);
-    group.tournamentName = tournament.name;
-    this.rootScope.$broadcast('selectGroup', group);
-  }
-
-  playerBetting() {
-    this.showView.isBetting = true;
-    this.showView.isCreate = false;
-    this.showView.isEdit = false;
-    this.showView.isGroup = false;
+    this.location.path('/management/' + tournament.id + '/' + group.id);
   }
   
   isAuthorized() {
@@ -122,22 +106,13 @@ export default class ManagementController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized');
+        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
       }
     });
   }
 
   showTournamenDetail(tournamentId) {
-    this.showView.isEdit = true;
-    this.showView.isGroup = false;
-    this.showView.isCreate = false;
-    this.showView.isBetting =false;
-    for (var i in this.tournaments) {
-      if (this.tournaments[i].id === tournamentId) {
-        this.rootScope.$broadcast('selectTournament', this.tournaments[i]);
-        break;
-      }
-    }
+    this.location.path('/management/' + tournamentId);
   }
 
   authen() {

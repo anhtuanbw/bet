@@ -22,8 +22,19 @@ export default class CreateMatchController {
 
   createMatch() {
     var self = this;
-    var time = this.data.time;
-    this.data.time = this.formatTime(this.data.time);
+    self.popTitle = 'Create new match';
+    
+    // Show alert message
+    self.pop = function (type, title, content) {
+      this.toaster.pop(type, title, content);
+    };
+    
+    var time;
+    if (this.data.time !== '') {
+      time = this.data.time;
+      this.data.time = this.formatTime(this.data.time);
+    }
+
     this.matchService.createMatch(this.data)
       .then(() => {
 
@@ -82,10 +93,9 @@ export default class CreateMatchController {
     this.matchService.checkRound(this.tournamentId)
       .then(response => {
         this.checkRoundNull = response.data;
-        console.log(this.checkRoundNull);
         if (this.checkRoundNull) {
           this.getRounds();
-          
+
         } else {
           this.showModal = true;
           this.getCompetitorsInTournament();

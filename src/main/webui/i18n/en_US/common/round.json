@@ -10,7 +10,9 @@
         "add": "Add",
         "save": "Save",
         "cancel": "Cancel",
-        "update": "Update"
+        "update": "Update",
+        "createSuccess": "Create Round Successfully !",
+        "updateSuccess": "Update Round Successfully !"
       }
     }
   }

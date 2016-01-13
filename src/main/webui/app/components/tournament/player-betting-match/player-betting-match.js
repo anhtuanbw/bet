@@ -4,52 +4,53 @@
 
 export default class PlayerBettingMatchController {
   /* @ngInject */
-  constructor($rootScope, CacheService, BettingMatchService, AccountService) {
+  constructor($rootScope, CacheService, BettingMatchService, AccountService, MatchService, $stateParams) {
     this.cacheService = CacheService;
     this.bettingMatchService = BettingMatchService;
     this.dataInfoMatch = {};
     this.rootScope = $rootScope;
     this.accountService = AccountService;
-    $rootScope.$on('playerBettingMatch', (event, data) => {
-      this.dataInfoMatch = data;
-      this.dataBettingMatch = {};
-      this.dataBettingStatistics = {};
-      this.getComment = {};
-      this.commentArr = [];
-      this.comment = '';
-      this.numberComments = '';
-      this.paging = 0;
-      this.notError = false;
-      this.stompClient = null;
-      this.chooseCompetitor1 = false;
-      this.chooseCompetitor2 = false;
-      this.checkLengthComments = false;
-      this.checkPaging = false;
-      this.currentBettingPlayer = {};
-      this.namePlayerBetCompetitor1 = [];
-      this.namePlayerBetCompetitor2 = [];
-      this.namePlayerNotBet = [];
-      this.getBettingMatchStatistics();
-
-      this.getBettingMatchInfo();
-      this.getLostAmount();
-      this.getNumberComments();
-      this.getComments();
-      this.checkExpiredBettingMatch();
-      this.getBettingPlayer();
-    });
-
+    this.matchService = MatchService;
+    this.dataInfoMatch.bettingMatchId = $stateParams.matchId;
+    this.dataBettingMatch = {};
+    this.dataBettingStatistics = {};
+    this.getComment = {};
+    this.commentArr = [];
+    this.comment = '';
+    this.numberComments = '';
+    this.paging = 0;
+    this.notError = false;
+    this.stompClient = null;
+    this.chooseCompetitor1 = false;
+    this.chooseCompetitor2 = false;
+    this.checkLengthComments = false;
+    this.checkPaging = false;
+    this.currentBettingPlayer = {};
+    this.namePlayerBetCompetitor1 = [];
+    this.namePlayerBetCompetitor2 = [];
+    this.namePlayerNotBet = [];
+    this.getBettingMatchStatistics();
+    this.getRoundNameByBettingMatch();
+    this.getBettingMatchInfo();
+    this.getLostAmount();
+    this.getNumberComments();
+    this.getComments();
+    this.checkExpiredBettingMatch();
+    this.getBettingPlayer();
   }
 
   getBettingMatchInfo() {
     this.bettingMatchService.getBettingMatchInfo(this.dataInfoMatch.bettingMatchId)
       .then(response => {
         if (response.data) {
+          this.dataInfoMatch.competitor1Name = response.data.match.competitor1.name;
+          this.dataInfoMatch.competitor2Name = response.data.match.competitor2.name;
+          this.dataInfoMatch.competitor1Id = response.data.match.competitor1.id;
+          this.dataInfoMatch.competitor2Id = response.data.match.competitor2.id;
           this.dataBettingMatch.balance1 = response.data.balance1;
           this.dataBettingMatch.balance2 = response.data.balance2;
           this.dataBettingMatch.expiredTime = this.getTime(response.data.expiredTime);
-          this.dataBettingMatch.round = this.dataInfoMatch.roundName;
-          this.dataBettingMatch.startTime = this.getTime(this.dataInfoMatch.time);
+          this.dataBettingMatch.startTime = this.getTime(response.data.match.matchTime);
           this.dataBettingMatch.comment = response.data.description;
           this.dataBettingMatch.score1 = this.checkScore(response.data.match.score1);
           this.dataBettingMatch.score2 = this.checkScore(response.data.match.score2);
@@ -63,6 +64,13 @@ export default class PlayerBettingMatchController {
       score = '?';
     }
     return score;
+  }
+
+  getRoundNameByBettingMatch() {
+    this.bettingMatchService.getRoundNameByBettingMatch(this.dataInfoMatch.bettingMatchId)
+      .then(response => {
+          this.dataBettingMatch.round = response.data;
+      });
   }
 
   getBettingMatchStatistics() {

@@ -268,7 +268,7 @@ public class ValidationTest extends BaseTest {
     }
 
     @Test
-    public void testListEntityJoinedValidation(){
+    public void testListEntityJoinedValidation() {
         Tournament tournament = createTournament(true);
         Tournament tournament2 = createTournament(true);
         Competitor competitor1 = new Competitor(tournament, "England");
@@ -288,7 +288,7 @@ public class ValidationTest extends BaseTest {
         ConstraintViolation<RoundData> violation = violations.iterator().next();
         assertThat(violation.getPropertyPath().toString(), equalTo("competitorIds"));
         assertThat(violation.getMessage(), equalTo("is not joined"));
-        
+
     }
 
     @Test
@@ -299,6 +299,21 @@ public class ValidationTest extends BaseTest {
         ConstraintViolation<MatchData> violation = violations.iterator().next();
         assertThat(violation.getPropertyPath().toString(), equalTo("competitor2"));
         assertThat(violation.getMessage(), equalTo("Competitors must be different"));
+    }
+
+    @Test
+    public void testAfterValidation() {
+        LocalDateTime time = LocalDateTime.now();
+        TimeData timeData = new TimeData(time);
+        Set<ConstraintViolation<TimeData>> violations = validator.validate(timeData);
+        ConstraintViolation<TimeData> violation = violations.iterator().next();
+        assertThat(violation.getMessage(), equalTo("Time is empty or invalid"));
+
+        time = null;
+        timeData = new TimeData(time);
+        violations = validator.validate(timeData);
+        violation = violations.iterator().next();
+        assertThat(violation.getMessage(), equalTo("Time is empty or invalid"));
     }
 
     static class TournamentData {
@@ -343,12 +358,13 @@ public class ValidationTest extends BaseTest {
     }
 
     @ListEntityJoinedValid(entities = "competitorIds", entityId = "tournamentId", fieldName = "competitors", type = Tournament.class)
-    static class RoundData{
+    static class RoundData {
         Long tournamentId;
         List<Long> competitorIds;
+
         public RoundData(Long tournamentId, List<Long> competitorIds) {
-          this.tournamentId = tournamentId;
-          this.competitorIds = competitorIds;
+            this.tournamentId = tournamentId;
+            this.competitorIds = competitorIds;
         }
     }
 
@@ -384,6 +400,15 @@ public class ValidationTest extends BaseTest {
         MatchData(Long competitor1, Long competitor2) {
             this.competitor1 = competitor1;
             this.competitor2 = competitor2;
+        }
+    }
+
+    static class TimeData {
+        @vn.kms.ngaythobet.domain.validation.After
+        LocalDateTime time;
+
+        TimeData(LocalDateTime time) {
+            this.time = time;
         }
     }
 

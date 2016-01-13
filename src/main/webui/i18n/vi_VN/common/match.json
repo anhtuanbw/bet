@@ -3,7 +3,7 @@
 		"match": {
 			"successMessage":"Tạo trận đấu thành công!",
 			"noround":"Trận đấu này không có sẵn vòng đấu. Bạn có muốn tạo một trận đấu mà không có vòng đấu?",
-			"warning":"Nếu nhấn nút Accept, chúng tôi sẽ thêm trận đấu đó vào vòng tròn các đội.",
+			"warning":"Nếu nhấn nút Chấp nhận, chúng tôi sẽ thêm trận đấu đó vào vòng tròn các đội.",
 			"create": {
 				"title": "Tạo trận đấu",
 				"select-round": "Chọn vòng đấu",
