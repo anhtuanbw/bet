@@ -35,7 +35,7 @@ export default class UpdateGroupController {
   updateGroup() {
     this.groupService.addMember(this.getData())
     .then(() => {
-      this.rootScope.$broadcast('selectGroup', this.groupInfo);
+      this.rootScope.$broadcast('updateGroup');
       this.toaster.pop('success', null, 'app/common/update-group/success.html', null, 'template');
       this.players = [];
       this.closeModal();

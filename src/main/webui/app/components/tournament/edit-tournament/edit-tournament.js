@@ -3,7 +3,7 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService, $stateParams, MatchService) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService, $stateParams, $location, MatchService) {
     this.tournamentService = TournamentService;
     this.matchService = MatchService;
     this.tournamentInfo = {};
@@ -11,6 +11,7 @@ export default class EditTournamentController {
     this.mdDialog = $mdDialog;
     this.state = $stateParams;
     this.toaster = toaster;
+    this.location = $location;
     this.inforTournament = [];
     this.accountService = AccountService;
     this.idScore1 = '';
@@ -27,14 +28,14 @@ export default class EditTournamentController {
 
   getById(tournamentId) {
     this.tournamentService.getById(tournamentId)
-      .then(response => {
-        this.tournamentInfo = response.data;
-      })
-      .catch(error => {
-        if (error.status === 401) {
-          this.location.path('/unauthorized');
-        }
-      });
+    .then(response => {
+      this.tournamentInfo = response.data;
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
+      }
+    });
   }
 
   createGroup($event) {
@@ -62,7 +63,7 @@ export default class EditTournamentController {
       })
       .catch(error => {
         if (error.status === 401) {
-          this.location.path('/unauthorized');
+          this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
         }
         if (error.status === 403) {
           this.toaster.pop('error', 'Warning', error.data.message);

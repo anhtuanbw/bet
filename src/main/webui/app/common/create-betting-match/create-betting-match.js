@@ -36,6 +36,7 @@ export default class CreateBettingController {
   }
 
   create(data){
+    var self = this;
     var titleToaster = 'Create Betting Match';
     var templateUrl = 'app/common/create-betting-match/createSuccess.html';
     var timeFormated;
@@ -62,7 +63,7 @@ export default class CreateBettingController {
       }
       this.modalInstance.dismiss();
     }, function (response) {
-      this.toaster.pop('error', titleToaster, response.data.message);
+      self.toaster.pop('error', titleToaster, response.data.message);
       data.errorBal1 = response.data.fieldErrors.balance1;
       data.errorBal2 = response.data.fieldErrors.balance2;
       data.errorBetAmount = response.data.fieldErrors.betAmount;
@@ -71,6 +72,7 @@ export default class CreateBettingController {
   }
 
   update(data){
+    var self = this;
     var titleToaster = 'Update Betting Match';
     var templateUrl = 'app/common/create-betting-match/updateSuccess.html';
     var timeFormated;
@@ -102,7 +104,7 @@ export default class CreateBettingController {
       var balance = '('+data.balance1+' - '+data.balance2+')';
       document.getElementById('betScore'+this.matchData.bettingMatchId).innerHTML = balance;
     }, function (response) {
-      this.toaster.pop('error', titleToaster, response.data.message);
+      self.toaster.pop('error', titleToaster, response.data.message);
       data.errorBal1 = response.data.fieldErrors.balance1;
       data.errorBal2 = response.data.fieldErrors.balance2;
       data.errorBetAmount = response.data.fieldErrors.betAmount;

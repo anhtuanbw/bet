@@ -41,6 +41,7 @@
         "cancel": "Cancel"
       },
       "unauthorized": "Your session is about expired. Please login to continue!",
-      "redirect": "Automatically redirect to Homepage in 3s or click <a href='#'>here</a>"
+      "redirect": "Automatically redirect to Homepage in 3s or click ",
+      "redirectAtag": "here"
   }
 }
