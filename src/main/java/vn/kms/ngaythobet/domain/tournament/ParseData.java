@@ -13,6 +13,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+
 public class ParseData {
     public static List<Tournament> parseTournamentFromLiveScore() {
         List<Tournament> tournaments = new ArrayList<>();
@@ -147,7 +149,7 @@ public class ParseData {
                 tournaments.add(tournament);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DataInvalidException("exception.parse.data");
         }
         return tournaments;
     }
