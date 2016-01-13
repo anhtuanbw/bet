@@ -41,7 +41,7 @@ export default class CreateTournamentController {
       })
       .catch(error => {
         if (error.status === 401) {
-          this.location.path('/unauthorized');
+          this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
         }
         if (error.status === 400) {
           this.errorMessage = error.data.fieldErrors;

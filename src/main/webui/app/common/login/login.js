@@ -9,6 +9,7 @@ export default class LoginController {
     this.location = $location;
     this.data = {};
     this.modal = $modal;
+    this.lastUrl = this.location.search().lastUrl;
   }
 
   login(data) {
@@ -19,7 +20,12 @@ export default class LoginController {
       if (token) {
         self.cacheService.set('loginUser', token);
         self.rootScope.$broadcast('login', data);
-        self.location.path('/management');
+        if (this.lastUrl) {
+          self.location.path(this.lastUrl);
+        }
+        else{
+          self.location.path('/management');
+        }
       }
       //remove old login data
       data.username = '';
