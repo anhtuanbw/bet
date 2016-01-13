@@ -26,7 +26,7 @@
 					<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-angle-up fa-2x pull-right" ng-hide="hideRound = !hideRound"></i>
 					<i class="fa fa-angle-down fa-2x pull-right" ng-show="hideRound = !hideRound"></i></a>
 				</div>
-				<div class="panel-body" ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
+				<div class="panel-body show-list" ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
 					<div class="row">
 						<div class="col-md-3">
 							<span><i class="fa fa-clock-o"></i> {{match.matchTime}}</span>
@@ -48,7 +48,7 @@
 							<div class="pull-right">
 								<button ng-show="editor.isAdmin" class="btn btn-default" ng-click="editor.openUpdateScore(match)">
 									<i class="glyphicon glyphicon-edit"></i>
-									<span>Update score</span>
+									<span translate="components.tournament.updatescore"></span>
 								</button>
 								<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-angle-up" ng-hide="hideInfo = !hideInfo"></i>
 								<i class="fa fa-angle-down" ng-show="hideInfo = !hideInfo"></i></a>
