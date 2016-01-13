@@ -18,6 +18,9 @@ export default class TournamentGroupController {
     this.findById();
     this.checkMod();
     this.activePlayer = 'group';
+    $rootScope.$on('updateGroup', () => {
+      this.findById();
+    });
   }
   
   getTournamentById(tournamentId) {
