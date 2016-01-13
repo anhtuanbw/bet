@@ -167,6 +167,7 @@ export default class BettingMatchController {
   }
 
   activate(match){
+    var self = this;
     var titleToaster = 'Active Betting Match';
     var templateUrl = 'app/common/betting-match-management/activeSuccess.html';
     var activeData = {
@@ -180,7 +181,7 @@ export default class BettingMatchController {
       }
       match.activated = true;
     }, function (response) {
-      this.toaster.pop('error', titleToaster, response.data.message);
+      self.toaster.pop('error', titleToaster, response.data.message);
     });
   }
 
