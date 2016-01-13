@@ -139,6 +139,7 @@ export default class roundManController {
   }
 
   updateData(){
+    var self = this;
     this.data.disableUpdate = true;
     var titleToaster = 'Update Round';
     var templateUrl = 'app/common/round-management/updateSuccess.html';
@@ -154,7 +155,7 @@ export default class roundManController {
       }
       this.modalInstance.dismiss();
     }, function(response){
-      this.toaster.pop('error', titleToaster, response.data.fieldErrors);
+      self.toaster.pop('error', titleToaster, response.data.fieldErrors);
     });
   }
 
