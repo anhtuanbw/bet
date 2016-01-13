@@ -83,7 +83,6 @@ export default class BettingMatchController {
 
   goBack(){
     this.data.hide = false;
-    this.showBettingMatch();
   }
 
   parseTime(date){

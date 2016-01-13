@@ -104,6 +104,9 @@ export default class CreateBettingController {
     .then(() => {
       self.pop('success', self.popTitle, successMessage);
       this.modalInstance.dismiss();
+      //update balance
+      var balance = '('+data.balance1+' - '+data.balance2+')';
+      document.getElementById('betScore'+this.matchData.bettingMatchId).innerHTML = balance;
     }, function (response) {
       self.pop('error', self.popTitle, response.data.message);
       data.errorBal1 = response.data.fieldErrors.balance1;
