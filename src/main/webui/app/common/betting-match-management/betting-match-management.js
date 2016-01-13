@@ -40,7 +40,9 @@ export default class BettingMatchController {
     this.BettingService.getMatchNotCreateBettingMatch(this.tourID, this.groupID)
     .then(response => {
       this.data.match = response.data;
-      this.showBtnAdd = true;
+      if (response.data.length !== 0) {
+        this.showBtnAdd = true;
+      }
     });
   }
 
