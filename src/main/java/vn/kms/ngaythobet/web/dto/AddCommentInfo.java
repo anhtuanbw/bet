@@ -30,7 +30,7 @@ public class AddCommentInfo {
     }
 
     public void setComment(String comment) {
-        this.comment = comment.trim();
+        this.comment = comment;
     }
 
 }

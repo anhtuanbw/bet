@@ -24,7 +24,7 @@ public class CreateTournamentInfo {
     }
 
     public void setName(String name) {
-        this.name = name.trim();
+        this.name = name;
     }
 
     public List<String> getCompetitors() {

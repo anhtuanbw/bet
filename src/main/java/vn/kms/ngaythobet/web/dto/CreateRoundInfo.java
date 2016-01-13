@@ -31,7 +31,7 @@ public class CreateRoundInfo {
     }
 
     public void setName(String name) {
-        this.name = name.trim();
+        this.name = name;
     }
 
     public Long getTournamentId() {
