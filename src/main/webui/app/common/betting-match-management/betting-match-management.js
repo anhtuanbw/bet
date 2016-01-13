@@ -2,17 +2,18 @@
 
 export default class BettingMatchController {
   /* @ngInject */
-  constructor(RoundService, BettingService, AccountService, toaster, GroupService, $rootScope, $modal){
+  constructor(RoundService, BettingService, AccountService, toaster, GroupService, $rootScope, $modal, $stateParams, $location){
     this.rootScope = $rootScope;
     this.RoundService = RoundService;
     this.BettingService = BettingService;
     this.accountService = AccountService;
     this.groupService = GroupService;
+    this.location = $location;
     this.tourID = 0;
     this.groupID = 0;
     this.data = {};
     this.modal = $modal;
-    this.authen();
+    this.params = $stateParams;
     this.getTourAndGroupId();
     this.roundIdAndName = [];
     this.roundAndMatch = {};
@@ -23,17 +24,12 @@ export default class BettingMatchController {
   }
 
   getTourAndGroupId(){
-    this.rootScope.$on('tourID', (event, tournamentID, groupID) => {
-      if (tournamentID) {
-        this.tourID = tournamentID;
-        this.groupID = groupID;
-        this.showMatch();
-        this.authen();
-        this.data.hide = false;
-        this.isMember = false;
-        this.data.showBtnAdd = false;
-      }
-    });
+    this.tourID = this.params.tournamentId;
+    this.groupID = this.params.groupId;
+    this.showMatch();
+    this.data.hide = false;
+    this.isMember = false;
+    this.data.showBtnAdd = false;
   }
 
   showMatch(){
@@ -138,25 +134,22 @@ export default class BettingMatchController {
     });
   }
 
-  authen() {
+  checkMod() {
     this.accountService.authen()
     .then(response => {
       if (response.data) {
-          this.currentUser = response.data;
+        this.currentUser = response.data;
+        var data = {};
+        data.groupId = this.groupID;
+        data.userId = this.currentUser.id;
+        this.groupService.isModerator(data)
+        .then(() => {
+          this.isMod = true;
+        })
+        .catch(() => {
+          this.isMod = false;
+        });
       }
-    });
-  }
-  
-  checkMod() {
-    var data = {};
-    data.groupId = this.groupID;
-    data.userId = this.currentUser.id;
-    this.groupService.isModerator(data)
-    .then(() => {
-      this.isMod = true;
-    })
-    .catch(() => {
-      this.isMod = false;
     });
   }
   
@@ -230,20 +223,8 @@ export default class BettingMatchController {
   }
 
   betMatch(round, match){
-    var dataSend = {
-      'roundName': round.round,
-      'bettingMatchId': match.id,
-      'competitor1Name': match.match.competitor1.name,
-      'competitor2Name': match.match.competitor2.name,
-      'competitor1Id': match.match.competitor1.id,
-      'competitor2Id': match.match.competitor2.id,
-      'score1': match.match.score1,
-      'score2': match.match.score2,
-      'time': match.match.matchTime
-    };
-    this.rootScope.$broadcast('playerBettingMatch', dataSend);
+    this.location.path('/management/'+ this.params.tournamentId + '/' + this.params.groupId + '/' +match.id);
   }
-
 }
 
 export default class betting {

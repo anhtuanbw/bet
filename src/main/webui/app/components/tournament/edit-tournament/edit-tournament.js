@@ -3,7 +3,7 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService, $stateParams) {
     this.tournamentService = TournamentService;
     this.tournamentInfo = {};
     this.modal = $modal;
@@ -15,14 +15,22 @@ export default class EditTournamentController {
     $rootScope.hideInfo = true;
     this.isAdmin = false;
     this.authen();
-    $rootScope.$on('selectTournament', (event, tournamentInfo) => {
-      if (tournamentInfo) {
-        this.tournamentInfo = tournamentInfo;
-      }
-      this.showInfoTournament();
-    });
+    this.getById($stateParams.tournamentId);
+    this.showInfoTournament($stateParams.tournamentId);
   }
 
+  getById(tournamentId) {
+    this.tournamentService.getById(tournamentId)
+    .then(response => {
+      this.tournamentInfo = response.data;
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
+    });
+  }
+  
   createGroup($event) {
     var self = this;
     this.mdDialog.show({
@@ -56,9 +64,9 @@ export default class EditTournamentController {
       });
   }
 
-  showInfoTournament() {
+  showInfoTournament(tournamentId) {
     this.inforTournament = [];
-    this.tournamentService.showInfoTournament(this.tournamentInfo.id)
+    this.tournamentService.showInfoTournament(tournamentId)
       .then(response => {
         // Success
         var i;
