@@ -81,6 +81,9 @@ public class Competitor extends AuditableEntity {
 
     @Override
     public int hashCode() {
+        if (this.getId() == null) {
+            return ObjectUtils.hashCode((long) 0);
+        }
         return ObjectUtils.hashCode(this.getId());
     }
 }

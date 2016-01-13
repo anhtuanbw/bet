@@ -4,14 +4,15 @@
 
 export default class PlayerBettingMatchController {
   /* @ngInject */
-  constructor($rootScope, CacheService, BettingMatchService, AccountService) {
+  constructor($rootScope, CacheService, BettingMatchService, AccountService, MatchService, $stateParams) {
     this.cacheService = CacheService;
     this.bettingMatchService = BettingMatchService;
     this.dataInfoMatch = {};
     this.rootScope = $rootScope;
     this.accountService = AccountService;
-    $rootScope.$on('playerBettingMatch', (event, data) => {
-      this.dataInfoMatch = data;
+    this.matchService = MatchService;
+    this.dataInfoMatch.bettingMatchId = $stateParams.matchId;
+      this.getMatchById();
       this.dataBettingMatch = {};
       this.dataBettingStatistics = {};
       this.getComment = {};
@@ -30,15 +31,26 @@ export default class PlayerBettingMatchController {
       this.namePlayerBetCompetitor2 = [];
       this.namePlayerNotBet = [];
       this.getBettingMatchStatistics();
-
       this.getBettingMatchInfo();
       this.getLostAmount();
       this.getNumberComments();
       this.getComments();
       this.checkExpiredBettingMatch();
       this.getBettingPlayer();
-    });
+  }
 
+  getMatchById() {
+    this.matchService.getMatchInfo(this.dataInfoMatch.bettingMatchId)
+    .then(response => {
+      this.dataInfoMatch.bettingMatchId = response.data.id;
+      this.dataInfoMatch.competitor1Name = response.data.competitor1.name;
+      this.dataInfoMatch.competitor2Name = response.data.competitor2.name;
+      this.dataInfoMatch.competitor1Id = response.data.competitor1.id;
+      this.dataInfoMatch.competitor2Id = response.data.competitor2.id;
+      this.dataInfoMatch.score1 = response.data.score1;
+      this.dataInfoMatch.score2 = response.data.score2;
+      this.dataInfoMatch.time = response.data.matchTime;
+    });
   }
 
   getBettingMatchInfo() {

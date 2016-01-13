@@ -1,19 +1,19 @@
-<div ng-controller="EditTournamentController as editor">
+<div>
 	<div class="panel panel-info" style="border: none;">
 		<div class="panel-heading panel-title has-minheight">
 			<strong class="panel-title pull-left text-muted font-size" ng-bind="editor.tournamentInfo.name"></strong>
 			<div class="text-right panel-title" ng-show="management.isAdmin">
 				<button class="btn btn-primary" ng-click="editor.activeTournament()" ng-show="!editor.tournamentInfo.activated" translate="components.tournament.edit-tournament.btnActiveTour"></button>
 				<button class="btn btn-default" ng-click="editor.createGroup()">
-					<i class="fa fa-plus"></i>
+					<i class="fa fa-plus-circle"></i>
 					<span class="bold" translate="components.tournament.edit-tournament.btnNewGroup"></span>
 				</button>
 				<button class="btn btn-default" ng-click="editor.openCreateMatch()">
-					<i class="fa fa-plus"></i>
+					<i class="fa fa-plus-circle"></i>
 					<span class="bold" translate="components.tournament.edit-tournament.btnNewMatch"></span>
 				</button>
 				<button class="btn btn-default" ng-click="editor.openCreateRound()">
-					<i class="fa fa-plus"></i>
+					<i class="fa fa-plus-circle"></i>
 					<span class="bold" translate="components.tournament.edit-tournament.btnNewRound"></span>
 				</button>
 			</div>
@@ -26,7 +26,7 @@
 					<a href="javascript:void(0)" ng-click="hideRound = !hideRound"><i class="fa fa-angle-up fa-2x pull-right" ng-hide="hideRound = !hideRound"></i>
 					<i class="fa fa-angle-down fa-2x pull-right" ng-show="hideRound = !hideRound"></i></a>
 				</div>
-				<div class="panel-body" ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
+				<div class="panel-body show-list" ng-repeat="match in round.matches track by $index" ng-hide="hideRound">
 					<div class="row">
 						<div class="col-md-3">
 							<span><i class="fa fa-clock-o"></i> {{match.matchTime}}</span>
@@ -46,7 +46,10 @@
 						</div>
 						<div class="col-md-3">
 							<div class="pull-right">
-								<button ng-show="editor.isAdmin" class="btn btn-default" ng-click="editor.openUpdateScore(match)">Update score</button>
+								<button ng-show="editor.isAdmin" class="btn btn-default" ng-click="editor.openUpdateScore(match)">
+									<i class="glyphicon glyphicon-edit"></i>
+									<span translate="components.tournament.updatescore"></span>
+								</button>
 								<a href="javascript:void(0)" ng-click="hideInfo = !hideInfo"><i class="fa fa-angle-up" ng-hide="hideInfo = !hideInfo"></i>
 								<i class="fa fa-angle-down" ng-show="hideInfo = !hideInfo"></i></a>
 							</div>

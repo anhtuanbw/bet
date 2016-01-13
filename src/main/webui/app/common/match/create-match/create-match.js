@@ -22,6 +22,13 @@ export default class CreateMatchController {
 
   createMatch() {
     var self = this;
+    self.popTitle = 'Create new match';
+    
+    // Show alert message
+    self.pop = function (type, title, content) {
+      this.toaster.pop(type, title, content);
+    };
+
     var time = this.data.time;
     this.data.time = this.formatTime(this.data.time);
     this.matchService.createMatch(this.data)
@@ -85,7 +92,7 @@ export default class CreateMatchController {
         console.log(this.checkRoundNull);
         if (this.checkRoundNull) {
           this.getRounds();
-          
+
         } else {
           this.showModal = true;
           this.getCompetitorsInTournament();

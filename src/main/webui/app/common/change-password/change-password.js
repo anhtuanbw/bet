@@ -14,10 +14,14 @@ export default class ChangePasswordController {
 
   changePass() {
     var self = this;
-
+    self.popTitle = 'Change password';
+    
+    // Show alert message
+    self.pop = function (type, title, content) {
+      this.toaster.pop(type, title, content);
+    };
     this.accountService.changePassword(this.data)
       .then(response => {
-
         // Success
         self.closeModal();
         this.toaster.pop('success', null, 'app/common/change-password/success.html', null, 'template');

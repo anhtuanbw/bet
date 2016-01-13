@@ -3,7 +3,6 @@
   "devDependencies": {
     "angular": "~1.4.5",
     "angular-bootstrap": "~0.13.3",
-    "angular-new-router": "~0.5.3",
     "angular-sanitize": "~1.4.5",
     "angular-cookies": "~1.4.5",
     "angular-translate": "~2.7.2",
@@ -17,7 +16,8 @@
     "angular-tags-input": "ng-tags-input#3.0.0",
     "eonasdan-bootstrap-datetimepicker": "eonasdan-bootstrap-datetimepicker#latest",
     "angular-material": "~1.0.1",
-    "angular-strap": "2.3.6"
+    "angular-strap": "2.3.6",
+    "angular-ui-router": "0.2.15"
   },
   "dependencies": {
     "sockjs": "~0.3.4",

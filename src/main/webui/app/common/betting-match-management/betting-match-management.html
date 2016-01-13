@@ -1,6 +1,9 @@
 <div ng-hide="betting.data.hide">
-<div class="text-right" ng-show="betting.data.showBtnAdd"> 
-  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.showMatch()"><span class="glyphicon glyphicon-plus"></span><span translate="common.betting.btnAdd"></span></button>
+<div class="text-right" ng-show="betting.showBtnAdd"> 
+  <button class="btn btn-primary clearfix" ng-show="betting.isMod" ng-click="betting.showMatch()">
+    <i class="fa fa-plus-circle"></i>
+    <span translate="common.betting.btnAdd"></span>
+  </button>
 </div>
 <div>
   <div ng-repeat="round in betting.data.bettingMatch | orderBy:'round'">
