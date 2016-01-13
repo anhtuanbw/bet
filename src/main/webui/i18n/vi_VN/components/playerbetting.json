@@ -1,0 +1,24 @@
+{
+   "components": {
+      "playerbetting": {
+         "title": {
+					 "bettingmatch":"Trận cá cược",
+					 "infobettingmatch": "Thông tin trận cá cược"
+				 },
+         "choose":" Chọn ",
+				 "choosecomment":"Đã cược ",
+				 "comment":"Bình luận",
+				 "comments":" bình luận",
+         "balance":"Tỉ lệ cược",
+				 "expired":"Ngày hết hạn cược",
+				 "start":"Thời gian trận đấu bắt đầu",
+				 "round":"Vòng",
+         "total":"Tổng số người chơi",
+				 "lose": "Bạn thua: ",
+				 "system": "Hệ thống",
+				 "systemmess": "Không có hoạt động nào trong trận cá cược này.",
+				 "showmore":"Hiển thị thêm >>",
+				 "isexpired":"Trận cá cược cho trận đấu này đã hết hạn"
+      }
+   }
+}

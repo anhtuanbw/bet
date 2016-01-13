@@ -1,6 +1,9 @@
 {
 	"common": {
 		"match": {
+			"successMessage":"Create match successfully!",
+			"noround":"This tournament does not have available round. Do you want to create a match without round?",
+			"warning":"If you click accept, we will add match into circle round.",
 			"create": {
 				"title": "Create new match",
 				"select-round": "Select round",

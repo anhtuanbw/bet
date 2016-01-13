@@ -1,19 +1,23 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
-import vn.kms.ngaythobet.domain.util.Constants;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
-import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
-import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
+import static vn.kms.ngaythobet.domain.util.Constants.DEFAULT_ROUND_NAME;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static vn.kms.ngaythobet.domain.util.Constants.*;
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
+import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
+import vn.kms.ngaythobet.domain.util.Constants;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
+import vn.kms.ngaythobet.web.dto.MatchNotCreateBetInfo;
+import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 @Service
 @Transactional
@@ -25,11 +29,18 @@ public class MatchService {
 
     private final MatchRepository matchRepo;
 
+    private final BettingMatchRepository bettingMatchRepo;
+
+    private final GroupRepository groupRepo;
+
     @Autowired
-    public MatchService(CompetitorRepository competitorRepo, RoundRepository roundRepo, MatchRepository matchRepo) {
+    public MatchService(CompetitorRepository competitorRepo, RoundRepository roundRepo, MatchRepository matchRepo,
+            BettingMatchRepository bettingMatchRepo, GroupRepository groupRepo) {
         this.competitorRepo = competitorRepo;
         this.roundRepo = roundRepo;
         this.matchRepo = matchRepo;
+        this.bettingMatchRepo = bettingMatchRepo;
+        this.groupRepo = groupRepo;
     }
 
     @Transactional
@@ -152,5 +163,33 @@ public class MatchService {
         match.setScore1(updateScoreInfo.getCompetitor1Score());
         match.setScore2(updateScoreInfo.getCompetitor2Score());
         matchRepo.save(match);
+    }
+
+
+    public List<MatchNotCreateBetInfo> getMatchNotCreatedBettingMatch(Long tournamentId, Long groupId) {
+        List<Match> matches = matchRepo.findByTournament(tournamentId);
+        List<MatchNotCreateBetInfo> matchesNotbet = new ArrayList<MatchNotCreateBetInfo>();
+        Group group = groupRepo.getOne(groupId);
+        List<BettingMatch> bettingMatches = bettingMatchRepo.findByGroup(group);
+        int current = -1;
+        for (Match match : matches) {
+            boolean isExist = false;
+            for (BettingMatch bettingMatch : bettingMatches) {
+                if (match.getId().equals(bettingMatch.getMatch().getId())) {
+                    isExist = true;
+                    break;
+                }
+            }
+            if (!isExist) {
+                if (current == -1 || !matchesNotbet.get(current).getRoundId().equals(match.getRound().getId())) {
+                    current++;
+                    matchesNotbet.add(new MatchNotCreateBetInfo());
+                    matchesNotbet.get(current).setRoundId(match.getRound().getId());
+                    matchesNotbet.get(current).setRoundName(match.getRound().getName());
+                }
+               matchesNotbet.get(current).getMatches().add(match);
+            }
+        }
+        return matchesNotbet;
     }
 }

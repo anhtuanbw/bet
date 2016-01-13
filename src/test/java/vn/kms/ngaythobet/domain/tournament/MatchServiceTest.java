@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,13 @@ import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import vn.kms.ngaythobet.BaseTest;
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
+import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
 import vn.kms.ngaythobet.domain.core.UserService;
 import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
+import vn.kms.ngaythobet.web.dto.MatchNotCreateBetInfo;
 import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 ;
@@ -52,9 +56,13 @@ public class MatchServiceTest extends BaseTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BettingMatchRepository bettingMatchRepo;
+
     private Tournament tournamentTemp;
     private Tournament tournamentTemp2;
     private Round roundTemp;
+    private Group groupTemp;
     private List<Competitor> competitors;
     private Competitor competitorTemp1;
     private Competitor competitorTemp2;
@@ -62,6 +70,9 @@ public class MatchServiceTest extends BaseTest {
     private Competitor competitorTemp4;
     private Competitor competitorTemp5;
     private Match matchTemp;
+    private Match matchTemp2;
+    private BettingMatch bettingMatchTemp;
+    private BettingMatch bettingMatchTemp2;
 
     @Override
     protected void doStartUp() {
@@ -111,7 +122,7 @@ public class MatchServiceTest extends BaseTest {
         group.setTournament(tournamentTemp);
         group.setModerator(user);
 
-        groupRepo.save(group);
+        groupTemp = groupRepo.save(group);
 
         // Create a match
         Match match = new Match();
@@ -124,6 +135,41 @@ public class MatchServiceTest extends BaseTest {
         match.setScore1(1L);
         match.setScore2(2L);
         matchTemp = matchRepo.save(match);
+
+        Match match2 = new Match();
+        match2.setComment("match 2");
+        match2.setCompetitor1(competitorTemp4);
+        match2.setCompetitor2(competitorTemp3);
+        match2.setLocation("Ha noi");
+        match2.setMatchTime(LocalDateTime.now());
+        match2.setRound(roundTemp);
+        match2.setScore1(0L);
+        match2.setScore2(0L);
+        matchTemp2 = matchRepo.save(match2);
+        //create betting Match
+        BettingMatch bettingMatch = new BettingMatch();
+        bettingMatch.setActivated(true);
+        bettingMatch.setBalance1(new BigDecimal(0));
+        bettingMatch.setBalance2(new BigDecimal(0.5));
+        bettingMatch.setBetAmount(new BigDecimal(50));
+        bettingMatch.setComment("betting match 1");
+        bettingMatch.setGroup(group);
+        bettingMatch.setExpiredTime(LocalDateTime.now());
+        bettingMatch.setMatch(matchTemp);
+        bettingMatch.setDescription("test 1 ");
+        bettingMatchTemp = bettingMatchRepo.save(bettingMatch);
+
+        BettingMatch bettingMatch2 = new BettingMatch();
+        bettingMatch2.setActivated(true);
+        bettingMatch2.setBalance1(new BigDecimal(0));
+        bettingMatch2.setBalance2(new BigDecimal(0));
+        bettingMatch2.setBetAmount(new BigDecimal(150));
+        bettingMatch2.setComment("betting match 2");
+        bettingMatch2.setGroup(group);
+        bettingMatch2.setExpiredTime(LocalDateTime.now());
+        bettingMatch2.setMatch(match2);
+        bettingMatch2.setDescription("test 2 ");
+        bettingMatchTemp2 = bettingMatchRepo.save(bettingMatch2);
     }
 
     private Competitor createCompetitor(String name, Tournament tournament, List<Round> rounds) {
@@ -144,7 +190,7 @@ public class MatchServiceTest extends BaseTest {
         createMatchInfo.setLocation("HCM");
         createMatchInfo.setComment("abcdef");
         matchService.createMatch(createMatchInfo);
-        assertThat(matchRepo.findAll().size(), equalTo(2));
+        assertThat(matchRepo.findAll().size(), equalTo(3));
     }
 
     @Test
@@ -156,7 +202,7 @@ public class MatchServiceTest extends BaseTest {
         createMatchInfo.setLocation("HCM");
         createMatchInfo.setComment("abcdef");
         matchService.createMatch(createMatchInfo);
-        assertThat(matchRepo.findAll().size(), equalTo(2));
+        assertThat(matchRepo.findAll().size(), equalTo(3));
     }
 
     @Test
@@ -208,8 +254,51 @@ public class MatchServiceTest extends BaseTest {
         assertThat(match.getScore2(), equalTo(score2));
     }
 
+    @Test
+    public void testUpdateScore2() {
+        long score1 = 22;
+        long score2 = 22;
+
+        UpdateScoreInfo updateScoreInfo = new UpdateScoreInfo();
+        updateScoreInfo.setMatchId(matchTemp.getId());
+        updateScoreInfo.setCompetitor1Score(score1);
+        updateScoreInfo.setCompetitor2Score(score2);
+        matchService.updateScore(updateScoreInfo);
+
+        Match match = matchRepo.findOne(matchTemp.getId());
+        assertThat(match.getScore1(), equalTo(score1));
+        assertThat(match.getScore2(), equalTo(score2));
+    }
+
+    @Test
+    public void testGetMatchNotCreatedBettingMatch() {
+        List<MatchNotCreateBetInfo> matchesNotBet = matchService.getMatchNotCreatedBettingMatch(tournamentTemp.getId(),
+                groupTemp.getId());
+        assertThat(matchesNotBet.size(), equalTo(0));
+        Match match = new Match();
+        match.setComment("test 3");
+        match.setCompetitor1(competitorTemp3);
+        match.setCompetitor2(competitorTemp4);
+        match.setLocation("HCM");
+        match.setMatchTime(LocalDateTime.now());
+        match.setRound(roundTemp);
+        match.setScore1(1L);
+        match.setScore2(2L);
+        matchRepo.save(match);
+        matchesNotBet = matchService.getMatchNotCreatedBettingMatch(tournamentTemp.getId(),
+                groupTemp.getId());
+        assertThat(matchesNotBet.size(), equalTo(1));
+    }
+
+    @Test
+    public void testcheckRounds() {
+        boolean isCircle = matchService.checkRounds(tournamentTemp.getId());
+        assertThat(isCircle, equalTo(true));
+    }
+
     @After
     public void clearData() {
+        bettingMatchRepo.deleteAll();
         matchRepo.deleteAll();
         roundRepo.deleteAll();
         groupRepo.deleteAll();

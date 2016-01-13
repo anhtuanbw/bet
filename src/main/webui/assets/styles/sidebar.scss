@@ -75,6 +75,14 @@ span.selected {
   transition-delay: 0.3s;
 }
 
+.menu-toggle-list {
+  -webkit-transition: 0.5s cubic-bezier(0.35, 0, 0.25, 1) !important;
+  -webkit-transition-property: max-height !important;
+  -moz-transition: 0.5s cubic-bezier(0.35, 0, 0.25, 1) !important;
+  -moz-transition-property: max-height !important;
+  transition: 0.5s cubic-bezier(0.35, 0, 0.25, 1) !important;
+}
+
 .side-menu .menu-toggle-list a.md-button {
   display: block;
   padding: 0 16px 0 32px;
@@ -186,8 +194,12 @@ h3.docs-logotype {
 }
 
 .md-theme-blue {
-  background-color: #2C6BA0 !important;
+  background-color: #106CC8 !important;
   height: 50px !important;
+}
+
+.md-toolbar-tools {
+  color: #fff !important;
 }
 
 md-toolbar {
