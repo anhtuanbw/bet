@@ -26,7 +26,7 @@ export default class GroupHistoryController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized');
+        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
       }
     });
   }

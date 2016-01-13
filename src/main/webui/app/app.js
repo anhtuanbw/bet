@@ -75,7 +75,8 @@ angular.module('ngaythobet', [
     .state('unauthorized', {
       url: '/unauthorized',
       templateUrl: 'app/components/unAuthorized/unAuthorized.html',
-      controller: UnAuthorizedController
+      controller: UnAuthorizedController,
+      controllerAs: 'unauthorized'
     })
     .state('activate', {
       url: '/api/activate',

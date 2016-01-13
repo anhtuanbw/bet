@@ -11,10 +11,10 @@ export default class TournamentGroupController {
     this.tournamentService = TournamentService;
     this.groupInfo = {};
     this.tournamentName = '';
-    this.tournamentId = -1;
+    this.tournamentId = $stateParams.tournamentId;
     this.isMod = false;
     this.groupInfo.id = $stateParams.groupId;
-    this.getTournamentById($stateParams.tournamentId);
+    this.getTournamentById(this.tournamentId);
     this.findById();
     this.checkMod();
     this.activePlayer = 'group';
@@ -27,7 +27,7 @@ export default class TournamentGroupController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized');
+        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
       }
     });
   }
@@ -39,7 +39,7 @@ export default class TournamentGroupController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized'); 
+        this.location.path('/unauthorized').search({ lastUrl: this.location.path() }); 
       }
     });
   }
