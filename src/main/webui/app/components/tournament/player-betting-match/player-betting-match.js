@@ -12,7 +12,6 @@ export default class PlayerBettingMatchController {
     this.accountService = AccountService;
     this.matchService = MatchService;
     this.dataInfoMatch.bettingMatchId = $stateParams.matchId;
-    // $rootScope.$on('playerBettingMatch', (event, data) => {
       this.getMatchById();
       this.dataBettingMatch = {};
       this.dataBettingStatistics = {};
@@ -32,20 +31,17 @@ export default class PlayerBettingMatchController {
       this.namePlayerBetCompetitor2 = [];
       this.namePlayerNotBet = [];
       this.getBettingMatchStatistics();
-
       this.getBettingMatchInfo();
       this.getLostAmount();
       this.getNumberComments();
       this.getComments();
       this.checkExpiredBettingMatch();
       this.getBettingPlayer();
-    // });
   }
 
   getMatchById() {
     this.matchService.getMatchInfo(this.dataInfoMatch.bettingMatchId)
     .then(response => {
-      console.log(response.data);
       this.dataInfoMatch.bettingMatchId = response.data.id;
       this.dataInfoMatch.competitor1Name = response.data.competitor1.name;
       this.dataInfoMatch.competitor2Name = response.data.competitor2.name;
@@ -58,7 +54,6 @@ export default class PlayerBettingMatchController {
   }
 
   getBettingMatchInfo() {
-    console.log(this.dataInfoMatch.bettingMatchId);
     this.bettingMatchService.getBettingMatchInfo(this.dataInfoMatch.bettingMatchId)
       .then(response => {
         if (response.data) {

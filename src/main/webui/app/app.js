@@ -23,7 +23,7 @@ import CreateBettingController from './common/create-betting-match/create-bettin
 import UnAuthorizedController from './components/unAuthorized/unAuthorized';
 
 angular.module('ngaythobet', [
-  "ui.router",
+  'ui.router',
   'mgcrea.ngStrap',
   'ngSanitize',
   'ngCookies',
@@ -56,10 +56,7 @@ angular.module('ngaythobet', [
 .config(/* @ngInject */($compileProvider, $translateProvider, $stateProvider, $urlRouterProvider) => {
   // disables AngularJS debug info
    $compileProvider.debugInfoEnabled(false);
-
-  // set templates path
-  // $componentLoaderProvider.setTemplateMapping(name => `app/components/${name}/${name}.html`);
-
+   
   // Angular Translate
   $translateProvider
       .useSanitizeValueStrategy('sanitize')
@@ -67,9 +64,7 @@ angular.module('ngaythobet', [
       .useStaticFilesLoader({ prefix: 'i18n/', suffix: '.json' })
       .preferredLanguage('en_US');
       
-   $urlRouterProvider.otherwise("/home");
-  //
-  // Now set up the states
+  $urlRouterProvider.otherwise('/home');
   $stateProvider
     .state('home', {
       url: '/home',
@@ -89,10 +84,16 @@ angular.module('ngaythobet', [
       controllerAs: 'activator'
     })
     .state('management', {
+      abstract: true,
       url: '/management',
       templateUrl: 'app/components/management/management.html',
       controller: ManagementController,
-      controllerAs: 'management'
+      controllerAs: 'management',
+      redirectTo: 'management.home',
+    })
+    .state('management.home', {
+      url: '',
+      templateUrl: 'app/components/home/rules.html'
     })
     .state('management.createtournament', {
       url: '/create-tournament',

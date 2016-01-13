@@ -2,41 +2,45 @@
 
 export default class TournamentGroupController {
   /* @ngInject */
-  constructor($modal, $rootScope, $location, GroupService, AccountService, $stateParams) {
+  constructor($modal, $rootScope, $location, GroupService, AccountService, $stateParams, TournamentService) {
     this.modal = $modal;
     this.rootScope = $rootScope;
     this.location = $location;
     this.groupService = GroupService;
     this.accountService = AccountService;
+    this.tournamentService = TournamentService;
     this.groupInfo = {};
     this.tournamentName = '';
     this.isMod = false;
-    // this.rootScope.$on('selectGroup', (event, groupInfo) => {
-    //   if (groupInfo) {
-    //     if(groupInfo.tournamentName) {
-    //       this.tournamentName = groupInfo.tournamentName;
-    //     }
-    //     this.groupInfo.id = groupInfo.id;
-    //     this.findById();
-    //     this.checkMod();
-    //   }
-    // });
     this.groupInfo.id = $stateParams.groupId;
+    this.getTournamentById($stateParams.tournamentId);
     this.findById();
     this.checkMod();
     this.activePlayer = 'group';
   }
-
+  
+  getTournamentById(tournamentId) {
+    this.tournamentService.getById(tournamentId)
+    .then(response => {
+      this.tournamentName = response.data.name;
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized');
+      }
+    });
+  }
+  
   findById() {
     this.groupService.findById(this.groupInfo.id)
-      .then(response => {
-        this.groupInfo = response.data;
-      })
-      .catch(error => {
-        if (error.status === 401) {
-          this.location.path('/unauthorized');
-        }
-      });
+    .then(response => {
+      this.groupInfo = response.data;
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized'); 
+      }
+    });
   }
 
   checkMod() {

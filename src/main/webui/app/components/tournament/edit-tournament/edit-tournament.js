@@ -17,12 +17,6 @@ export default class EditTournamentController {
     this.authen();
     this.getById($stateParams.tournamentId);
     this.showInfoTournament($stateParams.tournamentId);
-    // $rootScope.$on('selectTournament', (event, tournamentInfo) => {
-    //   if (tournamentInfo) {
-    //     this.tournamentInfo = tournamentInfo;
-    //   }
-    //   this.showInfoTournament();
-    // });
   }
 
   getById(tournamentId) {
@@ -32,10 +26,11 @@ export default class EditTournamentController {
     })
     .catch(error => {
       if (error.status === 401) {
-          this.location.path('/unauthorized');
-        }
+        this.location.path('/unauthorized');
+      }
     });
   }
+  
   createGroup($event) {
     var self = this;
     this.mdDialog.show({
