@@ -24,6 +24,7 @@ export default class EditTournamentController {
     this.getById($stateParams.tournamentId);
     this.showInfoTournament($stateParams.tournamentId);
     this.roundInTournament();
+    this.lastUrl = this.location.path();
   }
 
   getById(tournamentId) {
@@ -33,7 +34,7 @@ export default class EditTournamentController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
+        this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
       }
     });
   }
@@ -63,7 +64,7 @@ export default class EditTournamentController {
       })
       .catch(error => {
         if (error.status === 401) {
-          this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
+          this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
         }
         if (error.status === 403) {
           this.toaster.pop('error', 'Warning', error.data.message);
