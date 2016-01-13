@@ -80,6 +80,7 @@ public class UserServiceTest extends BaseTest {
         User user = userRepo.findOneByUsername(username).get();
         String activationKey = user.getActivationKey();
 
+        mailService.sendActivationEmailAsync(user);
         userService.activateRegistration(activationKey, LocalDateTime.now());
         user = userRepo.findOneByUsername(username).get();
         assertThat(user.isActivated(), is(true));
@@ -186,6 +187,7 @@ public class UserServiceTest extends BaseTest {
 
         // complete reset password with correct key and time, it must be passed
         // (no exception)
+        mailService.sendPasswordResetMailAsync(user);
         userService.completePasswordReset("Abc@123", resetKey, now);
 
         assertThat(user.getResetTime(), greaterThan(user.getCreatedAt()));

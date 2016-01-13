@@ -12,6 +12,8 @@ export default class EditTournamentController {
     this.location = $location;
     this.inforTournament = [];
     this.accountService = AccountService;
+    this.idScore1 = '';
+    this.idScore2 = '';
     $rootScope.hideRound = true;
     $rootScope.hideInfo = true;
     this.isAdmin = false;

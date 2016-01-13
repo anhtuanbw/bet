@@ -19,6 +19,8 @@ export default class roundManController {
     this.data.competitorList = [];
     this.data.competitorOldList = [];
     this.data.competitorInComboBox = [];
+    this.data.disableCreate = false;
+    this.data.disableUpdate = false;
   }
 
   loadTour(){
@@ -56,7 +58,7 @@ export default class roundManController {
       this.removeExistCompetitor();
       if (this.data.competitorInComboBox.length === 0) {
         this.data.hideCombobox = true;
-        this.data.CompetitorError = 'Maximum competitors, you can not update this round !';
+        this.data.CompetitorError = 'All competitors have been selected, you can not update this round !!!';
       }
     });
   }
@@ -106,7 +108,12 @@ export default class roundManController {
   }
 
   saveData(roundData){
-    var popTitle = 'Round Management';
+    this.data.disableCreate = true;
+    var titleToaster = 'Create Round';
+    var templateUrl = 'app/common/round-management/createSuccess.html';
+    if (typeof roundData.name === 'undefined'){
+      roundData.name = '';
+    }
     this.roundSave = {
       'name': roundData.name,
       'tournamentId': this.tourID,
@@ -115,8 +122,10 @@ export default class roundManController {
     roundData.CompetitorError = '';
     roundData.roundError = '';
     this.RoundService.create(this.roundSave)
-    .then(() => {
-      this.toaster.pop('success', popTitle, 'Create Round Successfully !!!');
+    .then(response => {
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       //remove all old data
       roundData.competitorList = [];
       roundData.competitorInComboBox = [];
@@ -130,23 +139,31 @@ export default class roundManController {
   }
 
   updateData(){
-    var popTitle = 'Update Round';
+    this.data.disableUpdate = true;
+    var titleToaster = 'Update Round';
+    var templateUrl = 'app/common/round-management/updateSuccess.html';
     var dataUpdate = {
         'roundId': this.roundID,
         'competitorIds': this.roundCompetitor
     };
     this.RoundService.update(dataUpdate)
-    .then(() => {
+    .then(response => {
       //success
-      this.toaster.pop('success', popTitle, 'Update Successfully !!!');
+      if (response.status === 200) {
+          this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
+      }
       this.modalInstance.dismiss();
     }, function(response){
-      this.toaster.pop('error', popTitle, response.data.fieldErrors);
+      this.toaster.pop('error', titleToaster, response.data.fieldErrors);
     });
   }
 
   cancel(){
     this.modalInstance.dismiss();
+  }
+
+  enableCreate(){
+    this.data.disableCreate = false;
   }
 
 }

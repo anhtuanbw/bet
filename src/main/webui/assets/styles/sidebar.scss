@@ -194,6 +194,8 @@ h3.docs-logotype {
 
 .layout-column > .panel {
   min-height: 800px; 
+  max-height: 800px;
+  overflow-y: scroll;
 }
 
 .md-theme-blue {
