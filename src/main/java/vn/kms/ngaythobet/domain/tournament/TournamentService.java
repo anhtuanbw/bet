@@ -23,6 +23,12 @@ public class TournamentService {
     private final CompetitorRepository competitorRepo;
 
     @Autowired
+    private RoundRepository roundRepo;
+
+    @Autowired
+    private MatchRepository matchRepo;
+
+    @Autowired
     private UserRepository userRepo;
 
     @Autowired
@@ -76,5 +82,45 @@ public class TournamentService {
             return tournaments;
         }
         return tournamentRepo.findAll();
+    }
+
+    public void saveTournament(int index) {
+        List<Tournament> tournaments = ParseData.parseTournamentFromLiveScore();
+        Tournament tournamentTest = tournaments.get(index);
+        tournamentRepo.save(tournamentTest);
+        Tournament tournament = tournamentRepo.findByName(tournamentTest.getName());
+        List<Competitor> competitors = tournamentTest.getCompetitors();
+        for (Competitor competitor : competitors) {
+            competitor.setTournament(tournament);
+            competitorRepo.save(competitor);
+        }
+        for (Round round : tournamentTest.getRounds()) {
+            List<Competitor> rawCompetitors = round.getCompetitors();
+            List<Competitor> roundCompetitors = new ArrayList<>();
+
+            for (Competitor competitor : rawCompetitors) {
+                Competitor roundCompetior = competitorRepo.findByTournamentAndName(tournament, competitor.getName());
+                List<Round> rounds = roundCompetior.getRounds();
+                if (rounds == null) {
+                    rounds = new ArrayList<>();
+                }
+                rounds.add(round);
+                roundCompetior.setRounds(rounds);
+                roundCompetitors.add(roundCompetior);
+            }
+            round.setCompetitors(roundCompetitors);
+            round.setTournament(tournamentTest);
+            roundRepo.save(round);
+            for (Match match : round.getMatches()) {
+                Competitor competitor1 = competitorRepo.findByTournamentAndName(tournament,
+                        match.getCompetitor1().getName());
+                Competitor competitor2 = competitorRepo.findByTournamentAndName(tournament,
+                        match.getCompetitor2().getName());
+                match.setCompetitor1(competitor1);
+                match.setCompetitor2(competitor2);
+                match.setRound(roundRepo.findByNameAndTournament(round.getName(), tournament));
+                matchRepo.save(match);
+            }
+        }
     }
 }
