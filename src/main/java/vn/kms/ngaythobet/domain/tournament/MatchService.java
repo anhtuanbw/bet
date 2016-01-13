@@ -150,6 +150,19 @@ public class MatchService {
     }
 
     @Transactional(readOnly = true)
+    public boolean checkIfCreateRound(Long tournamentId) {
+        List<Round> rounds = roundRepo.findByTournamentId(tournamentId);
+        boolean checked = true;
+
+        if (rounds != null && rounds.size() == 1) {
+            if (rounds.get(0).getName().equals(Constants.DEFAULT_ROUND_NAME)) {
+                checked = false;
+            }
+        }
+        return checked;
+    }
+
+    @Transactional(readOnly = true)
     public Match getMatch(Long matchId) {
         return matchRepo.findOne(matchId);
     }
@@ -164,7 +177,6 @@ public class MatchService {
         match.setScore2(updateScoreInfo.getCompetitor2Score());
         matchRepo.save(match);
     }
-
 
     public List<MatchNotCreateBetInfo> getMatchNotCreatedBettingMatch(Long tournamentId, Long groupId) {
         List<Match> matches = matchRepo.findByTournament(tournamentId);
@@ -187,7 +199,7 @@ public class MatchService {
                     matchesNotbet.get(current).setRoundId(match.getRound().getId());
                     matchesNotbet.get(current).setRoundName(match.getRound().getName());
                 }
-               matchesNotbet.get(current).getMatches().add(match);
+                matchesNotbet.get(current).getMatches().add(match);
             }
         }
         return matchesNotbet;
