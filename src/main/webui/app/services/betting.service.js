@@ -41,7 +41,7 @@ export default class BettingService {
 		return this.$http.post('api/activeBettingMatch', data, config);
 	}
 
-	getBettingMatchByRoundAndGroupId(roundID, groupId) {
+	getBettingMatchByRoundAndGroupId(roundId, groupId) {
 		var token = this.cacheService.get('loginUser');
 		var config = {
 			headers: {
@@ -50,10 +50,22 @@ export default class BettingService {
 			}
 		};
 		var dataPost = {
-			'roundId': roundID,
+			'roundId': roundId,
 			'groupId': groupId
 		};
 		return this.$http.post('api/getBettingMatchesByRoundAndGroupId', dataPost, config);
+	}
+
+	getMatchNotCreateBettingMatch(tourId, groupId){
+		var token = this.cacheService.get('loginUser');
+			return this.$http({
+			method: 'GET',
+			url: `/api/matches/getMatchNotCreateBettingMatch/${tourId}/${groupId}`,
+			headers: {
+				'Accept': '*/*',
+				'x-auth-token': token
+			}
+		});
 	}
 
 }
