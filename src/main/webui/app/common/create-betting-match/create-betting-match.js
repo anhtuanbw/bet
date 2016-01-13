@@ -149,7 +149,7 @@ export default class CreateBettingController {
   }
 
   validate(data, message){
-    if (typeof data === 'number' && (data%0.25) == 0) {
+    if ((typeof data === 'number') && (data%0.25) === 0) {
       message.show = false;
       this.data.hideCreate = false;
       this.data.hideUpdate = false;
