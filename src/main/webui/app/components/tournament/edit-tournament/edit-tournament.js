@@ -3,11 +3,13 @@
 
 export default class EditTournamentController {
   /* @ngInject */
-  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService, $stateParams, $location) {
+  constructor(TournamentService, $rootScope, $modal, $mdDialog, toaster, AccountService, $stateParams, $location, MatchService) {
     this.tournamentService = TournamentService;
+    this.matchService = MatchService;
     this.tournamentInfo = {};
     this.modal = $modal;
     this.mdDialog = $mdDialog;
+    this.state = $stateParams;
     this.toaster = toaster;
     this.location = $location;
     this.inforTournament = [];
@@ -16,10 +18,12 @@ export default class EditTournamentController {
     this.idScore2 = '';
     $rootScope.hideRound = true;
     $rootScope.hideInfo = true;
+    this.checkRoundNull = false;
     this.isAdmin = false;
     this.authen();
     this.getById($stateParams.tournamentId);
     this.showInfoTournament($stateParams.tournamentId);
+    this.roundInTournament();
   }
 
   getById(tournamentId) {
@@ -33,7 +37,7 @@ export default class EditTournamentController {
       }
     });
   }
-  
+
   createGroup($event) {
     var self = this;
     this.mdDialog.show({
@@ -64,6 +68,13 @@ export default class EditTournamentController {
         if (error.status === 403) {
           this.toaster.pop('error', 'Warning', error.data.message);
         }
+      });
+  }
+
+  roundInTournament() {
+    this.matchService.checkRound(this.state.tournamentId)
+      .then(response => {
+        this.checkRoundNull = response.data;
       });
   }
 
@@ -158,7 +169,7 @@ export default class EditTournamentController {
     });
   }
 
-  openUpdateRound(round){
+  openUpdateRound(round) {
     var self = this;
     var roundOldData = {
       'roundId': round.id,
@@ -178,13 +189,13 @@ export default class EditTournamentController {
       }
     });
   }
-  
+
   authen() {
     this.accountService.authen()
-    .then(response => {
-      if (response.data) {
-         this.isAdmin = response.data.role === 'ADMIN' ? true : false;
-      }
-    });
+      .then(response => {
+        if (response.data) {
+          this.isAdmin = response.data.role === 'ADMIN' ? true : false;
+        }
+      });
   }
 }

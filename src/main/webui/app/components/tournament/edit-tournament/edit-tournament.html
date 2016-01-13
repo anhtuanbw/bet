@@ -12,7 +12,7 @@
 					<i class="fa fa-plus-circle"></i>
 					<span class="bold" translate="components.tournament.edit-tournament.btnNewMatch"></span>
 				</button>
-				<button class="btn btn-default" ng-click="editor.openCreateRound()">
+				<button ng-show="editor.checkRoundNull" class="btn btn-default" ng-click="editor.openCreateRound()">
 					<i class="fa fa-plus-circle"></i>
 					<span class="bold" translate="components.tournament.edit-tournament.btnNewRound"></span>
 				</button>
