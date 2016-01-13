@@ -10,6 +10,7 @@ export default class TournamentGroupController {
     this.accountService = AccountService;
     this.groupInfo = {};
     this.tournamentName = '';
+    this.tournamentId = -1;
     this.isMod = false;
     this.authen();
     this.rootScope.$on('selectGroup', (event, groupInfo) => {
@@ -22,6 +23,11 @@ export default class TournamentGroupController {
         this.checkMod();
       }
     });
+
+    this.rootScope.$on('selectTournament', (event, tournament) => {
+        this.tournamentId = tournament.id;
+    });
+
     this.activePlayer = 'group';
   }
 
