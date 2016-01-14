@@ -30,7 +30,7 @@ public class TournamentService {
     private final CompetitorRepository competitorRepo;
 
     @Value("${upload.image.path}")
-    private String UPLOAD_FILE_LOCATION;
+    private String uploadFileLocation;
 
     @Autowired
     private RoundRepository roundRepo;
@@ -139,7 +139,7 @@ public class TournamentService {
         if (!file.isEmpty() && isImage(file) && tournament != null) {
             deleteIfImageExisted(tournament);
             String fileName = createFileName(file);
-            String filePath = UPLOAD_FILE_LOCATION + File.separator + fileName;
+            String filePath = uploadFileLocation + File.separator + fileName;
             try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(filePath))) {
                 byte[] bytes = file.getBytes();
                 stream.write(bytes);
@@ -156,7 +156,7 @@ public class TournamentService {
     private String createFileName(MultipartFile file) {
         String fileName = RandomStringUtils.randomAlphanumeric(Constants.RANDOM_NAME_LENGTH)
                 + Constants.FILE_NAME_DELIMETER + file.getOriginalFilename();
-        File imageFilePath = new File(UPLOAD_FILE_LOCATION);
+        File imageFilePath = new File(uploadFileLocation);
         if (!imageFilePath.exists()) {
             imageFilePath.mkdirs();
         }
@@ -172,8 +172,9 @@ public class TournamentService {
     }
 
     private void deleteIfImageExisted(Tournament tournament) {
-        if (!tournament.getImagePath().isEmpty()) {
-            File file = new File(tournament.getImagePath());
+        if (tournament.getImagePath() != null && !tournament.getImagePath().isEmpty()) {
+            String filePath = uploadFileLocation + File.separator + tournament.getImagePath();
+            File file = new File(filePath);
             if (file.exists()) {
                 file.delete();
             }
