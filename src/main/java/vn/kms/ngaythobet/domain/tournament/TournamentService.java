@@ -137,11 +137,11 @@ public class TournamentService {
     public void uploadTournmentImage(MultipartFile file, Long tournamentId) {
         Tournament tournament = tournamentRepo.findOne(tournamentId);
         if (!file.isEmpty() && isImage(file) && tournament != null) {
-            deleteIfImageExisted(tournament);
             String fileName = createFileName(file);
             String filePath = uploadFileLocation + File.separator + fileName;
             try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(filePath))) {
                 byte[] bytes = file.getBytes();
+                deleteIfImageExisted(tournament);
                 stream.write(bytes);
                 tournament.setImagePath(fileName);
                 tournamentRepo.save(tournament);
