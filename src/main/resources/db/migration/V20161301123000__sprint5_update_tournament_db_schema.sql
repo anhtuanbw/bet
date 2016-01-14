@@ -1,0 +1,1 @@
+alter table tournaments add image_path varchar(512);

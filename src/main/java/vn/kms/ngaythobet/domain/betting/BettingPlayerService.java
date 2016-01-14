@@ -70,7 +70,7 @@ public class BettingPlayerService {
 
     public void addComment(AddCommentInfo addCommentInfo) {
         BettingMatch bettingMatch = bettingMatchRepo.findOne(addCommentInfo.getBettingMatchId());
-        bettingMatch.setComment(addCommentInfo.getComment());
+        bettingMatch.setComment(addCommentInfo.getComment().trim());
         bettingMatchRepo.save(bettingMatch);
     }
 
@@ -82,8 +82,8 @@ public class BettingPlayerService {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-not-active");
         } else if (isExpired(bettingPlayer.getBettingMatch().getExpiredTime())) {
             throw new DataInvalidException("exception.bettingPlayer.service.bettingMatch-is-expired");
-        } else if (!isValidCompetitor(playerBettingMatchInfo.getCompetitorId(), bettingPlayer.getBettingMatch()
-                .getMatch())) {
+        } else if (!isValidCompetitor(playerBettingMatchInfo.getCompetitorId(),
+                bettingPlayer.getBettingMatch().getMatch())) {
             throw new DataInvalidException("exception.bettingPlayer.service.competitor-belong-match");
         } else {
             Competitor betCompetitor = competitorRepo.findOne(playerBettingMatchInfo.getCompetitorId());
@@ -101,8 +101,8 @@ public class BettingPlayerService {
     }
 
     private boolean isValidCompetitor(Long competitorId, Match match) {
-        return (competitorId.equals(match.getCompetitor1().getId()) || competitorId.equals(match.getCompetitor2()
-                .getId()));
+        return (competitorId.equals(match.getCompetitor1().getId())
+                || competitorId.equals(match.getCompetitor2().getId()));
     }
 
     private boolean isBet(BettingMatch bettingMatch) {
@@ -116,10 +116,10 @@ public class BettingPlayerService {
         if (bettingMatchOptional.isPresent()) {
             BettingMatch bettingMatch = bettingMatchOptional.get();
             Match match = bettingMatch.getMatch();
-            List<BettingPlayer> bettingPlayersChoosingTeam1 = bettingPlayerRepo.findByBettingMatchIdAndBetCompetitorId(
-                    bettingMatchId, match.getCompetitor1().getId());
-            List<BettingPlayer> bettingPlayersChoosingTeam2 = bettingPlayerRepo.findByBettingMatchIdAndBetCompetitorId(
-                    bettingMatchId, match.getCompetitor2().getId());
+            List<BettingPlayer> bettingPlayersChoosingTeam1 = bettingPlayerRepo
+                    .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor1().getId());
+            List<BettingPlayer> bettingPlayersChoosingTeam2 = bettingPlayerRepo
+                    .findByBettingMatchIdAndBetCompetitorId(bettingMatchId, match.getCompetitor2().getId());
             Group group = bettingMatch.getGroup();
             List<User> users = userRepo.findByGroups(group);
             List<BettingPlayer> bettingPlayers = new ArrayList<BettingPlayer>();

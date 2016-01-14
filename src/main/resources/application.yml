@@ -51,3 +51,9 @@ spring:
 
     thymeleaf:
         enabled: false
+
+multipart:
+    maxFileSize: 5MB
+
+upload:
+    image.path: <path_to_public_folder>

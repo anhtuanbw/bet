@@ -28,7 +28,7 @@ export default class CreateMatchController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    
+
     var time;
     if (this.data.time !== '') {
       time = this.data.time;
@@ -42,7 +42,7 @@ export default class CreateMatchController {
         this.closeModal();
         this.toaster.pop('success', null, 'app/common/match/create-match/success.html', null, 'template');
         this.data = {};
-        this.rootScope.$broadcast('selectTournament');
+        this.rootScope.$broadcast('newMatch');
       })
       .catch(response => {
         self.data.time = time;

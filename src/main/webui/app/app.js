@@ -16,6 +16,7 @@ import CreateTournamentController from './components/tournament/create-tournamen
 import EditTournamentController from './components/tournament/edit-tournament/edit-tournament';
 import ManagementController from './components/management/management';
 import CreateMatchController from './common/match/create-match/create-match';
+import UploadPhotoController from './common/upload-photo/upload-photo';
 import TournamentGroupController from './components/tournament/group/group';
 import ResetPasswordSuccessController from './common/reset-passwordSuccess/reset-passwordSuccess';
 import UpdateGroupController from './common/update-group/update-group';
@@ -33,6 +34,7 @@ angular.module('ngaythobet', [
   'ngaythobet.common',
   'toaster',
   'ngAnimate',
+  'ngFileUpload',
   'ngMaterial'
 ])
 .controller('HomeController', HomeController)
@@ -47,6 +49,7 @@ angular.module('ngaythobet', [
 .controller('RoundManController', RoundManController)
 .controller('GroupController', GroupController)
 .controller('CreateMatchController', CreateMatchController)
+.controller('UploadPhotoController', UploadPhotoController)
 .controller('TournamentGroupController', TournamentGroupController)
 .controller('ResetPasswordSuccessController', ResetPasswordSuccessController)
 .controller('UpdateGroupController', UpdateGroupController)
