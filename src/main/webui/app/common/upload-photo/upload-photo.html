@@ -7,13 +7,15 @@
 		<form name="form" method="post">
 			<div class="form-group">
 				<p class="text-info" translate="components.tournament.edit-tournament.messChoose"></p>
-				<button type="file" ngf-select="uploadPhoto.uploadFiles($file, $invalidFiles)" ng-model="file" name="file" ngf-accept="'image/*'"
-				ngf-max-size="1MB" ngf-min-height="100" ngf-resize="{width: 1000, height: 200}" translate="components.tournament.edit-tournament.chooseBtn"></button>
+				<button type="file" ngf-select="uploadPhoto.uploadFiles($file, $invalidFiles)" ng-model="picFile" ngf-accept="'image/*'"
+				ngf-max-size="2MB" ngf-min-height="100" ngf-resize="{width: 1000, height: 200}" translate="components.tournament.edit-tournament.chooseBtn"></button>
 				<span> {{f.name}}</span>
 				<div class="text-danger margin-image">{{errFile.$error}} {{errFile.$errorParam}}
 				</div>
-				<div class="upload-progress margin-image" ng-show="f.progress >= 0">
-					<div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
+				<div class="progress margin-image" ng-show="f.progress >= 0">
+					<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+					ng-style="percent" ng-bind="f.progress + '%'">
+					</div>
 				</div>
 			</div>
 			<hr>
