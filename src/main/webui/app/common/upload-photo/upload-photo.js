@@ -14,7 +14,6 @@ export default class UploadPhotoController {
     var self = this;
     this.rootScope.f = file;
     this.rootScope.errFile = errFiles && errFiles[0];
-    console.log(file);
     if (file) {
       file.upload = this.upload.upload({
         url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
