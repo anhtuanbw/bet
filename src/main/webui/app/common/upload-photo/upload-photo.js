@@ -22,6 +22,7 @@ export default class UploadPhotoController {
 
       file.upload.then(function (response) {
         self.timeout(function () {
+          self.rootScope.percent = { width: file.progress + '%' };
           file.result = response.data;
         });
       }, function (response) {

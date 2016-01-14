@@ -18,7 +18,6 @@ export default class CreateMatchController {
     this.checkRoundNull = false;
     this.showModal = false;
     this.getCompetitorInTournament();
-    this.roundInTournament();
   }
 
   createMatch() {
@@ -100,20 +99,6 @@ export default class CreateMatchController {
         } else {
           this.showModal = true;
           this.getCompetitorsInTournament();
-        }
-      });
-  }
-
-  roundInTournament() {
-    this.matchService.checkRoundCircle(this.tournamentId)
-      .then(response => {
-        this.checkRoundNull = response.data;
-        if (this.checkRoundNull) {
-          this.showModal = false;
-          this.getCompetitorsInTournament();
-
-        } else {
-          this.getRounds();
         }
       });
   }
