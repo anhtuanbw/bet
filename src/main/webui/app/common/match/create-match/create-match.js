@@ -30,11 +30,13 @@ export default class CreateMatchController {
     };
 
     var time;
+    if (!this.data.time) {
+      this.data.time = '';
+    }
     if (this.data.time !== '') {
       time = this.data.time;
       this.data.time = this.formatTime(this.data.time);
     }
-
     this.matchService.createMatch(this.data)
       .then(() => {
 
