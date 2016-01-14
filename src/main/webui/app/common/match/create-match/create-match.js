@@ -18,6 +18,7 @@ export default class CreateMatchController {
     this.checkRoundNull = false;
     this.showModal = false;
     this.getCompetitorInTournament();
+    this.roundInTournament();
   }
 
   createMatch() {
@@ -28,7 +29,7 @@ export default class CreateMatchController {
     self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
-    
+
     var time;
     if (this.data.time !== '') {
       time = this.data.time;
@@ -42,7 +43,7 @@ export default class CreateMatchController {
         this.closeModal();
         this.toaster.pop('success', null, 'app/common/match/create-match/success.html', null, 'template');
         this.data = {};
-        this.rootScope.$broadcast('selectTournament');
+        this.rootScope.$broadcast('newMatch');
       })
       .catch(response => {
         self.data.time = time;
@@ -99,6 +100,20 @@ export default class CreateMatchController {
         } else {
           this.showModal = true;
           this.getCompetitorsInTournament();
+        }
+      });
+  }
+
+  roundInTournament() {
+    this.matchService.checkRoundCircle(this.tournamentId)
+      .then(response => {
+        this.checkRoundNull = response.data;
+        if (this.checkRoundNull) {
+          this.showModal = false;
+          this.getCompetitorsInTournament();
+
+        } else {
+          this.getRounds();
         }
       });
   }
