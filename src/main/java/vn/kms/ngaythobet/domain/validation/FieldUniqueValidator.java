@@ -29,7 +29,12 @@ public class FieldUniqueValidator implements ConstraintValidator<FieldUnique, Ob
     @Override
     public boolean isValid(Object fieldValue, ConstraintValidatorContext context) {
         String queryString = String.format("select id from %s where %s = :fieldValue", entity.getName(), fieldName);
-
+        if(fieldValue instanceof String){
+            return em
+                    .createQuery(queryString)
+                    .setParameter("fieldValue", fieldValue.toString().trim())
+                    .getResultList().isEmpty();
+        }
         return em
             .createQuery(queryString)
             .setParameter("fieldValue", fieldValue)

@@ -51,4 +51,9 @@ public class TournamentRest {
     public List<Tournament> getAllByRole() {
         return tournamentService.findAllTournamentOfUser();
     }
+
+    @RequestMapping(value = "/saveTournment", method = GET)
+    public void saveTournament(@RequestParam int index) {
+        tournamentService.saveTournament(index);
+    }
 }

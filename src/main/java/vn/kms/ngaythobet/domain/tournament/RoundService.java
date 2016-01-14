@@ -53,9 +53,12 @@ public class RoundService {
     }
 
     public void createRound(CreateRoundInfo createRoundInfo) {
+        if (createRoundInfo.getName().trim().length() < 6) {
+            throw new DataInvalidException("validation.name.notEmpty.size.blankspace");
+        }
         if (!roundNameIsExistedInTournament(createRoundInfo.getName(), createRoundInfo.getTournamentId())) {
             Round round = new Round();
-            round.setName(createRoundInfo.getName());
+            round.setName(createRoundInfo.getName().trim());
             Tournament tournament = tournamentRepo.getOne(createRoundInfo.getTournamentId());
             round.setTournament(tournament);
             if (createRoundInfo.getCompetitorIds() != null) {
