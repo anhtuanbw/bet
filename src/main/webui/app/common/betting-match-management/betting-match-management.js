@@ -54,7 +54,8 @@ export default class BettingMatchController {
       for (var i = 0; i < response.data.length; i++) {
         var item = {
           'id': response.data[i].id,
-          'name': response.data[i].name
+          'name': response.data[i].name,
+          'show': false
         };
         this.roundIdAndName.push(item);
       }
@@ -68,6 +69,7 @@ export default class BettingMatchController {
   }
 
   showBettingMatch(round){
+    round.show = !round.show;
     this.BettingService.getBettingMatchByRoundAndGroupId(round.id, this.groupID)
     .then(response => {
       var tempArray = [];
