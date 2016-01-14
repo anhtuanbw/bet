@@ -1,13 +1,7 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
-import vn.kms.ngaythobet.domain.betting.BettingMatch;
-import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
-import vn.kms.ngaythobet.domain.util.Constants;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
-import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
-import vn.kms.ngaythobet.web.dto.MatchNotCreateBetInfo;
-import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
+import static vn.kms.ngaythobet.domain.util.Constants.DEFAULT_ROUND_NAME;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static vn.kms.ngaythobet.domain.util.Constants.*;
+import vn.kms.ngaythobet.domain.betting.BettingMatch;
+import vn.kms.ngaythobet.domain.betting.BettingMatchRepository;
+import vn.kms.ngaythobet.domain.util.Constants;
+import vn.kms.ngaythobet.domain.util.DataInvalidException;
+import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
+import vn.kms.ngaythobet.web.dto.MatchNotCreateBetInfo;
+import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
 @Service
 @Transactional
@@ -150,6 +150,19 @@ public class MatchService {
     }
 
     @Transactional(readOnly = true)
+    public boolean checkIfCreateRound(Long tournamentId) {
+        List<Round> rounds = roundRepo.findByTournamentId(tournamentId);
+        boolean checked = true;
+
+        if (rounds != null && rounds.size() == 1) {
+            if (rounds.get(0).getName().equals(Constants.DEFAULT_ROUND_NAME)) {
+                checked = false;
+            }
+        }
+        return checked;
+    }
+
+    @Transactional(readOnly = true)
     public Match getMatch(Long matchId) {
         return matchRepo.findOne(matchId);
     }
@@ -165,12 +178,12 @@ public class MatchService {
         matchRepo.save(match);
     }
 
-
     public List<MatchNotCreateBetInfo> getMatchNotCreatedBettingMatch(Long tournamentId, Long groupId) {
         List<Match> matches = matchRepo.findByTournament(tournamentId);
         List<MatchNotCreateBetInfo> matchesNotbet = new ArrayList<MatchNotCreateBetInfo>();
         Group group = groupRepo.getOne(groupId);
         List<BettingMatch> bettingMatches = bettingMatchRepo.findByGroup(group);
+        int current = -1;
         for (Match match : matches) {
             boolean isExist = false;
             for (BettingMatch bettingMatch : bettingMatches) {
@@ -180,11 +193,13 @@ public class MatchService {
                 }
             }
             if (!isExist) {
-                MatchNotCreateBetInfo matchNotBet = new MatchNotCreateBetInfo();
-                matchNotBet.setRoundId(match.getRound().getId());
-                matchNotBet.setRoundName(match.getRound().getName());
-                matchNotBet.setMatch(match);
-                matchesNotbet.add(matchNotBet);
+                if (current == -1 || !matchesNotbet.get(current).getRoundId().equals(match.getRound().getId())) {
+                    current++;
+                    matchesNotbet.add(new MatchNotCreateBetInfo());
+                    matchesNotbet.get(current).setRoundId(match.getRound().getId());
+                    matchesNotbet.get(current).setRoundName(match.getRound().getName());
+                }
+                matchesNotbet.get(current).getMatches().add(match);
             }
         }
         return matchesNotbet;

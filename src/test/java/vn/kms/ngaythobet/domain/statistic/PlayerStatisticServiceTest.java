@@ -63,7 +63,7 @@ public class PlayerStatisticServiceTest extends BaseTest {
     private GroupRepository groupRepo;
 
     private BettingPlayerService bettingPlayerService;
-    
+
     @Autowired
     private PlayerStatisticService playerStatisticService;
 
@@ -87,6 +87,7 @@ public class PlayerStatisticServiceTest extends BaseTest {
     private BettingPlayer bettingPlayerTemp;
     private BettingPlayer bettingPlayerTemp2;
     private BettingPlayer bettingPlayerTemp3;
+    private BettingPlayer bettingPlayerTemp4;
 
     private User createUser(boolean active, String email, String name, String password, String username) {
         User user = new User();
@@ -105,7 +106,8 @@ public class PlayerStatisticServiceTest extends BaseTest {
         return playerStatisticInfo;
     }
 
-    private BettingMatch createBettingMatch(boolean active, Match match, Group group, LocalDateTime expiredTime,BigDecimal balance1,BigDecimal balance2,BigDecimal betAmount) {
+    private BettingMatch createBettingMatch(boolean active, Match match, Group group, LocalDateTime expiredTime,
+            BigDecimal balance1, BigDecimal balance2, BigDecimal betAmount) {
         BettingMatch bettingMatch1 = new BettingMatch();
         bettingMatch1.setActivated(active);
         bettingMatch1.setMatch(match);
@@ -126,7 +128,7 @@ public class PlayerStatisticServiceTest extends BaseTest {
     }
 
     private Match createMatch(Competitor competitor1, Competitor competitor2, String location, LocalDateTime matchTime,
-            Round round,Long score1 ,Long score2) {
+            Round round, Long score1, Long score2) {
         Match match = new Match();
         match.setCompetitor1(competitor1);
         match.setCompetitor2(competitor2);
@@ -172,13 +174,17 @@ public class PlayerStatisticServiceTest extends BaseTest {
         competitorTemp3 = competitorRepo.save(competitor3);
         competitorTemp4 = competitorRepo.save(competitor4);
         // add 4 matches
-        Match match = createMatch(competitorTemp1, competitorTemp2, "location test", LocalDateTime.now(), roundTemp,1l, 1l);
+        Match match = createMatch(competitorTemp1, competitorTemp2, "location test", LocalDateTime.now(), roundTemp, 1l,
+                1l);
         matchTemp = matchRepo.save(match);
-        Match match2 = createMatch(competitorTemp3, competitorTemp4, "location test 2", LocalDateTime.now(), roundTemp,null,null);
+        Match match2 = createMatch(competitorTemp3, competitorTemp4, "location test 2", LocalDateTime.now(), roundTemp,
+                null, null);
         matchTemp2 = matchRepo.save(match2);
-        Match match3 = createMatch(competitorTemp1, competitorTemp3, "location test 3", LocalDateTime.now(), roundTemp,0l,1l);
+        Match match3 = createMatch(competitorTemp1, competitorTemp3, "location test 3", LocalDateTime.now(), roundTemp,
+                (long) 0, (long) 1);
         matchTemp3 = matchRepo.save(match3);
-        Match match4 = createMatch(competitorTemp1, competitorTemp4, "location test 3", LocalDateTime.now(), roundTemp,1l,0l);
+        Match match4 = createMatch(competitorTemp1, competitorTemp4, "location test 3",
+                LocalDateTime.now().minusDays(30), roundTemp, 1l, 0l);
         matchTemp4 = matchRepo.save(match4);
         // add group
         Group group = new Group();
@@ -191,13 +197,17 @@ public class PlayerStatisticServiceTest extends BaseTest {
         group.setTournament(tournamentTemp);
         groupTemp = groupRepo.save(group);
         // add 4 valid betting match
-        BettingMatch bettingMatch = createBettingMatch(true, matchTemp, groupTemp, LocalDateTime.now().plusDays(30),new BigDecimal(1), new BigDecimal(0), new BigDecimal(100));
+        BettingMatch bettingMatch = createBettingMatch(true, matchTemp, groupTemp, LocalDateTime.now().plusDays(30),
+                new BigDecimal(1), new BigDecimal(0), new BigDecimal(100));
         bettingMatchTemp = bettingMatchRepo.save(bettingMatch);
-        BettingMatch bettingMatch2 = createBettingMatch(true, matchTemp2, groupTemp, LocalDateTime.now().plusDays(30),new BigDecimal(1), new BigDecimal(0), new BigDecimal(100));
+        BettingMatch bettingMatch2 = createBettingMatch(true, matchTemp2, groupTemp, LocalDateTime.now().plusDays(30),
+                new BigDecimal(1), new BigDecimal(0), new BigDecimal(100));
         bettingMatchTemp2 = bettingMatchRepo.save(bettingMatch2);
-        BettingMatch bettingMatch3 = createBettingMatch(true, matchTemp3, groupTemp, LocalDateTime.now().plusDays(30),new BigDecimal(1), new BigDecimal(0), new BigDecimal(100));
+        BettingMatch bettingMatch3 = createBettingMatch(true, matchTemp3, groupTemp, LocalDateTime.now().plusDays(30),
+                new BigDecimal(1), new BigDecimal(0), new BigDecimal(100));
         bettingMatchTemp3 = bettingMatchRepo.save(bettingMatch3);
-        BettingMatch bettingMatch4 = createBettingMatch(true, matchTemp4, groupTemp, LocalDateTime.now().plusDays(30),new BigDecimal(0), new BigDecimal(1), new BigDecimal(100));
+        BettingMatch bettingMatch4 = createBettingMatch(true, matchTemp4, groupTemp, LocalDateTime.now().minusDays(30),
+                new BigDecimal(0), new BigDecimal(1), new BigDecimal(100));
         bettingMatchTemp4 = bettingMatchRepo.save(bettingMatch4);
         // add 4 players betting match
         BettingPlayer bettingPlayer = createBettingPlayer(bettingMatchTemp, userTemp1, competitorTemp2);
@@ -206,10 +216,13 @@ public class PlayerStatisticServiceTest extends BaseTest {
         bettingPlayerTemp2 = bettingPlayerRepo.save(bettingPlayer2);
         BettingPlayer bettingPlayer3 = createBettingPlayer(bettingMatchTemp3, userTemp1, competitorTemp1);
         bettingPlayerTemp3 = bettingPlayerRepo.save(bettingPlayer3);
+        BettingPlayer bettingPlayer4 = createBettingPlayer(bettingMatchTemp, userTemp2, competitorTemp1);
+        bettingPlayerTemp4 = bettingPlayerRepo.save(bettingPlayer4);
         List<BettingPlayer> bettingPlayers = new ArrayList<>();
         bettingPlayers.add(bettingPlayerTemp);
         bettingPlayers.add(bettingPlayerTemp2);
         bettingPlayers.add(bettingPlayerTemp3);
+        bettingPlayers.add(bettingPlayerTemp4);
         bettingMatch.setBettingPlayers(bettingPlayers);
         bettingMatchTemp = bettingMatchRepo.save(bettingMatch);
     }
@@ -221,28 +234,33 @@ public class PlayerStatisticServiceTest extends BaseTest {
         TotalPlayerStatistic totalPlayerStatistic = playerStatisticService.playerStatistic(playerStatisticInfo);
         assertThat(totalPlayerStatistic.getTotalLossAmount(), equalTo(250.0));
     }
-    
+
     @Test
-    public void testGetLostAmountByUser(){
-        mockLoginUser("user1");
+    public void testGetLostAmountByUser() {
+        mockLoginUser(userTemp1);
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp.getId()), equalTo(100.0));
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp4.getId()), equalTo(100.0));
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp3.getId()), equalTo(50.0));
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp2.getId()), equalTo(0.0));
+        mockLoginUser(userTemp2);
         assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp.getId()), equalTo(0.0));
     }
-    
+
     @Test
-    public void testgetLossAmountByUserWithInvalidBettingMatch(){
-        mockLoginUser("user1");
+    public void testgetLossAmountByUserWithInvalidBettingMatch() {
+        mockLoginUser(userTemp1);
         exception.expectMessage("{exception.existMatchEntity.message}");
-        double lossAmount = playerStatisticService.getLostAmountByUser(bettingMatchTemp.getId()+ 5);
-        
+        playerStatisticService.getLostAmountByUser((long) 10000);
+
     }
-    
+
     @Test
-    public void testLossAmountbyUserWithNullScore(){
+    public void testLossAmountbyUserWithNullScore() {
         mockLoginUser("user1");
-        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp2.getId()),equalTo(0.0));
-        
+        assertThat(playerStatisticService.getLostAmountByUser(bettingMatchTemp2.getId()), equalTo(0.0));
+
     }
-    
+
     @After
     public void clearData() {
         bettingMatchRepo.deleteAll();

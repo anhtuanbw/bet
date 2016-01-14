@@ -11,6 +11,7 @@ export default class CreateTournamentController {
     this.errorMessage = {};
     this.active = false;
     this.toaster = toaster;
+    this.lastUrl = this.location.path(); 
   }
 
   getNumOfCompetitors() {
@@ -41,7 +42,7 @@ export default class CreateTournamentController {
       })
       .catch(error => {
         if (error.status === 401) {
-          this.location.path('/unauthorized');
+          this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
         }
         if (error.status === 400) {
           this.errorMessage = error.data.fieldErrors;

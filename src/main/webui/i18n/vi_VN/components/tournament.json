@@ -7,11 +7,21 @@
             "name":"Tên giải đấu",
             "active":"Kích hoạt",
             "activeSuccess":"Kích hoạt giải đấu thành công!!!",
+            "updatescore":"Cập nhật tỉ số",
+            "btnSave": "Lưu",
+            "btnAccept": "Chấp nhận",
+            "btnCancel": "Hủy bỏ",
+            "messSuccess":"Cập nhật tỉ số thành công!",
             "edit-tournament": {
                 "btnActiveTour": "Kích hoạt",
                 "btnNewGroup": "Tạo nhóm",
                 "btnNewMatch": "Tạo trận đấu",
-                "btnNewRound": "Tạo vòng đấu"
+                "btnNewRound": "Tạo vòng đấu",
+                "btnUpload": "Cập nhật ảnh",
+                "uploadHeader": "Cập nhật ảnh đại diện trận đấu",
+                "browse":"Chọn ảnh",
+                "messChoose":"Vui lòng nhấn nút Chọn hình ảnh để chọn ảnh đại diện",
+                "chooseBtn":"Chọn hình ảnh"
             },
             "tab": {
                 "matches": "Trận đấu",

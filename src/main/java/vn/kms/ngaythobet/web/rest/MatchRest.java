@@ -22,13 +22,10 @@ import vn.kms.ngaythobet.web.dto.CreateMatchInfo;
 import vn.kms.ngaythobet.web.dto.MatchNotCreateBetInfo;
 import vn.kms.ngaythobet.web.dto.UpdateScoreInfo;
 
-
-
 @RestController
 @RequestMapping("/api/matches")
 public class MatchRest {
     private final MatchService matchService;
-
 
     @Autowired
     public MatchRest(MatchService matchService) {
@@ -39,33 +36,40 @@ public class MatchRest {
     public void createMatch(@Valid @RequestBody CreateMatchInfo createMatchInfo) {
         matchService.createMatch(createMatchInfo);
     }
-    
+
     @RequestMapping(value = "/competitors/{roundId}", method = GET)
     public List<Competitor> getCompetitorsByRound(@PathVariable Long roundId) {
         return matchService.getCompetitors(roundId);
     }
+
     @RequestMapping(value = "/rounds/{tournamentId}", method = GET)
     public List<Round> getRoundsByTournament(@PathVariable Long tournamentId) {
         return matchService.getRounds(tournamentId);
     }
-    
+
     @RequestMapping(value = "/check-rounds/{tournamentId}", method = GET)
     public boolean checkRoundsByTournament(@PathVariable Long tournamentId) {
         return matchService.checkRounds(tournamentId);
     }
-    
+
+    @RequestMapping(value = "/check-round/{tournamentId}", method = GET)
+    public boolean checkRoundsIfCreateMatch(@PathVariable Long tournamentId) {
+        return matchService.checkIfCreateRound(tournamentId);
+    }
+
     @RequestMapping(value = "/update-score", method = POST)
     public void updateScore(@Valid @RequestBody UpdateScoreInfo updateScoreInfo) {
         matchService.updateScore(updateScoreInfo);
     }
-    
+
     @RequestMapping(value = "/getMatch/{matchId}", method = GET)
     public Match getMatch(@PathVariable Long matchId) {
         return matchService.getMatch(matchId);
     }
 
     @RequestMapping(value = "/getMatchNotCreateBettingMatch/{tournamentId}/{groupId}", method = GET)
-    public List<MatchNotCreateBetInfo> getMatchNotCreateBettingMatch(@PathVariable Long tournamentId,@PathVariable Long groupId) {
+    public List<MatchNotCreateBetInfo> getMatchNotCreateBettingMatch(@PathVariable Long tournamentId,
+            @PathVariable Long groupId) {
         return matchService.getMatchNotCreatedBettingMatch(tournamentId, groupId);
     }
 }

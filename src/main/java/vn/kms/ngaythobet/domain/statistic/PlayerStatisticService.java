@@ -86,14 +86,14 @@ public class PlayerStatisticService {
     public double getLostAmountByUser(Long bettingMatchId) {
         User player = SecurityUtil.getCurrentLoginUser();
         BettingMatch bettingMatch = bettingMatchRepo.findOne(bettingMatchId);
+        BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(player, bettingMatch);
         if (bettingMatch == null) {
             throw new DataInvalidException("exception.existMatchEntity.message");
         } else if (bettingMatch.getMatch().getScore1() == null || bettingMatch.getMatch().getScore2() == null) {
             return 0;
-        } else if (bettingMatch.getExpiredTime().isBefore(LocalDateTime.now())) {
+        } else if (bettingMatch.getMatch().getMatchTime().isBefore(LocalDateTime.now()) && bettingPlayer == null) {
             return bettingMatch.getBetAmount().doubleValue();
         } else {
-            BettingPlayer bettingPlayer = bettingPlayerRepo.findByPlayerAndBettingMatch(player, bettingMatch);
             if (bettingPlayer != null) {
                 return StatisticUtils.calculateLossAmount(bettingMatch, bettingPlayer.getBetCompetitor());
             }

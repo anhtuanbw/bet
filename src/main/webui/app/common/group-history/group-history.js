@@ -2,31 +2,27 @@
 
 export default class GroupHistoryController {
   /* @ngInject */
-  constructor(GroupService, $location, $rootScope) {
+  constructor(GroupService, $location, $rootScope, $stateParams) {
     this.groupService = GroupService;
     this.location = $location;
     this.statisticData = [];
     this.sortType = 'player';
     this.sortReverse = false;
     this.activePlayer = false;
-    
-    $rootScope.$on('selectGroup', (event, groupInfo) => {
-      if (groupInfo) {
-        this.groupInfo = groupInfo;
-      }
-      this.totalLost = 0;
-      this.getStatisticInfo();
-    });
+    this.groupId = $stateParams.groupId;
+    this.totalLost = 0;
+    this.getStatisticInfo();
+    this.lastUrl = this.location.path();
   }
   
   getStatisticInfo() {
-    this.groupService.getStatisticInfo(this.groupInfo.id)
+    this.groupService.getStatisticInfo(this.groupId)
     .then(response => {
       this.statisticData = response.data;
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized');
+        this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
       }
     });
   }

@@ -53,6 +53,11 @@ public class TournamentRest {
         return tournamentService.findAllTournamentOfUser();
     }
 
+    @RequestMapping(value = "/saveTournment", method = GET)
+    public void saveTournament(@RequestParam int index) {
+        tournamentService.saveTournament(index);
+    }
+
     @RequestMapping(value = "/uploadBanner", method = POST)
     public void uploadPicture(@RequestParam("file") MultipartFile file, @RequestParam("tournamentId") Long tournamentId) {
         tournamentService.uploadTournmentImage(file, tournamentId);

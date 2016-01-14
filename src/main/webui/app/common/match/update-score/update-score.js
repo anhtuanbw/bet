@@ -2,7 +2,7 @@
 
 export default class UpdateScoreController {
   /* @ngInject */
-  
+
   constructor(MatchService, CacheService, $location, $modalInstance, toaster, getMatch, $rootScope) {
     this.rootScope = $rootScope;
     this.matchService = MatchService;
@@ -16,13 +16,11 @@ export default class UpdateScoreController {
   }
 
   updateScore() {
-
     var self = this;
-    this.popTitle = 'Update score';
-    var successMessage = 'Update score successfully!';
+    self.popTitle = 'Update score';
     
     // Show alert message
-    this.pop = function (type, title, content) {
+    self.pop = function (type, title, content) {
       this.toaster.pop(type, title, content);
     };
 
@@ -31,10 +29,12 @@ export default class UpdateScoreController {
         
         // Success
         this.closeModal();
-        this.pop('success', this.popTitle, successMessage);
+        this.toaster.pop('success', null, 'app/common/match/update-score/success.html', null, 'template');
+        
+        // send ajax request >> data
+        document.getElementById(this.data.matchId).innerHTML = this.data.competitor1Score + ' - ' + this.data.competitor2Score;
         this.data = {};
-        successMessage = '';
-        this.rootScope.$broadcast('selectTournament');
+
       })
       .catch(response => {
         // return error
@@ -47,9 +47,12 @@ export default class UpdateScoreController {
 
   getMatchInfo() {
     this.data.matchId = this.match.id;
-    this.data.competitor1Score = this.match.score1 === '?' ? 0 : this.match.score1;
-    this.data.competitor2Score = this.match.score2 === '?' ? 0 : this.match.score2;
-    console.log(this.data);
+    this.matchService.getMatchInfo(this.match.id)
+      .then(response => {
+
+        this.data.competitor1Score = response.data.score1 === null ? 0 : response.data.score1;
+        this.data.competitor2Score = response.data.score2 === null ? 0 : response.data.score2;
+      });
   }
 
   closeModal() {

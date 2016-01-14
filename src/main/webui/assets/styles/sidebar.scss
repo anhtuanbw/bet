@@ -70,7 +70,6 @@ span.selected {
 }
 
 .side-menu .md-button > a:hover {
-  font-weight: bold;
   transition: transform .5s ease-in-out;
   transition-delay: 0.3s;
 }
@@ -99,6 +98,10 @@ span.selected {
 
 .side-menu > li {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.menu-toggle-list li.selected {
+  background-color: #f1f1f1;
 }
 
 .md-button-toggle .md-toggle-icon.toggled {
@@ -191,6 +194,8 @@ h3.docs-logotype {
 
 .layout-column > .panel {
   min-height: 800px; 
+  max-height: 800px;
+  overflow-y: scroll;
 }
 
 .md-theme-blue {

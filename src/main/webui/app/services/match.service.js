@@ -62,4 +62,13 @@ export default class MatchService {
       headers: { 'Accept': '*/*', 'x-auth-token': token }
     });
   }
+  
+  checkRoundCircle(tournamentId) {
+    var token = this.cacheService.get('loginUser');
+    return this.$http({
+      method: 'GET',
+      url: '/api/matches/check-round/' + tournamentId,
+      headers: { 'Accept': '*/*', 'x-auth-token': token }
+    });
+  }
 }
