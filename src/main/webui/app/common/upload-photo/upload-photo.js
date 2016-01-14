@@ -14,6 +14,7 @@ export default class UploadPhotoController {
     var self = this;
     this.rootScope.f = file;
     this.rootScope.errFile = errFiles && errFiles[0];
+    console.log(file);
     if (file) {
       file.upload = this.upload.upload({
         url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
@@ -22,6 +23,7 @@ export default class UploadPhotoController {
 
       file.upload.then(function (response) {
         self.timeout(function () {
+          self.rootScope.percent = { width: file.progress + '%' };
           file.result = response.data;
         });
       }, function (response) {
