@@ -1,9 +1,6 @@
 package vn.kms.ngaythobet.web.dto;
 
-import static vn.kms.ngaythobet.domain.util.Constants.WHITE_SPACE_REGEX;
-
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import vn.kms.ngaythobet.domain.core.User;
@@ -12,8 +9,7 @@ import vn.kms.ngaythobet.domain.validation.EntityActivated;
 import vn.kms.ngaythobet.domain.validation.EntityExist;
 
 public class CreateGroupInfo {
-    @Size(min = 6, max = 50, message = "{validation.name.notEmpty.size.blankspace}")
-    @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.name.notEmpty.size.blankspace}")
+    @Size(min = 6, max = 50, message = "{validation.notEmpty.size}")
     private String name;
 
     @NotNull

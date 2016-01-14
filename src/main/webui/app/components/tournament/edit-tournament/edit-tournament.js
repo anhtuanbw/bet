@@ -27,18 +27,19 @@ export default class EditTournamentController {
     $rootScope.$on('newMatch', () => {
       this.showInfoTournament($stateParams.tournamentId);
     });
+    this.lastUrl = this.location.path();
   }
 
   getById(tournamentId) {
     this.tournamentService.getById(tournamentId)
-      .then(response => {
-        this.tournamentInfo = response.data;
-      })
-      .catch(error => {
-        if (error.status === 401) {
-          this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
-        }
-      });
+    .then(response => {
+      this.tournamentInfo = response.data;
+    })
+    .catch(error => {
+      if (error.status === 401) {
+        this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
+      }
+    });
   }
 
   createGroup($event) {
@@ -66,7 +67,7 @@ export default class EditTournamentController {
       })
       .catch(error => {
         if (error.status === 401) {
-          this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
+          this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
         }
         if (error.status === 403) {
           this.toaster.pop('error', 'Warning', error.data.message);

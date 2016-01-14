@@ -43,6 +43,9 @@ public class GroupService {
 
     @Transactional
     public void createGroup(CreateGroupInfo createGroupInfo) {
+        if (createGroupInfo.getName().trim().length() < 6) {
+            throw new DataInvalidException("validation.name.notEmpty.size.blankspace");
+        }
         if (tournamentRepo.findOne(createGroupInfo.getTournamentId()).getGroups().stream().map(group -> group.getName())
                 .filter(name -> name.equals(createGroupInfo.getName())).count() == 0) {
             User moderator = userRepo.findOne(createGroupInfo.getModerator());

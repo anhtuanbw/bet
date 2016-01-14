@@ -12,6 +12,7 @@ export default class GroupHistoryController {
     this.groupId = $stateParams.groupId;
     this.totalLost = 0;
     this.getStatisticInfo();
+    this.lastUrl = this.location.path();
   }
   
   getStatisticInfo() {
@@ -21,7 +22,7 @@ export default class GroupHistoryController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
+        this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
       }
     });
   }

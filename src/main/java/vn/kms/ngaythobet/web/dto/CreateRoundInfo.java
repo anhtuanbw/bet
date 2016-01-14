@@ -1,12 +1,9 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.web.dto;
 
-import static vn.kms.ngaythobet.domain.util.Constants.WHITE_SPACE_REGEX;
-
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import vn.kms.ngaythobet.domain.tournament.Competitor;
@@ -18,8 +15,7 @@ import vn.kms.ngaythobet.domain.validation.ListUnique;
 
 @ListEntityJoinedValid(entityId = "tournamentId", fieldName = "competitors", entities = "competitorIds", type = Tournament.class, message = "{validation.competitor.is.not.joined}")
 public class CreateRoundInfo {
-    @Size(min = 6, max = 50, message = "{validation.name.notEmpty.size.blankspace}")
-    @Pattern(regexp = WHITE_SPACE_REGEX, message = "{validation.name.notEmpty.size.blankspace}")
+    @Size(min = 6, max = 50, message = "{validation.notEmpty.size}")
     private String name;
 
     @EntityExist(type = Tournament.class, message = "{validation.existTournament.message}")
