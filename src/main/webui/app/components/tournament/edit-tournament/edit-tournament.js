@@ -24,6 +24,9 @@ export default class EditTournamentController {
     this.getById($stateParams.tournamentId);
     this.showInfoTournament($stateParams.tournamentId);
     this.roundInTournament();
+    $rootScope.$on('newMatch', () => {
+      this.showInfoTournament($stateParams.tournamentId);
+    });
     this.lastUrl = this.location.path();
   }
 
@@ -73,7 +76,7 @@ export default class EditTournamentController {
   }
 
   roundInTournament() {
-    this.matchService.checkRound(this.state.tournamentId)
+    this.matchService.checkRoundCircle(this.state.tournamentId)
       .then(response => {
         this.checkRoundNull = response.data;
       });
@@ -154,6 +157,14 @@ export default class EditTournamentController {
           return self.tournamentInfo.id;
         }
       }
+    });
+  }
+
+  openUploadPhoto() {
+    this.modal.open({
+      templateUrl: 'app/common/upload-photo/upload-photo.html',
+      controller: 'UploadPhotoController',
+      controllerAs: 'uploadPhoto'
     });
   }
 
