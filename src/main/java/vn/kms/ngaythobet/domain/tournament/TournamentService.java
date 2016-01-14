@@ -1,10 +1,10 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
-import java.util.ArrayList;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
-import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
@@ -27,6 +26,7 @@ import vn.kms.ngaythobet.web.dto.CreateTournamentInfo;
 @Transactional
 public class TournamentService {
     private final TournamentRepository tournamentRepo;
+
     private final CompetitorRepository competitorRepo;
 
     @Value("${upload.image.path}")
