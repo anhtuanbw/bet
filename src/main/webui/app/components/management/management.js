@@ -33,6 +33,7 @@ export default class ManagementController {
     this.$mdSidenav = $mdSidenav;
     this.$timeout = $timeout;
     this.toggleLeft = this.buildDelayedToggler('left');
+    this.lastUrl = this.location.path();
   }
 
   debounce(func, wait) {
@@ -106,7 +107,7 @@ export default class ManagementController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
+        this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
       }
     });
   }

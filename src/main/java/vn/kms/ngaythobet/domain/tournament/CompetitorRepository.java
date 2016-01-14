@@ -7,5 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
     List<Competitor> findByTournament(Tournament tournament);
+
     List<Competitor> findByRounds(Round round);
+
+    Competitor findByTournamentAndName(Tournament tournament, String name);
 }

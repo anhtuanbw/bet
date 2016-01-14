@@ -18,6 +18,7 @@ export default class TournamentGroupController {
     this.findById();
     this.checkMod();
     this.activePlayer = 'group';
+    this.lastUrl = this.location.path();
     $rootScope.$on('updateGroup', () => {
       this.findById();
     });
@@ -30,7 +31,7 @@ export default class TournamentGroupController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized').search({ lastUrl: this.location.path() });
+        this.location.path('/unauthorized').search({ lastUrl: this.lastUrl });
       }
     });
   }
@@ -42,7 +43,7 @@ export default class TournamentGroupController {
     })
     .catch(error => {
       if (error.status === 401) {
-        this.location.path('/unauthorized').search({ lastUrl: this.location.path() }); 
+        this.location.path('/unauthorized').search({ lastUrl: this.lastUrl }); 
       }
     });
   }

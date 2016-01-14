@@ -30,16 +30,14 @@ public class ChangeLogService {
     private final ChangeLogRepository changeLogRepo;
     private final BettingMatchRepository bettingMatchRepo;
     private final BettingPlayerRepository bettingPlayerRepo;
-    private final UserRepository userRepo;
     private final CompetitorRepository competitorRepo;
 
     @Autowired
     public ChangeLogService(ChangeLogRepository changeLogRepo, BettingMatchRepository bettingMatchRepo,
-            BettingPlayerRepository bettingPlayerRepo, UserRepository userRepo, CompetitorRepository competitorRepo) {
+            BettingPlayerRepository bettingPlayerRepo, CompetitorRepository competitorRepo) {
         this.changeLogRepo = changeLogRepo;
         this.bettingMatchRepo = bettingMatchRepo;
         this.bettingPlayerRepo = bettingPlayerRepo;
-        this.userRepo = userRepo;
         this.competitorRepo = competitorRepo;
     }
 
@@ -78,8 +76,6 @@ public class ChangeLogService {
                     if (change != null) {
                         commentInfo.setComment(change.getNewValue().toString());
                         comments.add(commentInfo);
-                    } else {
-
                     }
                 }
             }

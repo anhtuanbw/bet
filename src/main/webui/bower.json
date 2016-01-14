@@ -17,10 +17,11 @@
     "eonasdan-bootstrap-datetimepicker": "eonasdan-bootstrap-datetimepicker#latest",
     "angular-material": "~1.0.1",
     "angular-strap": "2.3.6",
-    "angular-ui-router": "0.2.15"
-  },
-  "dependencies": {
+    "angular-ui-router": "0.2.15",
     "sockjs": "~0.3.4",
-    "stomp-websocket": "2.3.1"
+    "stomp-websocket": "2.3.1",
+    "ng-file-upload-shim": "~11.0.2",
+    "ng-file-upload": "~11.0.2",
+    "angular-file-upload": "~2.2.0"
   }
 }
