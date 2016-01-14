@@ -16,7 +16,12 @@
             "btnActiveTour": "Active tournament",
             "btnNewGroup": "New group",
             "btnNewMatch": "New match",
-            "btnNewRound": "New round"
+            "btnNewRound": "New round",
+            "btnUpload": "Update photo",
+            "uploadHeader": "Update cover photo",
+            "browse":"Browse",
+            "messChoose":"Please click button Choose image to choose a photo.",
+            "chooseBtn":"Choose image"
           },
          "tab": {
             "matches": "Matches",
