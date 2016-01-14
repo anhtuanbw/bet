@@ -1,16 +1,23 @@
 // Copyright (c) 2015 KMS Technology, Inc.
 package vn.kms.ngaythobet.domain.tournament;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import vn.kms.ngaythobet.domain.core.User;
 import vn.kms.ngaythobet.domain.core.UserRepository;
+import vn.kms.ngaythobet.domain.util.Constants;
 import vn.kms.ngaythobet.domain.util.DataInvalidException;
 import vn.kms.ngaythobet.domain.util.SecurityUtil;
 import vn.kms.ngaythobet.web.dto.CreateTournamentInfo;
@@ -21,6 +28,9 @@ public class TournamentService {
     private final TournamentRepository tournamentRepo;
 
     private final CompetitorRepository competitorRepo;
+
+    @Value("${upload.image.path}")
+    private String uploadFileLocation;
 
     @Autowired
     private RoundRepository roundRepo;
@@ -120,6 +130,53 @@ public class TournamentService {
                 match.setCompetitor2(competitor2);
                 match.setRound(roundRepo.findByNameAndTournament(round.getName(), tournament));
                 matchRepo.save(match);
+            }
+        }
+    }
+
+    public void uploadTournmentImage(MultipartFile file, Long tournamentId) {
+        Tournament tournament = tournamentRepo.findOne(tournamentId);
+        if (!file.isEmpty() && isImage(file) && tournament != null) {
+            String fileName = createFileName(file);
+            String filePath = uploadFileLocation + File.separator + fileName;
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(filePath))) {
+                byte[] bytes = file.getBytes();
+                deleteIfImageExisted(tournament);
+                stream.write(bytes);
+                tournament.setImagePath(fileName);
+                tournamentRepo.save(tournament);
+            } catch (Exception exception) {
+                throw new DataInvalidException("exception.cannot.upload.file", file.getOriginalFilename());
+            }
+        } else {
+            throw new DataInvalidException("exception.cannot.upload.invalid.file");
+        }
+    }
+
+    private String createFileName(MultipartFile file) {
+        String fileName = RandomStringUtils.randomAlphanumeric(Constants.RANDOM_NAME_LENGTH)
+                + Constants.FILE_NAME_DELIMETER + file.getOriginalFilename();
+        File imageFilePath = new File(uploadFileLocation);
+        if (!imageFilePath.exists()) {
+            imageFilePath.mkdirs();
+        }
+        return fileName;
+    }
+
+    private boolean isImage(MultipartFile file) {
+        String fileType = file.getContentType();
+        if (fileType.contains("image")) {
+            return true;
+        }
+        return false;
+    }
+
+    private void deleteIfImageExisted(Tournament tournament) {
+        if (tournament.getImagePath() != null && !tournament.getImagePath().isEmpty()) {
+            String filePath = uploadFileLocation + File.separator + tournament.getImagePath();
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
             }
         }
     }
