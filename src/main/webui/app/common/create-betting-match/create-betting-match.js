@@ -61,6 +61,7 @@ export default class CreateBettingController {
       if (response.status === 200) {
           this.toaster.pop('success', titleToaster, templateUrl, null, 'template');
       }
+      this.rootScope.$broadcast('reloadMatch');
       this.modalInstance.dismiss();
     }, function (response) {
       self.toaster.pop('error', titleToaster, response.data.message);

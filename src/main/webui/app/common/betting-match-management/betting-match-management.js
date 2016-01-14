@@ -22,6 +22,7 @@ export default class BettingMatchController {
     this.isAdmin = false;
     this.isMod = false;
     this.checkAdmin();
+    this.reloadMatch();
   }
 
   getTourAndGroupId(){
@@ -209,6 +210,13 @@ export default class BettingMatchController {
 
   betMatch(round, match){
     this.location.path('/management/'+ this.params.tournamentId + '/' + this.params.groupId + '/' + match.id);
+  }
+
+  reloadMatch(){
+    var self = this;
+    this.rootScope.$on('reloadMatch', function (event) {
+      self.showMatch();
+    });
   }
 }
 

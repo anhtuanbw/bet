@@ -2,7 +2,7 @@
 
 export default class roundManController {
   /* @ngInject */
-  constructor($scope, RoundService, toaster, tourID, selectedRound, $modalInstance) {
+  constructor($scope, RoundService, toaster, tourID, selectedRound, $modalInstance, $location, $rootScope) {
     this.scope = $scope;
     this.RoundService = RoundService;
     this.tourCompetitor = [];
@@ -21,6 +21,9 @@ export default class roundManController {
     this.data.competitorInComboBox = [];
     this.data.disableCreate = false;
     this.data.disableUpdate = false;
+    this.location = $location;
+    this.lastUrl = this.location.path();
+    this.rootScope = $rootScope;
   }
 
   loadTour(){
@@ -108,6 +111,7 @@ export default class roundManController {
   }
 
   saveData(roundData){
+    var self = this;
     this.data.disableCreate = true;
     var titleToaster = 'Create Round';
     var templateUrl = 'app/common/round-management/createSuccess.html';
@@ -131,10 +135,15 @@ export default class roundManController {
       roundData.competitorInComboBox = [];
       roundData.tour = [];
       roundData.name = '';
+      this.rootScope.$broadcast('newMatch');
       this.modalInstance.dismiss();
     }, function (response) {
       roundData.roundError = response.data.fieldErrors.name;
       roundData.CompetitorError = response.data.fieldErrors.competitorId;
+      if (response.status === 401) {
+        self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+        self.modalInstance.dismiss();
+      }
     });
   }
 
@@ -156,6 +165,10 @@ export default class roundManController {
       this.modalInstance.dismiss();
     }, function(response){
       self.toaster.pop('error', titleToaster, response.data.fieldErrors);
+      if (response.status === 401) {
+          self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+          self.modalInstance.dismiss();
+      }
     });
   }
 
