@@ -23,6 +23,7 @@ export default class BettingMatchController {
     this.isMod = false;
     this.checkAdmin();
     this.reloadMatch();
+    this.lastUrl = this.location.path();
   }
 
   getTourAndGroupId(){
@@ -36,6 +37,7 @@ export default class BettingMatchController {
   }
 
   showMatch(){
+    var self = this;
     this.data.hide = true;
     this.data.match = [];
     this.BettingService.getMatchNotCreateBettingMatch(this.tourID, this.groupID)
@@ -44,10 +46,15 @@ export default class BettingMatchController {
       if (response.data.length !== 0) {
         this.showBtnAdd = true;
       }
+    }, function (response) {
+      if (response.status === 401) {
+        self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+      }
     });
   }
 
   getRoundIdAndName(){
+    var self = this;
     this.roundIdAndName = [];
     this.RoundService.getRoundInTournament(this.tourID)
     .then(response => {
@@ -61,6 +68,10 @@ export default class BettingMatchController {
         this.roundIdAndName.push(item);
       }
       this.showRound();
+    }, function (response) {
+      if (response.status === 401) {
+        self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+      }
     });
   }
 
@@ -70,6 +81,7 @@ export default class BettingMatchController {
   }
 
   showBettingMatch(round){
+    var self = this;
     round.show = !round.show;
     this.BettingService.getBettingMatchByRoundAndGroupId(round.id, this.groupID)
     .then(response => {
@@ -80,6 +92,10 @@ export default class BettingMatchController {
             }
           }
       round.bettingMatch = tempArray;
+    }, function (response) {
+      if (response.status === 401) {
+        self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+      }
     });
   }
 
@@ -185,6 +201,9 @@ export default class BettingMatchController {
       match.activated = true;
     }, function (response) {
       self.toaster.pop('error', titleToaster, response.data.message);
+      if (response.status === 401) {
+        self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+      }
     });
   }
 

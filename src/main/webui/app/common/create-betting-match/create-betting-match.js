@@ -2,7 +2,7 @@
 
 export default class CreateBettingController {
   /* @ngInject */
-  constructor($rootScope, $modalInstance, matchInfo, BettingService, toaster) {
+  constructor($rootScope, $modalInstance, $location, matchInfo, BettingService, toaster) {
     this.rootScope = $rootScope;
     this.modalInstance = $modalInstance;
     this.data = {};
@@ -18,6 +18,8 @@ export default class CreateBettingController {
     this.validateAmount.show = false;
     this.data.hideCreate = false;
     this.data.hideUpdate = false;
+    this.location = $location;
+    this.lastUrl = this.location.path();
   }
 
   loadData(){
@@ -65,10 +67,15 @@ export default class CreateBettingController {
       this.modalInstance.dismiss();
     }, function (response) {
       self.toaster.pop('error', titleToaster, response.data.message);
-      data.errorBal1 = response.data.fieldErrors.balance1;
-      data.errorBal2 = response.data.fieldErrors.balance2;
-      data.errorBetAmount = response.data.fieldErrors.betAmount;
-      data.errorTime = response.data.fieldErrors.expiredTime;
+      if (response.status === 401) {
+        self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+        self.modalInstance.dismiss();
+      } else {
+        data.errorBal1 = response.data.fieldErrors.balance1;
+        data.errorBal2 = response.data.fieldErrors.balance2;
+        data.errorBetAmount = response.data.fieldErrors.betAmount;
+        data.errorTime = response.data.fieldErrors.expiredTime;
+      }
     });
   }
 
@@ -106,10 +113,15 @@ export default class CreateBettingController {
       document.getElementById('betScore'+this.matchData.bettingMatchId).innerHTML = balance;
     }, function (response) {
       self.toaster.pop('error', titleToaster, response.data.message);
-      data.errorBal1 = response.data.fieldErrors.balance1;
-      data.errorBal2 = response.data.fieldErrors.balance2;
-      data.errorBetAmount = response.data.fieldErrors.betAmount;
-      data.errorTime = response.data.fieldErrors.expiredTime;
+      if (response.status === 401) {
+          self.location.path('/unauthorized').search({ lastUrl: self.lastUrl });
+          self.modalInstance.dismiss();
+      } else {
+        data.errorBal1 = response.data.fieldErrors.balance1;
+        data.errorBal2 = response.data.fieldErrors.balance2;
+        data.errorBetAmount = response.data.fieldErrors.betAmount;
+        data.errorTime = response.data.fieldErrors.expiredTime;
+      }
     });
   }
 
